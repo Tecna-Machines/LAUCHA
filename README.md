@@ -37,6 +37,6 @@ como "bibliotecas de clases" y las ultima capa,es decir, la web API se manifiest
 El resultado final son las siguientes capas:
 
 - [DOMAIN ( nucleo de la aplicacion)](/Docs/domain.md)
-- APPLICATION (define los casos de uso)
+- [APPLICATION (define los casos de uso)](/Docs/application.md)
 - INFRAESTRUCTURA (define los adaptadores de la aplicacion al exterior)
 - API (define la web api que utiliza el software para conectarlo con otros sistemas)
