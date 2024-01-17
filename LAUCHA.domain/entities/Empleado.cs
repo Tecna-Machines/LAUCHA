@@ -9,11 +9,11 @@ namespace LAUCHA.domain.entities
 {
      public class Empleado
     {
-        string Dni { get; set; } = null!;
-        string Nombre { get; set; } = null!;
-        string Apellido { get; set; } = null!;
-        DateTime FechaNacimiento { get; set; }
-        DateTime FechaIngreso { get; set; }
+        public string Dni { get; set; } = null!;
+        public string Nombre { get; set; } = null!;
+        public string Apellido { get; set; } = null!;
+        public DateTime FechaNacimiento { get; set; }
+        public DateTime FechaIngreso { get; set; }
     }
 
 }
