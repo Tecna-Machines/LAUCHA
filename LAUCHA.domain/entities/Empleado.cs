@@ -14,6 +14,8 @@ namespace LAUCHA.domain.entities
         public string Apellido { get; set; } = null!;
         public DateTime FechaNacimiento { get; set; }
         public DateTime FechaIngreso { get; set; }
+        public Cuenta Cuenta { get; set; } = null!;
+        public ICollection<Contrato> Contratos { get; set; } = null!;
     }
 
 }

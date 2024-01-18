@@ -12,5 +12,7 @@ namespace LAUCHA.domain.entities
         public decimal IngresoTotal { get; set; }
         public decimal EgresoTotal { get; set; }
         public string Concepto { get; set; } = null!;
+        public IList<LiquidacionPorTransaccion> LiquidacionPorTransaccion { get; set; } = null!;
+        public PagoLiquidacion PagoLiquidacion { get; set; } = null!;
     }
 }

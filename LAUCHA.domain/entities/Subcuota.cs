@@ -12,5 +12,6 @@ namespace LAUCHA.domain.entities
         public decimal Monto { get; set; }
         public DateTime FechaDebePagar { get; set; }
         public string CodigoCuota { get; set; } = null!;
+        public Cuota Cuota { get; set; } = null!;
     }
 }

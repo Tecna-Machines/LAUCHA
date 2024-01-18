@@ -9,6 +9,8 @@ namespace LAUCHA.domain.entities
     public class DescuentoFijoPorCuenta
     {
         public string NumeroCuenta { get; set; } = null!;
+        public Cuenta Cuenta { get; set; } = null!;
         public string CodigoDescuento { get; set; } = null!;
+        public DescuentoFijo DescuentoFijo { get; set; } = null!;
     }
 }

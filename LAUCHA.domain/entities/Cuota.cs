@@ -12,5 +12,7 @@ namespace LAUCHA.domain.entities
         public decimal Monto { get; set; }
         public DateTime FechaDebePagar { get; set; }
         public string CodigoCredito { get; set; } = null!;
+        public Credito Credito { get; set; } = null!;
+        public ICollection<Subcuota> Subcuotas { get; set; } = null!;
     }
 }

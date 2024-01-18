@@ -13,5 +13,6 @@ namespace LAUCHA.domain.entities
         public decimal Unidades { get; set; }
         public string Tipo { get; set; } = null!;
         public DateTime FechaFinVigencia { get; set; }
+        public DescuentoFijo DescuentoFijo { get; set; } = null!;  
     }
 }

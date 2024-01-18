@@ -14,5 +14,8 @@ namespace LAUCHA.domain.entities
         public bool Tipo {  get; set; }
         public DateTime Fecha { get; set; }
         public string NumeroCuenta { get; set; } = null!;
+        public Cuenta Cuenta { get; set; } = null!;
+        public IList<LiquidacionPorTransaccion> LiquidacionPorTransaccion { get; set; } = null!;
+
     }
 }

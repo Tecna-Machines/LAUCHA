@@ -12,5 +12,8 @@ namespace LAUCHA.domain.entities
         public string Concepto { get; set; } = null!;
         public decimal Unidades { get; set; } 
         public string Tipo { get; set; } = null!;
+        public ICollection<HistorialDescuentoFijo> HistorialDescuentoFijos { get; set; } = null!;
+        public IList<DescuentoFijoPorCuenta> DescuentosFijosPorCuenta { get; set; } = null!;
+
     }
 }
