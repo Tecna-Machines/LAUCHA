@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace LAUCHA.infrastructure.persistence
 {
-    internal class LiquidacionesDbContext : DbContext
+    public class LiquidacionesDbContext : DbContext
     {
         public LiquidacionesDbContext(DbContextOptions<LiquidacionesDbContext> options) : base(options) { }
 

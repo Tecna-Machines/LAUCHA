@@ -13,7 +13,7 @@ namespace LAUCHA.infrastructure.config
     {
         public void Configure(EntityTypeBuilder<HistorialDescuentoFijo> builder)
         {
-            builder.HasKey(historialDescuentoFijo => historialDescuentoFijo.CodigoDescuento);
+            builder.HasKey(historialDescuentoFijo => new { historialDescuentoFijo.CodigoDescuento, historialDescuentoFijo.FechaFinVigencia});
 
             builder.HasOne(historialDescuentoFijo => historialDescuentoFijo.DescuentoFijo)
                 .WithMany(descuentoFijo => descuentoFijo.HistorialDescuentoFijos)

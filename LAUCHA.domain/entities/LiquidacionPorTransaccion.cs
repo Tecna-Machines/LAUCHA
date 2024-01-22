@@ -8,7 +8,7 @@ namespace LAUCHA.domain.entities
 {
     public class LiquidacionPorTransaccion
     {
-        public string NumeroTransaccion { get; set; } = null!;
+        public long NumeroTransaccion { get; set; }
         public Transaccion Transaccion { get; set; } = null!;
         public string CodigoLiquidacion { get; set; } = null!;
         public Liquidacion Liquidacion { get; set; } = null!;
