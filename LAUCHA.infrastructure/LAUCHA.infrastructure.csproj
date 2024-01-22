@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <Folder Include="repositories\" />
-    <Folder Include="persistence\" />
   </ItemGroup>
 
   <ItemGroup>
