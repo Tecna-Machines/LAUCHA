@@ -4,7 +4,6 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>513a5c60-0438-426c-b6f0-37f8f4c89fad</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,12 +16,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LAUCHA.infrastructure\LAUCHA.infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Update="appsettings.local.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
 </Project>
