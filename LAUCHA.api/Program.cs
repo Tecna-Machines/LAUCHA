@@ -22,6 +22,13 @@ if (builder.Environment.IsDevelopment())
     connectionString = builder.Configuration["ConnectionStrings:Test"];
 }
 
+string connectionString = builder.Configuration["ConnectionStrings:Production"];
+
+if (builder.Environment.IsDevelopment())
+{
+    connectionString = builder.Configuration["ConnectionStrings:Test"];
+}
+
 builder.Services.AddDbContext<LiquidacionesDbContext>(options => options.UseMySQL(connectionString));
 
 
@@ -33,6 +40,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 
+    app.UseHttpsRedirection();
+    app.UseAuthorization();
+}
     app.UseHttpsRedirection();
     app.UseAuthorization();
 }

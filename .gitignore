@@ -399,4 +399,4 @@ FodyWeavers.xsd
 
 # app settings local
 appsettings.local.json
-appsettings.Development.json
+./LAUCHA.api/appsettings.Development.json
