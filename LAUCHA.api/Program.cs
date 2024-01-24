@@ -3,6 +3,13 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configuración de archivos appsettings
+builder.Configuration
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
+    .AddEnvironmentVariables();
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -10,15 +17,19 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
 //custom
 
 //database
-var connectionString = builder.Configuration["connectionString"];
+string connectionString = builder.Configuration["ConnectionStrings:Production"];
+
+if (builder.Environment.IsDevelopment())
+{
+    connectionString = builder.Configuration["ConnectionStrings:Test"];
+}
+
 builder.Services.AddDbContext<LiquidacionesDbContext>(options => options.UseMySQL(connectionString));
 
-
-
-Console.WriteLine($"Environment: {builder.Environment.EnvironmentName}");
 
 var app = builder.Build();
 
@@ -27,11 +38,10 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
+    app.UseHttpsRedirection();
+    app.UseAuthorization();
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
 
 app.MapControllers();
 
