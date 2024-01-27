@@ -40,3 +40,61 @@ El resultado final son las siguientes capas:
 - [APPLICATION (define los casos de uso)](/Docs/application.md)
 - INFRAESTRUCTURA (define los adaptadores de la aplicacion al exterior)
 - API (define la web api que utiliza el software para conectarlo con otros sistemas)
+
+## INICIO RAPIDO
+
+Si usted es un desarrolador del proyecto L.A.U.C.H.A que previamente fue agregado como contruibuidor al repositorio y debe empezar a desarrollar y agregar funcionalidades al proyecto siga las siguientes intrucciones:
+
+1. Clone el repositorio de manera local:
+
+    ```
+    git clone https://github.com/Tecna-Machines/LAUCHA.git
+    cd LAUCHA 
+    ```
+   Si esta utilizando ssh , clone el repositorio de la siguiente manera:
+    ```
+    git@github.com:Tecna-Machines/LAUCHA.git
+    cd LAUCHA
+    ```
+
+2. Muevase a la rama de Develop (no trabaje NUNCA sobre la rama main):
+
+    ````
+    git checkout -b Develop origin/Develop
+    ````
+
+3. Cree un rama en la cual realizara sus cambios y muevase a ella:
+
+    ``````
+    git branch <NOMBRE_RAMA>
+    git checkout <NOMBRE_RAMA>
+    ``````
+4. Configure su app
+
+Las configuraciones basicas del proyecto (como la conexion a base de datos) se configuran utilizando un archivo JSON ,si en su repositorio no existe el archivo appsettings.Development.json siga los siguientes pasos:
+
+Cree un archivo llamado appsettings.Development.json en la ruta que se muestra a continuacion:
+``````
+LAUCHA/LAUCHA.api/appsettings.Development.json
+``````
+
+Si esta utilizando Visual Studio puede posicionar el cursor sobre el proyecto LAUCHA.api , haga click derecho y seleccione **AGREGAR > Nuevo elemento** a continuacion seleccione la plantilla de archivo JSON y cree el archivo con el nombre "appsettings.Development.json"
+
+![json_appsettings](/Docs/appsettingsJSON.png)
+
+Una vez que cree el archivo copie y pegue la plantilla que se muestra a continuacion , reemplaze el string se conexion por el que corresponda a su entorno de pruebas, si usted
+aun no posee un base de datos para pruebas lee el apartado [como crear mi base de datos]().
+```
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  }
+  "ConnectionStrings": {
+    "Test": "<MI_CONEXION>",
+  }
+}
+
+```
