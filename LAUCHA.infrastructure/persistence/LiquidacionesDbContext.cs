@@ -18,10 +18,10 @@ namespace LAUCHA.infrastructure.persistence
         public DbSet<Cuenta> Cuentas { get; set; }
         public DbSet<Cuota> Cuotas { get; set; }
         public DbSet<DescuentoFijo> DescuentosFijos { get; set; }
-        public DbSet<DescuentoFijoPorCuenta> DescuentosFijoPorCuentas { get; set; }
+        public DbSet<RetencionFijaPorCuenta> DescuentosFijoPorCuentas { get; set; }
         public DbSet<Empleado> Empleados { get; set; }
         public DbSet<HistorialDescuentoFijo> HistorialDescuentosFijos { get; set; }
-        public DbSet<Liquidacion> Liquidaciones { get; set; }
+        public DbSet<LiquidacionPersonal> Liquidaciones { get; set; }
         public DbSet<LiquidacionPorTransaccion> LiquidacionesPorTransacciones { get; set; }
         public DbSet<PagoLiquidacion> PagosLiquidaciones { get; set; }
         public DbSet<Subcuota> Subcuotas { get; set; }

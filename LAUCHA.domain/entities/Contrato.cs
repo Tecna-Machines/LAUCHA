@@ -11,7 +11,7 @@ namespace LAUCHA.domain.entities
         public string CodigoContrato { get; set; } = null!;
         public string TipoContrato { get; set; } = null!;
         public decimal MontoPorHora { get; set; }
-        public string Modalidad { get; set; } = null!;
+        public decimal MontoFijo { get; set; }
         public decimal FechaContrato {  get; set; }
         public string DniEmpleado { get; set; } = null!;
         public Empleado Empleado { get; set; } = null!;

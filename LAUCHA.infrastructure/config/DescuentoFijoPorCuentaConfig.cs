@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace LAUCHA.infrastructure.config
 {
-    internal class DescuentoFijoPorCuentaConfig : IEntityTypeConfiguration<DescuentoFijoPorCuenta>
+    internal class DescuentoFijoPorCuentaConfig : IEntityTypeConfiguration<RetencionFijaPorCuenta>
     {
-        public void Configure(EntityTypeBuilder<DescuentoFijoPorCuenta> builder)
+        public void Configure(EntityTypeBuilder<RetencionFijaPorCuenta> builder)
         {
             builder.HasKey(descuentoFijoPorCuenta => new 
             { 

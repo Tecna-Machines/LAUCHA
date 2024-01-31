@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace LAUCHA.domain.entities
 {
-    public class DescuentoFijo
+    public class RetencionFija
     {
-        public string CodigoDescuento { get; set; } = null!;
+        public string CodigoRetencionFija { get; set; } = null!;
         public string Concepto { get; set; } = null!;
         public decimal Unidades { get; set; } 
         public string Tipo { get; set; } = null!;
-        public ICollection<HistorialDescuentoFijo> HistorialDescuentoFijos { get; set; } = null!;
-        public IList<DescuentoFijoPorCuenta> DescuentosFijosPorCuenta { get; set; } = null!;
+        public ICollection<HistorialRetencionFija> HistorialRetencionesFijas { get; set; } = null!;
+        public IList<RetencionFijaPorCuenta> DescuentosFijosPorCuenta { get; set; } = null!;
 
     }
 }

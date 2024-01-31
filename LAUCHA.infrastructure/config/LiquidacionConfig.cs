@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace LAUCHA.infrastructure.config
 {
-    internal class LiquidacionConfig : IEntityTypeConfiguration<Liquidacion>
+    internal class LiquidacionConfig : IEntityTypeConfiguration<LiquidacionPersonal>
     {
-        public void Configure(EntityTypeBuilder<Liquidacion> builder)
+        public void Configure(EntityTypeBuilder<LiquidacionPersonal> builder)
         {
             builder.HasKey(liquidacion => liquidacion.CodigoLiquidacion);
 
