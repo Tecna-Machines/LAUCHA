@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LAUCHA.infrastructure.Migrations
 {
     [DbContext(typeof(LiquidacionesDbContext))]
-    [Migration("20240206171633_migracion_a_v3")]
+    [Migration("20240206173041_migracion_a_v3")]
     partial class migracion_a_v3
     {
         /// <inheritdoc />
