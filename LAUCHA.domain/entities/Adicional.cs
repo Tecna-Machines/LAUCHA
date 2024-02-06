@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace LAUCHA.domain.entities
 {
-    public class HistorialRetencionFija
+    public class Adicional
     {
-        public string CodigoRetencionFija { get; set; } = null!;
+        public string CodigoAdicional { get; set; } = null!;
         public string Concepto { get; set; } = null!;
         public decimal Unidades { get; set; }
         public bool EsPorcentual { get; set; }
-        public DateTime FechaFinVigencia { get; set; }
-        public RetencionFija RetencionFija { get; set; } = null!;  
+        public IList<AdicionalPorContrato> AdicionalesPorContrato { get; set; } = null!;
     }
 }

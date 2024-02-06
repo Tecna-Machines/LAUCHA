@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 
 namespace LAUCHA.domain.entities
 {
-    public class Subcuota
+    public class CuotaPorLiquidacionPersonal
     {
-        public string CodigoSubcuota { get; set; } = null!;
-        public decimal Monto { get; set; }
-        public DateTime FechaDebePagar { get; set; }
         public string CodigoCuota { get; set; } = null!;
         public Cuota Cuota { get; set; } = null!;
-        public IList<SubCuotaPorLiquidacion> SubCuotasPorLiquidaciones { get; set; } = null!;
+        public string CodigoLiquidacion { get; set; } = null!;
+        public LiquidacionPersonal LiquidacionPersonal { get; set; } = null!;
     }
 }

@@ -9,11 +9,12 @@ using System.Threading.Tasks;
 
 namespace LAUCHA.infrastructure.config
 {
-    internal class DescuentosFijosConfig : IEntityTypeConfiguration<DescuentoFijo>
+    internal class RetencionFijaConfig : IEntityTypeConfiguration<RetencionFija>
     {
-        public void Configure(EntityTypeBuilder<DescuentoFijo> builder)
+        public void Configure(EntityTypeBuilder<RetencionFija> builder)
         {
-            builder.HasKey(descuentoFijo => descuentoFijo.CodigoDescuento);
+            builder.HasKey(retencionFija => retencionFija.CodigoRetencionFija);
+
         }
     }
 }

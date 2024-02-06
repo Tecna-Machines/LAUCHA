@@ -11,9 +11,11 @@ namespace LAUCHA.domain.entities
         public string CodigoCredito { get; set; } = null!;
         public decimal Monto { get; set; }
         public DateTime FechaInicio { get; set; }
-        public string Concepto { get; set; } = null!;
+        public string Descripcion { get; set; } = null!;
         public string NumeroCuenta { get; set; } = null!;
         public Cuenta Cuenta { get; set; } = null!;
         public ICollection<Cuota> Cuotas { get; set; } = null!;
+        public int NumeroConcepto { get; set; }
+        public Concepto Concepto { get; set; } = null!;
     }
 }

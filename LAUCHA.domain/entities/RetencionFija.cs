@@ -11,9 +11,9 @@ namespace LAUCHA.domain.entities
         public string CodigoRetencionFija { get; set; } = null!;
         public string Concepto { get; set; } = null!;
         public decimal Unidades { get; set; } 
-        public string Tipo { get; set; } = null!;
+        public bool EsPorcentual { get; set; }
         public ICollection<HistorialRetencionFija> HistorialRetencionesFijas { get; set; } = null!;
-        public IList<RetencionFijaPorCuenta> DescuentosFijosPorCuenta { get; set; } = null!;
+        public IList<RetencionFijaPorCuenta> RetencionesFijasPorCuenta { get; set; } = null!;
 
     }
 }

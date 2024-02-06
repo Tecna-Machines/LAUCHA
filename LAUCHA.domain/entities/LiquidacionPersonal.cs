@@ -13,6 +13,18 @@ namespace LAUCHA.domain.entities
         public decimal TotalRetenciones { get; set; }
         public decimal TotalDescuentos { get; set; }
         public string Concepto { get; set; } = null!;
-        public PagoLiquidacion PagoLiquidacion { get; set; } = null!;
+        public DateTime InicioPeriodo { get; set; }
+        public DateTime FinPeriodo { get; set; }
+        public ICollection<PagoLiquidacion> PagosLiquidacion { get; set; } = null!;
+        public IList<RemuneracionPorLiquidacionPersonal> RemuneracionPorLiquidacionPersonales { get; set; } = null!;
+        public IList<RetencionPorLiquidacionPersonal> RetencionPorLiquidacionPersonales { get; set; } = null!;
+        public IList<DescuentoPorLiquidacionPersonal> DescuentoPorLiquidacionPersonales { get; set; } = null!;
+        public IList<CuotaPorLiquidacionPersonal> CuotasPorLiquidaciones { get; set; } = null!;
+        public IList<SubCuotaPorLiquidacion> SubCuotasPorLiquidaciones { get; set; } = null!;
+
+        public string CodigoLiquidacionGeneral { get; set; } = null!;
+        public LiquidacionGeneral LiquidacionGeneral = null!;
+
+
     }
 }

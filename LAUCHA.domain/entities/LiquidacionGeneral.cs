@@ -12,5 +12,8 @@ namespace LAUCHA.domain.entities
         public decimal TotalRemuneracion { get; set; }
         public decimal TotalRetencion { get; set; }
         public decimal TotalDescuentos { get; set; }
+        public DateTime InicioPeriodo { get; set; }
+        public DateTime FinPeriodo {  get; set; }
+        public ICollection<LiquidacionPersonal> LiquidacionesPersonales { get; set; } = null!;
     }
 }
