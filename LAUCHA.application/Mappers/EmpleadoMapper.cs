@@ -30,7 +30,7 @@ namespace LAUCHA.application.Mappers
                 Nombre = empleado.Nombre,
                 Apellido = empleado.Apellido,
                 FechaIngreso = empleado.FechaIngreso,
-                NumeroCuento = cuenta.NumeroCuenta,
+                NumeroCuenta = cuenta.NumeroCuenta,
                 FechaCreacion = cuenta.FechaCreacion,
                 EstadoCuenta = cuenta.estadoCuenta
             };
