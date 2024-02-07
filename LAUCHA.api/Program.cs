@@ -1,5 +1,15 @@
+using LAUCHA.application.interfaces;
+using LAUCHA.application.UseCase.AgregarEmpleadoNuevo;
+using LAUCHA.domain.entities;
+using LAUCHA.domain.interfaces.IRepositories;
+using LAUCHA.domain.interfaces.IUnitsOfWork;
 using LAUCHA.infrastructure.persistence;
+using LAUCHA.infrastructure.repositories;
+using LAUCHA.infrastructure.unitOfWork;
+using Microsoft.AspNetCore.Mvc.Versioning;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +33,12 @@ if (builder.Environment.IsDevelopment())
 }
 
 builder.Services.AddDbContext<LiquidacionesDbContext>(options => options.UseMySQL(connectionString));
+
+//dependecy injection
+builder.Services.AddScoped<ICrearEmpleadoService, AgregarEmpleadoNuevoService>();
+builder.Services.AddScoped<IUnitOfWorkEmpleado, UnitOfWorkEmpleado>();
+builder.Services.AddScoped<IGenericRepository<Empleado>, EmpleadoRepository>();
+builder.Services.AddScoped<IGenericRepository<Cuenta>, CuentaRepository>();
 
 
 var app = builder.Build();
