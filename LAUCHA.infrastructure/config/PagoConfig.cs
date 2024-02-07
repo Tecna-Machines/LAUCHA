@@ -16,8 +16,8 @@ namespace LAUCHA.infrastructure.config
             builder.HasKey(pago => pago.CodigoPago);
 
             builder.HasOne(pago => pago.Liquidacion)
-                .WithOne(liquidacion => liquidacion.PagoLiquidacion)
-                .HasForeignKey<PagoLiquidacion>(pago => pago.CodigoLiquidacion);
+                    .WithMany(liquidacion => liquidacion.PagosLiquidacion)
+                    .HasForeignKey(pago => pago.CodigoLiquidacion);
         }
     }
 }

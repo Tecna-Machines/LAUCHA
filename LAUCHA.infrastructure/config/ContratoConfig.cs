@@ -18,6 +18,10 @@ namespace LAUCHA.infrastructure.config
             builder.HasOne(contrato => contrato.Empleado)
                 .WithMany(empleado => empleado.Contratos)
                 .HasForeignKey(contrato => contrato.DniEmpleado);
+
+            builder.HasOne(contrato => contrato.AcuerdoBlanco)
+                    .WithOne(acuerdoBlanco => acuerdoBlanco.Contrato)
+                    .HasForeignKey<AcuerdoBlanco>(acuerdoBlanco => acuerdoBlanco.CodigoContrato);
         }
     }
 }

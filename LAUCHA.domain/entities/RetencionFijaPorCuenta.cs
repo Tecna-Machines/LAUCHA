@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace LAUCHA.domain.entities
 {
-    public class DescuentoFijoPorCuenta
+    public class RetencionFijaPorCuenta
     {
         public string NumeroCuenta { get; set; } = null!;
         public Cuenta Cuenta { get; set; } = null!;
-        public string CodigoDescuento { get; set; } = null!;
-        public DescuentoFijo DescuentoFijo { get; set; } = null!;
+        public string CodigoRetencionFija { get; set; } = null!;
+        public RetencionFija RetencionFija { get; set; } = null!;
     }
 }

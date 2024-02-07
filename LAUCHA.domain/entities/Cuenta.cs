@@ -13,8 +13,11 @@ namespace LAUCHA.domain.entities
         public DateTime FechaCreacion { get; set; }
         public string DniEmpleado { get; set; } = null!;
         public Empleado Empleado { get; set; } = null!;
-        public ICollection<Transaccion> Transacciones { get; set; } = null!;
         public ICollection<Credito> Creditos { get; set; } = null!;
-        public IList<DescuentoFijoPorCuenta> DescuentosFijosPorCuenta { get; set; } = null!;
+        public IList<RetencionFijaPorCuenta> RetencionesFijasPorCuenta { get; set; } = null!;
+        public ICollection<Descuento> Descuentos { get; set; } = null!;
+        public ICollection<Retencion> Retenciones {  get; set; } = null!;
+        public ICollection<Remuneracion> Remuneraciones { get; set; } = null!;
+
     }
 }

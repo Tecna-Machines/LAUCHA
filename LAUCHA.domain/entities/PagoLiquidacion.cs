@@ -12,6 +12,6 @@ namespace LAUCHA.domain.entities
         public DateTime Fecha { get; set; }
         public decimal Monto { get; set; }
         public string CodigoLiquidacion { get; set; } = null!;
-        public Liquidacion Liquidacion { get; set; } = null!;
+        public LiquidacionPersonal Liquidacion { get; set; } = null!;
     }
 }

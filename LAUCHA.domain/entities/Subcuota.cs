@@ -13,5 +13,6 @@ namespace LAUCHA.domain.entities
         public DateTime FechaDebePagar { get; set; }
         public string CodigoCuota { get; set; } = null!;
         public Cuota Cuota { get; set; } = null!;
+        public IList<SubCuotaPorLiquidacion> SubCuotasPorLiquidaciones { get; set; } = null!;
     }
 }

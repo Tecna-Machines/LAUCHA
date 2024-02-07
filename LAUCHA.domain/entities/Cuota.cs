@@ -14,5 +14,6 @@ namespace LAUCHA.domain.entities
         public string CodigoCredito { get; set; } = null!;
         public Credito Credito { get; set; } = null!;
         public ICollection<Subcuota> Subcuotas { get; set; } = null!;
+        public IList<CuotaPorLiquidacionPersonal> CuotasPorLiquidaciones { get; set; } = null!;
     }
 }

@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace LAUCHA.domain.entities
 {
-    public class LiquidacionPorTransaccion
+    public class CuotaPorLiquidacionPersonal
     {
-        public long NumeroTransaccion { get; set; }
-        public Transaccion Transaccion { get; set; } = null!;
+        public string CodigoCuota { get; set; } = null!;
+        public Cuota Cuota { get; set; } = null!;
         public string CodigoLiquidacion { get; set; } = null!;
-        public Liquidacion Liquidacion { get; set; } = null!;
+        public LiquidacionPersonal LiquidacionPersonal { get; set; } = null!;
     }
 }
