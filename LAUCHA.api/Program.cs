@@ -15,6 +15,8 @@ using LAUCHA.application.UseCase.ConsultarAdicionales;
 using LAUCHA.application.UseCase.ConsultarContratoDeTrabajo;
 using LAUCHA.application.UseCase.ContratosDeTrabajo;
 using LAUCHA.application.UseCase.ConsultarEmpleado;
+using LAUCHA.application.UseCase.CrearRetencionesFijas;
+using LAUCHA.application.UseCase.ConsultarRetencionesFijas;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -63,6 +65,9 @@ builder.Services.AddScoped<IConsultarEmpleadoService, ConsultarEmpleadoService>(
 
 builder.Services.AddScoped<IContratoRepository, ContratosRepository>();
 
+builder.Services.AddScoped<IGenericRepository<RetencionFija>, RetencionFijaRepository>();
+builder.Services.AddScoped<ICrearRetencionesFijasService, CrearRetencionesFijasService>();
+builder.Services.AddScoped<IConsultarRetencionesFijasService, ConsultarRetencionesFijasService>();
 
 
 var app = builder.Build();
