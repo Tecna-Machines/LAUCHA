@@ -53,7 +53,8 @@ namespace LAUCHA.application.UseCase.ContratosDeTrabajo
                 DniEmpleado = nuevoContrato.Dni,
                 MontoFijo = nuevoContrato.MontoFijo,
                 MontoPorHora = nuevoContrato.MontoHora,
-                FechaContrato = fechaActual
+                FechaContrato = fechaActual,
+                TipoContrato = nuevoContrato.Tipo
             };
 
             return _unitOfWork.ContratoRepository.Insert(contrato);

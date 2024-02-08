@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace LAUCHA.infrastructure.repositories
 {
-    public class CuentaRepository : IGenericRepository<Cuenta>
+    public class CuentaRepository : IGenericRepository<Cuenta> , ICuentaRepository
     {
         private readonly LiquidacionesDbContext _context;
 
@@ -39,6 +39,12 @@ namespace LAUCHA.infrastructure.repositories
         {
             _context.Add(nuevaCuenta);
             return nuevaCuenta;
+        }
+
+        public Cuenta ObtenerCuentaDelEmpleado(string dniEmpleado)
+        {
+            Cuenta? cuentaEncontrada = _context.Cuentas.Where(c => c.DniEmpleado == dniEmpleado).FirstOrDefault();
+            return cuentaEncontrada != null ? cuentaEncontrada : throw new NullReferenceException();
         }
 
         public Cuenta Update(Cuenta entity)

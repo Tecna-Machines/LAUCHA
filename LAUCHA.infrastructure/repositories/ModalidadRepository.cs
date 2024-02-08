@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace LAUCHA.infrastructure.repositories
 {
-    internal class ModalidadRepository : IGenericRepository<Modalidad>
+    public class ModalidadRepository : IGenericRepository<Modalidad>
     {
         private readonly LiquidacionesDbContext _context;
 

@@ -10,6 +10,11 @@ using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using LAUCHA.application.UseCase.AgregarUnAdicional;
+using LAUCHA.application.UseCase.ConsultarAdicionales;
+using LAUCHA.application.UseCase.ConsultarContratoDeTrabajo;
+using LAUCHA.application.UseCase.ContratosDeTrabajo;
+using LAUCHA.application.UseCase.ConsultarEmpleado;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +44,25 @@ builder.Services.AddScoped<ICrearEmpleadoService, AgregarEmpleadoNuevoService>()
 builder.Services.AddScoped<IUnitOfWorkEmpleado, UnitOfWorkEmpleado>();
 builder.Services.AddScoped<IGenericRepository<Empleado>, EmpleadoRepository>();
 builder.Services.AddScoped<IGenericRepository<Cuenta>, CuentaRepository>();
+
+builder.Services.AddScoped<IGenericRepository<ModalidadPorContrato>, ModalidadPorContratoRepository>();
+builder.Services.AddScoped<IGenericRepository<Adicional>,AdicionalRepository>();
+builder.Services.AddScoped<IGenericRepository<AdicionalPorContrato>, AdicionalPorContratoRepository>();
+builder.Services.AddScoped<IAdicionalesPorContratoRepository,AdicionalPorContratoRepository> ();
+builder.Services.AddScoped<IGenericRepository<AcuerdoBlanco>,AcuerdoBlancoRepository>();
+builder.Services.AddScoped<IGenericRepository<Contrato>, ContratosRepository>();
+builder.Services.AddScoped<IGenericRepository<Modalidad>, ModalidadRepository>();
+builder.Services.AddScoped<IUnitOfWorkContrato, UnitOfWorkContrato>();
+builder.Services.AddScoped<ICrearAdicionalService,CrearAdicionalService>();
+builder.Services.AddScoped<IConsultarAdicionalesService, ConsultarAdicionales>();
+builder.Services.AddScoped<IConsultarContratoTrabajoService, ConsultarContratoTrabajoService>();
+builder.Services.AddScoped<ICrearContratoService, CrearContratoService>();
+
+builder.Services.AddScoped<ICuentaRepository, CuentaRepository>();
+builder.Services.AddScoped<IConsultarEmpleadoService, ConsultarEmpleadoService>();
+
+builder.Services.AddScoped<IContratoRepository, ContratosRepository>();
+
 
 
 var app = builder.Build();

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace LAUCHA.infrastructure.repositories
 {
-    internal class AcuerdoBlancoRepository : IGenericRepository<AcuerdoBlanco>
+    public class AcuerdoBlancoRepository : IGenericRepository<AcuerdoBlanco>
     {
         private readonly LiquidacionesDbContext _context;
 

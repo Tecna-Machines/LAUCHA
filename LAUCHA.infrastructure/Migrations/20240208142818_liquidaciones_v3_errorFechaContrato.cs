@@ -7,7 +7,7 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace LAUCHA.infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class migracion_a_v3 : Migration
+    public partial class liquidaciones_v3_errorFechaContrato : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -113,7 +113,7 @@ namespace LAUCHA.infrastructure.Migrations
                     TipoContrato = table.Column<string>(type: "longtext", nullable: false),
                     MontoPorHora = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     MontoFijo = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    FechaContrato = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    FechaContrato = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     DniEmpleado = table.Column<string>(type: "varchar(255)", nullable: false)
                 },
                 constraints: table =>

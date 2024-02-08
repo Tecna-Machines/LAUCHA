@@ -37,12 +37,12 @@ namespace LAUCHA.application.UseCase.ConsultarAdicionales
             List<Adicional> adicionales = _repository.GetAll().ToList();
             List<AdicionalDTO> adicionalDTOs = new List<AdicionalDTO>();
 
-            foreach (var adicional in adicionalDTOs)
+            foreach (var adicional in adicionales)
             {
                 var adicionalMapeado = new AdicionalDTO
                 {
-                    Codigo = adicional.Codigo,
-                    Cantidad = adicional.Cantidad,
+                    Codigo = adicional.CodigoAdicional,
+                    Cantidad = adicional.Unidades,
                     Concepto = adicional.Concepto,
                     EsPorcentual = adicional.EsPorcentual
                 };

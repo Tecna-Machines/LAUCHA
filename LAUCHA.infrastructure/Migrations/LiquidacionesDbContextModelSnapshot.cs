@@ -105,8 +105,8 @@ namespace LAUCHA.infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
-                    b.Property<decimal>("FechaContrato")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<DateTime>("FechaContrato")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<decimal>("MontoFijo")
                         .HasColumnType("decimal(18,2)");

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace LAUCHA.infrastructure.repositories
 {
-    internal class AdicionalPorContratoRepository : IGenericRepository<AdicionalPorContrato> , IAdicionalesPorContratoRepository
+    public class AdicionalPorContratoRepository : IGenericRepository<AdicionalPorContrato> , IAdicionalesPorContratoRepository
     {
         private readonly LiquidacionesDbContext _context;
 

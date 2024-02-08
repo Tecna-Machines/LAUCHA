@@ -1,13 +1,9 @@
 ﻿using LAUCHA.application.DTOs.ContratoDTO;
+using LAUCHA.application.DTOs.ContratoDTOs;
 using LAUCHA.application.interfaces;
 using LAUCHA.application.Mappers;
 using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IRepositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.application.UseCase.ConsultarContratoDeTrabajo
 {
@@ -15,6 +11,7 @@ namespace LAUCHA.application.UseCase.ConsultarContratoDeTrabajo
     {
         private readonly IGenericRepository<Empleado> _EmpleadoRepository;
         private readonly IGenericRepository<Contrato> _ContratoRepository;
+        private readonly IContratoRepository _ContratoRepositoryEspecifico;
         private readonly IGenericRepository<ModalidadPorContrato> _ModalidadPorContratoRepository;
         private readonly IGenericRepository<Modalidad> _ModalidadRepository;
         private readonly IGenericRepository<Adicional> _AdicionalRepository;
@@ -28,7 +25,8 @@ namespace LAUCHA.application.UseCase.ConsultarContratoDeTrabajo
                                                IGenericRepository<Adicional> adicionalRepository,
                                                IGenericRepository<AcuerdoBlanco> acuerdoBlancoRepository,
                                                IGenericRepository<ModalidadPorContrato> modalidadPorContratoRepository,
-                                               IAdicionalesPorContratoRepository adicionalesPorContratoRepository)
+                                               IAdicionalesPorContratoRepository adicionalesPorContratoRepository,
+                                               IContratoRepository contratoRepositoryEspecifico)
         {
             _EmpleadoRepository = empleadoRepository;
             _ContratoRepository = contratoRepository;
@@ -38,13 +36,14 @@ namespace LAUCHA.application.UseCase.ConsultarContratoDeTrabajo
             _ModalidadPorContratoRepository = modalidadPorContratoRepository;
             _ContratoMapper = new ContratoMapper();
             _AdicionalesPorContratoRepository = adicionalesPorContratoRepository;
+            _ContratoRepositoryEspecifico = contratoRepositoryEspecifico;
         }
 
         public ContratoDTO ConsultarContrato(string codigoContrato)
         {
             Contrato contratoEncontrado = _ContratoRepository.GetById(codigoContrato);
 
-            if(contratoEncontrado == null) { throw new NullReferenceException(); }
+            if (contratoEncontrado == null) { throw new NullReferenceException(); }
 
             ModalidadPorContrato modalidadPorContrato = _ModalidadPorContratoRepository.GetById(codigoContrato);
             Modalidad modalidad = _ModalidadRepository.GetById(modalidadPorContrato.CodigoModalidad);
@@ -54,7 +53,7 @@ namespace LAUCHA.application.UseCase.ConsultarContratoDeTrabajo
             List<AdicionalPorContrato> adicionalesRecuperados = _AdicionalesPorContratoRepository.ObtenerAdicionalesSegunContrato(codigoContrato);
             List<Adicional> adicionalesDelContrato = new List<Adicional>();
 
-            foreach (var adicional in adicionalesDelContrato)
+            foreach (var adicional in adicionalesRecuperados)
             {
                 var adicionalDelContrato = _AdicionalRepository.GetById(adicional.CodigoAdicional);
                 adicionalesDelContrato.Add(adicionalDelContrato);
@@ -63,6 +62,36 @@ namespace LAUCHA.application.UseCase.ConsultarContratoDeTrabajo
             //TODO: reemplantar filtrados con repositorios 
 
             return _ContratoMapper.GenerarContrato(contratoEncontrado, modalidad, empleado, adicionalesDelContrato, acuerdoBlanco);
+        }
+
+        public ContratoDTO ObtenerContratoDeEmpleado(string dniEmpleado)
+        {
+            Contrato? contratoActual = _ContratoRepositoryEspecifico.ObtenerContratoDeEmpleado(dniEmpleado);
+
+            if (contratoActual == null) { throw new ArgumentNullException(); }
+
+            return ConsultarContrato(contratoActual.CodigoContrato);
+        }
+
+        public List<ResumenContratoDTO> ObtenerTodosLosContratosDeEmpleado(string dniEmpleado)
+        {
+            List<Contrato> contratosOriginales = _ContratoRepositoryEspecifico.ObtenerContratosDeEmpleado(dniEmpleado);
+            List<ResumenContratoDTO> contratosResumidos = new List<ResumenContratoDTO>();
+
+            foreach (var contratoOriginal in contratosOriginales)
+            {
+                var contratoMapeado = new ResumenContratoDTO
+                {
+                    Codigo = contratoOriginal.CodigoContrato,
+                    Fecha = contratoOriginal.FechaContrato.ToString("dd-MM-yyyy"),
+                    MontoFijo = contratoOriginal.MontoFijo,
+                    MontoHora = contratoOriginal.MontoPorHora
+                };
+
+                contratosResumidos.Add(contratoMapeado);
+            }
+
+            return contratosResumidos;
         }
     }
 }

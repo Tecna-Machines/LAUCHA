@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LAUCHA.infrastructure.Migrations
 {
     [DbContext(typeof(LiquidacionesDbContext))]
-    [Migration("20240206173041_migracion_a_v3")]
-    partial class migracion_a_v3
+    [Migration("20240208142818_liquidaciones_v3_errorFechaContrato")]
+    partial class liquidaciones_v3_errorFechaContrato
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -108,8 +108,8 @@ namespace LAUCHA.infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
-                    b.Property<decimal>("FechaContrato")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<DateTime>("FechaContrato")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<decimal>("MontoFijo")
                         .HasColumnType("decimal(18,2)");

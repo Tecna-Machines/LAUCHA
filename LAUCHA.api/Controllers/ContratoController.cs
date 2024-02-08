@@ -11,10 +11,12 @@ namespace LAUCHA.api.Controllers
     public class ContratoController : ControllerBase
     {
         private readonly ICrearContratoService _crearContratoService;
+        private readonly IConsultarContratoTrabajoService _consultarContratoService;
 
-        public ContratoController(ICrearContratoService crearContratoService)
+        public ContratoController(ICrearContratoService crearContratoService, IConsultarContratoTrabajoService consultarContratoService)
         {
             _crearContratoService = crearContratoService;
+            _consultarContratoService = consultarContratoService;
         }
 
         [HttpPost]
@@ -23,6 +25,13 @@ namespace LAUCHA.api.Controllers
         {
             var result = _crearContratoService.CrearNuevoContrato(nuevoContrato);
             return new JsonResult(result) { StatusCode = 201};
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult ConsultarUnContrato(string id)
+        {
+            var result = _consultarContratoService.ConsultarContrato(id);
+            return new JsonResult(result) { StatusCode = 200 };
         }
     }
 }

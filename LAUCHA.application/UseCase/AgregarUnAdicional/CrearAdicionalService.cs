@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace LAUCHA.application.UseCase.AgregarUnAdicional
 {
-    internal class CrearAdicionalService: ICrearAdicionalService
+    public class CrearAdicionalService: ICrearAdicionalService
     {
         private readonly IGenericRepository<Adicional> _repository;
 

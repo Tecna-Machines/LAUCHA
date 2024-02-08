@@ -9,13 +9,18 @@ using System.Threading.Tasks;
 
 namespace LAUCHA.infrastructure.repositories
 {
-    public class ContratosRepository : IGenericRepository<Contrato>
+    public class ContratosRepository : IGenericRepository<Contrato> , IContratoRepository
     {
         private readonly LiquidacionesDbContext _context;
 
         public ContratosRepository(LiquidacionesDbContext context)
         {
             _context = context;
+        }
+
+        public List<Contrato> ObtenerContratosDeEmpleado(string dniEmpleado)
+        {
+            return _context.Contratos.Where(c => c.DniEmpleado == dniEmpleado).ToList();
         }
 
         public Contrato Delete(string id)
@@ -40,6 +45,14 @@ namespace LAUCHA.infrastructure.repositories
         {
             _context.Add(contratoNuevo);
             return contratoNuevo;
+        }
+
+        public Contrato ObtenerContratoDeEmpleado(string dniEmpleado)
+        {
+            Contrato? ultimoContratoEmpleado = _context.Contratos.Where(c => c.DniEmpleado == dniEmpleado)
+                                               .OrderByDescending(c => c.FechaContrato).FirstOrDefault();
+
+            return ultimoContratoEmpleado != null ? ultimoContratoEmpleado : throw new NullReferenceException();
         }
 
         public Contrato Update(Contrato entity)

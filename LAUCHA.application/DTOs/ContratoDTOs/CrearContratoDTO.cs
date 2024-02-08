@@ -1,4 +1,5 @@
-﻿using LAUCHA.application.DTOs.ModalidadDTOs;
+﻿using LAUCHA.application.DTOs.AcuerdoBlancoDTOs;
+using LAUCHA.application.DTOs.ModalidadDTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
