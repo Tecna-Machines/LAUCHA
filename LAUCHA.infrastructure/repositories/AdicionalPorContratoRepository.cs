@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace LAUCHA.infrastructure.repositories
 {
-    internal class AdicionalPorContratoRepository : IGenericRepository<AdicionalPorContrato>
+    internal class AdicionalPorContratoRepository : IGenericRepository<AdicionalPorContrato> , IAdicionalesPorContratoRepository
     {
         private readonly LiquidacionesDbContext _context;
 
@@ -40,6 +40,11 @@ namespace LAUCHA.infrastructure.repositories
         {
             _context.Add(nuevoAdicionalContrato);
             return nuevoAdicionalContrato;
+        }
+
+        public List<AdicionalPorContrato> ObtenerAdicionalesSegunContrato(string codigoContrato)
+        {
+            return _context.AdicionalesPorContrato.Where(ac => ac.CodigoContrato == codigoContrato).ToList();
         }
 
         public AdicionalPorContrato Update(AdicionalPorContrato entity)

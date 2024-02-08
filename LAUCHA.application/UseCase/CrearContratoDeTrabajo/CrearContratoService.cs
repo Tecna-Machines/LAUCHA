@@ -1,4 +1,5 @@
 ﻿using LAUCHA.application.DTOs.ContratoDTO;
+using LAUCHA.application.interfaces;
 using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IUnitsOfWork;
 using System;
@@ -9,13 +10,15 @@ using System.Threading.Tasks;
 
 namespace LAUCHA.application.UseCase.ContratosDeTrabajo
 {
-    public class CrearContratoService
+    public class CrearContratoService : ICrearContratoService
     {
         private readonly IUnitOfWorkContrato _unitOfWork;
+        private readonly IConsultarContratoTrabajoService _contratoTrabajoService;
 
-        public CrearContratoService(IUnitOfWorkContrato unitOfWork)
+        public CrearContratoService(IUnitOfWorkContrato unitOfWork, IConsultarContratoTrabajoService contratoTrabajoService)
         {
             _unitOfWork = unitOfWork;
+            _contratoTrabajoService = contratoTrabajoService;
         }
 
         public ContratoDTO CrearNuevoContrato(CrearContratoDTO nuevoContrato)
@@ -36,10 +39,7 @@ namespace LAUCHA.application.UseCase.ContratosDeTrabajo
             //confirmar el contrato
             _unitOfWork.Save();
 
-            return new ContratoDTO
-            {
-                
-            }
+            return _contratoTrabajoService.ConsultarContrato(codigoContrato);
         }
 
         private Contrato AgregarContrato(CrearContratoDTO nuevoContrato)

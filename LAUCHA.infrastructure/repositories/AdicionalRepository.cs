@@ -42,6 +42,7 @@ namespace LAUCHA.infrastructure.repositories
         public Adicional Insert(Adicional nuevoAdicional)
         {
             _context.Add(nuevoAdicional);
+            _context.SaveChanges();
             return nuevoAdicional;
         }
 

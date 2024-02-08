@@ -1,4 +1,5 @@
-﻿using LAUCHA.application.DTOs.EmpleadoDTO;
+﻿using LAUCHA.application.DTOs.ContratoDTO;
+using LAUCHA.application.DTOs.EmpleadoDTO;
 using LAUCHA.application.DTOs.SystemaDTO;
 using LAUCHA.application.interfaces;
 using Microsoft.AspNetCore.Http;
@@ -18,6 +19,7 @@ namespace LAUCHA.api.Controllers
         }
 
         [HttpPost]
+        [ProducesResponseType(typeof(EmpleadoDTO), 200)]
         public IActionResult CrearNuevoEmpleado(CrearEmpleadoDTO nuevoEmpleado)
         {
             try
