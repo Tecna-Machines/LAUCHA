@@ -64,6 +64,36 @@ namespace LAUCHA.infrastructure.Migrations
                     b.HasKey("CodigoAdicional");
 
                     b.ToTable("Adicionales");
+
+                    b.HasData(
+                        new
+                        {
+                            CodigoAdicional = "3040",
+                            Concepto = "Adicional Titulo Universitario",
+                            EsPorcentual = true,
+                            Unidades = 2m
+                        },
+                        new
+                        {
+                            CodigoAdicional = "3050",
+                            Concepto = "Adicional viaticos",
+                            EsPorcentual = false,
+                            Unidades = 2000m
+                        },
+                        new
+                        {
+                            CodigoAdicional = "3060",
+                            Concepto = "Adicional por trabajo riesgoso",
+                            EsPorcentual = false,
+                            Unidades = 10000m
+                        },
+                        new
+                        {
+                            CodigoAdicional = "3070",
+                            Concepto = "Adicional Extra Plus",
+                            EsPorcentual = false,
+                            Unidades = 90000m
+                        });
                 });
 
             modelBuilder.Entity("LAUCHA.domain.entities.AdicionalPorContrato", b =>
@@ -381,6 +411,28 @@ namespace LAUCHA.infrastructure.Migrations
                     b.HasKey("CodigoModalidad");
 
                     b.ToTable("Modalidades");
+
+                    b.HasData(
+                        new
+                        {
+                            CodigoModalidad = "10",
+                            Descripcion = "mensual fijo"
+                        },
+                        new
+                        {
+                            CodigoModalidad = "20",
+                            Descripcion = "quincena por hora"
+                        },
+                        new
+                        {
+                            CodigoModalidad = "22",
+                            Descripcion = "quincenal fijo"
+                        },
+                        new
+                        {
+                            CodigoModalidad = "12",
+                            Descripcion = "mensual fijo + horas extras"
+                        });
                 });
 
             modelBuilder.Entity("LAUCHA.domain.entities.ModalidadPorContrato", b =>
@@ -503,12 +555,57 @@ namespace LAUCHA.infrastructure.Migrations
                     b.Property<bool>("EsPorcentual")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<bool>("EsQuincenal")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<decimal>("Unidades")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("CodigoRetencionFija");
 
                     b.ToTable("RetencionesFijas");
+
+                    b.HasData(
+                        new
+                        {
+                            CodigoRetencionFija = "0900",
+                            Concepto = "Jubilacion",
+                            EsPorcentual = true,
+                            EsQuincenal = false,
+                            Unidades = 11m
+                        },
+                        new
+                        {
+                            CodigoRetencionFija = "0905",
+                            Concepto = "Ley 19032",
+                            EsPorcentual = true,
+                            EsQuincenal = false,
+                            Unidades = 3m
+                        },
+                        new
+                        {
+                            CodigoRetencionFija = "0940",
+                            Concepto = "Seguro y Sepelio",
+                            EsPorcentual = false,
+                            EsQuincenal = true,
+                            Unidades = 2300m
+                        },
+                        new
+                        {
+                            CodigoRetencionFija = "0910",
+                            Concepto = "Obra Social",
+                            EsPorcentual = true,
+                            EsQuincenal = false,
+                            Unidades = 3m
+                        },
+                        new
+                        {
+                            CodigoRetencionFija = "0920",
+                            Concepto = "Aporte Sindical Obligatorio",
+                            EsPorcentual = true,
+                            EsQuincenal = false,
+                            Unidades = 2.5m
+                        });
                 });
 
             modelBuilder.Entity("LAUCHA.domain.entities.RetencionFijaPorCuenta", b =>

@@ -7,13 +7,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{0C5B6A6C-8
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5ACD633C-73D5-4907-B151-ACD16461E452}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LAUCHA.domain", "LAUCHA.domain\LAUCHA.domain.csproj", "{07FA4E17-DE4E-4F46-934B-ED48F4F418F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LAUCHA.domain", "LAUCHA.domain\LAUCHA.domain.csproj", "{07FA4E17-DE4E-4F46-934B-ED48F4F418F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LAUCHA.infrastructure", "LAUCHA.infrastructure\LAUCHA.infrastructure.csproj", "{44B7B682-C96D-4240-B798-55EA36B5AAA6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LAUCHA.infrastructure", "LAUCHA.infrastructure\LAUCHA.infrastructure.csproj", "{44B7B682-C96D-4240-B798-55EA36B5AAA6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LAUCHA.application", "LAUCHA.application\LAUCHA.application.csproj", "{BC8544D6-AAE7-453E-A470-84928D1EF4E9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LAUCHA.application", "LAUCHA.application\LAUCHA.application.csproj", "{BC8544D6-AAE7-453E-A470-84928D1EF4E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LAUCHA.api", "LAUCHA.api\LAUCHA.api.csproj", "{1839AF55-AAF8-4045-A24F-8F1103473F1C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LAUCHA.api", "LAUCHA.api\LAUCHA.api.csproj", "{1839AF55-AAF8-4045-A24F-8F1103473F1C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

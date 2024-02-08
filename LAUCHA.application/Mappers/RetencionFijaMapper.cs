@@ -17,7 +17,8 @@ namespace LAUCHA.application.Mappers
                 CodigoRetencionFija = retencionFijaDTO.Codigo,
                 Concepto = retencionFijaDTO.Concepto,
                 EsPorcentual = retencionFijaDTO.EsPorcentual,
-                Unidades = retencionFijaDTO.Unidades
+                Unidades = retencionFijaDTO.Unidades,
+                EsQuincenal = retencionFijaDTO.EsQuincenal
             };
         }
 
@@ -28,7 +29,8 @@ namespace LAUCHA.application.Mappers
                 Codigo = retencionFija.CodigoRetencionFija,
                 Concepto = retencionFija.Concepto,
                 EsPorcentual = retencionFija.EsPorcentual,
-                Unidades = retencionFija.Unidades
+                Unidades = retencionFija.Unidades,
+                EsQuincenal = retencionFija.EsQuincenal
             };
         }
     }

@@ -4,10 +4,12 @@ using MySql.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace LAUCHA.infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class liquidaciones_v3_errorFechaContrato : Migration
+    public partial class datosejemploboolretencionquincenal : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -97,7 +99,8 @@ namespace LAUCHA.infrastructure.Migrations
                     CodigoRetencionFija = table.Column<string>(type: "varchar(255)", nullable: false),
                     Concepto = table.Column<string>(type: "longtext", nullable: false),
                     Unidades = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    EsPorcentual = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    EsPorcentual = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    EsQuincenal = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -584,6 +587,40 @@ namespace LAUCHA.infrastructure.Migrations
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.InsertData(
+                table: "Adicionales",
+                columns: new[] { "CodigoAdicional", "Concepto", "EsPorcentual", "Unidades" },
+                values: new object[,]
+                {
+                    { "3040", "Adicional Titulo Universitario", true, 2m },
+                    { "3050", "Adicional viaticos", false, 2000m },
+                    { "3060", "Adicional por trabajo riesgoso", false, 10000m },
+                    { "3070", "Adicional Extra Plus", false, 90000m }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Modalidades",
+                columns: new[] { "CodigoModalidad", "Descripcion" },
+                values: new object[,]
+                {
+                    { "10", "mensual fijo" },
+                    { "12", "mensual fijo + horas extras" },
+                    { "20", "quincena por hora" },
+                    { "22", "quincenal fijo" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "RetencionesFijas",
+                columns: new[] { "CodigoRetencionFija", "Concepto", "EsPorcentual", "EsQuincenal", "Unidades" },
+                values: new object[,]
+                {
+                    { "0900", "Jubilacion", true, false, 11m },
+                    { "0905", "Ley 19032", true, false, 3m },
+                    { "0910", "Obra Social", true, false, 3m },
+                    { "0920", "Aporte Sindical Obligatorio", true, false, 2.5m },
+                    { "0940", "Seguro y Sepelio", false, true, 2300m }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AcuerdosBlancos_CodigoContrato",

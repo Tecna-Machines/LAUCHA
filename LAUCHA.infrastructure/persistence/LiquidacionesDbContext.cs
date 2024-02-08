@@ -1,5 +1,6 @@
 ﻿using LAUCHA.domain.entities;
 using LAUCHA.infrastructure.config;
+using LAUCHA.infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -69,6 +70,12 @@ namespace LAUCHA.infrastructure.persistence
             modelBuilder.ApplyConfiguration(new RetencionFijaConfig());
             modelBuilder.ApplyConfiguration(new SubcuotaConfig());
             modelBuilder.ApplyConfiguration(new SubcuotaPorLiquidacionConfig());
+
+            //agregar datos de prueba
+            // TODO: son datos solo para pruebas 
+            modelBuilder.ApplyConfiguration(new AdicionalData());
+            modelBuilder.ApplyConfiguration(new ModalidadData());
+            modelBuilder.ApplyConfiguration(new RetencionesFijasData());
 
         }
     }
