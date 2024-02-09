@@ -18,6 +18,8 @@ using LAUCHA.application.UseCase.ConsultarEmpleado;
 using LAUCHA.application.UseCase.CrearRetencionesFijas;
 using LAUCHA.application.UseCase.ConsultarRetencionesFijas;
 using LAUCHA.application.UseCase.AgregarCuenta;
+using LAUCHA.application.UseCase.CrearRemuneracionNueva;
+using LAUCHA.application.UseCase.ConsultarRemuneraciones;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -75,6 +77,10 @@ builder.Services.AddScoped<IUnitOfWorkRetencionFijaCuenta, UnitOfWorkRetencionFi
 builder.Services.AddScoped<IGenericRepository<RetencionFijaPorCuenta>, RetencionFijaPorCuentaRepository>();
 builder.Services.AddScoped<IAgregarCuentaService, AgregarCuentaService>();
 
+builder.Services.AddScoped<IGenericRepository<Remuneracion>,RemuneracionRepository>();
+builder.Services.AddScoped<ICrearRemuneracionService, CrearRemuneracionNuevaService>();
+builder.Services.AddScoped<IConsultarRemuneracionService, ConsultarRemuneracionesService>();
+builder.Services.AddScoped<IRemuneracionRepository, RemuneracionRepository>();
 
 
 var app = builder.Build();
