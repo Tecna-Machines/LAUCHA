@@ -83,6 +83,17 @@ builder.Services.AddScoped<IConsultarRemuneracionService, ConsultarRemuneracione
 builder.Services.AddScoped<IRemuneracionRepository, RemuneracionRepository>();
 
 
+//CORS deshabilitar
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -95,6 +106,7 @@ if (app.Environment.IsDevelopment())
     app.UseAuthorization();
 }
 
+app.UseCors("AllowAll");
 
 app.MapControllers();
 

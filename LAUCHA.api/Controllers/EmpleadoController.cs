@@ -42,6 +42,15 @@ namespace LAUCHA.api.Controllers
            
         }
 
+        [HttpGet]
+        [ProducesResponseType(typeof(List<EmpleadoDTO>), 200)]
+        public IActionResult ObtenerTodosLosEmpleados()
+        {
+            var result = _consultarEmpleadoService.ConsultarTodosLosEmpleados();
+            return new JsonResult(result) { StatusCode = 200 };
+        }
+
+
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(EmpleadoDTO), 200)]
         public IActionResult ObtenerEmpleado(string id)

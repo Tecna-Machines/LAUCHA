@@ -34,5 +34,20 @@ namespace LAUCHA.application.UseCase.ConsultarEmpleado
 
             return _EmpleadoMapper.GenerarEmpleadoDTO(empleadoObenitdo, cuentaDelEmpleado);
         }
+
+        public List<EmpleadoDTO> ConsultarTodosLosEmpleados()
+        {
+            IList<Empleado> empleados = _EmpleadoRepository.GetAll();
+            List<EmpleadoDTO> empleadoDTOs = new();
+
+            foreach (var empleado in empleados)
+            {   
+                Cuenta cuentaEmpleado = _CuentaRepository.ObtenerCuentaDelEmpleado(empleado.Dni);
+                EmpleadoDTO empleadoDTO = _EmpleadoMapper.GenerarEmpleadoDTO(empleado, cuentaEmpleado);
+                empleadoDTOs.Add(empleadoDTO);
+            }
+
+            return empleadoDTOs;
+        }
     }
 }
