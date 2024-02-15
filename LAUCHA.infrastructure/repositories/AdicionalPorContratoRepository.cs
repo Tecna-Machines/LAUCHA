@@ -52,5 +52,8 @@ namespace LAUCHA.infrastructure.repositories
             // TODO: es probable que no se necesite
             throw new NotImplementedException();
         }
+
+        public int Save() => _context.SaveChanges();
+
     }
 }

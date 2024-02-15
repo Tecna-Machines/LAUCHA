@@ -46,5 +46,7 @@ namespace LAUCHA.infrastructure.repositories
             //TODO: no es necesario actualizar acuerdos en blanco
             throw new NotImplementedException();
         }
+
+        public int Save() => _context.SaveChanges();
     }
 }

@@ -47,5 +47,7 @@ namespace LAUCHA.infrastructure.repositories
             //TODO: implementar para crear el historial
             throw new NotImplementedException();
         }
+        public int Save() => _context.SaveChanges();
+
     }
 }

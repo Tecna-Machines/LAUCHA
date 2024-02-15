@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LAUCHA.api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class CuentaController : ControllerBase
     {
@@ -23,10 +23,16 @@ namespace LAUCHA.api.Controllers
         }
 
         [HttpPost("{id}/retenciones-fijas")]
-        public IActionResult ConsultarRetencionesFijasDeCuenta(string id,string[] codigosRetenciones)
+        public IActionResult CrearRetencionesFijasDeCuenta(string id,string[] codigosRetenciones)
         {
             var result = _cuentaService.AgregarRetencionesFijas(id,codigosRetenciones);
             return new JsonResult(result) { StatusCode = 200 };
+        }
+
+        [HttpGet("{id}/descuentos")]
+        public IActionResult ConsultarDescuentoEnLaCuenta(DateTime desde,DateTime hasta)
+        {
+            throw new NotImplementedException();
         }
     }
 }

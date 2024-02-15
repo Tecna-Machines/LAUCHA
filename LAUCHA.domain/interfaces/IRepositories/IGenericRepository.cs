@@ -13,5 +13,6 @@ namespace LAUCHA.domain.interfaces.IRepositories
         T Insert(T entity);
         T Update(T entity);
         T Delete(string id);
+        int Save();
     }
 }

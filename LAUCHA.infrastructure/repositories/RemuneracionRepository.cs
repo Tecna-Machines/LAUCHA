@@ -80,5 +80,7 @@ namespace LAUCHA.infrastructure.repositories
             // TODO: esta operacion deberia estar prohibida
             throw new InvalidOperationException();
         }
+        public int Save() => _context.SaveChanges();
+
     }
 }

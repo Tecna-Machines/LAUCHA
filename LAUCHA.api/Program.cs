@@ -20,6 +20,8 @@ using LAUCHA.application.UseCase.ConsultarRetencionesFijas;
 using LAUCHA.application.UseCase.AgregarCuenta;
 using LAUCHA.application.UseCase.CrearRemuneracionNueva;
 using LAUCHA.application.UseCase.ConsultarRemuneraciones;
+using LAUCHA.application.UseCase.ConsularModalidades;
+using LAUCHA.application.UseCase.OperacionesDescuento;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -82,6 +84,12 @@ builder.Services.AddScoped<ICrearRemuneracionService, CrearRemuneracionNuevaServ
 builder.Services.AddScoped<IConsultarRemuneracionService, ConsultarRemuneracionesService>();
 builder.Services.AddScoped<IRemuneracionRepository, RemuneracionRepository>();
 
+builder.Services.AddScoped<IGenericRepository<Modalidad>, ModalidadRepository>();
+builder.Services.AddScoped<IConsultarModalidadesService, ConsultarModalidadesService>();
+
+builder.Services.AddScoped<IGenericRepository<Descuento>, DescuentoRepository>();
+builder.Services.AddScoped<IGenericRepository<Concepto>, ConceptoRepository>();
+builder.Services.AddScoped<IOperarDescuentosService, OperarDescuentosService>();
 
 //CORS deshabilitar
 builder.Services.AddCors(options =>
