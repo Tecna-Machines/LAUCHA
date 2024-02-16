@@ -1,4 +1,5 @@
-﻿using LAUCHA.application.DTOs.RetencionDTOs;
+﻿using LAUCHA.application.DTOs.PaginaDTOs;
+using LAUCHA.application.DTOs.RetencionDTOs;
 using LAUCHA.application.interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +26,7 @@ namespace LAUCHA.api.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(typeof(PaginaDTO<RetencionDTO>), 201)]
         public async Task<IActionResult> ObtenerRetenciones(string? numeroCuenta,
                                                 string? descripcion,
                                                 int? cantidad,
@@ -39,6 +41,14 @@ namespace LAUCHA.api.Controllers
             var result = await _RetencionService.ObtenerRetenciones(numeroCuenta, desde,
                                                               hasta, orden, descripcion, indice, cantidadRegistros);
 
+            return new JsonResult(result) { StatusCode = 200 };
+        }
+
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(RetencionDTO),200)]
+        public IActionResult ObtenerUnaRetencion(string id)
+        {
+            var result = _RetencionService.ConsultarRetencion(id);
             return new JsonResult(result) { StatusCode = 200 };
         }
     }

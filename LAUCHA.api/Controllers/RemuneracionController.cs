@@ -34,12 +34,12 @@ namespace LAUCHA.api.Controllers
         [ProducesResponseType(typeof(RemuneracionDTO), 200)]
         public IActionResult ObtenerRemuneracion(string id)
         {
-            var result = _ConsultarRemuneracionService.ConsularRemuneracion(id);
+            var result = _ConsultarRemuneracionService.ConsultarRemuneracion(id);
             return new JsonResult(result) { StatusCode = 200 };
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(PaginaDTO<RetencionDTO>), 200)]
+        [ProducesResponseType(typeof(PaginaDTO<RemuneracionDTO>), 200)]
         public async Task<IActionResult> ObtenerRemuneracionesFiltradas(string? numeroCuenta,
                                                                         string? descripcion,
                                                                         int? cantidad,
@@ -51,7 +51,7 @@ namespace LAUCHA.api.Controllers
             int cantidadRegistros = cantidad ?? 10;
             int indice = pagina ?? 1;
 
-            var result = await _ConsultarRemuneracionService.ConsularRemuneracionesFiltradas(numeroCuenta,descripcion,
+            var result = await _ConsultarRemuneracionService.ConsultarRemuneracionesFiltradas(numeroCuenta,descripcion,
                                                                                              desde,hasta,orden, indice,cantidadRegistros);
             return new JsonResult(result) { StatusCode = 200 };
         }

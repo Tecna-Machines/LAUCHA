@@ -21,7 +21,7 @@ namespace LAUCHA.application.UseCase.ConsultarRemuneraciones
             _RemuneracionMapper = new();
         }
 
-        public RemuneracionDTO ConsularRemuneracion(string codigoRemuneracion)
+        public RemuneracionDTO ConsultarRemuneracion(string codigoRemuneracion)
         {
             Remuneracion remuneracion = _RemuneracionRepository.GetById(codigoRemuneracion);
 
@@ -30,7 +30,7 @@ namespace LAUCHA.application.UseCase.ConsultarRemuneraciones
             return _RemuneracionMapper.GenerarRemuneracionDTO(remuneracion);
         }
 
-        public async Task<PaginaDTO<RemuneracionDTO>> ConsularRemuneracionesFiltradas(string? numeroCuenta,
+        public async Task<PaginaDTO<RemuneracionDTO>> ConsultarRemuneracionesFiltradas(string? numeroCuenta,
                                                                      string? descripcion,
                                                                      DateTime? desde,
                                                                      DateTime? hasta,

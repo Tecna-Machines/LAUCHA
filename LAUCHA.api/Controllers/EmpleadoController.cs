@@ -26,7 +26,7 @@ namespace LAUCHA.api.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(EmpleadoDTO), 200)]
+        [ProducesResponseType(typeof(EmpleadoDTO), 201)]
         public IActionResult CrearNuevoEmpleado(CrearEmpleadoDTO nuevoEmpleado)
         {
             try

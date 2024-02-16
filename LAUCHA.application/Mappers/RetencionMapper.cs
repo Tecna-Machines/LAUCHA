@@ -16,7 +16,7 @@ namespace LAUCHA.application.Mappers
 
             return new Retencion
             {
-                CodigoRetencion = $"R:/{retencionDTO.NumeroCuenta}/{fechaActual.Year}/{fechaActual.Hour}/{fechaActual.Second}",
+                CodigoRetencion = $"RET:{retencionDTO.NumeroCuenta}{fechaActual.Year}{fechaActual.Hour}{fechaActual.Second}",
                 Descripcion = retencionDTO.Descripcion,
                 Fecha = fechaActual,
                 Monto = retencionDTO.Monto,

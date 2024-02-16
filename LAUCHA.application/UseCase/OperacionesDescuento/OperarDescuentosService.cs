@@ -1,4 +1,5 @@
 ﻿using LAUCHA.application.DTOs.DescuentoDTOs;
+using LAUCHA.application.DTOs.PaginaDTOs;
 using LAUCHA.application.interfaces;
 using LAUCHA.application.Mappers;
 using LAUCHA.domain.entities;
@@ -10,12 +11,16 @@ namespace LAUCHA.application.UseCase.OperacionesDescuento
     {
         private readonly IGenericRepository<Descuento> _DescuentoRepository;
         private readonly IGenericRepository<Concepto> _ConceptoRepository;
+        private readonly IDescuentoRepository _DescuentoRepositoryEspecifico;
         private readonly DescuentoMapper _DescuentoMapper;
-        public OperarDescuentosService(IGenericRepository<Descuento> descuentoRepository, IGenericRepository<Concepto> conceptoRepository)
+        public OperarDescuentosService(IGenericRepository<Descuento> descuentoRepository,
+                                       IGenericRepository<Concepto> conceptoRepository,
+                                       IDescuentoRepository descuentoRepositoryEspecifico)
         {
             _DescuentoRepository = descuentoRepository;
             _DescuentoMapper = new();
             _ConceptoRepository = conceptoRepository;
+            _DescuentoRepositoryEspecifico = descuentoRepositoryEspecifico;
         }
 
         public DescuentoDTO CrearUnDescuentoNuevo(CrearDescuentoDTO nuevoDescuentoDTO)
@@ -28,12 +33,58 @@ namespace LAUCHA.application.UseCase.OperacionesDescuento
 
             if (nuevoDescuentoDTO.NumeroConcepto != null)
             {
-                string codigo = nuevoDescuentoDTO.NumeroConcepto.ToString();
-
-                concepto = _ConceptoRepository.GetById(codigo);
+                concepto = _ConceptoRepository.GetById(nuevoDescuentoDTO.NumeroConcepto.ToString());
             }
 
             return _DescuentoMapper.CrearDescuentoDTO(nuevo, concepto);
+        }
+
+        public DescuentoDTO ConsultarUnDescuento(string codigoDescuento)
+        {
+            Descuento encontrado = _DescuentoRepository.GetById(codigoDescuento);
+            Concepto? concepto = null;
+
+            if (encontrado.CodigoDescuento != null)
+            {
+                concepto = _ConceptoRepository.GetById(encontrado.NumeroConcepto.ToString());
+            }
+            return _DescuentoMapper.CrearDescuentoDTO(encontrado, concepto);
+        }
+
+        public async Task<PaginaDTO<DescuentoDTO>> ConsultarDescuentosFiltrados(string? cuenta,
+                                                                                DateTime? desde,
+                                                                                DateTime? hasta,
+                                                                                string? orden,
+                                                                                string? descripcion,
+                                                                                int index,
+                                                                                int cantidadRegistros)
+        {
+            PaginaRegistro<Descuento> pagina = await _DescuentoRepositoryEspecifico.
+                                                     ObtenerDescuentosFiltrados(cuenta, desde, hasta, orden, descripcion, index, cantidadRegistros);
+
+            List<DescuentoDTO> descuentoDTOs = new();
+            List<Descuento> descuentoPagina = pagina.Registros;
+
+            foreach (var descuento in descuentoPagina)
+            {
+                Concepto? concepto = null;
+
+                if (descuento.NumeroConcepto != null)
+                {
+                    concepto = _ConceptoRepository.GetById(descuento.NumeroConcepto.ToString());
+                }
+
+                var descuentoDTO = _DescuentoMapper.CrearDescuentoDTO(descuento, concepto);
+                descuentoDTOs.Add(descuentoDTO);
+            }
+
+            return new PaginaDTO<DescuentoDTO>
+            {
+                Index = pagina.indicePagina,
+                TotalEncontrados = pagina.totalRegistros,
+                Paginas = pagina.totalPaginas,
+                Resultados = descuentoDTOs
+            };
         }
     }
 }

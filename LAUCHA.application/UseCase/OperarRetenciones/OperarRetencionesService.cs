@@ -35,7 +35,14 @@ namespace LAUCHA.application.UseCase.OperarRetenciones
             return _RetencionMapper.GenerarRetencionDTO(nuevaRetencion);
         }
 
-        public async Task<PaginaDTO<RetencionDTO>> ObtenerRetenciones(string numeroCuenta,
+        public RetencionDTO ConsultarRetencion(string codigoRetencion)
+        {
+            Retencion retenionEncontrada = _RetencionRepository.GetById(codigoRetencion);
+
+            return _RetencionMapper.GenerarRetencionDTO(retenionEncontrada);
+        }
+
+        public async Task<PaginaDTO<RetencionDTO>> ObtenerRetenciones(string? numeroCuenta,
                                                               DateTime? desde,
                                                               DateTime? hasta,
                                                               string? orden,

@@ -10,9 +10,9 @@ namespace LAUCHA.application.interfaces
 {
     public interface IConsultarRemuneracionService
     {
-        RemuneracionDTO ConsularRemuneracion(string codigoRemuneracion);
+        RemuneracionDTO ConsultarRemuneracion(string codigoRemuneracion);
 
-        Task<PaginaDTO<RemuneracionDTO>> ConsularRemuneracionesFiltradas(string? numeroCuenta,
+        Task<PaginaDTO<RemuneracionDTO>> ConsultarRemuneracionesFiltradas(string? numeroCuenta,
                                                                      string? descripcion,
                                                                      DateTime? desde,
                                                                      DateTime? hasta,
