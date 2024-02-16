@@ -1,5 +1,7 @@
 ﻿using LAUCHA.application.DTOs.AdicionalDTOs;
+using LAUCHA.application.DTOs.PaginaDTOs;
 using LAUCHA.application.DTOs.RemuneracionDTOs;
+using LAUCHA.application.DTOs.RetencionDTOs;
 using LAUCHA.application.interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -37,7 +39,7 @@ namespace LAUCHA.api.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(List<RemuneracionDTO>), 200)]
+        [ProducesResponseType(typeof(PaginaDTO<RetencionDTO>), 200)]
         public async Task<IActionResult> ObtenerRemuneracionesFiltradas(string? numeroCuenta,
                                                                         string? descripcion,
                                                                         int? cantidad,

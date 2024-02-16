@@ -95,6 +95,8 @@ builder.Services.AddScoped<IOperarDescuentosService, OperarDescuentosService>();
 builder.Services.AddScoped<IGenericRepository<Retencion>, RetencionRepository>();
 builder.Services.AddScoped<IOperarRetencionService, OperarRetencionesService>();
 
+builder.Services.AddScoped<IRetencionRepository, RetencionRepository>();
+
 //CORS deshabilitar
 builder.Services.AddCors(options =>
 {

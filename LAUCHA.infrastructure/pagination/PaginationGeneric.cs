@@ -11,12 +11,13 @@ namespace LAUCHA.infrastructure.pagination
     {
         public int IndicePagina { get; private set; }
         public int TotalPaginas { get; private set; }
+        public int TotalRegistros { get; private set; }
 
         public PaginationGeneric(List<T> items, int count, int pageIndex, int pageSize)
         {
             IndicePagina = pageIndex;
             TotalPaginas = (int)Math.Ceiling(count / (double)pageSize);
-
+            TotalRegistros = count;
             this.AddRange(items);
         }
 

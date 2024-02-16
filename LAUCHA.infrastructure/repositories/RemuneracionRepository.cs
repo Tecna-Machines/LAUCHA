@@ -38,11 +38,11 @@ namespace LAUCHA.infrastructure.repositories
             return remuneracion;
         }
 
-        public async Task<List<Remuneracion>> ObtenerRemuneracionesFiltradas(string numeroCuenta, 
+        public async Task<PaginaRegistro<Remuneracion>> ObtenerRemuneracionesFiltradas(string? numeroCuenta, 
                                                               DateTime? desde, 
                                                               DateTime? hasta, 
-                                                              string orden, 
-                                                              string descripcion, 
+                                                              string? orden, 
+                                                              string? descripcion, 
                                                               int indexPagina, 
                                                               int cantidadRegistros)
         {
@@ -73,7 +73,15 @@ namespace LAUCHA.infrastructure.repositories
                 remuneraciones = remuneraciones.OrderByDescending(r => r.Fecha);
             }
 
-            return await PaginationGeneric<Remuneracion>.CrearPaginacion(remuneraciones.AsNoTracking(),indexPagina,cantidadRegistros);
+            var pagina = await PaginationGeneric<Remuneracion>.CrearPaginacion(remuneraciones.AsNoTracking(),indexPagina,cantidadRegistros);
+
+            return new PaginaRegistro<Remuneracion>
+            {
+                indicePagina = pagina.IndicePagina,
+                totalRegistros = pagina.TotalRegistros,
+                totalPaginas = pagina.TotalPaginas,
+                Registros = pagina
+            };
         }
         public Remuneracion Update(Remuneracion entity)
         {

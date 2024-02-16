@@ -1,4 +1,5 @@
-﻿using LAUCHA.application.DTOs.RemuneracionDTOs;
+﻿using LAUCHA.application.DTOs.PaginaDTOs;
+using LAUCHA.application.DTOs.RemuneracionDTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace LAUCHA.application.interfaces
     {
         RemuneracionDTO ConsularRemuneracion(string codigoRemuneracion);
 
-        Task<List<RemuneracionDTO>> ConsularRemuneracionesFiltradas(string? numeroCuenta,
+        Task<PaginaDTO<RemuneracionDTO>> ConsularRemuneracionesFiltradas(string? numeroCuenta,
                                                                      string? descripcion,
                                                                      DateTime? desde,
                                                                      DateTime? hasta,

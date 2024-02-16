@@ -9,12 +9,12 @@ namespace LAUCHA.domain.interfaces.IRepositories
 {
     public interface IRemuneracionRepository
     {
-        Task<List<Remuneracion>> ObtenerRemuneracionesFiltradas(string? numeroCuenta, 
-                                                    DateTime? desde, 
-                                                    DateTime? hasta, 
-                                                    string? orden, 
-                                                    string? descripcion, 
-                                                    int numeroPagina,
-                                                    int cantidadRegistros);
+        Task<PaginaRegistro<Remuneracion>> ObtenerRemuneracionesFiltradas(string? numeroCuenta, 
+                                                                          DateTime? desde, 
+                                                                          DateTime? hasta, 
+                                                                          string? orden, 
+                                                                          string? descripcion, 
+                                                                          int numeroPagina,
+                                                                          int cantidadRegistros);
     }
 }

@@ -1,4 +1,5 @@
-﻿using LAUCHA.application.DTOs.RemuneracionDTOs;
+﻿using LAUCHA.application.DTOs.PaginaDTOs;
+using LAUCHA.application.DTOs.RemuneracionDTOs;
 using LAUCHA.application.interfaces;
 using LAUCHA.application.Mappers;
 using LAUCHA.domain.entities;
@@ -29,7 +30,7 @@ namespace LAUCHA.application.UseCase.ConsultarRemuneraciones
             return _RemuneracionMapper.GenerarRemuneracionDTO(remuneracion);
         }
 
-        public async Task<List<RemuneracionDTO>> ConsularRemuneracionesFiltradas(string? numeroCuenta,
+        public async Task<PaginaDTO<RemuneracionDTO>> ConsularRemuneracionesFiltradas(string? numeroCuenta,
                                                                      string? descripcion,
                                                                      DateTime? desde,
                                                                      DateTime? hasta,
@@ -37,10 +38,11 @@ namespace LAUCHA.application.UseCase.ConsultarRemuneraciones
                                                                      int index,
                                                                      int cantidad)
         {
-           List<Remuneracion> remuneraciones = await _RemuneracionRepositoryEspecifico.
+           PaginaRegistro<Remuneracion> pagina = await _RemuneracionRepositoryEspecifico.
                                                 ObtenerRemuneracionesFiltradas(numeroCuenta,desde,hasta,orden,descripcion,index,cantidad);
 
             List<RemuneracionDTO> remuneracionesDTOs = new();
+            List<Remuneracion> remuneraciones = pagina.Registros;
 
             foreach (var remu in remuneraciones)
             {
@@ -48,7 +50,13 @@ namespace LAUCHA.application.UseCase.ConsultarRemuneraciones
                 remuneracionesDTOs.Add(DTOremuneracion);
             }
 
-            return remuneracionesDTOs;
+            return new PaginaDTO<RemuneracionDTO>
+            {
+                Index = pagina.indicePagina,
+                TotalEncontrados = pagina.totalRegistros,
+                Paginas = pagina.totalPaginas,
+                Resultados = remuneracionesDTOs
+            };
         }
     }
 }

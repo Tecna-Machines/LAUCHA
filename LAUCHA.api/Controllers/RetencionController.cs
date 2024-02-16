@@ -23,5 +23,23 @@ namespace LAUCHA.api.Controllers
             var result = _RetencionService.CrearRetencion(nueva);
             return new JsonResult(result) { StatusCode = 201 };
         }
+
+        [HttpGet]
+        public async Task<IActionResult> ObtenerRetenciones(string? numeroCuenta,
+                                                string? descripcion,
+                                                int? cantidad,
+                                                DateTime? desde,
+                                                DateTime? hasta,
+                                                int? pagina,
+                                                string? orden = "DESC")
+        {
+            int cantidadRegistros = cantidad ?? 10;
+            int indice = pagina ?? 1;
+
+            var result = await _RetencionService.ObtenerRetenciones(numeroCuenta, desde,
+                                                              hasta, orden, descripcion, indice, cantidadRegistros);
+
+            return new JsonResult(result) { StatusCode = 200 };
+        }
     }
 }
