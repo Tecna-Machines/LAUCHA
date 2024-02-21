@@ -25,11 +25,11 @@ namespace LAUCHA.api.Controllers
             return new JsonResult(result) { StatusCode = 201 };
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{codigoDescuento}")]
         [ProducesResponseType(typeof(DescuentoDTO),200)]
-        public IActionResult ObtenrUnDescuento(string id)
+        public IActionResult ObtenrUnDescuento(string codigoDescuento)
         {
-            var result = _DescuentoService.ConsultarUnDescuento(id);
+            var result = _DescuentoService.ConsultarUnDescuento(codigoDescuento);
             return new JsonResult(result) { StatusCode = 200 };
         }
 

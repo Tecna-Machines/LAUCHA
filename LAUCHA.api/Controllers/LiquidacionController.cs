@@ -24,17 +24,17 @@ namespace LAUCHA.api.Controllers
             _ContratoService = contratoService;
         }
 
-        [HttpPost("empleado/{id}/deducir-retenciones")]
+        [HttpPost("empleado/{dni}/deducir-retenciones")]
         [ProducesResponseType(typeof(DeduccionDTOs),201)]
-        public IActionResult HacerDeducciones(string id,DateTime desde,DateTime hasta)
+        public IActionResult HacerDeducciones(string dni,DateTime desde,DateTime hasta)
         {
-            var empleado = _empleadoService.ConsultarUnEmpleado(id);
+            var empleado = _empleadoService.ConsultarUnEmpleado(dni);
 
             var cuenta = _CuentaService.ConsularUnaCuenta(empleado.NumeroCuenta);
             var contrato = _ContratoService.ObtenerContratoDeEmpleado(empleado.Dni);
 
             _liquidacionService.SetearEmpleadoALiquidar(contrato,cuenta);
-            var result =_liquidacionService.CalcularRetenciones();
+            var result =_liquidacionService.HacerDeduccionesSueldo();
 
             return new JsonResult(result) { StatusCode = 201 };
         }

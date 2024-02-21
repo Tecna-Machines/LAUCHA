@@ -15,21 +15,21 @@ namespace LAUCHA.api.Controllers
             _cuentaService = cuentaService;
         }
 
-        [HttpGet("{id}")]
-        public IActionResult ConsultarUnaCuenta(string id)
+        [HttpGet("{numeroCuenta}")]
+        public IActionResult ConsultarUnaCuenta(string numeroCuenta)
         {
-            var result = _cuentaService.ConsularUnaCuenta(id);
+            var result = _cuentaService.ConsularUnaCuenta(numeroCuenta);
             return new JsonResult(result) { StatusCode = 200};
         }
 
-        [HttpPost("{id}/retenciones-fijas")]
-        public IActionResult CrearRetencionesFijasDeCuenta(string id,string[] codigosRetenciones)
+        [HttpPost("{numeroCuenta}/retenciones-fijas")]
+        public IActionResult CrearRetencionesFijasDeCuenta(string numeroCuenta, string[] codigosRetenciones)
         {
-            var result = _cuentaService.AgregarRetencionesFijas(id,codigosRetenciones);
+            var result = _cuentaService.AgregarRetencionesFijas(numeroCuenta, codigosRetenciones);
             return new JsonResult(result) { StatusCode = 200 };
         }
 
-        [HttpGet("{id}/descuentos")]
+        [HttpGet("{numeroCuenta}/descuentos")]
         public IActionResult ConsultarDescuentoEnLaCuenta(DateTime desde,DateTime hasta)
         {
             throw new NotImplementedException();

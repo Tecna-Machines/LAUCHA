@@ -15,7 +15,9 @@ namespace LAUCHA.application.UseCase.CalculadoraSueldos
             switch (modalidadContrato)
             {
                 case (int)ModalidadContrato.mensualFijo:
-                        return new CalculadoraMensualFijo();
+                    return new CalculadoraMensualFijo();
+                case (int)ModalidadContrato.quincenalFijo:
+                    return new CalculadoraQuicenalFijo();
                 default:
                     throw new NotImplementedException("no se calcular eso! D:");
             }

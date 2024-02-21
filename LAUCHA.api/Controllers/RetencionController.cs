@@ -44,11 +44,11 @@ namespace LAUCHA.api.Controllers
             return new JsonResult(result) { StatusCode = 200 };
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{codigoRetencion}")]
         [ProducesResponseType(typeof(RetencionDTO),200)]
-        public IActionResult ObtenerUnaRetencion(string id)
+        public IActionResult ObtenerUnaRetencion(string codigoRetencion)
         {
-            var result = _RetencionService.ConsultarRetencion(id);
+            var result = _RetencionService.ConsultarRetencion(codigoRetencion);
             return new JsonResult(result) { StatusCode = 200 };
         }
     }

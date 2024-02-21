@@ -26,11 +26,11 @@ namespace LAUCHA.api.Controllers
             return new JsonResult(result) { StatusCode = 201};
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{codigoAdicional}")]
         [ProducesResponseType(typeof(AdicionalDTO), 200)]
-        public IActionResult ObtenerUnAdicional(string id) 
+        public IActionResult ObtenerUnAdicional(string codigoAdicional) 
         {
-            var result = _consultarAdicionalesService.ObtenerAdicionalPorCodigo(id);
+            var result = _consultarAdicionalesService.ObtenerAdicionalPorCodigo(codigoAdicional);
             return new JsonResult(result) { StatusCode = 200 };
         }
 

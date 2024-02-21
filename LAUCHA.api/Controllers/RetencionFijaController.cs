@@ -28,11 +28,11 @@ namespace LAUCHA.api.Controllers
             return new JsonResult(result) { StatusCode = 201 };
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{codigoRetencionFija}")]
         [ProducesResponseType(typeof(RetencionFijaDTO), 201)]
-        public IActionResult ObtenerRetencionFija(string id)
+        public IActionResult ObtenerRetencionFija(string codigoRetencionFija)
         {
-            var result = _consultarRetencionesFijasService.ConsultarUnaRetencionFija(id);
+            var result = _consultarRetencionesFijasService.ConsultarUnaRetencionFija(codigoRetencionFija);
             return new JsonResult(result) { StatusCode = 200 };
         }
 

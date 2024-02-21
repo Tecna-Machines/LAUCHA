@@ -51,26 +51,26 @@ namespace LAUCHA.api.Controllers
         }
 
 
-        [HttpGet("{id}")]
+        [HttpGet("{dni}")]
         [ProducesResponseType(typeof(EmpleadoDTO), 200)]
-        public IActionResult ObtenerEmpleado(string id)
+        public IActionResult ObtenerEmpleado(string dni)
         {
-            var result = _consultarEmpleadoService.ConsultarUnEmpleado(id);
+            var result = _consultarEmpleadoService.ConsultarUnEmpleado(dni);
             return new JsonResult(result) { StatusCode = 200 };
         }
 
-        [HttpGet("{id}/contrato")]
+        [HttpGet("{dni}/contrato")]
         [ProducesResponseType(typeof(ContratoDTO), 200)]
-        public IActionResult ObtenerContratoEmpleado(string id)
+        public IActionResult ObtenerContratoEmpleado(string dni)
         {
-            var result = _consultarContratoTrabajoService.ObtenerContratoDeEmpleado(id);
+            var result = _consultarContratoTrabajoService.ObtenerContratoDeEmpleado(dni);
             return new JsonResult(result) { StatusCode = 200 };
         }
 
-        [HttpGet("{id}/contratos")]
-        public IActionResult ObtenerLosContratosDeUnEmpleado(string id)
+        [HttpGet("{dni}/contratos")]
+        public IActionResult ObtenerLosContratosDeUnEmpleado(string dni)
         {
-            var result = _consultarContratoTrabajoService.ObtenerTodosLosContratosDeEmpleado(id);
+            var result = _consultarContratoTrabajoService.ObtenerTodosLosContratosDeEmpleado(dni);
             return new JsonResult(result) { StatusCode = 200 };
         }
 

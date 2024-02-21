@@ -27,10 +27,10 @@ namespace LAUCHA.api.Controllers
             return new JsonResult(result) { StatusCode = 201};
         }
 
-        [HttpGet("{id}")]
-        public IActionResult ConsultarUnContrato(string id)
+        [HttpGet("{codigoContrato}")]
+        public IActionResult ConsultarUnContrato(string codigoContrato)
         {
-            var result = _consultarContratoService.ConsultarContrato(id);
+            var result = _consultarContratoService.ConsultarContrato(codigoContrato);
             return new JsonResult(result) { StatusCode = 200 };
         }
     }

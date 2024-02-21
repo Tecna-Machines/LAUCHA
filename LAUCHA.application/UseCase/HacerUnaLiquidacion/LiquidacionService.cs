@@ -20,28 +20,22 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
 {
     public class LiquidacionService : ILiquidacionService
     {
-        private IEstrategiaCalcularSueldo _CalculadoraSueldo;
-        private IFabricaCalculadoraSueldo _FabricaCalculadora = null!;
+        private IEstrategiaCalcularSueldo _CalculadoraSueldo = null!;
+        private IFabricaCalculadoraSueldo _FabricaCalculadora;
 
         private readonly IUnitOfWorkLiquidacion _UnitOfWorkLiquidacion;
 
         private RemuneracionMapper _MapperRemuneracion;
         private RetencionMapper _MapperRetenciones;
 
-        private CalculadorDePorcentaje _CalculadoraPorcentaje;
 
-        private  ContratoDTO _Contrato = null!;
-        private  CuentaDTO _Cuenta;
+        private  ContratoDTO? _Contrato;
+        private  CuentaDTO? _Cuenta;
 
-        public LiquidacionService(IFabricaCalculadoraSueldo fabricaDeCalculadoras,
-                                  IFabricaCalculadoraSueldo fabricaCalculadora,
-                                  IUnitOfWorkLiquidacion unitOfWorkLiquidacion)
+        public LiquidacionService(IFabricaCalculadoraSueldo fabricaCalculadora,IUnitOfWorkLiquidacion unitOfWorkLiquidacion)
         {
-
-
             _MapperRemuneracion = new();
             _MapperRetenciones = new();
-            _CalculadoraPorcentaje = new();
 
             _FabricaCalculadora = fabricaCalculadora;
             _UnitOfWorkLiquidacion = unitOfWorkLiquidacion;
@@ -55,7 +49,7 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
             int codigoModalidad = int.Parse(_Contrato.Modalidad.Codigo);
             _CalculadoraSueldo = _FabricaCalculadora.CrearCalculadoraSueldo(codigoModalidad);
         }
-        public DeduccionDTOs CalcularRetenciones()
+        public DeduccionDTOs HacerDeduccionesSueldo()
         {
             SueldosBrutosDTO sueldosBrutos = _CalculadoraSueldo.CalcularSueldoBruto(_Contrato);
 
