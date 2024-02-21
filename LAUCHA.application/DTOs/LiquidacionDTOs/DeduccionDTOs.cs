@@ -15,7 +15,6 @@ namespace LAUCHA.application.DTOs.LiquidacionDTOs
         public string Empleado { get; set; } = null!;
         public DateTime FinPeriodo { get; set; }
         public DateTime InicioPeriodo { get; set; }
-        public SueldosBrutosDTO SueldoBruto { get; set; } = null!;
         public List<RetencionDTO> Retenciones { get; set; } = null!;
         public List<RemuneracionDTO> Remuneraciones { get; set; } = null!;
     }

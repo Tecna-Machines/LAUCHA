@@ -1,5 +1,4 @@
-﻿using LAUCHA.application.DTOs.AcuerdoBlancoDTOs;
-using LAUCHA.application.DTOs.ContratoDTO;
+﻿using LAUCHA.application.DTOs.ContratoDTO;
 using LAUCHA.application.DTOs.CuentaDTOs;
 using LAUCHA.application.DTOs.RemuneracionDTOs;
 using LAUCHA.application.DTOs.RetencionDTOs;
@@ -8,43 +7,46 @@ using LAUCHA.application.Helpers;
 using LAUCHA.application.interfaces;
 using LAUCHA.application.Mappers;
 using LAUCHA.domain.entities;
+using LAUCHA.domain.interfaces.IServices;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace LAUCHA.application.UseCase.CalculadoraSueldos
 {
-    internal class CalculadoraQuicenalFijo : IEstrategiaCalcularSueldo
+    public class CalculadoraQuincenalHora : IEstrategiaCalcularSueldo
     {
-        private readonly CalculadorDePorcentaje _CalculadoraPorcentaje = new();
-        private readonly RetencionMapper _MapperRetencion = new();
-        private readonly RemuneracionMapper _MapperRemuneracion = new();
-
-        public List<Remuneracion> CalcularSueldoBruto(DateTime desde, DateTime hasta,ContratoDTO contrato, CuentaDTO cuenta)
+        private readonly IMarcasService _MarcasService;
+        private readonly GeneradorDeNumeroAleatorio _GeneradorAleatorio;
+        private readonly RetencionMapper _MapperRetencion;
+        private readonly RemuneracionMapper _MapperRemuneracion;
+        private readonly CalculadorDePorcentaje _CalculadoraPorcentaje;
+        public CalculadoraQuincenalHora(IMarcasService marcasService)
         {
-            decimal montoFijoContrato = contrato.MontoFijo;
-            decimal montoBancoBruto;
-            decimal montoEfectivoBruto;
+            _MarcasService = marcasService;
+            _GeneradorAleatorio = new();
 
-            AcuerdoBlancoDTO acuerdoBlanco = contrato.AcuerdoBlanco;
-            bool blancoEsPorcentual = acuerdoBlanco.EsPorcentual;
+            _MapperRemuneracion = new();
+            _MapperRetencion = new();
+            _CalculadoraPorcentaje = new();
+        }
 
+        public List<Remuneracion> CalcularSueldoBruto(DateTime desde,DateTime hasta,ContratoDTO contrato, CuentaDTO cuenta)
+        {
+            HorasPeriodo horasTrabajo = _MarcasService.ConsularHorasPeriodo(contrato.Dni,desde,hasta);
+            decimal horasAleatorias = _GeneradorAleatorio.GenerarAleatorioEntreValores(40, 50);
 
-            if (blancoEsPorcentual)
-            {
-                montoBancoBruto = _CalculadoraPorcentaje.CalcularPorcentajeDeMonto(acuerdoBlanco.Cantidad, montoFijoContrato);
-                montoBancoBruto = (montoBancoBruto / 2);
-            }
-            else
-            {
-                montoBancoBruto = acuerdoBlanco.Cantidad / 2;
-            }
-
-            montoEfectivoBruto = (montoFijoContrato / 2) - montoBancoBruto;
+            decimal montoBancoBruto = horasAleatorias * contrato.MontoHora;
+            decimal montoEfectivoBruto = horasTrabajo.HorasTotales * contrato.MontoHora;
 
             bool quincena = EsPrimeraQuicena();
             string mensajeQuicena = quincena == true ? "1ra QUINCENA" : "2da QUINCENA";
 
             var remuBlanco = new RemuneracionDTO
             {
-                Descripcion = $"SUELDO {mensajeQuicena} FIJO FORMAL",
+                Descripcion = $"SUELDO {mensajeQuicena} HORA ({horasAleatorias} HS computadas)",
                 EsBlanco = true,
                 Cuenta = cuenta.NumeroCuenta,
                 Monto = montoBancoBruto
@@ -52,7 +54,7 @@ namespace LAUCHA.application.UseCase.CalculadoraSueldos
 
             var remuNegro = new RemuneracionDTO
             {
-                Descripcion = $"SUELDO {mensajeQuicena} FIJO INFORMAL",
+                Descripcion = $"SUELDO {mensajeQuicena} HORA ({horasAleatorias} HS computadas)",
                 EsBlanco = false,
                 Cuenta = cuenta.NumeroCuenta,
                 Monto = montoEfectivoBruto
@@ -61,7 +63,8 @@ namespace LAUCHA.application.UseCase.CalculadoraSueldos
             Remuneracion remuneracionBlanco = _MapperRemuneracion.GenerarRemuneracion(remuBlanco);
             Remuneracion remuneracionNegro = _MapperRemuneracion.GenerarRemuneracion(remuNegro);
 
-            return new List<Remuneracion> { remuneracionBlanco, remuneracionNegro };
+            return new List<Remuneracion> { remuneracionBlanco, remuneracionNegro};
+
         }
 
         public List<Retencion> CalcularRetencionesSueldo(decimal montoBrutoBlanco, CuentaDTO cuenta)
@@ -122,10 +125,10 @@ namespace LAUCHA.application.UseCase.CalculadoraSueldos
             return retencion;
         }
 
+
         private bool EsPrimeraQuicena()
         {
             return DateTime.Now.Day < 15;
         }
-
     }
 }

@@ -25,6 +25,8 @@ using LAUCHA.application.UseCase.OperacionesDescuento;
 using LAUCHA.application.UseCase.OperarRetenciones;
 using LAUCHA.application.UseCase.CalculadoraSueldos;
 using LAUCHA.application.UseCase.HacerUnaLiquidacion;
+using LAUCHA.domain.interfaces.IServices;
+using LAUCHA.infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -103,6 +105,9 @@ builder.Services.AddScoped<IDescuentoRepository, DescuentoRepository>();
 builder.Services.AddScoped<IFabricaCalculadoraSueldo, FabricaCalculadoraSueldo>();
 builder.Services.AddScoped<ILiquidacionService, LiquidacionService>();
 builder.Services.AddScoped<IUnitOfWorkLiquidacion, UnitOfWorkLiquidacion>();
+
+//servicios externos
+builder.Services.AddScoped<IMarcasService, MarcasService>();
 
 //CORS deshabilitar
 builder.Services.AddCors(options =>

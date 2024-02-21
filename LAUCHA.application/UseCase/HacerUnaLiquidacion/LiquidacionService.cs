@@ -51,21 +51,25 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
         }
         public DeduccionDTOs HacerDeduccionesSueldo()
         {
-            SueldosBrutosDTO sueldosBrutos = _CalculadoraSueldo.CalcularSueldoBruto(_Contrato);
+            decimal montoBrutoBlanco = 0;
 
-            decimal sueldoBrutoBlanco = sueldosBrutos.MontoEnBanco;
-            decimal sueldoBrutoEfectivo = sueldosBrutos.MontoEnEfectivo;
-
-            Remuneracion blanco = CrearRemuneracion("sueldo bruto formal", sueldoBrutoBlanco, true);
-            Remuneracion efectivo = CrearRemuneracion("sueldo bruto informal", sueldoBrutoEfectivo, false);
-
-            var blancoDTO = _MapperRemuneracion.GenerarRemuneracionDTO(blanco);
-            var efectivoDTO = _MapperRemuneracion.GenerarRemuneracionDTO(efectivo);
-
-            List<RemuneracionDTO> remuneracionesDTO = new List<RemuneracionDTO>{blancoDTO,efectivoDTO};
             List<RetencionDTO> retencionesDTO = new();
+            List<RemuneracionDTO> remuneracionesDTO = new();
 
-            var retenciones = _CalculadoraSueldo.CalcularRetencionesSueldo(sueldoBrutoBlanco,_Cuenta);
+            var remuneracionesSueldo = _CalculadoraSueldo.CalcularSueldoBruto(_Contrato!,_Cuenta!);
+
+            foreach (var remuneracionNueva in remuneracionesSueldo)
+            {
+                if (remuneracionNueva.EsBlanco) { montoBrutoBlanco = +remuneracionNueva.Monto; }
+
+                _UnitOfWorkLiquidacion.RemuneracionRepository.Insert(remuneracionNueva);
+
+                var remuneracionDTO = _MapperRemuneracion.GenerarRemuneracionDTO(remuneracionNueva);
+                remuneracionesDTO.Add(remuneracionDTO);
+            }
+
+
+            var retenciones = _CalculadoraSueldo.CalcularRetencionesSueldo(montoBrutoBlanco,_Cuenta!);
 
             foreach (var retencionNueva in retenciones)
             {
@@ -74,32 +78,16 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
                 retencionesDTO.Add(retencionDTO);
             }
 
+            //guardar nuevas remuneraciones y retenciones
             _UnitOfWorkLiquidacion.Save();
 
             return new DeduccionDTOs
             {
-                Empleado = _Cuenta.Empleado,
-                SueldoBruto = sueldosBrutos,
+                Empleado = _Cuenta!.Empleado,
                 Remuneraciones = remuneracionesDTO,
                 Retenciones = retencionesDTO
             };
         }
-
-        private Remuneracion CrearRemuneracion(string descripcion,decimal monto,bool esBlanco)
-        {
-            var remuneracionDTO = new RemuneracionDTO
-            {
-                Cuenta = this._Cuenta.NumeroCuenta,
-                Descripcion = descripcion,
-                Monto = monto,
-                EsBlanco = esBlanco
-            };
-
-            var remuneracion = _MapperRemuneracion.GenerarRemuneracion(remuneracionDTO);
-
-           return _UnitOfWorkLiquidacion.RemuneracionRepository.Insert(remuneracion);
-        }
-
 
 
     }

@@ -15,7 +15,7 @@ namespace LAUCHA.application.interfaces
 {
     public interface IEstrategiaCalcularSueldo
     {
-        SueldosBrutosDTO CalcularSueldoBruto(ContratoDTO contrato);
+        List<Remuneracion> CalcularSueldoBruto(DateTime desde, DateTime hasta, ContratoDTO contrato, CuentaDTO cuenta);
         List<Retencion> CalcularRetencionesSueldo(decimal montoBrutoBlanco, CuentaDTO cuentaConRetenciones);
 
     }

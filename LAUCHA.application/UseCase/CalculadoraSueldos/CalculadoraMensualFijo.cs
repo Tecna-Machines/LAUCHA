@@ -1,6 +1,7 @@
 ﻿using LAUCHA.application.DTOs.AcuerdoBlancoDTOs;
 using LAUCHA.application.DTOs.ContratoDTO;
 using LAUCHA.application.DTOs.CuentaDTOs;
+using LAUCHA.application.DTOs.RemuneracionDTOs;
 using LAUCHA.application.DTOs.RetencionDTOs;
 using LAUCHA.application.DTOs.RetencionesFijasDTOs;
 using LAUCHA.application.DTOs.SueldosDTOs;
@@ -21,7 +22,8 @@ namespace LAUCHA.application.UseCase.CalculadoraSueldos
     {
         private CalculadorDePorcentaje _CalculadoraPorcentaje = new();
         private RetencionMapper _MapperRetencion = new();
-        public SueldosBrutosDTO CalcularSueldoBruto(ContratoDTO contrato)
+        private RemuneracionMapper _MapperRemuneracion = new();
+        public List<Remuneracion> CalcularSueldoBruto(DateTime desde,DateTime hasta,ContratoDTO contrato,CuentaDTO cuenta)
         {
             decimal montoFijoContrato = contrato.MontoFijo;
             decimal montoBancoBruto;
@@ -41,7 +43,26 @@ namespace LAUCHA.application.UseCase.CalculadoraSueldos
 
             montoEfectivoBruto = montoFijoContrato - montoBancoBruto;
 
-            return new SueldosBrutosDTO { MontoEnBanco = montoBancoBruto, MontoEnEfectivo = montoEfectivoBruto };
+            var remuBlanco = new RemuneracionDTO
+            {
+                Descripcion = "SUELDO MENSUAL FIJO FORMAL",
+                EsBlanco = true,
+                Cuenta = cuenta.NumeroCuenta,
+                Monto = montoBancoBruto
+            };
+
+            var remuNegro = new RemuneracionDTO
+            {
+                Descripcion = "SUELDO MENSUAL FIJO INFORMAL",
+                EsBlanco = false,
+                Cuenta = cuenta.NumeroCuenta,
+                Monto = montoEfectivoBruto
+            };
+
+            Remuneracion remuneracionBlanco = _MapperRemuneracion.GenerarRemuneracion(remuBlanco);
+            Remuneracion remuneracionNegro = _MapperRemuneracion.GenerarRemuneracion(remuNegro);
+
+            return new List<Remuneracion> { remuneracionBlanco, remuneracionNegro };
         }
 
         public List<Retencion> CalcularRetencionesSueldo(decimal montoBrutoBlanco, CuentaDTO cuenta)
