@@ -1,6 +1,6 @@
 ﻿namespace LAUCHA.application.DTOs.LiquidacionDTO
 {
-    internal class LiquidacionDTO
+    public class LiquidacionDTO
     {
         public string Codigo { set; get; } = null!;
         public string Dni { get; set; } = null!;

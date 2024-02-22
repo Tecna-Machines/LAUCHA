@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace LAUCHA.application.DTOs.LiquidacionDTO
 {
-    internal class ItemsDTO
+    public class ItemsDTO
     {
         public List<RemuneracionDTO> Remuneraciones { get; set; } = null!;
         public List<RetencionDTO> Retenciones { get; set; } = null!; 

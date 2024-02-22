@@ -1,5 +1,6 @@
 ﻿using LAUCHA.application.DTOs.ContratoDTO;
 using LAUCHA.application.DTOs.CuentaDTOs;
+using LAUCHA.application.DTOs.LiquidacionDTO;
 using LAUCHA.application.DTOs.LiquidacionDTOs;
 using LAUCHA.application.DTOs.RemuneracionDTOs;
 using LAUCHA.application.DTOs.RetencionDTOs;
@@ -87,6 +88,11 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
             };
         }
 
+        public LiquidacionDTO HacerUnaLiquidacion()
+        {
+            //TODO: implementar logica para traer remuneracion , retenciones y descuentos para crear la liquidacion
+            throw new NotImplementedException();
+        }
 
     }
 }

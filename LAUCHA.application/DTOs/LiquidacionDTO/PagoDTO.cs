@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LAUCHA.application.DTOs.LiquidacionDTO
 {
-    internal class PagoDTO
+    public class PagoDTO
     {
         public int codigo { get; set; }
         public string Fecha { get; set; } = null!;
