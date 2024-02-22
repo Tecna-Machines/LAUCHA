@@ -28,6 +28,10 @@ namespace LAUCHA.application.UseCase.CalculadoraSueldos
                     return new CalculadoraQuicenalFijo();
                 case (int)ModalidadContrato.quincenalHora:
                     return new CalculadoraQuincenalHora(_MarcasService);
+                case (int)ModalidadContrato.mensualFijoHorasExtra:
+                    return new CalculadoraMensualFijoExtra(_MarcasService);
+                case (int)ModalidadContrato.quincenalFijoExtra:
+                    return new CalculadoraSueldoQuincenalFijoExtra(_MarcasService);
                 default:
                     throw new NotImplementedException("no se calcular eso! D:");
             }

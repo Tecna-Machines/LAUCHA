@@ -13,7 +13,7 @@ namespace LAUCHA.application.UseCase.CalculadoraSueldos
 {
     internal class CalculadoraQuicenalFijo : BaseCalculadoraSueldo
     {
-;
+
         public override List<Remuneracion> CalcularSueldoBruto(DateTime desde, DateTime hasta,ContratoDTO contrato, CuentaDTO cuenta)
         {
             decimal montoFijoContrato = contrato.MontoFijo;

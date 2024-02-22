@@ -33,7 +33,7 @@ namespace LAUCHA.api.Controllers
             var cuenta = _CuentaService.ConsularUnaCuenta(empleado.NumeroCuenta);
             var contrato = _ContratoService.ObtenerContratoDeEmpleado(empleado.Dni);
 
-            _liquidacionService.SetearEmpleadoALiquidar(contrato,cuenta);
+            _liquidacionService.SetearEmpleadoALiquidar(desde,hasta,contrato,cuenta);
             var result =_liquidacionService.HacerDeduccionesSueldo();
 
             return new JsonResult(result) { StatusCode = 201 };

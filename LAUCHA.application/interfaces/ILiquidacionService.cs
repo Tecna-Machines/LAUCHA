@@ -12,6 +12,6 @@ namespace LAUCHA.application.interfaces
     public interface ILiquidacionService
     {
         public DeduccionDTOs HacerDeduccionesSueldo();
-        public void SetearEmpleadoALiquidar(ContratoDTO contratoEmp, CuentaDTO cuentaEmp);
+        public void SetearEmpleadoALiquidar(DateTime inicioPeriodo,DateTime finPeriodo,ContratoDTO contratoEmp, CuentaDTO cuentaEmp);
     }
 }
