@@ -32,15 +32,9 @@ namespace LAUCHA.application.UseCase.CalculadoraSueldos
             AcuerdoBlancoDTO acuerdoBlanco = contrato.AcuerdoBlanco;
             bool blancoEsPorcentual = acuerdoBlanco.EsPorcentual;
 
-            if (blancoEsPorcentual)
-            {
-                montoBancoBruto = _CalculadoraPorcentaje.CalcularPorcentajeDeMonto(acuerdoBlanco.Cantidad, montoFijoContrato);
-            }
-            else
-            {
-                montoBancoBruto = acuerdoBlanco.Cantidad;
-            }
 
+            montoBancoBruto = _CalculadoraPorcentaje.
+                               CalcularPorcentajeSiEstaHabilitado(blancoEsPorcentual,acuerdoBlanco.Cantidad,montoFijoContrato);
             montoEfectivoBruto = montoFijoContrato - montoBancoBruto;
 
             var remuBlanco = new RemuneracionDTO

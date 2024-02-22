@@ -26,16 +26,10 @@ namespace LAUCHA.application.UseCase.CalculadoraSueldos
             AcuerdoBlancoDTO acuerdoBlanco = contrato.AcuerdoBlanco;
             bool blancoEsPorcentual = acuerdoBlanco.EsPorcentual;
 
+            montoBancoBruto = _CalculadoraPorcentaje.
+                                CalcularPorcentajeSiEstaHabilitado(blancoEsPorcentual,acuerdoBlanco.Cantidad,montoFijoContrato);
 
-            if (blancoEsPorcentual)
-            {
-                montoBancoBruto = _CalculadoraPorcentaje.CalcularPorcentajeDeMonto(acuerdoBlanco.Cantidad, montoFijoContrato);
-                montoBancoBruto = (montoBancoBruto / 2);
-            }
-            else
-            {
-                montoBancoBruto = acuerdoBlanco.Cantidad / 2;
-            }
+            montoBancoBruto = (montoBancoBruto / 2);
 
             montoEfectivoBruto = (montoFijoContrato / 2) - montoBancoBruto;
 
@@ -74,16 +68,8 @@ namespace LAUCHA.application.UseCase.CalculadoraSueldos
 
             foreach (var retencion in retencionesFijas)
             {
-                decimal montoRetencion;
-
-                if (retencion.EsPorcentual)
-                {
-                    montoRetencion = _CalculadoraPorcentaje.CalcularPorcentajeDeMonto(retencion.Unidades, montoBrutoBlanco);
-                }
-                else
-                {
-                    montoRetencion = retencion.Unidades;
-                }
+                decimal montoRetencion = _CalculadoraPorcentaje.
+                                         CalcularPorcentajeSiEstaHabilitado(retencion.EsPorcentual, retencion.Unidades, montoBrutoBlanco);
 
                 if (EsPrimeraQuicena() && retencion.EsQuincenal)
                 {

@@ -37,9 +37,10 @@ namespace LAUCHA.application.UseCase.CalculadoraSueldos
         {
             HorasPeriodo horasTrabajo = _MarcasService.ConsularHorasPeriodo(contrato.Dni,desde,hasta);
             decimal horasAleatorias = _GeneradorAleatorio.GenerarAleatorioEntreValores(40, 50);
+            decimal horasRelales = horasTrabajo.HorasTotales;
 
             decimal montoBancoBruto = horasAleatorias * contrato.MontoHora;
-            decimal montoEfectivoBruto = horasTrabajo.HorasTotales * contrato.MontoHora;
+            decimal montoEfectivoBruto = horasRelales * contrato.MontoHora;
 
             bool quincena = EsPrimeraQuicena();
             string mensajeQuicena = quincena == true ? "1ra QUINCENA" : "2da QUINCENA";
@@ -54,7 +55,7 @@ namespace LAUCHA.application.UseCase.CalculadoraSueldos
 
             var remuNegro = new RemuneracionDTO
             {
-                Descripcion = $"SUELDO {mensajeQuicena} HORA ({horasAleatorias} HS computadas)",
+                Descripcion = $"SUELDO {mensajeQuicena} HORA ({horasRelales} HS computadas)",
                 EsBlanco = false,
                 Cuenta = cuenta.NumeroCuenta,
                 Monto = montoEfectivoBruto
@@ -77,16 +78,8 @@ namespace LAUCHA.application.UseCase.CalculadoraSueldos
 
             foreach (var retencion in retencionesFijas)
             {
-                decimal montoRetencion;
-
-                if (retencion.EsPorcentual)
-                {
-                    montoRetencion = _CalculadoraPorcentaje.CalcularPorcentajeDeMonto(retencion.Unidades, montoBrutoBlanco);
-                }
-                else
-                {
-                    montoRetencion = retencion.Unidades;
-                }
+                decimal montoRetencion = _CalculadoraPorcentaje.
+                                         CalcularPorcentajeSiEstaHabilitado(retencion.EsPorcentual,retencion.Unidades,montoBrutoBlanco);
 
                 if (EsPrimeraQuicena() && retencion.EsQuincenal)
                 {

@@ -24,5 +24,16 @@ namespace LAUCHA.application.Helpers
 
             return nuevoMonto;
         }
+
+        public decimal CalcularPorcentajeSiEstaHabilitado(bool esPorcentual,decimal unidades,decimal montoTotal)
+        {
+            if (esPorcentual) 
+            {
+                decimal unPorCiento = montoTotal / 100;
+                return unPorCiento * unidades;
+            }
+
+            return unidades;
+        }
     }
 }
