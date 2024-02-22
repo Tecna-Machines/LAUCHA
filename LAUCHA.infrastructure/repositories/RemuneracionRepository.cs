@@ -90,5 +90,28 @@ namespace LAUCHA.infrastructure.repositories
         }
         public int Save() => _context.SaveChanges();
 
+        public List<Remuneracion> ObtenerRemuneracionesDeLiquidacion(string codigoLiquidacion)
+        {
+            List<Remuneracion> remuneracionesLiquidacion = new();
+            List<RemuneracionPorLiquidacionPersonal> remuPorLiquidacion = _context.RemuneracionesPorLiquidaciones
+                                     .Where(rl => rl.CodigoLiquidacionPersonal == codigoLiquidacion).ToList();
+
+            foreach (var remu in remuPorLiquidacion)
+            {
+               var remuEncontrada =  _context.Remuneraciones.Find(remu.CodigoRemuneracion);
+
+                if (remuEncontrada != null) 
+                {
+                remuneracionesLiquidacion.Add(remuEncontrada);
+
+                }
+                else
+                {
+                    throw new NullReferenceException();
+                }
+            }
+
+            return remuneracionesLiquidacion;
+        }
     }
 }

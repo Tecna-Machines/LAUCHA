@@ -16,5 +16,7 @@ namespace LAUCHA.domain.interfaces.IRepositories
                                                           string? descripcion,
                                                           int numeroPagina,
                                                           int cantidadRegistros);
+
+        List<Retencion> ObtenerRetencionesDeLiquidacion(string codigoLiquidacion);
     }
 }

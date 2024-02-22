@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace LAUCHA.infrastructure.repositories
 {
-    public class RetencionRepository : IGenericRepository<Retencion> , IRetencionRepository
+    public class RetencionRepository : IGenericRepository<Retencion>, IRetencionRepository
     {
         private readonly LiquidacionesDbContext _context;
 
@@ -94,6 +94,24 @@ namespace LAUCHA.infrastructure.repositories
                 Registros = pagina
             };
             
+        }
+
+        public List<Retencion> ObtenerRetencionesDeLiquidacion(string codigoLiquidacion)
+        {
+            List<Retencion> retenciones = new();
+            var retencionesRecuperadas = _context.RetencionesPorLiquidaciones
+                                        .Where(rl => rl.CodigoLiquidacionPersonal == codigoLiquidacion);
+
+            foreach (var retencion in retencionesRecuperadas)
+            {
+                var retencionEncontrada = _context.Retenciones.Find(retencion.CodigoRetencion);
+
+                if (retencionEncontrada == null) { throw new NullReferenceException(); }
+
+                retenciones.Add(retencionEncontrada);
+            }
+
+            return retenciones;
         }
     }
 }

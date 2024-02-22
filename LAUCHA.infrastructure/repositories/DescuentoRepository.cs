@@ -102,5 +102,26 @@ namespace LAUCHA.infrastructure.repositories
                 Registros = pagina
             };
         }
+
+        public List<Descuento> ObtenerDescuentosDeLiquidacion(string codigoLiquidacion)
+        {
+            List<Descuento> descuentos = new();
+
+            var descuentosLiquidacion = _context.DescuentosPorLiquidaciones
+                                        .Where(dl => dl.CodigoLiquidacionPersonal == codigoLiquidacion)
+                                        .ToList();
+
+            foreach (var descuento in descuentosLiquidacion)
+            {
+                var descuentoEncontrado = _context.Descuentos.Find(descuento.CodigoDescuento);
+
+                if (descuentoEncontrado == null) { throw new NullReferenceException(); }
+
+                descuentos.Add(descuentoEncontrado);
+            }
+
+            return descuentos;
+        }
+
     }
 }
