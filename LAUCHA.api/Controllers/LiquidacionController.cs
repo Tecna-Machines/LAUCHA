@@ -38,5 +38,11 @@ namespace LAUCHA.api.Controllers
 
             return new JsonResult(result) { StatusCode = 201 };
         }
+
+        [HttpPost("empleado/{dni}/liquidar")]
+        public IActionResult LiquidarEmpleado(string dni, DateTime desde, DateTime hasta)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

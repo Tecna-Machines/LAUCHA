@@ -3,18 +3,10 @@ using LAUCHA.application.DTOs.CuentaDTOs;
 using LAUCHA.application.DTOs.LiquidacionDTOs;
 using LAUCHA.application.DTOs.RemuneracionDTOs;
 using LAUCHA.application.DTOs.RetencionDTOs;
-using LAUCHA.application.DTOs.SueldosDTOs;
-using LAUCHA.application.Helpers;
 using LAUCHA.application.interfaces;
 using LAUCHA.application.Mappers;
 using LAUCHA.domain.entities;
-using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.domain.interfaces.IUnitsOfWork;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
 {
@@ -29,13 +21,13 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
         private RetencionMapper _MapperRetenciones;
 
 
-        private  ContratoDTO? _Contrato;
-        private  CuentaDTO? _Cuenta;
+        private ContratoDTO? _Contrato;
+        private CuentaDTO? _Cuenta;
 
         private DateTime _InicioPeriodo;
         private DateTime _FinPeriodo;
 
-        public LiquidacionService(IFabricaCalculadoraSueldo fabricaCalculadora,IUnitOfWorkLiquidacion unitOfWorkLiquidacion)
+        public LiquidacionService(IFabricaCalculadoraSueldo fabricaCalculadora, IUnitOfWorkLiquidacion unitOfWorkLiquidacion)
         {
             _MapperRemuneracion = new();
             _MapperRetenciones = new();
@@ -44,7 +36,7 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
             _UnitOfWorkLiquidacion = unitOfWorkLiquidacion;
         }
 
-        public void SetearEmpleadoALiquidar(DateTime inicioPeriodo,DateTime finPeriodo,ContratoDTO contratoEmp,CuentaDTO cuentaEmp)
+        public void SetearEmpleadoALiquidar(DateTime inicioPeriodo, DateTime finPeriodo, ContratoDTO contratoEmp, CuentaDTO cuentaEmp)
         {
             _Contrato = contratoEmp;
             _Cuenta = cuentaEmp;
@@ -62,7 +54,7 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
             List<RetencionDTO> retencionesDTO = new();
             List<RemuneracionDTO> remuneracionesDTO = new();
 
-            var remuneracionesSueldo = _CalculadoraSueldo.CalcularSueldoBruto(this._InicioPeriodo,this._FinPeriodo,_Contrato!,_Cuenta!);
+            var remuneracionesSueldo = _CalculadoraSueldo.CalcularSueldoBruto(this._InicioPeriodo, this._FinPeriodo, _Contrato!, _Cuenta!);
 
             foreach (var remuneracionNueva in remuneracionesSueldo)
             {
@@ -75,11 +67,11 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
             }
 
 
-            var retenciones = _CalculadoraSueldo.CalcularRetencionesSueldo(montoBrutoBlanco,_Cuenta!);
+            var retenciones = _CalculadoraSueldo.CalcularRetencionesSueldo(montoBrutoBlanco, _Cuenta!);
 
             foreach (var retencionNueva in retenciones)
             {
-               Retencion retencion = _UnitOfWorkLiquidacion.RetencionRepository.Insert(retencionNueva);
+                Retencion retencion = _UnitOfWorkLiquidacion.RetencionRepository.Insert(retencionNueva);
                 var retencionDTO = _MapperRetenciones.GenerarRetencionDTO(retencion);
                 retencionesDTO.Add(retencionDTO);
             }
