@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LAUCHA.application.DTOs.LiquidacionDTO
+namespace LAUCHA.application.DTOs.LiquidacionDTOs
 {
     public class PagoDTO
     {

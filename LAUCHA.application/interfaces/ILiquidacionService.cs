@@ -13,5 +13,6 @@ namespace LAUCHA.application.interfaces
     {
         public DeduccionDTOs HacerDeduccionesSueldo();
         public void SetearEmpleadoALiquidar(DateTime inicioPeriodo,DateTime finPeriodo,ContratoDTO contratoEmp, CuentaDTO cuentaEmp);
+        Task<LiquidacionDTO> HacerUnaLiquidacion();
     }
 }

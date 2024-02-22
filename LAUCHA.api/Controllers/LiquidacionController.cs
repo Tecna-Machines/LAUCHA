@@ -40,9 +40,18 @@ namespace LAUCHA.api.Controllers
         }
 
         [HttpPost("empleado/{dni}/liquidar")]
-        public IActionResult LiquidarEmpleado(string dni, DateTime desde, DateTime hasta)
+        [ProducesResponseType(typeof(LiquidacionDTO),201)]
+        public async Task<IActionResult> LiquidarEmpleado(string dni, DateTime desde, DateTime hasta)
         {
-            throw new NotImplementedException();
+            var empleado = _empleadoService.ConsultarUnEmpleado(dni);
+
+            var cuenta = _CuentaService.ConsularUnaCuenta(empleado.NumeroCuenta);
+            var contrato = _ContratoService.ObtenerContratoDeEmpleado(empleado.Dni);
+
+            _liquidacionService.SetearEmpleadoALiquidar(desde, hasta, contrato, cuenta);
+            var result = await _liquidacionService.HacerUnaLiquidacion();
+
+            return new JsonResult(result) { StatusCode = 201 };
         }
     }
 }

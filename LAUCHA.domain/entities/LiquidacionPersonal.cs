@@ -23,8 +23,8 @@ namespace LAUCHA.domain.entities
         public IList<CuotaPorLiquidacionPersonal> CuotasPorLiquidaciones { get; set; } = null!;
         public IList<SubCuotaPorLiquidacion> SubCuotasPorLiquidaciones { get; set; } = null!;
 
-        public string CodigoLiquidacionGeneral { get; set; } = null!;
-        public LiquidacionGeneral LiquidacionGeneral = null!;
+        public string? CodigoLiquidacionGeneral { get; set; }
+        public LiquidacionGeneral? LiquidacionGeneral;
 
 
     }

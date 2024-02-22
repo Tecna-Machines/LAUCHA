@@ -15,16 +15,29 @@ namespace LAUCHA.infrastructure.unitOfWork
     {
         public IGenericRepository<Retencion> RetencionRepository { get; }
         public IGenericRepository<Remuneracion> RemuneracionRepository { get; }
+        public IGenericRepository<LiquidacionPersonal> LiquidacionRepository { get; }
+        public IGenericRepository<RemuneracionPorLiquidacionPersonal> RemuneracionLiquidacion { get; }
+        public IGenericRepository<RetencionPorLiquidacionPersonal> RetencionLiquidacion { get; }
+        public IGenericRepository<DescuentoPorLiquidacionPersonal> DescuentoLiquidacion { get; }
+
         private readonly LiquidacionesDbContext _context;
 
 
         public UnitOfWorkLiquidacion(IGenericRepository<Remuneracion> remuneracionRepository,
+                                     LiquidacionesDbContext context,
                                      IGenericRepository<Retencion> retencionRepository,
-                                     LiquidacionesDbContext context)
+                                     IGenericRepository<RemuneracionPorLiquidacionPersonal> remuneracionLiquidacion,
+                                     IGenericRepository<RetencionPorLiquidacionPersonal> retencionLiquidacion,
+                                     IGenericRepository<DescuentoPorLiquidacionPersonal> descuentoLiquidacion,
+                                     IGenericRepository<LiquidacionPersonal> liquidacionRepository)
         {
+            _context = context;
             RemuneracionRepository = remuneracionRepository;
             RetencionRepository = retencionRepository;
-            _context = context;
+            RemuneracionLiquidacion = remuneracionLiquidacion;
+            RetencionLiquidacion = retencionLiquidacion;
+            DescuentoLiquidacion = descuentoLiquidacion;
+            LiquidacionRepository = liquidacionRepository;
         }
 
 

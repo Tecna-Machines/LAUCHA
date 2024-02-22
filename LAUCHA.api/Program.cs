@@ -106,6 +106,7 @@ builder.Services.AddScoped<IUnitOfWorkLiquidacion, UnitOfWorkLiquidacion>();
 builder.Services.AddScoped<IGenericRepository<RemuneracionPorLiquidacionPersonal>, RemuneracionPorLiquidacionRepository>();
 builder.Services.AddScoped<IGenericRepository<RetencionPorLiquidacionPersonal>,RetencionPorLiquidacionRepository>();
 builder.Services.AddScoped<IGenericRepository<DescuentoPorLiquidacionPersonal>, DescuentosPorLiquidacionesRepository>();
+builder.Services.AddScoped<IGenericRepository<LiquidacionPersonal>, LiquidacionPersonalRepository>();
 
 //servicios externos
 builder.Services.AddScoped<IMarcasService, MarcasService>();

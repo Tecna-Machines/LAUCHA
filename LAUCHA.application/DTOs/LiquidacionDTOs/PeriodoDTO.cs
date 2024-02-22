@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LAUCHA.application.DTOs.LiquidacionDTO
+namespace LAUCHA.application.DTOs.LiquidacionDTOs
 {
-    internal class PeriodoDTO
+    public class PeriodoDTO
     {
         public DateTime Inicio { get; set; }
         public DateTime Fin { get; set; }
