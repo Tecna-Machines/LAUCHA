@@ -11,13 +11,10 @@ using LAUCHA.domain.entities;
 
 namespace LAUCHA.application.UseCase.CalculadoraSueldos
 {
-    internal class CalculadoraQuicenalFijo : IEstrategiaCalcularSueldo
+    internal class CalculadoraQuicenalFijo : BaseCalculadoraSueldo
     {
-        private readonly CalculadorDePorcentaje _CalculadoraPorcentaje = new();
-        private readonly RetencionMapper _MapperRetencion = new();
-        private readonly RemuneracionMapper _MapperRemuneracion = new();
-
-        public List<Remuneracion> CalcularSueldoBruto(DateTime desde, DateTime hasta,ContratoDTO contrato, CuentaDTO cuenta)
+;
+        public override List<Remuneracion> CalcularSueldoBruto(DateTime desde, DateTime hasta,ContratoDTO contrato, CuentaDTO cuenta)
         {
             decimal montoFijoContrato = contrato.MontoFijo;
             decimal montoBancoBruto;
@@ -58,7 +55,7 @@ namespace LAUCHA.application.UseCase.CalculadoraSueldos
             return new List<Remuneracion> { remuneracionBlanco, remuneracionNegro };
         }
 
-        public List<Retencion> CalcularRetencionesSueldo(decimal montoBrutoBlanco, CuentaDTO cuenta)
+        public override List<Retencion> CalcularRetencionesSueldo(decimal montoBrutoBlanco, CuentaDTO cuenta)
         {
 
             int indice = 0;
@@ -90,27 +87,6 @@ namespace LAUCHA.application.UseCase.CalculadoraSueldos
             }
 
             return retencionesSueldo;
-        }
-
-        private Retencion CrearRetencion(string descripcion, decimal monto, int indice, string numeroCuenta)
-        {
-            var retencionDTO = new CrearRetencionDTO
-            {
-                Descripcion = descripcion,
-                Monto = monto,
-                NumeroCuenta = numeroCuenta
-            };
-
-            var retencion = _MapperRetencion.GenerarRetencion(retencionDTO);
-
-            retencion.CodigoRetencion = retencion.CodigoRetencion + indice;
-
-            return retencion;
-        }
-
-        private bool EsPrimeraQuicena()
-        {
-            return DateTime.Now.Day < 15;
         }
 
     }
