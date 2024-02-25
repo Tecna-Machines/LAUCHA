@@ -13,15 +13,18 @@ namespace LAUCHA.api.Controllers
         private readonly IConsultarEmpleadoService _empleadoService;
         private readonly IAgregarCuentaService _CuentaService;
         private readonly IConsultarContratoTrabajoService _ContratoService;
+        private readonly IConsultarLiquidacionService _ConsultarLiquidacionService;
         public LiquidacionController(ILiquidacionService liquidacionService,
                                      IConsultarEmpleadoService empleadoService,
                                      IAgregarCuentaService cuentaService,
-                                     IConsultarContratoTrabajoService contratoService)
+                                     IConsultarContratoTrabajoService contratoService,
+                                     IConsultarLiquidacionService consultarLiquidacionService)
         {
             _liquidacionService = liquidacionService;
             _empleadoService = empleadoService;
             _CuentaService = cuentaService;
             _ContratoService = contratoService;
+            _ConsultarLiquidacionService = consultarLiquidacionService;
         }
 
         [HttpPost("empleado/{dni}/deducir-retenciones")]
@@ -52,6 +55,15 @@ namespace LAUCHA.api.Controllers
             var result = await _liquidacionService.HacerUnaLiquidacion();
 
             return new JsonResult(result) { StatusCode = 201 };
+        }
+
+        [HttpGet("{codigoLiquidacion}")]
+        [ProducesResponseType(typeof(LiquidacionDTO),200)]
+        public IActionResult ConsularLiquidacion(string codigoLiquidacion)
+        {
+            var result = _ConsultarLiquidacionService.ConsulatarLiquidacion(codigoLiquidacion);
+
+            return new JsonResult(result) { StatusCode = 200 };
         }
     }
 }

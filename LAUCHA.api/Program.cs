@@ -7,6 +7,7 @@ using LAUCHA.application.UseCase.ConsularModalidades;
 using LAUCHA.application.UseCase.ConsultarAdicionales;
 using LAUCHA.application.UseCase.ConsultarContratoDeTrabajo;
 using LAUCHA.application.UseCase.ConsultarEmpleado;
+using LAUCHA.application.UseCase.ConsultarLiquidacion;
 using LAUCHA.application.UseCase.ConsultarRemuneraciones;
 using LAUCHA.application.UseCase.ConsultarRetencionesFijas;
 using LAUCHA.application.UseCase.ContratosDeTrabajo;
@@ -100,13 +101,16 @@ builder.Services.AddScoped<IRetencionRepository, RetencionRepository>();
 builder.Services.AddScoped<IDescuentoRepository, DescuentoRepository>();
 
 builder.Services.AddScoped<IFabricaCalculadoraSueldo, FabricaCalculadoraSueldo>();
-builder.Services.AddScoped<ILiquidacionService, LiquidacionService>();
+builder.Services.AddScoped<ILiquidacionService, CrearLiquidacionService>();
 builder.Services.AddScoped<IUnitOfWorkLiquidacion, UnitOfWorkLiquidacion>();
 
 builder.Services.AddScoped<IGenericRepository<RemuneracionPorLiquidacionPersonal>, RemuneracionPorLiquidacionRepository>();
-builder.Services.AddScoped<IGenericRepository<RetencionPorLiquidacionPersonal>,RetencionPorLiquidacionRepository>();
+builder.Services.AddScoped<IGenericRepository<RetencionPorLiquidacionPersonal>, RetencionPorLiquidacionRepository>();
 builder.Services.AddScoped<IGenericRepository<DescuentoPorLiquidacionPersonal>, DescuentosPorLiquidacionesRepository>();
 builder.Services.AddScoped<IGenericRepository<LiquidacionPersonal>, LiquidacionPersonalRepository>();
+
+builder.Services.AddScoped<IItemsLiquidacionRepository, ITemsLiquidacionRepository>();
+builder.Services.AddScoped<IConsultarLiquidacionService, ConsularLiquidacionService>();
 
 //servicios externos
 builder.Services.AddScoped<IMarcasService, MarcasService>();

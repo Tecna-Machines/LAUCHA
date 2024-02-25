@@ -16,7 +16,7 @@ namespace LAUCHA.application.Mappers
                                                     List<Retencion> retenciones,
                                                     List<Descuento> descuentos,
                                                     List<PagoLiquidacion> pagos,
-                                                    string nombreEmpleado)
+                                                    Empleado empleado)
         {
             List<RemuneracionDTO> remuneracionesDTOs = new();
             List<RetencionDTO> retencionesDTOs = new();
@@ -61,7 +61,8 @@ namespace LAUCHA.application.Mappers
             return new LiquidacionDTO
             {
                 Codigo = liquidacion.CodigoLiquidacion,
-                Empleado = nombreEmpleado,
+                Empleado = $"{empleado.Nombre} ${empleado.Apellido}",
+                Dni = empleado.Dni,
                 Concepto = liquidacion.Concepto,
                 Fecha = liquidacion.FechaLiquidacion,
                 Periodo = new PeriodoDTO { Inicio = liquidacion.InicioPeriodo, Fin = liquidacion.FinPeriodo },
@@ -75,7 +76,7 @@ namespace LAUCHA.application.Mappers
                 TotalBrutoEfectivo = brutoNegro,
                 TotalPagarBanco = (brutoBlanco - totalRetenciones),
                 TotalPagarEfectivo = (brutoNegro - totalDescuentos),
-                Pagos = pagosDTOs
+                Pagos = pagosDTOs //TODO: terminar logica para pintar pagos
 
             };
         }
