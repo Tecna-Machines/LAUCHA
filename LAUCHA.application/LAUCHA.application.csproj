@@ -10,8 +10,4 @@
     <ProjectReference Include="..\LAUCHA.domain\LAUCHA.domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Exceptios\" />
-  </ItemGroup>
-
 </Project>

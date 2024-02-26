@@ -3,6 +3,7 @@ using LAUCHA.application.DTOs.CuentaDTOs;
 using LAUCHA.application.DTOs.LiquidacionDTOs;
 using LAUCHA.application.DTOs.RemuneracionDTOs;
 using LAUCHA.application.DTOs.RetencionDTOs;
+using LAUCHA.application.Exceptios;
 using LAUCHA.application.interfaces;
 using LAUCHA.application.Mappers;
 using LAUCHA.domain.entities;
@@ -35,12 +36,12 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
         private DateTime _FinPeriodo;
 
         public CrearLiquidacionService(IFabricaCalculadoraSueldo fabricaCalculadora,
-                                  IUnitOfWorkLiquidacion unitOfWorkLiquidacion,
-                                  IRemuneracionRepository remuneracionRepositoryEspecifico,
-                                  IRetencionRepository retencionRepositoryEspecifico,
-                                  IDescuentoRepository descuentoRepositoryEspecifo,
-                                  IGenericRepository<Cuenta> cuentaRepository,
-                                  IGenericRepository<Empleado> empleadoRepository)
+                                       IUnitOfWorkLiquidacion unitOfWorkLiquidacion,
+                                       IRemuneracionRepository remuneracionRepositoryEspecifico,
+                                       IRetencionRepository retencionRepositoryEspecifico,
+                                       IDescuentoRepository descuentoRepositoryEspecifo,
+                                       IGenericRepository<Cuenta> cuentaRepository,
+                                       IGenericRepository<Empleado> empleadoRepository)
         {
             _MapperRemuneracion = new();
             _MapperRetenciones = new();
@@ -57,6 +58,24 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
 
         public void SetearEmpleadoALiquidar(DateTime inicioPeriodo, DateTime finPeriodo, ContratoDTO contratoEmp, CuentaDTO cuentaEmp)
         {
+            TimeSpan diferencionFechas = finPeriodo - inicioPeriodo;
+            int diasPeriodo = diferencionFechas.Days;
+
+            if(diasPeriodo>31)
+            {
+                throw new PeriodoExcepcion("el periodo no puede ser mayor a 31 dias");
+            }
+
+            if (inicioPeriodo > finPeriodo)
+            {
+                throw new PeriodoExcepcion("el inicio de periodo  es menor que el fin del periodo");
+            }
+
+            if (inicioPeriodo == finPeriodo)
+            {
+                throw new PeriodoExcepcion("no pueden utilizarse las mismas fechas para liquidar");
+            }
+
             _Contrato = contratoEmp;
             _Cuenta = cuentaEmp;
 
@@ -66,6 +85,8 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
             int codigoModalidad = int.Parse(_Contrato.Modalidad.Codigo);
             _CalculadoraSueldo = _FabricaCalculadora.CrearCalculadoraSueldo(codigoModalidad);
         }
+
+
         public DeduccionDTOs HacerDeduccionesSueldo()
         {
             decimal montoBrutoBlanco = 0;
@@ -74,6 +95,11 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
             List<RemuneracionDTO> remuneracionesDTO = new();
 
             var remuneracionesSueldo = _CalculadoraSueldo.CalcularSueldoBruto(this._InicioPeriodo, this._FinPeriodo, _Contrato!, _Cuenta!);
+
+            if (remuneracionesSueldo.Count < 1)
+            {
+                throw new SueldoException("no se pudieron calcular remuneraciones");
+            }
 
             foreach (var remuneracionNueva in remuneracionesSueldo)
             {
@@ -84,6 +110,7 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
                 var remuneracionDTO = _MapperRemuneracion.GenerarRemuneracionDTO(remuneracionNueva);
                 remuneracionesDTO.Add(remuneracionDTO);
             }
+
 
 
             var retenciones = _CalculadoraSueldo.CalcularRetencionesSueldo(montoBrutoBlanco, _Cuenta!);
@@ -169,6 +196,7 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
 
             //confirmar liquidacion
             _UnitOfWorkLiquidacion.Save();
+
 
             var pagos = new List<PagoLiquidacion>(); //pagos falseos
 
