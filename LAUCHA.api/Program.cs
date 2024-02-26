@@ -112,6 +112,8 @@ builder.Services.AddScoped<IGenericRepository<LiquidacionPersonal>, LiquidacionP
 builder.Services.AddScoped<IItemsLiquidacionRepository, ITemsLiquidacionRepository>();
 builder.Services.AddScoped<IConsultarLiquidacionService, ConsularLiquidacionService>();
 
+builder.Services.AddScoped<IGeneradorRecibos, GeneradorRecibosLiquidacion>();
+
 //servicios externos
 builder.Services.AddScoped<IMarcasService, MarcasService>();
 

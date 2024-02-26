@@ -61,7 +61,7 @@ namespace LAUCHA.application.Mappers
             return new LiquidacionDTO
             {
                 Codigo = liquidacion.CodigoLiquidacion,
-                Empleado = $"{empleado.Nombre} ${empleado.Apellido}",
+                Empleado = $"{empleado.Nombre} {empleado.Apellido}",
                 Dni = empleado.Dni,
                 Concepto = liquidacion.Concepto,
                 Fecha = liquidacion.FechaLiquidacion,
