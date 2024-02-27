@@ -32,11 +32,11 @@ namespace LAUCHA.application.UseCase.CalculadoraSueldos
             decimal montoEfectivoBruto = horasRelales * contrato.MontoHora;
 
             bool quincena = EsPrimeraQuicena();
-            string mensajeQuicena = quincena == true ? "1ra QUINCENA" : "2da QUINCENA";
+            string mensajeQuicena = quincena == true ? "1ra quincena" : "2da quincena";
 
             var remuBlanco = new RemuneracionDTO
             {
-                Descripcion = $"SUELDO {mensajeQuicena} HORA ({horasAleatorias} HS computadas)",
+                Descripcion = $"sueldo {mensajeQuicena} hora ({horasAleatorias} HS computadas)",
                 EsBlanco = true,
                 Cuenta = cuenta.NumeroCuenta,
                 Monto = montoBancoBruto
@@ -44,7 +44,7 @@ namespace LAUCHA.application.UseCase.CalculadoraSueldos
 
             var remuNegro = new RemuneracionDTO
             {
-                Descripcion = $"SUELDO {mensajeQuicena} HORA ({horasRelales} HS computadas)",
+                Descripcion = $"sueldo {mensajeQuicena} hora ({horasRelales} HS computadas)",
                 EsBlanco = false,
                 Cuenta = cuenta.NumeroCuenta,
                 Monto = montoEfectivoBruto

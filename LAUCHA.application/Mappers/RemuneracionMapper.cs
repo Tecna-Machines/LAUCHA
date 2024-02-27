@@ -33,7 +33,7 @@ namespace LAUCHA.application.Mappers
 
             return new Remuneracion
             {
-                CodigoRemuneracion = $"{remuneracionDTO.Cuenta}{fechaActual.Year}{fechaActual.Hour}{fechaActual.Second}{numeroRandom}",
+                CodigoRemuneracion = $"REM:{remuneracionDTO.Cuenta}{fechaActual.Year}{fechaActual.Hour}{fechaActual.Second}{numeroRandom}",
                 Descripcion = remuneracionDTO.Descripcion,
                 EsBlanco = remuneracionDTO.EsBlanco,
                 NumeroCuenta = remuneracionDTO.Cuenta,

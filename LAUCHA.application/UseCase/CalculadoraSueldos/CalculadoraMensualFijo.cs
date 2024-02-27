@@ -27,7 +27,7 @@ namespace LAUCHA.application.UseCase.CalculadoraSueldos
 
             var remuBlanco = new RemuneracionDTO
             {
-                Descripcion = "SUELDO MENSUAL FIJO FORMAL",
+                Descripcion = "sueldo mensual fijo bruto en banco",
                 EsBlanco = true,
                 Cuenta = cuenta.NumeroCuenta,
                 Monto = montoBancoBruto
@@ -35,7 +35,7 @@ namespace LAUCHA.application.UseCase.CalculadoraSueldos
 
             var remuNegro = new RemuneracionDTO
             {
-                Descripcion = "SUELDO MENSUAL FIJO INFORMAL",
+                Descripcion = "sueldo mensual fijo bruto en efectivo",
                 EsBlanco = false,
                 Cuenta = cuenta.NumeroCuenta,
                 Monto = montoEfectivoBruto

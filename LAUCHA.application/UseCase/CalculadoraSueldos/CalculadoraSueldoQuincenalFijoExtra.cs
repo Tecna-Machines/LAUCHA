@@ -72,11 +72,11 @@ namespace LAUCHA.application.UseCase.CalculadoraSueldos
             montoEfectivoBruto = (montoFijoContrato / 2) - montoBancoBruto;
 
             bool quincena = EsPrimeraQuicena();
-            string mensajeQuicena = quincena == true ? "1ra QUINCENA" : "2da QUINCENA";
+            string mensajeQuicena = quincena == true ? "1ra quincena" : "2da quincena";
 
             var remuBlanco = new RemuneracionDTO
             {
-                Descripcion = $"SUELDO {mensajeQuicena} FIJO FORMAL",
+                Descripcion = $"sueldo {mensajeQuicena} fijo formal",
                 EsBlanco = true,
                 Cuenta = cuenta.NumeroCuenta,
                 Monto = montoBancoBruto
@@ -84,7 +84,7 @@ namespace LAUCHA.application.UseCase.CalculadoraSueldos
 
             var remuNegro = new RemuneracionDTO
             {
-                Descripcion = $"SUELDO {mensajeQuicena} FIJO INFORMAL",
+                Descripcion = $"sueldo {mensajeQuicena} fijo informal",
                 EsBlanco = false,
                 Cuenta = cuenta.NumeroCuenta,
                 Monto = montoEfectivoBruto
@@ -92,7 +92,7 @@ namespace LAUCHA.application.UseCase.CalculadoraSueldos
 
             var remuHorasExtra = new RemuneracionDTO
             {
-                Descripcion = $"SUELDO HORAS EXTRA: ({cantidadHorasExtra}) HS COMPUTADAS",
+                Descripcion = $"sueldo horas extra: ({cantidadHorasExtra}) HS computadas",
                 EsBlanco = false,
                 Cuenta = cuenta.NumeroCuenta,
                 Monto = montoHorasExtra

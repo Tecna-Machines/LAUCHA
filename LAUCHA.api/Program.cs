@@ -115,6 +115,12 @@ builder.Services.AddScoped<IConsultarLiquidacionService, ConsularLiquidacionServ
 builder.Services.AddScoped<IGeneradorRecibos, GeneradorRecibosLiquidacion>();
 
 //servicios externos
+builder.Services.AddHttpClient<IMenuesService, MenuesService>(client =>
+{
+    client.BaseAddress = new Uri("http://localhost:7008/api/v1.3/");
+});
+
+builder.Services.AddScoped<IMenuesService,MenuesService>();
 builder.Services.AddScoped<IMarcasService, MarcasService>();
 
 //CORS deshabilitar
