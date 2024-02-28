@@ -1,4 +1,5 @@
 ﻿using LAUCHA.domain.interfaces.IServices;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -9,26 +10,33 @@ namespace LAUCHA.infrastructure.Services
     public class MenuesService : IMenuesService
     {
         private readonly HttpClient _httpClient;
-        private string UsuarioService { get; set; } = null!;
-        private string PasswordUsuario { get; set; } = null!;
+        private string UsuarioService { get; set; } = "123456789";
+        private string PasswordUsuario { get; set; } = "12345";
 
         public MenuesService(HttpClient httpClient) => (_httpClient) = (httpClient);
         public async Task<CostoPersonalResponse> ObtenerGastosComida(string dniEmpleado, DateTime inicioPeriodo, DateTime finPeriodo)
         {
             string token = await ObtenerJwtToken();
 
-            _httpClient.DefaultRequestHeaders.Add("Bearer", token);
 
-            PersonalResponse empleado = await ObtenerPersonaDelMenu(dniEmpleado);
+            PersonalResponse empleado = await ObtenerPersonaDelMenu(dniEmpleado,token);
+
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
             var costos = await _httpClient.GetFromJsonAsync<CostoPersonalResponse>
-                                ($"{_httpClient.BaseAddress}Costo/personal?fechaInicio={inicioPeriodo}&fechaFin={finPeriodo}&" +
+                                ($"{_httpClient.BaseAddress}Costo/personal?fechaInicio={inicioPeriodo.ToString("MM/dd/yyyy")}" +
+                                $"&fechaFin={finPeriodo.ToString("MM/dd/yyyy")}&" +
                                 $"idPersonal={empleado.id}");
 
             return costos! ?? throw new NullReferenceException();
         }
 
-        private async Task<PersonalResponse> ObtenerPersonaDelMenu(string dniEmpleado)
+        private async Task<PersonalResponse> ObtenerPersonaDelMenu(string dniEmpleado,string token)
         {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            Console.WriteLine($"{_httpClient.BaseAddress}Personal");
+
             var listaPersonal = await _httpClient.GetFromJsonAsync<List<PersonalResponse>>($"{_httpClient.BaseAddress}Personal");
 
             if (listaPersonal != null)
@@ -65,7 +73,7 @@ namespace LAUCHA.infrastructure.Services
             {
                 UsuarioLoginResponse loginResponse = JsonSerializer.Deserialize<UsuarioLoginResponse>(jsonRequest);
 
-                return loginResponse.Token;
+                return loginResponse.token;
             }
 
             throw new NullReferenceException();

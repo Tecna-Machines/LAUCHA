@@ -4,6 +4,7 @@ using LAUCHA.application.DTOs.LiquidacionDTOs;
 using LAUCHA.application.DTOs.SystemaDTO;
 using LAUCHA.application.Exceptios;
 using LAUCHA.application.interfaces;
+using LAUCHA.domain.interfaces.IServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LAUCHA.api.Controllers
@@ -18,12 +19,14 @@ namespace LAUCHA.api.Controllers
         private readonly IConsultarContratoTrabajoService _ContratoService;
         private readonly IConsultarLiquidacionService _ConsultarLiquidacionService;
         private readonly IGeneradorRecibos _GeneradorRecibos;
+        private readonly IMenuesService _MenuesService;
         public LiquidacionController(ILiquidacionService liquidacionService,
                                      IConsultarEmpleadoService empleadoService,
                                      IAgregarCuentaService cuentaService,
                                      IConsultarContratoTrabajoService contratoService,
                                      IConsultarLiquidacionService consultarLiquidacionService,
-                                     IGeneradorRecibos generadorRecibos)
+                                     IGeneradorRecibos generadorRecibos,
+                                     IMenuesService menuesService)
         {
             _liquidacionService = liquidacionService;
             _empleadoService = empleadoService;
@@ -31,6 +34,7 @@ namespace LAUCHA.api.Controllers
             _ContratoService = contratoService;
             _ConsultarLiquidacionService = consultarLiquidacionService;
             _GeneradorRecibos = generadorRecibos;
+            _MenuesService = menuesService;
         }
 
         [HttpPost("empleado/{dni}/deducir-retenciones")]
@@ -93,6 +97,13 @@ namespace LAUCHA.api.Controllers
 
             // Devolver el PDF como una descarga
             return File(pdfBytes, "application/pdf", $"{liquidacion.Codigo}_{liquidacion.Empleado}.pdf");
+        }
+
+        [HttpGet("{dni}/menues")]
+        public IActionResult TestMenues(string dni)
+        {
+            var result = _MenuesService.ObtenerGastosComida(dni,DateTime.Now,DateTime.Now);
+            return new JsonResult(result);
         }
 
 

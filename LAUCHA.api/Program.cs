@@ -25,6 +25,7 @@ using LAUCHA.infrastructure.repositories;
 using LAUCHA.infrastructure.Services;
 using LAUCHA.infrastructure.unitOfWork;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -120,7 +121,6 @@ builder.Services.AddHttpClient<IMenuesService, MenuesService>(client =>
     client.BaseAddress = new Uri("http://localhost:7008/api/v1.3/");
 });
 
-builder.Services.AddScoped<IMenuesService,MenuesService>();
 builder.Services.AddScoped<IMarcasService, MarcasService>();
 
 //CORS deshabilitar
