@@ -3,6 +3,7 @@ using System;
 using LAUCHA.infrastructure.persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LAUCHA.infrastructure.Migrations
 {
     [DbContext(typeof(LiquidacionesDbContext))]
-    partial class LiquidacionesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240229104237_agregando-NOremuneraciones")]
+    partial class agregandoNOremuneraciones
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -457,6 +460,10 @@ namespace LAUCHA.infrastructure.Migrations
                     b.Property<string>("CodigoNoRemuneracion")
                         .HasColumnType("varchar(255)");
 
+                    b.Property<string>("CuentaNumeroCuenta")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
                     b.Property<string>("Descripcion")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -469,11 +476,11 @@ namespace LAUCHA.infrastructure.Migrations
 
                     b.Property<string>("NumeroCuenta")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.HasKey("CodigoNoRemuneracion");
 
-                    b.HasIndex("NumeroCuenta");
+                    b.HasIndex("CuentaNumeroCuenta");
 
                     b.ToTable("NoRemuneraciones");
                 });
@@ -898,7 +905,7 @@ namespace LAUCHA.infrastructure.Migrations
                 {
                     b.HasOne("LAUCHA.domain.entities.Cuenta", "Cuenta")
                         .WithMany("NoRemuneraciones")
-                        .HasForeignKey("NumeroCuenta")
+                        .HasForeignKey("CuentaNumeroCuenta")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LAUCHA.domain.entities
+﻿namespace LAUCHA.domain.entities
 {
-     public class Cuenta
+    public class Cuenta
     {
         public string NumeroCuenta { get; set; } = null!;
         public bool estadoCuenta { get; set; }
@@ -16,7 +10,8 @@ namespace LAUCHA.domain.entities
         public ICollection<Credito> Creditos { get; set; } = null!;
         public IList<RetencionFijaPorCuenta> RetencionesFijasPorCuenta { get; set; } = null!;
         public ICollection<Descuento> Descuentos { get; set; } = null!;
-        public ICollection<Retencion> Retenciones {  get; set; } = null!;
+        public ICollection<Retencion> Retenciones { get; set; } = null!;
+        public ICollection<NoRemuneracion> NoRemuneraciones { get; set; } = null!;
         public ICollection<Remuneracion> Remuneraciones { get; set; } = null!;
 
     }

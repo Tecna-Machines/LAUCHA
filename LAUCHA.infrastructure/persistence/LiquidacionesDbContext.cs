@@ -34,6 +34,8 @@ namespace LAUCHA.infrastructure.persistence
         public DbSet<PagoLiquidacion> PagosLiquidaciones { get; set; }
         public DbSet<Remuneracion> Remuneraciones { get; set; }
         public DbSet<RemuneracionPorLiquidacionPersonal> RemuneracionesPorLiquidaciones { get; set; }
+        public DbSet<NoRemuneracion> NoRemuneraciones { get; set; }
+        public DbSet<NoRemuneracionPorLiquidacionPersonal> NoRemuneracionesPorLiquidaciones { get; set; }
         public DbSet<Retencion> Retenciones { get; set; }
         public DbSet<RetencionFija> RetencionesFijas { get; set; }
         public DbSet<RetencionFijaPorCuenta> RetencionesFijasPorCuentas { get; set; }
@@ -61,6 +63,8 @@ namespace LAUCHA.infrastructure.persistence
             modelBuilder.ApplyConfiguration(new LiquidacionGeneralConfig());
             modelBuilder.ApplyConfiguration(new ModalidadConfig());
             modelBuilder.ApplyConfiguration(new ModalidadPorContratoConfig());
+            modelBuilder.ApplyConfiguration(new NoRemuneracionConfig());
+            modelBuilder.ApplyConfiguration(new NoRemuneracionPorLiquidacionConfig());
             modelBuilder.ApplyConfiguration(new PagoConfig());
             modelBuilder.ApplyConfiguration(new RemuneracionConfig());
             modelBuilder.ApplyConfiguration(new RemuneracionPorLiquidacionConfig());
