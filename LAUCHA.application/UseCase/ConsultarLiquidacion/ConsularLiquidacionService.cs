@@ -38,6 +38,7 @@ namespace LAUCHA.application.UseCase.ConsultarLiquidacion
             List<Retencion> retenciones = _ItemsLiquidacionRepository.ObtenerRetencionesLiquidacion(codigoLiquidacion);
             List<Remuneracion> remuneraciones = _ItemsLiquidacionRepository.ObtenerRemuneracionesLiquidacion(codigoLiquidacion);
             List<Descuento> descuentos = _ItemsLiquidacionRepository.ObtenerDescuentosLiquidacion(codigoLiquidacion);
+            List<NoRemuneracion> noRemuneraciones = _ItemsLiquidacionRepository.ObtenerNoRemuneracionesLiquidacion(codigoLiquidacion);
 
             List<PagoLiquidacion> pagos = _ItemsLiquidacionRepository.ObtenerPagosLiquidacion(codigoLiquidacion);
 
@@ -46,7 +47,7 @@ namespace LAUCHA.application.UseCase.ConsultarLiquidacion
             Cuenta cuenta = _CuentaRepository.GetById(numeroCuenta);
             Empleado empleado = _EmpleadoRepository.GetById(cuenta.DniEmpleado);
 
-            return _MapperLiquidacion.GenerarLiquidacionDTO(liquidacion,remuneraciones,retenciones,descuentos,pagos,empleado);
+            return _MapperLiquidacion.GenerarLiquidacionDTO(liquidacion,remuneraciones,retenciones,descuentos,noRemuneraciones,pagos,empleado);
         }
     }
 }

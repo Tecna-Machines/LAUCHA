@@ -21,6 +21,7 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
         private readonly IRemuneracionRepository _RemuneracionRepositoryEspecifico;
         private readonly IRetencionRepository _RetencionRepositoryEspecifico;
         private readonly IDescuentoRepository _DescuentoRepositoryEspecifo;
+        private readonly INoRemuneracionRepository _NoRemuneracionRepositoryEspecifico;
 
         private readonly IUnitOfWorkLiquidacion _UnitOfWorkLiquidacion;
 
@@ -41,7 +42,8 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
                                        IRetencionRepository retencionRepositoryEspecifico,
                                        IDescuentoRepository descuentoRepositoryEspecifo,
                                        IGenericRepository<Cuenta> cuentaRepository,
-                                       IGenericRepository<Empleado> empleadoRepository)
+                                       IGenericRepository<Empleado> empleadoRepository,
+                                       INoRemuneracionRepository noRemuneracionRepositoryEspecifico)
         {
             _MapperRemuneracion = new();
             _MapperRetenciones = new();
@@ -54,6 +56,7 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
             _DescuentoRepositoryEspecifo = descuentoRepositoryEspecifo;
             _CuentaRepository = cuentaRepository;
             _EmpleadoRepository = empleadoRepository;
+            _NoRemuneracionRepositoryEspecifico = noRemuneracionRepositoryEspecifico;
         }
 
         public void SetearEmpleadoALiquidar(DateTime inicioPeriodo, DateTime finPeriodo, ContratoDTO contratoEmp, CuentaDTO cuentaEmp)
@@ -159,6 +162,7 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
             List<Remuneracion> remuneraciones = await ObtenerRemuneracionesParaLiquidacion();
             List<Retencion> retenciones = await ObtenerRetencionesParaLiquidacion();
             List<Descuento> descuentos = await ObtenerDescuentosParaLiquidacion();
+            List<NoRemuneracion> noRemuneraciones = await ObtenerNoRemunerativoParaLiquidacion();
 
 
             foreach (var remu in remuneraciones)
@@ -194,6 +198,17 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
                 _UnitOfWorkLiquidacion.DescuentoLiquidacion.Insert(desLiquidacion);
             }
 
+            foreach(var noRemu in noRemuneraciones)
+            {
+                var noRemuLiquidacions = new NoRemuneracionPorLiquidacionPersonal
+                {
+                    CodigoLiquidacionPersonal = nuevaLiquidacion.CodigoLiquidacion,
+                    CodigoNoRemuneracion = noRemu.CodigoNoRemuneracion
+                };
+
+                _UnitOfWorkLiquidacion.NoRemuneracionLiquidacion.Insert(noRemuLiquidacions);
+            }
+
             //confirmar liquidacion
             _UnitOfWorkLiquidacion.Save();
 
@@ -205,7 +220,8 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
             Empleado empleado = _EmpleadoRepository.GetById(cuenta.DniEmpleado);
 
 
-            return _MapperLiquidacion.GenerarLiquidacionDTO(nuevaLiquidacion,remuneraciones,retenciones,descuentos,pagos,empleado);
+            return _MapperLiquidacion.GenerarLiquidacionDTO(nuevaLiquidacion,remuneraciones,
+                                                            retenciones,descuentos,noRemuneraciones,pagos,empleado);
         }
 
 
@@ -231,6 +247,14 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
                       ObtenerDescuentosFiltrados(_Cuenta?.NumeroCuenta, _InicioPeriodo, _FinPeriodo, null, null, 1, 1000);
 
             return descuentos.Registros;
+        }
+
+        private async Task<List<NoRemuneracion>> ObtenerNoRemunerativoParaLiquidacion()
+        {
+            var noRemuneraciones = await _NoRemuneracionRepositoryEspecifico.
+                ObtenerNoRemuneracionesFiltradas(_Cuenta?.NumeroCuenta, _InicioPeriodo, _FinPeriodo, null, null, 1, 1000);
+
+            return noRemuneraciones.Registros;
         }
 
     }

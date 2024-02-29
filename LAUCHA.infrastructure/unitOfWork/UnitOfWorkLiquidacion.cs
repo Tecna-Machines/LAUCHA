@@ -19,6 +19,7 @@ namespace LAUCHA.infrastructure.unitOfWork
         public IGenericRepository<RemuneracionPorLiquidacionPersonal> RemuneracionLiquidacion { get; }
         public IGenericRepository<RetencionPorLiquidacionPersonal> RetencionLiquidacion { get; }
         public IGenericRepository<DescuentoPorLiquidacionPersonal> DescuentoLiquidacion { get; }
+        public IGenericRepository<NoRemuneracionPorLiquidacionPersonal> NoRemuneracionLiquidacion { get; }
 
         private readonly LiquidacionesDbContext _context;
 
@@ -29,7 +30,8 @@ namespace LAUCHA.infrastructure.unitOfWork
                                      IGenericRepository<RemuneracionPorLiquidacionPersonal> remuneracionLiquidacion,
                                      IGenericRepository<RetencionPorLiquidacionPersonal> retencionLiquidacion,
                                      IGenericRepository<DescuentoPorLiquidacionPersonal> descuentoLiquidacion,
-                                     IGenericRepository<LiquidacionPersonal> liquidacionRepository)
+                                     IGenericRepository<LiquidacionPersonal> liquidacionRepository,
+                                     IGenericRepository<NoRemuneracionPorLiquidacionPersonal> noRemuneracionLiquidacion)
         {
             _context = context;
             RemuneracionRepository = remuneracionRepository;
@@ -38,6 +40,7 @@ namespace LAUCHA.infrastructure.unitOfWork
             RetencionLiquidacion = retencionLiquidacion;
             DescuentoLiquidacion = descuentoLiquidacion;
             LiquidacionRepository = liquidacionRepository;
+            NoRemuneracionLiquidacion = noRemuneracionLiquidacion;
         }
 
 

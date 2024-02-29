@@ -119,6 +119,7 @@ builder.Services.AddScoped<IGeneradorRecibos, GeneradorRecibosLiquidacion>();
 builder.Services.AddScoped<IGenericRepository<NoRemuneracion>, NoRemuneracionRepository>();
 builder.Services.AddScoped<INoRemuneracionRepository, NoRemuneracionRepository>();
 builder.Services.AddScoped<IOperarNoRemuneracionesService, OperarNoRemuneraciones>();
+builder.Services.AddScoped<IGenericRepository<NoRemuneracionPorLiquidacionPersonal>, NoRemuneracionPorLiquidacionRepository>();
 
 //servicios externos
 builder.Services.AddHttpClient<IMenuesService, MenuesService>(client =>

@@ -1,10 +1,5 @@
 ﻿using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IRepositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.domain.interfaces.IUnitsOfWork
 {
@@ -16,6 +11,8 @@ namespace LAUCHA.domain.interfaces.IUnitsOfWork
         IGenericRepository<RemuneracionPorLiquidacionPersonal> RemuneracionLiquidacion { get; }
         IGenericRepository<RetencionPorLiquidacionPersonal> RetencionLiquidacion { get; }
         IGenericRepository<DescuentoPorLiquidacionPersonal> DescuentoLiquidacion { get; }
+        IGenericRepository<NoRemuneracionPorLiquidacionPersonal> NoRemuneracionLiquidacion { get; }
+
         int Save();
     }
 }

@@ -76,6 +76,28 @@ namespace LAUCHA.infrastructure.repositories
             return retencionesLiquidacion;
         }
 
+        public List<NoRemuneracion> ObtenerNoRemuneracionesLiquidacion(string codigoLiquidacion)
+        {
+            var listaNoRemuPorLiquidacion = _context.NoRemuneracionesPorLiquidaciones
+                                            .Where(noRemuPorLiq => 
+                                            noRemuPorLiq.CodigoLiquidacionPersonal == codigoLiquidacion)
+                                            .ToList();
+
+            List<NoRemuneracion> noRemuneracionesLiquidacion = new();
+
+            foreach (var noRemu in listaNoRemuPorLiquidacion)
+            {
+                var noRemuEncontrada = _context.NoRemuneraciones.Find(noRemu.CodigoNoRemuneracion);
+
+                if (noRemuEncontrada != null)
+                {
+                    noRemuneracionesLiquidacion.Add(noRemuEncontrada);
+                }
+            }
+
+            return noRemuneracionesLiquidacion;
+        }
+
         public List<PagoLiquidacion> ObtenerPagosLiquidacion(string codigoLiquidacion)
         {
             return _context.PagosLiquidaciones.Where(pl => pl.CodigoLiquidacion == codigoLiquidacion).ToList();
