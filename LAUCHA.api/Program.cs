@@ -15,6 +15,7 @@ using LAUCHA.application.UseCase.CrearRemuneracionNueva;
 using LAUCHA.application.UseCase.CrearRetencionesFijas;
 using LAUCHA.application.UseCase.HacerUnaLiquidacion;
 using LAUCHA.application.UseCase.OperacionesDescuento;
+using LAUCHA.application.UseCase.OperarNoRemuneraciones;
 using LAUCHA.application.UseCase.OperarRetenciones;
 using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IRepositories;
@@ -114,6 +115,10 @@ builder.Services.AddScoped<IItemsLiquidacionRepository, ITemsLiquidacionReposito
 builder.Services.AddScoped<IConsultarLiquidacionService, ConsularLiquidacionService>();
 
 builder.Services.AddScoped<IGeneradorRecibos, GeneradorRecibosLiquidacion>();
+
+builder.Services.AddScoped<IGenericRepository<NoRemuneracion>, NoRemuneracionRepository>();
+builder.Services.AddScoped<INoRemuneracionRepository, NoRemuneracionRepository>();
+builder.Services.AddScoped<IOperarNoRemuneracionesService, OperarNoRemuneraciones>();
 
 //servicios externos
 builder.Services.AddHttpClient<IMenuesService, MenuesService>(client =>

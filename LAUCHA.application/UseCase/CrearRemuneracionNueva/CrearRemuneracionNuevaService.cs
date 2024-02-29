@@ -3,16 +3,10 @@ using LAUCHA.application.Helpers;
 using LAUCHA.application.interfaces;
 using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IRepositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.application.UseCase.CrearRemuneracionNueva
 {
-    public class CrearRemuneracionNuevaService :ICrearRemuneracionService
+    public class CrearRemuneracionNuevaService : ICrearRemuneracionService
     {
         private readonly IGenericRepository<Remuneracion> _RemuneracionRepository;
         private GeneradorDeNumeroAleatorio _GeneradorNumeros;
@@ -36,7 +30,7 @@ namespace LAUCHA.application.UseCase.CrearRemuneracionNueva
                 NumeroCuenta = nuevaRemuneracion.Cuenta,
                 EsBlanco = nuevaRemuneracion.EsBlanco,
                 Monto = nuevaRemuneracion.Monto,
-                Fecha= FechaActual
+                Fecha = FechaActual
             };
 
             // guardar la remuneracion en la BBDD
@@ -51,7 +45,7 @@ namespace LAUCHA.application.UseCase.CrearRemuneracionNueva
                 Descripcion = remuneracion.Descripcion,
                 Cuenta = remuneracion.NumeroCuenta,
                 EsBlanco = remuneracion.EsBlanco,
-                Fecha = remuneracion.Fecha.ToString("dd-MM-yyyy HH:mm"),
+                Fecha = remuneracion.Fecha.ToString("dd/MM/yyyy HH:mm"),
                 Monto = remuneracion.Monto
             };
         }
