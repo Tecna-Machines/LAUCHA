@@ -7,14 +7,23 @@ using iText.Layout.Element;
 using iText.Layout.Properties;
 using LAUCHA.application.DTOs.DescuentoDTOs;
 using LAUCHA.application.DTOs.LiquidacionDTOs;
+using LAUCHA.application.DTOs.NoRemuneracionDTOs;
 using LAUCHA.application.DTOs.RemuneracionDTOs;
 using LAUCHA.application.DTOs.RetencionDTOs;
+using LAUCHA.application.Helpers;
 using LAUCHA.application.interfaces;
+using LAUCHA.domain.entities;
 
 namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
 {
     public class GeneradorRecibosLiquidacion : IGeneradorRecibos
     {
+        private readonly ConvertidorNumeroEnPalabra _GeneradorNumeroPalabra;
+        public GeneradorRecibosLiquidacion()
+        {
+            _GeneradorNumeroPalabra = new();
+        }
+
         public byte[] GenerarPdfRecibo(LiquidacionDTO liquidacion)
         {
             using (MemoryStream stream = new MemoryStream())
@@ -43,7 +52,7 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
                            .SetFontSize(14)
                            .SetBold();
 
-                Table tablaBlanco = this.GenerarTablaSueldoBlanco(liquidacion.Items.Retenciones, liquidacion.Items.Remuneraciones);
+                Table tablaBlanco = this.GenerarTablaSueldoBlanco(liquidacion.Items.Retenciones, liquidacion.Items.Remuneraciones,liquidacion.Items.NoRemuneraciones);
                 Table netoBlanco = this.GenerarTablaMontoNeto(false, liquidacion.TotalPagarBanco);
                 Table netoEfectivo = this.GenerarTablaMontoNeto(true, liquidacion.TotalPagarEfectivo);
 
@@ -54,6 +63,11 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
                 document.Add(new Paragraph("\n"));
                 document.Add(netoBlanco);
 
+                string montoTextoNeto = _GeneradorNumeroPalabra.ConvertirDecimalPalabra(liquidacion.TotalPagarBanco);
+                Table tablaMontoText = new Table(1).UseAllAvailableWidth();
+                tablaMontoText.AddCell(new Paragraph("Son: "+montoTextoNeto));
+
+                document.Add(tablaMontoText);
                 document.Add(new Paragraph("\n"));
 
                 document.Add(subtituloRemuNegro);
@@ -84,42 +98,68 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
 
         }
 
-        private Table GenerarTablaSueldoBlanco(List<RetencionDTO> retenciones, List<RemuneracionDTO> remuneraciones)
+        private Table GenerarTablaSueldoBlanco(List<RetencionDTO> retenciones,
+                                               List<RemuneracionDTO> remuneraciones,
+                                               List<NoRemuneracionDTO> noRemuneraciones)
         {
             Table tablaParteBlanco = new Table(4).UseAllAvailableWidth();
 
             // Crear celdas de encabezado y establecer el color de fondo
-            Cell codigoHeaderCell = new Cell().Add(new Paragraph("cod. operacion")).SetBackgroundColor(ColorConstants.LIGHT_GRAY);
-            Cell descripcionHeaderCell = new Cell().Add(new Paragraph("descripcion")).SetBackgroundColor(ColorConstants.LIGHT_GRAY);
-            Cell fechaHeaderCell = new Cell().Add(new Paragraph("fecha")).SetBackgroundColor(ColorConstants.LIGHT_GRAY);
-            Cell montoHeaderCell = new Cell().Add(new Paragraph("monto")).SetBackgroundColor(ColorConstants.LIGHT_GRAY);
+            Cell descripcionHeaderCell = new Cell().Add(new Paragraph("DESCRIPCION")).SetBackgroundColor(ColorConstants.LIGHT_GRAY);
+            Cell remuHeaderCell = new Cell().Add(new Paragraph("REMUNERATIVO")).SetBackgroundColor(ColorConstants.LIGHT_GRAY);
+            Cell noRemuHeaderCell = new Cell().Add(new Paragraph("NO REMUNERATIVO")).SetBackgroundColor(ColorConstants.LIGHT_GRAY);
+            Cell descuentoHeaderCell = new Cell().Add(new Paragraph("DESCUENTO")).SetBackgroundColor(ColorConstants.LIGHT_GRAY);
 
             // Agregar celdas de encabezado a la tabla
-            tablaParteBlanco.AddHeaderCell(codigoHeaderCell);
             tablaParteBlanco.AddHeaderCell(descripcionHeaderCell);
-            tablaParteBlanco.AddHeaderCell(fechaHeaderCell);
-            tablaParteBlanco.AddHeaderCell(montoHeaderCell);
+            tablaParteBlanco.AddHeaderCell(remuHeaderCell);
+            tablaParteBlanco.AddHeaderCell(noRemuHeaderCell);
+            tablaParteBlanco.AddHeaderCell(descuentoHeaderCell);
 
             var listaRemuneracionesBlanca = remuneraciones.Where(r => r.EsBlanco == true);
             var listaRetenciones = retenciones;
 
+            decimal totalRemunerativo = 0;
+            decimal totalNoRemunerativo = 0;
+            decimal totalRetenciones = 0;
+;
             foreach (RemuneracionDTO remuBlanca in listaRemuneracionesBlanca)
             {
-                tablaParteBlanco.AddCell(remuBlanca.Codigo);
                 tablaParteBlanco.AddCell(remuBlanca.Descripcion);
-                tablaParteBlanco.AddCell(remuBlanca.Fecha);
                 tablaParteBlanco.AddCell(remuBlanca.Monto.ToString("C"));
+                tablaParteBlanco.AddCell("");
+                tablaParteBlanco.AddCell("");
+
+                totalRemunerativo += remuBlanca.Monto;
+
+            }
+
+            foreach(NoRemuneracionDTO noRemuBlanca in noRemuneraciones)
+            {
+                tablaParteBlanco.AddCell(noRemuBlanca.Descripcion);
+                tablaParteBlanco.AddCell("");
+                tablaParteBlanco.AddCell(noRemuBlanca.Monto.ToString("C"));
+                tablaParteBlanco.AddCell("");
+
+                totalNoRemunerativo += noRemuBlanca.Monto;
 
             }
 
             foreach (RetencionDTO retencion in listaRetenciones)
             {
-                tablaParteBlanco.AddCell(retencion.Codigo);
                 tablaParteBlanco.AddCell(retencion.Descripcion);
-                tablaParteBlanco.AddCell(retencion.Fecha.ToString("dd/MM/yyyy"));
-                tablaParteBlanco.AddCell($"-{retencion.Monto.ToString("C")}");
+                tablaParteBlanco.AddCell("");
+                tablaParteBlanco.AddCell("");
+                tablaParteBlanco.AddCell($"{retencion.Monto.ToString("C")}");
+
+                totalRetenciones += retencion.Monto;
 
             }
+
+            tablaParteBlanco.AddCell((new Paragraph("SUBTOTALES:").SetTextAlignment(TextAlignment.RIGHT).SetBackgroundColor(ColorConstants.LIGHT_GRAY)));
+            tablaParteBlanco.AddCell(totalRemunerativo.ToString("C"));
+            tablaParteBlanco.AddCell(totalNoRemunerativo.ToString("C"));
+            tablaParteBlanco.AddCell(totalRetenciones.ToString("C"));
 
             return tablaParteBlanco;
         }
@@ -129,23 +169,20 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
             var listaRemuneracionesNegro = remuneraciones.Where(r => r.EsBlanco == false);
             var listaDescuentos = descuentos;
 
-            Table tablaParteEfectivo = new Table(4).UseAllAvailableWidth();
+            Table tablaParteEfectivo = new Table(3).UseAllAvailableWidth();
 
             // Crear celdas de encabezado y establecer el color de fondo
-            Cell codigoHeaderCell = new Cell().Add(new Paragraph("cod. operacion")).SetBackgroundColor(ColorConstants.LIGHT_GRAY);
-            Cell descripcionHeaderCell = new Cell().Add(new Paragraph("descripcion")).SetBackgroundColor(ColorConstants.LIGHT_GRAY);
-            Cell fechaHeaderCell = new Cell().Add(new Paragraph("fecha")).SetBackgroundColor(ColorConstants.LIGHT_GRAY);
-            Cell montoHeaderCell = new Cell().Add(new Paragraph("monto")).SetBackgroundColor(ColorConstants.LIGHT_GRAY);
+            Cell descripcionHeaderCell = new Cell().Add(new Paragraph("DESCRIPCION")).SetBackgroundColor(ColorConstants.LIGHT_GRAY);
+            Cell fechaHeaderCell = new Cell().Add(new Paragraph("FECHA")).SetBackgroundColor(ColorConstants.LIGHT_GRAY);
+            Cell montoHeaderCell = new Cell().Add(new Paragraph("MONTO")).SetBackgroundColor(ColorConstants.LIGHT_GRAY);
 
             // Agregar celdas de encabezado a la tabla
-            tablaParteEfectivo.AddHeaderCell(codigoHeaderCell);
             tablaParteEfectivo.AddHeaderCell(descripcionHeaderCell);
             tablaParteEfectivo.AddHeaderCell(fechaHeaderCell);
             tablaParteEfectivo.AddHeaderCell(montoHeaderCell);
 
             foreach (RemuneracionDTO remuEfectivo in listaRemuneracionesNegro)
             {
-                tablaParteEfectivo.AddCell(remuEfectivo.Codigo);
                 tablaParteEfectivo.AddCell(remuEfectivo.Descripcion);
                 tablaParteEfectivo.AddCell(remuEfectivo.Fecha);
                 tablaParteEfectivo.AddCell(remuEfectivo.Monto.ToString("C"));
@@ -153,7 +190,6 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
 
             foreach (DescuentoDTO descuento in listaDescuentos)
             {
-                tablaParteEfectivo.AddCell(descuento.Codigo);
                 tablaParteEfectivo.AddCell(descuento.Descripcion);
                 tablaParteEfectivo.AddCell(descuento.Fecha.ToString("dd/MM/yyyy"));
                 tablaParteEfectivo.AddCell(descuento.Monto.ToString("C"));
@@ -164,11 +200,12 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
 
         private Table GenerarTablaMontoNeto(bool esEfecitvo, decimal monto)
         {
-            string leyenda = esEfecitvo == true ? "EN EFECTIVO" : "EN EL BANCO";
+            string leyenda = esEfecitvo == true ? "EFECTIVO" : "DEPOSITO";
 
             Table tablaNeto = new Table(2).UseAllAvailableWidth();
             Cell celdaDescripcion = new Cell().Add(new Paragraph($"TOTAL NETO A PAGAR {leyenda}: "))
-                                    .SetBackgroundColor(ColorConstants.LIGHT_GRAY);
+                                    .SetBackgroundColor(ColorConstants.LIGHT_GRAY)
+                                    .SetTextAlignment(TextAlignment.RIGHT);
 
             Cell celdaMontoNegro = new Cell().Add(new Paragraph(monto.ToString("C")));
 
@@ -182,6 +219,8 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
         {
             string periodo = $"{liquidacion.Periodo.Inicio.ToString("dd/MM/yyyy")} - {liquidacion.Periodo.Fin.ToString("dd/MM/yyyy")}";
 
+            decimal totaSueldo = liquidacion.TotalBrutoEfectivo + liquidacion.TotalBrutoBanco;
+
             Table header = new Table(2).UseAllAvailableWidth();
 
             // Crear celda para el título que abarca 2 columnas
@@ -192,23 +231,20 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
             header.AddHeaderCell(celdaTitulo);
 
             // Agregar celdas a la tabla
-            header.AddHeaderCell(new Cell().Add(new Paragraph("apellido y nombre")));
+            header.AddHeaderCell(new Cell().Add(new Paragraph("Codigo liquidacion: ").SetBackgroundColor(ColorConstants.LIGHT_GRAY)));
+            header.AddHeaderCell(new Cell().Add(new Paragraph(liquidacion.Codigo).SetBackgroundColor(ColorConstants.LIGHT_GRAY)));
+
+            header.AddHeaderCell(new Cell().Add(new Paragraph("Apellido y nombre")));
             header.AddHeaderCell(new Cell().Add(new Paragraph(liquidacion.Empleado)));
 
             header.AddHeaderCell(new Cell().Add(new Paragraph("N° de documento")));
             header.AddHeaderCell(new Cell().Add(new Paragraph(liquidacion.Dni)));
 
-            header.AddHeaderCell(new Cell().Add(new Paragraph("monto bruto banco")));
-            header.AddHeaderCell(new Cell().Add(new Paragraph(liquidacion.TotalBrutoBanco.ToString("C"))));
+            header.AddHeaderCell(new Cell().Add(new Paragraph("Total sueldo bruto: ").SetBackgroundColor(ColorConstants.LIGHT_GRAY)));
+            header.AddHeaderCell(new Cell().Add(new Paragraph(totaSueldo.ToString("C")).SetBackgroundColor(ColorConstants.LIGHT_GRAY)));
 
-            header.AddHeaderCell(new Cell().Add(new Paragraph("monto bruto efectivo")));
-            header.AddHeaderCell(new Cell().Add(new Paragraph(liquidacion.TotalBrutoEfectivo.ToString("C"))));
-
-            header.AddHeaderCell(new Cell().Add(new Paragraph("periodo liquidado")));
+            header.AddHeaderCell(new Cell().Add(new Paragraph("Periodo liquidado")));
             header.AddHeaderCell(new Cell().Add(new Paragraph(periodo)));
-
-            header.AddHeaderCell(new Cell().Add(new Paragraph("concepto")));
-            header.AddHeaderCell(new Cell().Add(new Paragraph(liquidacion.Concepto)));
 
             return header;
         }
