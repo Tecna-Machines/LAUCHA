@@ -11,10 +11,12 @@ using LAUCHA.application.UseCase.ConsultarLiquidacion;
 using LAUCHA.application.UseCase.ConsultarRemuneraciones;
 using LAUCHA.application.UseCase.ConsultarRetencionesFijas;
 using LAUCHA.application.UseCase.ContratosDeTrabajo;
+using LAUCHA.application.UseCase.CrearCredito;
 using LAUCHA.application.UseCase.CrearRemuneracionNueva;
 using LAUCHA.application.UseCase.CrearRetencionesFijas;
 using LAUCHA.application.UseCase.HacerUnaLiquidacion;
 using LAUCHA.application.UseCase.OperacionesDescuento;
+using LAUCHA.application.UseCase.OperarConceptos;
 using LAUCHA.application.UseCase.OperarNoRemuneraciones;
 using LAUCHA.application.UseCase.OperarRetenciones;
 using LAUCHA.domain.entities;
@@ -120,6 +122,15 @@ builder.Services.AddScoped<IGenericRepository<NoRemuneracion>, NoRemuneracionRep
 builder.Services.AddScoped<INoRemuneracionRepository, NoRemuneracionRepository>();
 builder.Services.AddScoped<IOperarNoRemuneracionesService, OperarNoRemuneraciones>();
 builder.Services.AddScoped<IGenericRepository<NoRemuneracionPorLiquidacionPersonal>, NoRemuneracionPorLiquidacionRepository>();
+
+builder.Services.AddScoped<IGenericRepository<Concepto>, ConceptoRepository>();
+builder.Services.AddScoped<IOperarConceptosService, OperarConceptos>();
+
+builder.Services.AddScoped<IGenericRepository<Credito>, CreditoRepository>();
+builder.Services.AddScoped<IGenericRepository<Cuota>, CuotaRepository>();
+builder.Services.AddScoped<IGenericRepository<Subcuota>, SubCuotaRepository>();
+builder.Services.AddScoped<IUnitOfWorkCredito, UnitOfWorkCredito>();
+builder.Services.AddScoped<ICreadorCreditos, CreadorCreditoService>();
 
 //servicios externos
 builder.Services.AddHttpClient<IMenuesService, MenuesService>(client =>
