@@ -1,6 +1,7 @@
 ﻿using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.infrastructure.persistence;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,9 +45,16 @@ namespace LAUCHA.infrastructure.repositories
         public int Save()
         => _context.SaveChanges();
 
-        public LiquidacionPersonal Update(LiquidacionPersonal entity)
+        public LiquidacionPersonal Update(LiquidacionPersonal liquidacion)
         {
-            throw new NotImplementedException();
+             var origin = _context.LiquidacionesGenerales.FirstOrDefault(l => l.CodigoLiquidacionGeneral == liquidacion.CodigoLiquidacionGeneral);
+
+            if (origin != null) 
+            { 
+            _context.Entry(origin).CurrentValues.SetValues(liquidacion);
+            }
+            
+            return liquidacion;
         }
     }
 }

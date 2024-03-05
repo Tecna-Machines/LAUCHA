@@ -71,16 +71,14 @@ namespace LAUCHA.application.UseCase.CalculadoraSueldos
                 if (EsPrimeraQuicena() && retencion.EsQuincenal)
                 {
                     //aplicar retenciones 1ra quincena
-                    string mensaje = " 1ra quincena";
-                    var nuevoRetencion = CrearRetencion(retencion.Concepto + mensaje, montoRetencion, indice++, cuenta.NumeroCuenta);
+                    var nuevoRetencion = CrearRetencion(retencion, montoRetencion, indice++, cuenta.NumeroCuenta);
                     retencionesSueldo.Add(nuevoRetencion);
                 }
 
                 if (!EsPrimeraQuicena() && !retencion.EsQuincenal)
                 {
                     //aplicar retenciones 2da quincena
-                    string mensaje = " 2da quincena";
-                    var nuevoRetencion = CrearRetencion(retencion.Concepto + mensaje, montoRetencion, indice++, cuenta.NumeroCuenta);
+                    var nuevoRetencion = CrearRetencion(retencion, montoRetencion, indice++, cuenta.NumeroCuenta);
                     retencionesSueldo.Add(nuevoRetencion);
                 }
 

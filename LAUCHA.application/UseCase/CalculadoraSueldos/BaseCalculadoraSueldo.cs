@@ -1,6 +1,7 @@
 ﻿using LAUCHA.application.DTOs.ContratoDTO;
 using LAUCHA.application.DTOs.CuentaDTOs;
 using LAUCHA.application.DTOs.RetencionDTOs;
+using LAUCHA.application.DTOs.RetencionesFijasDTOs;
 using LAUCHA.application.Helpers;
 using LAUCHA.application.interfaces;
 using LAUCHA.application.Mappers;
@@ -32,11 +33,14 @@ namespace LAUCHA.application.UseCase.CalculadoraSueldos
             return DateTime.Now.Day < 15;
         }
 
-        protected Retencion CrearRetencion(string descripcion, decimal monto, int indice, string numeroCuenta)
+        protected Retencion CrearRetencion(RetencionFijaDTO retencionFija,decimal monto, int indice, string numeroCuenta)
         {
+            string simbolo = retencionFija.EsPorcentual == true ? "%" : "$";
+            string descripcionRetencion = $"{retencionFija.Concepto} {simbolo}({retencionFija.Unidades})";
+
             var retencionDTO = new CrearRetencionDTO
             {
-                Descripcion = descripcion,
+                Descripcion = descripcionRetencion,
                 Monto = monto,
                 NumeroCuenta = numeroCuenta
             };

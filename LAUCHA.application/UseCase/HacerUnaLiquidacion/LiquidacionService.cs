@@ -131,6 +131,8 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
             return new DeduccionDTOs
             {
                 Empleado = _Cuenta!.Empleado,
+                InicioPeriodo = this._InicioPeriodo,
+                FinPeriodo = this._FinPeriodo,
                 Remuneraciones = remuneracionesDTO,
                 Retenciones = retencionesDTO
             };
@@ -141,19 +143,23 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
             DateTime fechaActual = DateTime.Now;
 
             int numeroQuincena = fechaActual.Day < 15 ? 1 : 2;
-            string leyendaLiquidacion = fechaActual.Day < 15 ? "1ra QUINCENA" : "2da QUINCENA";
 
-            string codigoNuevaLiquidacion = $"{fechaActual.Year}{fechaActual.Month + 1}{numeroQuincena}-{_Contrato?.Dni}";
+            string codigoNuevaLiquidacion = $"{fechaActual.Year}{fechaActual.Month}{numeroQuincena}-{_Contrato?.Dni}";
 
             LiquidacionPersonal nuevaLiquidacion = new()
             {
                 CodigoLiquidacion = codigoNuevaLiquidacion,
-                Concepto = $"LIQUIDACION SUELDO: {leyendaLiquidacion} | {_Cuenta?.Empleado}",
+                Concepto = $"liquidacion de sueldo {this._Cuenta!.Empleado}",
                 InicioPeriodo = _InicioPeriodo,
                 FinPeriodo = _FinPeriodo,
                 FechaLiquidacion = fechaActual
 
             };
+
+            decimal totalRemunerativo = 0;
+            decimal totalNoRemunerativo = 0;
+            decimal totalRetenciones = 0;
+            decimal totalDescuentos = 0;
 
             //insertar liquidacion
             _UnitOfWorkLiquidacion.LiquidacionRepository.Insert(nuevaLiquidacion);
@@ -173,6 +179,8 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
                     CodigoRemuneracion = remu.CodigoRemuneracion
                 };
 
+                totalRemunerativo += remu.Monto;
+
                 _UnitOfWorkLiquidacion.RemuneracionLiquidacion.Insert(remuLiquidacion);
             }
 
@@ -183,6 +191,8 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
                     CodigoLiquidacionPersonal = nuevaLiquidacion.CodigoLiquidacion,
                     CodigoRetencion = reten.CodigoRetencion
                 };
+
+                totalRetenciones += reten.Monto;
 
                 _UnitOfWorkLiquidacion.RetencionLiquidacion.Insert(retenLiquidacion);
             }
@@ -195,6 +205,8 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
                     CodigoDescuento = desc.CodigoDescuento
                 };
 
+                totalDescuentos += desc.Monto;
+
                 _UnitOfWorkLiquidacion.DescuentoLiquidacion.Insert(desLiquidacion);
             }
 
@@ -206,10 +218,18 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
                     CodigoNoRemuneracion = noRemu.CodigoNoRemuneracion
                 };
 
+                totalNoRemunerativo += noRemu.Monto;
+
                 _UnitOfWorkLiquidacion.NoRemuneracionLiquidacion.Insert(noRemuLiquidacions);
             }
 
             //confirmar liquidacion
+            nuevaLiquidacion.TotalRemuneraciones = totalRemunerativo;
+            nuevaLiquidacion.TotalNoRemunerativo = totalNoRemunerativo;
+            nuevaLiquidacion.TotalDescuentos = totalDescuentos;
+            nuevaLiquidacion.TotalRetenciones = totalRetenciones;
+
+            _UnitOfWorkLiquidacion.LiquidacionRepository.Update(nuevaLiquidacion);
             _UnitOfWorkLiquidacion.Save();
 
 

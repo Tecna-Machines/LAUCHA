@@ -33,7 +33,7 @@ namespace LAUCHA.application.UseCase.CalculadoraSueldos
                                  CalcularPorcentajeSiEstaHabilitado(esRetencionPorcentual, retencion.Unidades, montoBrutoBlanco);
 
 
-                var nuevoRetencion = this.CrearRetencion(retencion.Concepto, montoRetencion, indice++, cuenta.NumeroCuenta);
+                var nuevoRetencion = this.CrearRetencion(retencion, montoRetencion, indice++, cuenta.NumeroCuenta);
                 retencionesSueldo.Add(nuevoRetencion);
             }
 
@@ -78,7 +78,7 @@ namespace LAUCHA.application.UseCase.CalculadoraSueldos
 
             var remuHorasExtra = new RemuneracionDTO
             {
-                Descripcion = $"sueldo horas extra: ({cantidadHorasExtra}) HS computadas",
+                Descripcion = $"horas extra: ({cantidadHorasExtra}) HS computadas",
                 EsBlanco = false,
                 Cuenta = cuenta.NumeroCuenta,
                 Monto = montoHorasExtra

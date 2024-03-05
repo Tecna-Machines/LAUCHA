@@ -26,10 +26,10 @@ namespace LAUCHA.application.UseCase.CalculadoraSueldos
         {
             HorasPeriodo horasTrabajo = _MarcasService.ConsularHorasPeriodo(contrato.Dni, desde, hasta);
             decimal horasAleatorias = _GeneradorAleatorio.GenerarAleatorioEntreValores(40, 50);
-            decimal horasRelales = horasTrabajo.HorasTotales;
+            decimal horasReales = horasTrabajo.HorasTotales;
 
             decimal montoBancoBruto = horasAleatorias * contrato.MontoHora;
-            decimal montoEfectivoBruto = horasRelales * contrato.MontoHora;
+            decimal montoEfectivoBruto = horasReales * contrato.MontoHora;
 
             bool quincena = EsPrimeraQuicena();
             string mensajeQuicena = quincena == true ? "1ra quincena" : "2da quincena";
@@ -44,7 +44,7 @@ namespace LAUCHA.application.UseCase.CalculadoraSueldos
 
             var remuNegro = new RemuneracionDTO
             {
-                Descripcion = $"sueldo {mensajeQuicena} hora ({horasRelales} HS computadas)",
+                Descripcion = $"sueldo {mensajeQuicena} hora ({horasReales} HS computadas)",
                 EsBlanco = false,
                 Cuenta = cuenta.NumeroCuenta,
                 Monto = montoEfectivoBruto
@@ -73,16 +73,14 @@ namespace LAUCHA.application.UseCase.CalculadoraSueldos
                 if (EsPrimeraQuicena() && retencion.EsQuincenal)
                 {
                     //aplicar retenciones 1ra quincena
-                    string mensaje = " 1ra quincena";
-                    var nuevoRetencion = CrearRetencion(retencion.Concepto + mensaje, montoRetencion, indice++, cuenta.NumeroCuenta);
+                    var nuevoRetencion = CrearRetencion(retencion, montoRetencion, indice++, cuenta.NumeroCuenta);
                     retencionesSueldo.Add(nuevoRetencion);
                 }
 
                 if (!EsPrimeraQuicena() && !retencion.EsQuincenal)
                 {
                     //aplicar retenciones 2da quincena
-                    string mensaje = " 2da quincena";
-                    var nuevoRetencion = CrearRetencion(retencion.Concepto + mensaje, montoRetencion, indice++, cuenta.NumeroCuenta);
+                    var nuevoRetencion = CrearRetencion(retencion, montoRetencion, indice++, cuenta.NumeroCuenta);
                     retencionesSueldo.Add(nuevoRetencion);
                 }
 

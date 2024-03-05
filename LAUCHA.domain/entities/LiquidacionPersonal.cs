@@ -10,6 +10,7 @@ namespace LAUCHA.domain.entities
     {
         public string CodigoLiquidacion { get; set; } = null!;
         public decimal TotalRemuneraciones { get; set; }
+        public decimal TotalNoRemunerativo { get; set; }
         public decimal TotalRetenciones { get; set; }
         public decimal TotalDescuentos { get; set; }
         public string Concepto { get; set; } = null!;

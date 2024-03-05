@@ -62,8 +62,9 @@ namespace LAUCHA.application.UseCase.CalculadoraSueldos
                 montoRetencion = _CalculadoraPorcentaje.
                                  CalcularPorcentajeSiEstaHabilitado(esRetencionPorcentual, retencion.Unidades, montoBrutoBlanco);
 
+               
 
-                var nuevoRetencion = this.CrearRetencion(retencion.Concepto, montoRetencion, indice++, cuenta.NumeroCuenta);
+                var nuevoRetencion = this.CrearRetencion(retencion, montoRetencion, indice++, cuenta.NumeroCuenta);
                 retencionesSueldo.Add(nuevoRetencion);
             }
 

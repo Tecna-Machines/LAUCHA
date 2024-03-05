@@ -192,7 +192,7 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
             {
                 tablaParteEfectivo.AddCell(descuento.Descripcion);
                 tablaParteEfectivo.AddCell(descuento.Fecha.ToString("dd/MM/yyyy"));
-                tablaParteEfectivo.AddCell(descuento.Monto.ToString("C"));
+                tablaParteEfectivo.AddCell($"- {descuento.Monto.ToString("C")}");
             }
 
             return tablaParteEfectivo;
