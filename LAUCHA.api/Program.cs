@@ -127,9 +127,6 @@ builder.Services.AddScoped<IGenericRepository<Concepto>, ConceptoRepository>();
 builder.Services.AddScoped<IOperarConceptosService, OperarConceptos>();
 
 builder.Services.AddScoped<IGenericRepository<Credito>, CreditoRepository>();
-builder.Services.AddScoped<IGenericRepository<Cuota>, CuotaRepository>();
-builder.Services.AddScoped<IGenericRepository<Subcuota>, SubCuotaRepository>();
-builder.Services.AddScoped<IUnitOfWorkCredito, UnitOfWorkCredito>();
 builder.Services.AddScoped<ICreadorCreditos, CreadorCreditoService>();
 
 //servicios externos

@@ -17,5 +17,7 @@ namespace LAUCHA.domain.entities
         public string NumeroCuenta { get; set; } = null!;
         public Cuenta Cuenta { get; set; } = null!;
         public IList<DescuentoPorLiquidacionPersonal> DescuentoPorLiquidacionPersonales { get; set; } = null!;
+        public ICollection<PagoCredito> PagosCreditos { get; set; } = null!;
+
     }
 }

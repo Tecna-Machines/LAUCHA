@@ -22,6 +22,10 @@ namespace LAUCHA.infrastructure.config
             builder.HasOne(credito => credito.Concepto)
                 .WithMany(concepto => concepto.Creditos)
                 .HasForeignKey(credito => credito.NumeroConcepto);
+
+            builder.HasMany(credito => credito.PagosCreditos)
+                   .WithOne(pagoCredito => pagoCredito.Credito)
+                   .HasForeignKey(pagoCredito => pagoCredito.CodigoCredito);
         }
     }
 }

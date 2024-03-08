@@ -2,11 +2,6 @@
 using LAUCHA.infrastructure.config;
 using LAUCHA.infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.infrastructure.persistence
 {
@@ -21,8 +16,6 @@ namespace LAUCHA.infrastructure.persistence
         public DbSet<Contrato> Contratos { get; set; }
         public DbSet<Credito> Creditos { get; set; }
         public DbSet<Cuenta> Cuentas { get; set; }
-        public DbSet<Cuota> Cuotas { get; set; }
-        public DbSet<CuotaPorLiquidacionPersonal> CuotasPorLiquidacionPersonal { get; set; }
         public DbSet<Descuento> Descuentos { get; set; }
         public DbSet<DescuentoPorLiquidacionPersonal> DescuentosPorLiquidaciones { get; set; }
         public DbSet<Empleado> Empleados { get; set; }
@@ -40,8 +33,6 @@ namespace LAUCHA.infrastructure.persistence
         public DbSet<RetencionFija> RetencionesFijas { get; set; }
         public DbSet<RetencionFijaPorCuenta> RetencionesFijasPorCuentas { get; set; }
         public DbSet<RetencionPorLiquidacionPersonal> RetencionesPorLiquidaciones { get; set; }
-        public DbSet<Subcuota> Subcuotas { get; set; }
-        public DbSet<SubCuotaPorLiquidacion> SubcuotasPorLiquidacion { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -53,8 +44,6 @@ namespace LAUCHA.infrastructure.persistence
             modelBuilder.ApplyConfiguration(new ContratoConfig());
             modelBuilder.ApplyConfiguration(new CreditoConfig());
             modelBuilder.ApplyConfiguration(new CuentaConfig());
-            modelBuilder.ApplyConfiguration(new CuotaConfig());
-            modelBuilder.ApplyConfiguration(new CuotaPorLiquidacionConfig());
             modelBuilder.ApplyConfiguration(new DescuentoConfig());
             modelBuilder.ApplyConfiguration(new DescuentoPorLiquidacionConfig());
             modelBuilder.ApplyConfiguration(new EmpleadoConfig());
@@ -72,8 +61,6 @@ namespace LAUCHA.infrastructure.persistence
             modelBuilder.ApplyConfiguration(new RetencionesFijasPorCuentaConfig());
             modelBuilder.ApplyConfiguration(new RetencionesPorLiquidacionConfig());
             modelBuilder.ApplyConfiguration(new RetencionFijaConfig());
-            modelBuilder.ApplyConfiguration(new SubcuotaConfig());
-            modelBuilder.ApplyConfiguration(new SubcuotaPorLiquidacionConfig());
 
             //agregar datos de prueba
             // TODO: son datos solo para pruebas 

@@ -22,5 +22,6 @@ namespace LAUCHA.domain.entities
         public int CantidadCuotasFaltantes { get;set; }
         public int NumeroConcepto { get; set; }
         public Concepto Concepto { get; set; } = null!;
+        public ICollection<PagoCredito> PagosCreditos { get; set; } = null!;
     }
 }

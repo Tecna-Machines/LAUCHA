@@ -1,16 +1,17 @@
 ﻿using LAUCHA.application.DTOs.CreditoDTOs;
 using LAUCHA.application.interfaces;
-using LAUCHA.domain.interfaces.IUnitsOfWork;
+using LAUCHA.domain.entities;
+using LAUCHA.domain.interfaces.IRepositories;
 
 namespace LAUCHA.application.UseCase.CrearCredito
 {
     public class CreadorCreditoService : ICreadorCreditos
     {
-        private readonly IUnitOfWorkCredito _UnitOfWorkCredito;
+        private readonly IGenericRepository<Credito> _CreditoRepository;
 
-        public CreadorCreditoService(IUnitOfWorkCredito unitOfWorkCredito)
+        public CreadorCreditoService(IGenericRepository<Credito> creditoRepository)
         {
-            _UnitOfWorkCredito = unitOfWorkCredito;
+            _CreditoRepository = creditoRepository;
         }
 
         public CreditoDTO CrearNuevoCredito(CrearCreditoDTO nuevoCredito)
@@ -18,8 +19,7 @@ namespace LAUCHA.application.UseCase.CrearCredito
             //TODO: crear logica para crear creditos
             throw new NotImplementedException();
 
-            /* recuerde usar el metodo Save(); de la unidad de trabajo
-            SIEMPRE al finalizar la creacion de las cuotas y subcuotas (si existen) */
+            /* recuerde usar el metodo Save(); del repositorio par guardar todo en la BBDD */
         }
     }
 }
