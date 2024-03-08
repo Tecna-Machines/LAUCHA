@@ -15,6 +15,7 @@ namespace LAUCHA.infrastructure.persistence
         public DbSet<Concepto> Conceptos { get; set; }
         public DbSet<Contrato> Contratos { get; set; }
         public DbSet<Credito> Creditos { get; set; }
+        public DbSet<PagoCredito> PagosCreditos { get; set; }
         public DbSet<Cuenta> Cuentas { get; set; }
         public DbSet<Descuento> Descuentos { get; set; }
         public DbSet<DescuentoPorLiquidacionPersonal> DescuentosPorLiquidaciones { get; set; }
@@ -55,6 +56,7 @@ namespace LAUCHA.infrastructure.persistence
             modelBuilder.ApplyConfiguration(new NoRemuneracionConfig());
             modelBuilder.ApplyConfiguration(new NoRemuneracionPorLiquidacionConfig());
             modelBuilder.ApplyConfiguration(new PagoConfig());
+            modelBuilder.ApplyConfiguration(new PagoCreditoConfig());
             modelBuilder.ApplyConfiguration(new RemuneracionConfig());
             modelBuilder.ApplyConfiguration(new RemuneracionPorLiquidacionConfig());
             modelBuilder.ApplyConfiguration(new RetencionConfig());

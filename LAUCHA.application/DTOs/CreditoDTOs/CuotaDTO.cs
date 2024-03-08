@@ -8,9 +8,7 @@ namespace LAUCHA.application.DTOs.CreditoDTOs
 {
     public class CuotaDTO
     {
-        public string Codigo { get; set; } = null!;
         public decimal Monto { get; set; }
         public DateTime FechaPagar { get; set; }
-        public string Credito { get; set; } = null!;
     }
 }

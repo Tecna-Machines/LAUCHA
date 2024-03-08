@@ -8,6 +8,5 @@ namespace LAUCHA.application.DTOs.CreditoDTOs
         public DateTime FechaInicio { get; set; }
         public ConceptoDTO Concepto { get; set; } = null!;
         public List<CuotaDTO> Cuotas { get; set; } = null!;
-        public List<SubCuotaDTO> SubCuotas { get; set; } = null!;
     }
 }
