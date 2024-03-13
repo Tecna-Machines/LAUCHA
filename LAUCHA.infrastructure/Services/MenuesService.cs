@@ -10,8 +10,8 @@ namespace LAUCHA.infrastructure.Services
     public class MenuesService : IMenuesService
     {
         private readonly HttpClient _httpClient;
-        private string UsuarioService { get; set; } = "123456789";
-        private string PasswordUsuario { get; set; } = "12345";
+        private string UsuarioService { get; set; } = "43859853";
+        private string PasswordUsuario { get; set; } = "42751357";
 
         public MenuesService(HttpClient httpClient) => (_httpClient) = (httpClient);
         public async Task<CostoPersonalResponse> ObtenerGastosComida(string dniEmpleado, DateTime inicioPeriodo, DateTime finPeriodo)

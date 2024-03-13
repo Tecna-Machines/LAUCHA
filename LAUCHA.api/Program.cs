@@ -132,10 +132,14 @@ builder.Services.AddScoped<ICreadorCreditos, CreadorCreditoService>();
 //servicios externos
 builder.Services.AddHttpClient<IMenuesService, MenuesService>(client =>
 {
-    client.BaseAddress = new Uri("http://localhost:7008/api/v1.3/");
+    client.BaseAddress = new Uri("http://192.168.0.252:7008/api/v1.3/");
 });
 
-builder.Services.AddScoped<IMarcasService, MarcasService>();
+builder.Services.AddScoped<IMarcasService, MarcasService>(provider =>
+{
+    var connectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\\Users\\Gabriel\\Downloads\\marcas.mdb";
+    return new MarcasService(connectionString);
+});
 
 //CORS deshabilitar
 builder.Services.AddCors(options =>

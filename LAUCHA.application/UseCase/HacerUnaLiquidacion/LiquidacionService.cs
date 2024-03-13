@@ -1,5 +1,6 @@
 ﻿using LAUCHA.application.DTOs.ContratoDTO;
 using LAUCHA.application.DTOs.CuentaDTOs;
+using LAUCHA.application.DTOs.DescuentoDTOs;
 using LAUCHA.application.DTOs.LiquidacionDTOs;
 using LAUCHA.application.DTOs.RemuneracionDTOs;
 using LAUCHA.application.DTOs.RetencionDTOs;
@@ -8,6 +9,7 @@ using LAUCHA.application.interfaces;
 using LAUCHA.application.Mappers;
 using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IRepositories;
+using LAUCHA.domain.interfaces.IServices;
 using LAUCHA.domain.interfaces.IUnitsOfWork;
 
 namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
@@ -22,11 +24,14 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
         private readonly IRetencionRepository _RetencionRepositoryEspecifico;
         private readonly IDescuentoRepository _DescuentoRepositoryEspecifo;
         private readonly INoRemuneracionRepository _NoRemuneracionRepositoryEspecifico;
+        private readonly IMenuesService _MenuService;
+        private readonly IGenericRepository<Descuento> _DescuentoRepository;
 
         private readonly IUnitOfWorkLiquidacion _UnitOfWorkLiquidacion;
 
         private RemuneracionMapper _MapperRemuneracion;
         private RetencionMapper _MapperRetenciones;
+        private DescuentoMapper _MapperDescuento;
         private LiquidacionMapper _MapperLiquidacion;
 
 
@@ -43,10 +48,13 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
                                        IDescuentoRepository descuentoRepositoryEspecifo,
                                        IGenericRepository<Cuenta> cuentaRepository,
                                        IGenericRepository<Empleado> empleadoRepository,
-                                       INoRemuneracionRepository noRemuneracionRepositoryEspecifico)
+                                       INoRemuneracionRepository noRemuneracionRepositoryEspecifico,
+                                       IMenuesService menuService,
+                                       IGenericRepository<Descuento> descuentoRepository)
         {
             _MapperRemuneracion = new();
             _MapperRetenciones = new();
+            _MapperDescuento = new();
             _MapperLiquidacion = new();
 
             _FabricaCalculadora = fabricaCalculadora;
@@ -57,6 +65,8 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
             _CuentaRepository = cuentaRepository;
             _EmpleadoRepository = empleadoRepository;
             _NoRemuneracionRepositoryEspecifico = noRemuneracionRepositoryEspecifico;
+            _MenuService = menuService;
+            _DescuentoRepository = descuentoRepository;
         }
 
         public void SetearEmpleadoALiquidar(DateTime inicioPeriodo, DateTime finPeriodo, ContratoDTO contratoEmp, CuentaDTO cuentaEmp)
@@ -258,6 +268,7 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
             var retenciones = await _RetencionRepositoryEspecifico.
                       ObtenerRetencionesFiltradas(_Cuenta?.NumeroCuenta, _InicioPeriodo, _FinPeriodo, null, null, 1, 1000);
 
+
             return retenciones.Registros;
         }
 
@@ -265,6 +276,22 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
         {
             var descuentos = await _DescuentoRepositoryEspecifo.
                       ObtenerDescuentosFiltrados(_Cuenta?.NumeroCuenta, _InicioPeriodo, _FinPeriodo, null, null, 1, 1000);
+
+            string dniEmp = _Contrato?.Dni != null ? _Contrato.Dni : throw new NullReferenceException();
+
+            var costosComida =  await _MenuService.ObtenerGastosComida(dniEmp,_InicioPeriodo,_FinPeriodo);
+
+            var crearDescuento = new CrearDescuentoDTO
+            {
+                Descripcion = $"comida: ({costosComida.cantidadPedidos}) pedidos dentro del periodo",
+                Monto =  (costosComida.costoTotal - costosComida.descuento),
+                NumeroCuenta = _Cuenta?.NumeroCuenta != null ? _Cuenta.NumeroCuenta : throw new NullReferenceException(),
+                NumeroConcepto = null
+            };
+
+            var descuentoComida = _MapperDescuento.CrearDescuento(crearDescuento);
+            _DescuentoRepository.Insert(descuentoComida);
+            descuentos.Registros.Add(descuentoComida);
 
             return descuentos.Registros;
         }

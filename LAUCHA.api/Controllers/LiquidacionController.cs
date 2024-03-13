@@ -19,14 +19,12 @@ namespace LAUCHA.api.Controllers
         private readonly IConsultarContratoTrabajoService _ContratoService;
         private readonly IConsultarLiquidacionService _ConsultarLiquidacionService;
         private readonly IGeneradorRecibos _GeneradorRecibos;
-        private readonly IMenuesService _MenuesService;
         public LiquidacionController(ILiquidacionService liquidacionService,
                                      IConsultarEmpleadoService empleadoService,
                                      IAgregarCuentaService cuentaService,
                                      IConsultarContratoTrabajoService contratoService,
                                      IConsultarLiquidacionService consultarLiquidacionService,
-                                     IGeneradorRecibos generadorRecibos,
-                                     IMenuesService menuesService)
+                                     IGeneradorRecibos generadorRecibos)
         {
             _liquidacionService = liquidacionService;
             _empleadoService = empleadoService;
@@ -34,7 +32,6 @@ namespace LAUCHA.api.Controllers
             _ContratoService = contratoService;
             _ConsultarLiquidacionService = consultarLiquidacionService;
             _GeneradorRecibos = generadorRecibos;
-            _MenuesService = menuesService;
         }
 
         [HttpPost("empleado/{dni}/deducir-retenciones")]
@@ -88,7 +85,7 @@ namespace LAUCHA.api.Controllers
             return new JsonResult(result) { StatusCode = 200 };
         }
 
-        [HttpGet("/recibo/{codigoLiquidacion}")]
+        [HttpGet("recibo/{codigoLiquidacion}")]
         public IActionResult GenerarReciboSueldos(string codigoLiquidacion)
         {
             LiquidacionDTO liquidacion = _ConsultarLiquidacionService.ConsulatarLiquidacion(codigoLiquidacion);
@@ -97,13 +94,6 @@ namespace LAUCHA.api.Controllers
 
             // Devolver el PDF como una descarga
             return File(pdfBytes, "application/pdf", $"{liquidacion.Codigo}_{liquidacion.Empleado}.pdf");
-        }
-
-        [HttpGet("{dni}/menues")]
-        public IActionResult TestMenues(string dni)
-        {
-            var result = _MenuesService.ObtenerGastosComida(dni,DateTime.Now,DateTime.Now);
-            return new JsonResult(result);
         }
 
 
