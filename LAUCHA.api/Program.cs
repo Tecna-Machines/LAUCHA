@@ -129,6 +129,8 @@ builder.Services.AddScoped<IOperarConceptosService, OperarConceptos>();
 builder.Services.AddScoped<IGenericRepository<Credito>, CreditoRepository>();
 builder.Services.AddScoped<ICreadorCreditos, CreadorCreditoService>();
 
+builder.Services.AddScoped<ILiquidacionRepository, LiquidacionPersonalRepository>();
+
 //servicios externos
 builder.Services.AddHttpClient<IMenuesService, MenuesService>(client =>
 {
@@ -137,7 +139,7 @@ builder.Services.AddHttpClient<IMenuesService, MenuesService>(client =>
 
 builder.Services.AddScoped<IMarcasService, MarcasService>(provider =>
 {
-    var connectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\\Users\\Gabriel\\Downloads\\marcas.mdb";
+    var connectionString = "Dsn=MS Access Database;";
     return new MarcasService(connectionString);
 });
 

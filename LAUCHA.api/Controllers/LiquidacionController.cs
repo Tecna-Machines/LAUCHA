@@ -1,9 +1,10 @@
-﻿using iText.Kernel.Pdf;
-using iText.Layout.Element;
-using LAUCHA.application.DTOs.LiquidacionDTOs;
+﻿using LAUCHA.application.DTOs.LiquidacionDTOs;
+using LAUCHA.application.DTOs.PaginaDTOs;
+using LAUCHA.application.DTOs.RemuneracionDTOs;
 using LAUCHA.application.DTOs.SystemaDTO;
 using LAUCHA.application.Exceptios;
 using LAUCHA.application.interfaces;
+using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.domain.interfaces.IServices;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,12 +20,14 @@ namespace LAUCHA.api.Controllers
         private readonly IConsultarContratoTrabajoService _ContratoService;
         private readonly IConsultarLiquidacionService _ConsultarLiquidacionService;
         private readonly IGeneradorRecibos _GeneradorRecibos;
+        private readonly IMarcasService _MarcasTest;
         public LiquidacionController(ILiquidacionService liquidacionService,
                                      IConsultarEmpleadoService empleadoService,
                                      IAgregarCuentaService cuentaService,
                                      IConsultarContratoTrabajoService contratoService,
                                      IConsultarLiquidacionService consultarLiquidacionService,
-                                     IGeneradorRecibos generadorRecibos)
+                                     IGeneradorRecibos generadorRecibos,
+                                     IMarcasService marcasTest)
         {
             _liquidacionService = liquidacionService;
             _empleadoService = empleadoService;
@@ -32,6 +35,7 @@ namespace LAUCHA.api.Controllers
             _ContratoService = contratoService;
             _ConsultarLiquidacionService = consultarLiquidacionService;
             _GeneradorRecibos = generadorRecibos;
+            _MarcasTest = marcasTest;
         }
 
         [HttpPost("empleado/{dni}/deducir-retenciones")]
@@ -85,6 +89,36 @@ namespace LAUCHA.api.Controllers
             return new JsonResult(result) { StatusCode = 200 };
         }
 
+        [HttpGet]
+        [ProducesResponseType(typeof(PaginaDTO<LiquidacionResumenDTO>), 200)]
+        public async Task<IActionResult> ConsultarLiquidaciones(string? dniEmp,
+                                                            DateTime? fechaLiquidacion,
+                                                            DateTime? inicioPeriodo,
+                                                            DateTime? finPeriodo,
+                                                            string? codigoLiquidacionGeneral,
+                                                            int? cantidad,
+                                                            int? indice,
+                                                            bool? orden)
+        {
+
+            var filtros = new FiltroLiquidacion
+            {
+                CodigoLiquidacionGeneral = codigoLiquidacionGeneral,
+                DniEmp = dniEmp,
+                FechaLiquidacion = fechaLiquidacion,
+                InicioPeriodo = inicioPeriodo,
+                FinPeriodo = finPeriodo,
+                Orden = orden ?? true
+            };
+
+            int index = indice ?? 1;
+            int cantidadRegistros = cantidad ?? 10;
+
+            var result = await _ConsultarLiquidacionService.ConsultarLiquidaciones(filtros, index, cantidadRegistros);
+
+            return new JsonResult(result) { StatusCode = 200};
+        }
+
         [HttpGet("recibo/{codigoLiquidacion}")]
         public IActionResult GenerarReciboSueldos(string codigoLiquidacion)
         {
@@ -94,6 +128,13 @@ namespace LAUCHA.api.Controllers
 
             // Devolver el PDF como una descarga
             return File(pdfBytes, "application/pdf", $"{liquidacion.Codigo}_{liquidacion.Empleado}.pdf");
+        }
+
+        [HttpGet("pruebaMarcas")]
+        public IActionResult pruebaMarcas()
+        {
+            var result = _MarcasTest.ConsularHorasPeriodo("", DateTime.Now, DateTime.Now);
+            return Ok(result);
         }
 
 
