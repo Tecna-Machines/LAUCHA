@@ -29,10 +29,5 @@ namespace LAUCHA.api.Controllers
             return new JsonResult(result) { StatusCode = 200 };
         }
 
-        [HttpGet("{numeroCuenta}/descuentos")]
-        public IActionResult ConsultarDescuentoEnLaCuenta(DateTime desde,DateTime hasta)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

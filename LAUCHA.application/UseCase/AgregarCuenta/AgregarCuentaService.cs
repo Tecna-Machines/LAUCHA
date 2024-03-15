@@ -4,11 +4,6 @@ using LAUCHA.application.Mappers;
 using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.domain.interfaces.IUnitsOfWork;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.application.UseCase.AgregarCuenta
 {
@@ -35,7 +30,7 @@ namespace LAUCHA.application.UseCase.AgregarCuenta
             _RetencionFijaRepository = retencionFijaRepository;
         }
 
-        public CuentaDTO AgregarRetencionesFijas(string numeroCuenta,string[] codigosRetenciones)
+        public CuentaDTO AgregarRetencionesFijas(string numeroCuenta, string[] codigosRetenciones)
         {
             foreach (string codigo in codigosRetenciones)
             {
@@ -48,7 +43,7 @@ namespace LAUCHA.application.UseCase.AgregarCuenta
 
             //confirma las retenciones de la cuenta
             _unitOfWorkRetencionFijaCuenta.Save();
-            return this.ConsularUnaCuenta(numeroCuenta);        
+            return this.ConsularUnaCuenta(numeroCuenta);
         }
 
         public CuentaDTO ConsularUnaCuenta(string numeroCuenta)

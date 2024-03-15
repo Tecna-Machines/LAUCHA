@@ -119,7 +119,7 @@ namespace LAUCHA.api.Controllers
             return new JsonResult(result) { StatusCode = 200};
         }
 
-        [HttpGet("recibo/{codigoLiquidacion}")]
+        [HttpGet("{codigoLiquidacion}/recibo")]
         public IActionResult GenerarReciboSueldos(string codigoLiquidacion)
         {
             LiquidacionDTO liquidacion = _ConsultarLiquidacionService.ConsulatarLiquidacion(codigoLiquidacion);
@@ -128,13 +128,6 @@ namespace LAUCHA.api.Controllers
 
             // Devolver el PDF como una descarga
             return File(pdfBytes, "application/pdf", $"{liquidacion.Codigo}_{liquidacion.Empleado}.pdf");
-        }
-
-        [HttpGet("pruebaMarcas")]
-        public IActionResult pruebaMarcas()
-        {
-            var result = _MarcasTest.ConsularHorasPeriodo("", DateTime.Now, DateTime.Now);
-            return Ok(result);
         }
 
 
