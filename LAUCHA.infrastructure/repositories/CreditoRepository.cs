@@ -1,11 +1,18 @@
 ﻿using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IRepositories;
+using LAUCHA.infrastructure.persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace LAUCHA.infrastructure.repositories
 {
     public class CreditoRepository : IGenericRepository<Credito>
     {
-        //TODO: complete el repositorio , no olvide inyectar el context utilizando el constructor , use los demas repositorios como ejemplo 
+        private readonly LiquidacionesDbContext _context;
+        public CreditoRepository(LiquidacionesDbContext context)
+        {
+            _context = context;
+        }
+
         public Credito Delete(string id)
         {
             throw new NotImplementedException();
@@ -21,14 +28,16 @@ namespace LAUCHA.infrastructure.repositories
             throw new NotImplementedException();
         }
 
-        public Credito Insert(Credito entity)
+        public Credito Insert(Credito credito)
         {
-            throw new NotImplementedException();
+            _context.Creditos.Add(credito);
+            _context.Entry(credito).Reference(c => c.Concepto).Load();
+            return credito;
         }
 
         public int Save()
         {
-            throw new NotImplementedException();
+            return _context.SaveChanges();
         }
 
         public Credito Update(Credito entity)
