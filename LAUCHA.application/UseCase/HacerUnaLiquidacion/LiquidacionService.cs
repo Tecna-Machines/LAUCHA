@@ -26,6 +26,7 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
         private readonly INoRemuneracionRepository _NoRemuneracionRepositoryEspecifico;
         private readonly IMenuesService _MenuService;
         private readonly IGenericRepository<Descuento> _DescuentoRepository;
+        private readonly ICalculadoraAntiguedad _CalculadoraAntiguedad;
 
         private readonly IUnitOfWorkLiquidacion _UnitOfWorkLiquidacion;
 
@@ -37,6 +38,7 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
 
         private ContratoDTO? _Contrato;
         private CuentaDTO? _Cuenta;
+        private Empleado? _Empleado;
 
         private DateTime _InicioPeriodo;
         private DateTime _FinPeriodo;
@@ -50,7 +52,8 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
                                        IGenericRepository<Empleado> empleadoRepository,
                                        INoRemuneracionRepository noRemuneracionRepositoryEspecifico,
                                        IMenuesService menuService,
-                                       IGenericRepository<Descuento> descuentoRepository)
+                                       IGenericRepository<Descuento> descuentoRepository,
+                                       ICalculadoraAntiguedad calculadoraAntiguedad)
         {
             _MapperRemuneracion = new();
             _MapperRetenciones = new();
@@ -67,6 +70,7 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
             _NoRemuneracionRepositoryEspecifico = noRemuneracionRepositoryEspecifico;
             _MenuService = menuService;
             _DescuentoRepository = descuentoRepository;
+            _CalculadoraAntiguedad = calculadoraAntiguedad;
         }
 
         public void SetearEmpleadoALiquidar(DateTime inicioPeriodo, DateTime finPeriodo, ContratoDTO contratoEmp, CuentaDTO cuentaEmp)
@@ -91,6 +95,7 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
 
             _Contrato = contratoEmp;
             _Cuenta = cuentaEmp;
+            _Empleado = _EmpleadoRepository.GetById(_Contrato.Dni);
 
             _InicioPeriodo = inicioPeriodo;
             _FinPeriodo = finPeriodo;
@@ -124,7 +129,13 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
                 remuneracionesDTO.Add(remuneracionDTO);
             }
 
+            Remuneracion remuneracionAntiguedad = _CalculadoraAntiguedad.CalcularAntiguedad(this._Empleado!,montoBrutoBlanco);
+            _UnitOfWorkLiquidacion.RemuneracionRepository.Insert(remuneracionAntiguedad);
 
+            var remuneracionAntiguedadDTO = _MapperRemuneracion.GenerarRemuneracionDTO(remuneracionAntiguedad);
+            remuneracionesDTO.Add(remuneracionAntiguedadDTO);
+
+            montoBrutoBlanco = montoBrutoBlanco + remuneracionAntiguedad.Monto;
 
             var retenciones = _CalculadoraSueldo.CalcularRetencionesSueldo(montoBrutoBlanco, _Cuenta!);
 
@@ -245,10 +256,7 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
 
             var pagos = new List<PagoLiquidacion>(); //pagos falseos
 
-            //buscamos al empleado usando la cuenta (no es lo idea pero bueno :/ )
-            Cuenta cuenta = _CuentaRepository.GetById(this._Cuenta!.NumeroCuenta);
-            Empleado empleado = _EmpleadoRepository.GetById(cuenta.DniEmpleado);
-
+            Empleado empleado = this._Empleado ?? throw new NullReferenceException();
 
             return _MapperLiquidacion.GenerarLiquidacionDTO(nuevaLiquidacion,remuneraciones,
                                                             retenciones,descuentos,noRemuneraciones,pagos,empleado);

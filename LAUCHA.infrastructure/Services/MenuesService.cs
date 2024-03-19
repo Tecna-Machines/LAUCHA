@@ -28,7 +28,7 @@ namespace LAUCHA.infrastructure.Services
                                 $"&fechaFin={finPeriodo.ToString("MM/dd/yyyy")}&" +
                                 $"idPersonal={empleado.id}");
 
-            return costos! ?? throw new NullReferenceException();
+            return costos! ?? new CostoPersonalResponse();
         }
 
         private async Task<PersonalResponse> ObtenerPersonaDelMenu(string dniEmpleado,string token)

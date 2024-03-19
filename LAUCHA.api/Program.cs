@@ -131,6 +131,8 @@ builder.Services.AddScoped<ICreadorCreditos, CreadorCreditoService>();
 
 builder.Services.AddScoped<ILiquidacionRepository, LiquidacionPersonalRepository>();
 
+builder.Services.AddScoped<ICalculadoraAntiguedad, CalculadoraAntiguedad>();
+
 //servicios externos
 builder.Services.AddHttpClient<IMenuesService, MenuesService>(client =>
 {
