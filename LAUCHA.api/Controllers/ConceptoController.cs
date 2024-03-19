@@ -21,7 +21,7 @@ namespace LAUCHA.api.Controllers
         public IActionResult CrearUnConcepto(ConceptoDTO conceptoNuevo)
         {
             var result = _ConceptoService.CrearUnConcepto(conceptoNuevo);
-
+            
             return new JsonResult(result) { StatusCode = 201};
         }
 

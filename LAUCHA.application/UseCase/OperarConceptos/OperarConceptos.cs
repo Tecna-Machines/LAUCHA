@@ -2,6 +2,7 @@
 using LAUCHA.application.interfaces;
 using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IRepositories;
+using System.Collections.Generic;
 
 namespace LAUCHA.application.UseCase.OperarConceptos
 {
@@ -17,20 +18,26 @@ namespace LAUCHA.application.UseCase.OperarConceptos
         public List<ConceptoDTO> ConsultarTodosLosConceptos()
         {
             //TODO: POR COMPLETAR
-
-            throw new NotImplementedException();
+            List <Concepto> conceptos = _ConceptoRepositoy.GetAll().ToList();
+            List<ConceptoDTO> retConceptosDto = new List<ConceptoDTO>();
+            foreach (Concepto c in conceptos) 
+            {
+                retConceptosDto.Add(new ConceptoDTO { Nombre = c.NombreConcepto, Numero = c.NumeroConcepto });
+            }
+            return retConceptosDto;
         }
 
         public ConceptoDTO ConsultarUnConcepto(int numeroConcepto)
         {
-            //TODO: POR COMPLETAR
-            throw new NotImplementedException();
+            Concepto retConcepto = _ConceptoRepositoy.GetById(numeroConcepto.ToString());
+            return new ConceptoDTO { Nombre = retConcepto.NombreConcepto, Numero = retConcepto.NumeroConcepto };  
         }
 
         public ConceptoDTO CrearUnConcepto(ConceptoDTO nuevoConcepto)
         {
-            //TODO: POR COMPLETAR
-            throw new NotImplementedException();
+            _ConceptoRepositoy.Insert(new Concepto{ NombreConcepto= nuevoConcepto.Nombre,NumeroConcepto=nuevoConcepto.Numero });
+            _ConceptoRepositoy.Save();
+            return nuevoConcepto;
         }
     }
 }

@@ -7,6 +7,8 @@ namespace LAUCHA.application.DTOs.CreditoDTOs
         public string Codigo { get; set; } = null!;
         public DateTime FechaInicio { get; set; }
         public ConceptoDTO Concepto { get; set; } = null!;
-        public List<CuotaDTO> Cuotas { get; set; } = null!;
+        public int CantidadCuotasFaltantes { get; set; } = -1;
+        public decimal MontoCuota { get; set; } = -1;
+        public decimal MontoFaltante { get; set; } = -1;
     }
 }
