@@ -13,6 +13,7 @@ namespace LAUCHA.domain.entities
         public decimal TotalNoRemunerativo { get; set; }
         public decimal TotalRetenciones { get; set; }
         public decimal TotalDescuentos { get; set; }
+        public decimal TotalSueldo { get; set; }
         public string Concepto { get; set; } = null!;
         public DateTime FechaLiquidacion { get; set; }
         public DateTime InicioPeriodo { get; set; }

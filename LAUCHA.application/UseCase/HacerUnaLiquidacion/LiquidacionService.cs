@@ -1,6 +1,5 @@
 ﻿using LAUCHA.application.DTOs.ContratoDTO;
 using LAUCHA.application.DTOs.CuentaDTOs;
-using LAUCHA.application.DTOs.DescuentoDTOs;
 using LAUCHA.application.DTOs.LiquidacionDTOs;
 using LAUCHA.application.DTOs.RemuneracionDTOs;
 using LAUCHA.application.DTOs.RetencionDTOs;
@@ -9,7 +8,6 @@ using LAUCHA.application.interfaces;
 using LAUCHA.application.Mappers;
 using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IRepositories;
-using LAUCHA.domain.interfaces.IServices;
 using LAUCHA.domain.interfaces.IUnitsOfWork;
 
 namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
@@ -18,21 +16,13 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
     {
         private IEstrategiaCalcularSueldo _CalculadoraSueldo = null!;
         private IFabricaCalculadoraSueldo _FabricaCalculadora;
-        private readonly IGenericRepository<Cuenta> _CuentaRepository;
         private readonly IGenericRepository<Empleado> _EmpleadoRepository;
-        private readonly IRemuneracionRepository _RemuneracionRepositoryEspecifico;
-        private readonly IRetencionRepository _RetencionRepositoryEspecifico;
-        private readonly IDescuentoRepository _DescuentoRepositoryEspecifo;
-        private readonly INoRemuneracionRepository _NoRemuneracionRepositoryEspecifico;
-        private readonly IMenuesService _MenuService;
-        private readonly IGenericRepository<Descuento> _DescuentoRepository;
-        private readonly ICalculadoraAntiguedad _CalculadoraAntiguedad;
+        private readonly IRecuperarItemsParaLiquidacion _RecuperarItemsLiquidacion;
 
         private readonly IUnitOfWorkLiquidacion _UnitOfWorkLiquidacion;
 
         private RemuneracionMapper _MapperRemuneracion;
         private RetencionMapper _MapperRetenciones;
-        private DescuentoMapper _MapperDescuento;
         private LiquidacionMapper _MapperLiquidacion;
 
 
@@ -45,32 +35,17 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
 
         public CrearLiquidacionService(IFabricaCalculadoraSueldo fabricaCalculadora,
                                        IUnitOfWorkLiquidacion unitOfWorkLiquidacion,
-                                       IRemuneracionRepository remuneracionRepositoryEspecifico,
-                                       IRetencionRepository retencionRepositoryEspecifico,
-                                       IDescuentoRepository descuentoRepositoryEspecifo,
-                                       IGenericRepository<Cuenta> cuentaRepository,
                                        IGenericRepository<Empleado> empleadoRepository,
-                                       INoRemuneracionRepository noRemuneracionRepositoryEspecifico,
-                                       IMenuesService menuService,
-                                       IGenericRepository<Descuento> descuentoRepository,
-                                       ICalculadoraAntiguedad calculadoraAntiguedad)
+                                       IRecuperarItemsParaLiquidacion recuperarItemsLiquidacion)
         {
             _MapperRemuneracion = new();
             _MapperRetenciones = new();
-            _MapperDescuento = new();
             _MapperLiquidacion = new();
 
             _FabricaCalculadora = fabricaCalculadora;
             _UnitOfWorkLiquidacion = unitOfWorkLiquidacion;
-            _RemuneracionRepositoryEspecifico = remuneracionRepositoryEspecifico;
-            _RetencionRepositoryEspecifico = retencionRepositoryEspecifico;
-            _DescuentoRepositoryEspecifo = descuentoRepositoryEspecifo;
-            _CuentaRepository = cuentaRepository;
             _EmpleadoRepository = empleadoRepository;
-            _NoRemuneracionRepositoryEspecifico = noRemuneracionRepositoryEspecifico;
-            _MenuService = menuService;
-            _DescuentoRepository = descuentoRepository;
-            _CalculadoraAntiguedad = calculadoraAntiguedad;
+            _RecuperarItemsLiquidacion = recuperarItemsLiquidacion;
         }
 
         public void SetearEmpleadoALiquidar(DateTime inicioPeriodo, DateTime finPeriodo, ContratoDTO contratoEmp, CuentaDTO cuentaEmp)
@@ -78,20 +53,11 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
             TimeSpan diferencionFechas = finPeriodo - inicioPeriodo;
             int diasPeriodo = diferencionFechas.Days;
 
-            if(diasPeriodo>31)
-            {
-                throw new PeriodoExcepcion("el periodo no puede ser mayor a 31 dias");
-            }
+            if (diasPeriodo > 31) { throw new PeriodoExcepcion("el periodo no puede ser mayor a 31 dias"); }
 
-            if (inicioPeriodo > finPeriodo)
-            {
-                throw new PeriodoExcepcion("el inicio de periodo  es menor que el fin del periodo");
-            }
+            if (inicioPeriodo > finPeriodo) { throw new PeriodoExcepcion("el inicio de periodo  es menor que el fin del periodo"); }
 
-            if (inicioPeriodo == finPeriodo)
-            {
-                throw new PeriodoExcepcion("no pueden utilizarse las mismas fechas para liquidar");
-            }
+            if (inicioPeriodo == finPeriodo) { throw new PeriodoExcepcion("no pueden utilizarse las mismas fechas para liquidar"); }
 
             _Contrato = contratoEmp;
             _Cuenta = cuentaEmp;
@@ -112,12 +78,9 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
             List<RetencionDTO> retencionesDTO = new();
             List<RemuneracionDTO> remuneracionesDTO = new();
 
-            var remuneracionesSueldo = _CalculadoraSueldo.CalcularSueldoBruto(this._InicioPeriodo, this._FinPeriodo, _Contrato!, _Cuenta!);
+            List<Remuneracion> remuneracionesSueldo = _CalculadoraSueldo.CalcularSueldoBruto(this._InicioPeriodo, this._FinPeriodo, _Contrato!, _Cuenta!);
 
-            if (remuneracionesSueldo.Count < 1)
-            {
-                throw new SueldoException("no se pudieron calcular remuneraciones");
-            }
+            if (remuneracionesSueldo.Count < 1) { throw new SueldoException("no se pudieron calcular remuneraciones"); }
 
             foreach (var remuneracionNueva in remuneracionesSueldo)
             {
@@ -128,14 +91,6 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
                 var remuneracionDTO = _MapperRemuneracion.GenerarRemuneracionDTO(remuneracionNueva);
                 remuneracionesDTO.Add(remuneracionDTO);
             }
-
-            Remuneracion remuneracionAntiguedad = _CalculadoraAntiguedad.CalcularAntiguedad(this._Empleado!,montoBrutoBlanco);
-            _UnitOfWorkLiquidacion.RemuneracionRepository.Insert(remuneracionAntiguedad);
-
-            var remuneracionAntiguedadDTO = _MapperRemuneracion.GenerarRemuneracionDTO(remuneracionAntiguedad);
-            remuneracionesDTO.Add(remuneracionAntiguedadDTO);
-
-            montoBrutoBlanco = montoBrutoBlanco + remuneracionAntiguedad.Monto;
 
             var retenciones = _CalculadoraSueldo.CalcularRetencionesSueldo(montoBrutoBlanco, _Cuenta!);
 
@@ -165,6 +120,11 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
 
             int numeroQuincena = fechaActual.Day < 15 ? 1 : 2;
 
+            decimal totalRemunerativo = 0;
+            decimal totalNoRemunerativo = 0;
+            decimal totalRetenciones = 0;
+            decimal totalDescuentos = 0;
+
             string codigoNuevaLiquidacion = $"{fechaActual.Year}{fechaActual.Month}{numeroQuincena}-{_Contrato?.Dni}";
 
             LiquidacionPersonal nuevaLiquidacion = new()
@@ -174,22 +134,19 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
                 InicioPeriodo = _InicioPeriodo,
                 FinPeriodo = _FinPeriodo,
                 FechaLiquidacion = fechaActual
-
             };
-
-            decimal totalRemunerativo = 0;
-            decimal totalNoRemunerativo = 0;
-            decimal totalRetenciones = 0;
-            decimal totalDescuentos = 0;
 
             //insertar liquidacion
             _UnitOfWorkLiquidacion.LiquidacionRepository.Insert(nuevaLiquidacion);
 
             //logica para traer remuneracion , retenciones y descuentos para crear la liquidacion
-            List<Remuneracion> remuneraciones = await ObtenerRemuneracionesParaLiquidacion();
-            List<Retencion> retenciones = await ObtenerRetencionesParaLiquidacion();
-            List<Descuento> descuentos = await ObtenerDescuentosParaLiquidacion();
-            List<NoRemuneracion> noRemuneraciones = await ObtenerNoRemunerativoParaLiquidacion();
+            string numeroCuenta = _Cuenta.NumeroCuenta;
+            string dniEmp = _Empleado?.Dni!;
+
+            List<Remuneracion> remuneraciones = await _RecuperarItemsLiquidacion.ObtenerRemuneracionesParaLiquidacion(numeroCuenta, _InicioPeriodo, _FinPeriodo);
+            List<Retencion> retenciones = await _RecuperarItemsLiquidacion.ObtenerRetencionesParaLiquidacion(numeroCuenta, _InicioPeriodo, _FinPeriodo);
+            List<Descuento> descuentos = await _RecuperarItemsLiquidacion.ObtenerDescuentosParaLiquidacion(numeroCuenta, dniEmp, _InicioPeriodo, _FinPeriodo);
+            List<NoRemuneracion> noRemuneraciones = await _RecuperarItemsLiquidacion.ObtenerNoRemunerativoParaLiquidacion(numeroCuenta, _InicioPeriodo, _FinPeriodo);
 
 
             foreach (var remu in remuneraciones)
@@ -231,7 +188,7 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
                 _UnitOfWorkLiquidacion.DescuentoLiquidacion.Insert(desLiquidacion);
             }
 
-            foreach(var noRemu in noRemuneraciones)
+            foreach (var noRemu in noRemuneraciones)
             {
                 var noRemuLiquidacions = new NoRemuneracionPorLiquidacionPersonal
                 {
@@ -254,62 +211,12 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
             _UnitOfWorkLiquidacion.Save();
 
 
-            var pagos = new List<PagoLiquidacion>(); //pagos falseos
+            var pagos = new List<PagoLiquidacion>();
 
             Empleado empleado = this._Empleado ?? throw new NullReferenceException();
 
-            return _MapperLiquidacion.GenerarLiquidacionDTO(nuevaLiquidacion,remuneraciones,
-                                                            retenciones,descuentos,noRemuneraciones,pagos,empleado);
-        }
-
-
-        private async Task<List<Remuneracion>> ObtenerRemuneracionesParaLiquidacion()
-        {
-            var remuneraciones = await _RemuneracionRepositoryEspecifico.
-                      ObtenerRemuneracionesFiltradas(_Cuenta?.NumeroCuenta, _InicioPeriodo, _FinPeriodo, null, null, 1, 1000);
-
-            return remuneraciones.Registros;
-        }
-
-        private async Task<List<Retencion>> ObtenerRetencionesParaLiquidacion()
-        {
-            var retenciones = await _RetencionRepositoryEspecifico.
-                      ObtenerRetencionesFiltradas(_Cuenta?.NumeroCuenta, _InicioPeriodo, _FinPeriodo, null, null, 1, 1000);
-
-
-            return retenciones.Registros;
-        }
-
-        private async Task<List<Descuento>> ObtenerDescuentosParaLiquidacion()
-        {
-            var descuentos = await _DescuentoRepositoryEspecifo.
-                      ObtenerDescuentosFiltrados(_Cuenta?.NumeroCuenta, _InicioPeriodo, _FinPeriodo, null, null, 1, 1000);
-
-            string dniEmp = _Contrato?.Dni != null ? _Contrato.Dni : throw new NullReferenceException();
-
-            var costosComida =  await _MenuService.ObtenerGastosComida(dniEmp,_InicioPeriodo,_FinPeriodo);
-
-            var crearDescuento = new CrearDescuentoDTO
-            {
-                Descripcion = $"comida: ({costosComida.cantidadPedidos}) pedidos dentro del periodo",
-                Monto =  (costosComida.costoTotal - costosComida.descuento),
-                NumeroCuenta = _Cuenta?.NumeroCuenta != null ? _Cuenta.NumeroCuenta : throw new NullReferenceException(),
-                NumeroConcepto = null
-            };
-
-            var descuentoComida = _MapperDescuento.CrearDescuento(crearDescuento);
-            _DescuentoRepository.Insert(descuentoComida);
-            descuentos.Registros.Add(descuentoComida);
-
-            return descuentos.Registros;
-        }
-
-        private async Task<List<NoRemuneracion>> ObtenerNoRemunerativoParaLiquidacion()
-        {
-            var noRemuneraciones = await _NoRemuneracionRepositoryEspecifico.
-                ObtenerNoRemuneracionesFiltradas(_Cuenta?.NumeroCuenta, _InicioPeriodo, _FinPeriodo, null, null, 1, 1000);
-
-            return noRemuneraciones.Registros;
+            return _MapperLiquidacion.GenerarLiquidacionDTO(nuevaLiquidacion, remuneraciones,
+                                                            retenciones, descuentos, noRemuneraciones, pagos, empleado);
         }
 
     }

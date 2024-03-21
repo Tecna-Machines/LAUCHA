@@ -9,10 +9,12 @@ namespace LAUCHA.api.Controllers
     public class CreditoController : ControllerBase
     {
         private readonly ICreadorCreditos _CrearCreditoService;
+        private readonly ICreditoService _CreditoService;
 
-        public CreditoController(ICreadorCreditos crearCreditoService)
+        public CreditoController(ICreadorCreditos crearCreditoService, ICreditoService creditoService)
         {
             _CrearCreditoService = crearCreditoService;
+            _CreditoService = creditoService;
         }
 
         [HttpPost]
@@ -23,5 +25,15 @@ namespace LAUCHA.api.Controllers
 
             return new JsonResult(result) { StatusCode = 201 };
         }
+
+        [HttpGet("{codigoCredito}")]
+        [ProducesResponseType(typeof(CreditoDTO),200)]
+        public IActionResult ConsultarCredito(string codigoCredito)
+        {
+            var result = _CreditoService.ConsularCredito(codigoCredito);
+
+            return new JsonResult(result) { StatusCode = 200};
+        }
+
     }
 }

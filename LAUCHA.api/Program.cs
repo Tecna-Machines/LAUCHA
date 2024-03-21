@@ -17,6 +17,7 @@ using LAUCHA.application.UseCase.CrearRetencionesFijas;
 using LAUCHA.application.UseCase.HacerUnaLiquidacion;
 using LAUCHA.application.UseCase.OperacionesDescuento;
 using LAUCHA.application.UseCase.OperarConceptos;
+using LAUCHA.application.UseCase.OperarCredito;
 using LAUCHA.application.UseCase.OperarNoRemuneraciones;
 using LAUCHA.application.UseCase.OperarRetenciones;
 using LAUCHA.domain.entities;
@@ -28,7 +29,6 @@ using LAUCHA.infrastructure.repositories;
 using LAUCHA.infrastructure.Services;
 using LAUCHA.infrastructure.unitOfWork;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -132,6 +132,13 @@ builder.Services.AddScoped<ICreadorCreditos, CreadorCreditoService>();
 builder.Services.AddScoped<ILiquidacionRepository, LiquidacionPersonalRepository>();
 
 builder.Services.AddScoped<ICalculadoraAntiguedad, CalculadoraAntiguedad>();
+
+builder.Services.AddScoped<ICreditoRepository, CreditoRepository>();
+builder.Services.AddScoped<ICalculadoraCredito, CalculadoraCredito>();
+builder.Services.AddScoped<IRecuperarItemsParaLiquidacion, AsociarItemsLiquidacion>();
+builder.Services.AddScoped<ICreditoService, OperarCreditosService>();
+builder.Services.AddScoped<IGenericRepository<PagoCredito>,PagoCreditoRepository>();
+
 
 //servicios externos
 builder.Services.AddHttpClient<IMenuesService, MenuesService>(client =>

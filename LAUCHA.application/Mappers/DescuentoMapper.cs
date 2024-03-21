@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace LAUCHA.application.Mappers
 {
-    internal class DescuentoMapper
+    internal class DescuentoMapper 
     {
         private readonly GeneradorDeNumeroAleatorio _GeneradorNumero = new();
         public DescuentoDTO CrearDescuentoDTO(Descuento descuento,Concepto? concepto)
