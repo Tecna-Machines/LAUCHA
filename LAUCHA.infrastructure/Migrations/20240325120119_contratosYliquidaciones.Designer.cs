@@ -3,6 +3,7 @@ using System;
 using LAUCHA.infrastructure.persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LAUCHA.infrastructure.Migrations
 {
     [DbContext(typeof(LiquidacionesDbContext))]
-    partial class LiquidacionesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240325120119_contratosYliquidaciones")]
+    partial class contratosYliquidaciones
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -225,29 +228,6 @@ namespace LAUCHA.infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Cuentas");
-
-                    b.HasData(
-                        new
-                        {
-                            NumeroCuenta = "1158475225",
-                            DniEmpleado = "11584752",
-                            FechaCreacion = new DateTime(2024, 3, 25, 9, 30, 8, 768, DateTimeKind.Local).AddTicks(5782),
-                            estadoCuenta = true
-                        },
-                        new
-                        {
-                            NumeroCuenta = "1358478025",
-                            DniEmpleado = "13584780",
-                            FechaCreacion = new DateTime(2024, 3, 25, 9, 30, 8, 768, DateTimeKind.Local).AddTicks(5792),
-                            estadoCuenta = true
-                        },
-                        new
-                        {
-                            NumeroCuenta = "1478425225",
-                            DniEmpleado = "14784252",
-                            FechaCreacion = new DateTime(2024, 3, 25, 9, 30, 8, 768, DateTimeKind.Local).AddTicks(5793),
-                            estadoCuenta = true
-                        });
                 });
 
             modelBuilder.Entity("LAUCHA.domain.entities.Descuento", b =>
@@ -318,32 +298,6 @@ namespace LAUCHA.infrastructure.Migrations
                     b.HasKey("Dni");
 
                     b.ToTable("Empleados");
-
-                    b.HasData(
-                        new
-                        {
-                            Dni = "11584752",
-                            Apellido = "Guitierrez",
-                            FechaIngreso = new DateTime(1995, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FechaNacimiento = new DateTime(1940, 10, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Nombre = "Mario"
-                        },
-                        new
-                        {
-                            Dni = "13584780",
-                            Apellido = "Pascal",
-                            FechaIngreso = new DateTime(2020, 9, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FechaNacimiento = new DateTime(1940, 10, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Nombre = "Pedro"
-                        },
-                        new
-                        {
-                            Dni = "14784252",
-                            Apellido = "Lopez",
-                            FechaIngreso = new DateTime(2002, 8, 11, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            FechaNacimiento = new DateTime(1970, 10, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Nombre = "Maria"
-                        });
                 });
 
             modelBuilder.Entity("LAUCHA.domain.entities.HistorialRetencionFija", b =>

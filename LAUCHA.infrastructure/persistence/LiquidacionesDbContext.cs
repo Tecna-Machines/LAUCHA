@@ -67,6 +67,8 @@ namespace LAUCHA.infrastructure.persistence
             //agregar datos de prueba
             // TODO: son datos solo para pruebas 
             modelBuilder.ApplyConfiguration(new AdicionalData());
+            modelBuilder.ApplyConfiguration(new CuentaData());
+            modelBuilder.ApplyConfiguration(new EmpleadosData());
             modelBuilder.ApplyConfiguration(new ModalidadData());
             modelBuilder.ApplyConfiguration(new RetencionesFijasData());
 

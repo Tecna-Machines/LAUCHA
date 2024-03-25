@@ -18,5 +18,6 @@ namespace LAUCHA.domain.entities
         public AcuerdoBlanco AcuerdoBlanco { get; set; } = null!;
         public IList<ModalidadPorContrato> ModalidadesPorContratos { get; set; } = null!;
         public IList<AdicionalPorContrato> AdicionalesPorContratos { get; set; } = null!;
+        public IList<LiquidacionPersonal> Liquidaciones { get; set; } = null!;
     }
 }

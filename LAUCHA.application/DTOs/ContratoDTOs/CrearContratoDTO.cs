@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LAUCHA.application.DTOs.ContratoDTO
+namespace LAUCHA.application.DTOs.ContratoDTOs
 {
     public class CrearContratoDTO
     {

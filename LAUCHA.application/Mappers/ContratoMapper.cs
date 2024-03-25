@@ -1,21 +1,16 @@
 ﻿using LAUCHA.application.DTOs.AcuerdoBlancoDTOs;
 using LAUCHA.application.DTOs.AdicionalDTOs;
-using LAUCHA.application.DTOs.ContratoDTO;
+using LAUCHA.application.DTOs.ContratoDTOs;
 using LAUCHA.application.DTOs.ModalidadDTOs;
 using LAUCHA.domain.entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.application.Mappers
 {
     public class ContratoMapper
     {
         public ContratoDTO GenerarContrato(Contrato contrato, Modalidad modalidad,
-                                           Empleado empleado,List<Adicional>adicionales,AcuerdoBlanco acuerdoBlanco)
-        {   
+                                           Empleado empleado, List<Adicional> adicionales, AcuerdoBlanco acuerdoBlanco)
+        {
             List<AdicionalDTO> adicionalesDTOs = new List<AdicionalDTO>();
 
             ModalidadDTO modalidadDTO = new ModalidadDTO

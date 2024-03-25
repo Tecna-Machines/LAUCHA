@@ -4,6 +4,6 @@ namespace LAUCHA.application.interfaces
 {
     public interface IGeneradorRecibos
     {
-        byte[] GenerarPdfRecibo(LiquidacionDTO liquidacion);
+        byte[] GenerarPdfRecibo(LiquidacionDTO liquidacion,DateTime fechaIngreso);
     }
 }

@@ -1,4 +1,4 @@
-﻿using LAUCHA.application.DTOs.ContratoDTO;
+﻿using LAUCHA.application.DTOs.ContratoDTOs;
 using LAUCHA.application.interfaces;
 using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IUnitsOfWork;

@@ -1,4 +1,5 @@
-﻿using LAUCHA.application.DTOs.DescuentoDTOs;
+﻿using LAUCHA.application.DTOs.ContratoDTOs;
+using LAUCHA.application.DTOs.DescuentoDTOs;
 using LAUCHA.application.DTOs.LiquidacionDTOs;
 using LAUCHA.application.DTOs.NoRemuneracionDTOs;
 using LAUCHA.application.DTOs.RemuneracionDTOs;
@@ -19,7 +20,8 @@ namespace LAUCHA.application.Mappers
                                                     List<Descuento> descuentos,
                                                     List<NoRemuneracion> noRemuneraciones,
                                                     List<PagoLiquidacion> pagos,
-                                                    Empleado empleado)
+                                                    Empleado empleado,
+                                                    ContratoDTO contratoDTO)
         {
             List<RemuneracionDTO> remuneracionesDTOs = new();
             List<NoRemuneracionDTO> noRemuneracionesDTOs = new();
@@ -79,6 +81,7 @@ namespace LAUCHA.application.Mappers
                 Concepto = liquidacion.Concepto,
                 Fecha = liquidacion.FechaLiquidacion,
                 Periodo = new PeriodoDTO { Inicio = liquidacion.InicioPeriodo, Fin = liquidacion.FinPeriodo },
+                Contrato = contratoDTO,
                 Items = new ItemsDTO
                 {
                     Remuneraciones = remuneracionesDTOs,

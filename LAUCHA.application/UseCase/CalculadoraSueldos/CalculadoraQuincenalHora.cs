@@ -1,4 +1,4 @@
-﻿using LAUCHA.application.DTOs.ContratoDTO;
+﻿using LAUCHA.application.DTOs.ContratoDTOs;
 using LAUCHA.application.DTOs.CuentaDTOs;
 using LAUCHA.application.DTOs.RemuneracionDTOs;
 using LAUCHA.application.DTOs.RetencionesFijasDTOs;

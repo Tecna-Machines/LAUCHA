@@ -1,4 +1,6 @@
-﻿namespace LAUCHA.application.DTOs.LiquidacionDTOs
+﻿using LAUCHA.application.DTOs.ContratoDTOs;
+
+namespace LAUCHA.application.DTOs.LiquidacionDTOs
 {
     public class LiquidacionDTO
     {
@@ -8,6 +10,7 @@
         public string Concepto { set; get; } = null!;
         public DateTime Fecha { get; set; }
         public PeriodoDTO Periodo { get; set; } = null!;
+        public ContratoDTO Contrato { get; set; } = null!;
         public ItemsDTO Items { set; get; } = null!;
         public decimal TotalBrutoBanco { set; get; }
         public decimal TotalBrutoEfectivo { set; get; }

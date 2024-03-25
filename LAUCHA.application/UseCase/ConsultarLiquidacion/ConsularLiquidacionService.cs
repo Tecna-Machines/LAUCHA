@@ -21,12 +21,14 @@ namespace LAUCHA.application.UseCase.ConsultarLiquidacion
         private readonly IGenericRepository<Cuenta> _CuentaRepository;
         private readonly IGenericRepository<Empleado> _EmpleadoRepository;
         private readonly ILiquidacionRepository _LiquidacionRepositoyEspecifico;
+        private readonly IConsultarContratoTrabajoService _ConsultarContratoService;
 
         public ConsularLiquidacionService(IGenericRepository<LiquidacionPersonal> liquidacionRepository,
                                           IItemsLiquidacionRepository itemsLiquidacionRepository,
                                           IGenericRepository<Cuenta> cuentaRepository,
                                           IGenericRepository<Empleado> empleadoRepository,
-                                          ILiquidacionRepository liquidacionRepositoyEspecifico)
+                                          ILiquidacionRepository liquidacionRepositoyEspecifico,
+                                          IConsultarContratoTrabajoService consultarContratoService)
         {
             _MapperLiquidacion = new();
             _LiquidacionRepository = liquidacionRepository;
@@ -34,6 +36,7 @@ namespace LAUCHA.application.UseCase.ConsultarLiquidacion
             _CuentaRepository = cuentaRepository;
             _EmpleadoRepository = empleadoRepository;
             _LiquidacionRepositoyEspecifico = liquidacionRepositoyEspecifico;
+            _ConsultarContratoService = consultarContratoService;
         }
 
         public LiquidacionDTO ConsulatarLiquidacion(string codigoLiquidacion)
@@ -52,7 +55,9 @@ namespace LAUCHA.application.UseCase.ConsultarLiquidacion
             Cuenta cuenta = _CuentaRepository.GetById(numeroCuenta);
             Empleado empleado = _EmpleadoRepository.GetById(cuenta.DniEmpleado);
 
-            return _MapperLiquidacion.GenerarLiquidacionDTO(liquidacion,remuneraciones,retenciones,descuentos,noRemuneraciones,pagos,empleado);
+            var contrato = _ConsultarContratoService.ConsultarContrato(liquidacion.CodigoContrato);
+
+            return _MapperLiquidacion.GenerarLiquidacionDTO(liquidacion,remuneraciones,retenciones,descuentos,noRemuneraciones,pagos,empleado,contrato);
         }
 
         public async Task<PaginaDTO<LiquidacionResumenDTO>> ConsultarLiquidaciones(FiltroLiquidacion filtros, int indice, int cantidadRegistros)

@@ -1,4 +1,4 @@
-﻿using LAUCHA.application.DTOs.ContratoDTO;
+﻿using LAUCHA.application.DTOs.ContratoDTOs;
 using LAUCHA.application.DTOs.EmpleadoDTO;
 using LAUCHA.application.DTOs.SystemaDTO;
 using LAUCHA.application.interfaces;

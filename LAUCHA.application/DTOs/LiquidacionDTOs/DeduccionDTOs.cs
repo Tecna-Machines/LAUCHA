@@ -1,12 +1,5 @@
 ﻿using LAUCHA.application.DTOs.RemuneracionDTOs;
 using LAUCHA.application.DTOs.RetencionDTOs;
-using LAUCHA.application.DTOs.SueldosDTOs;
-using LAUCHA.domain.entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.application.DTOs.LiquidacionDTOs
 {

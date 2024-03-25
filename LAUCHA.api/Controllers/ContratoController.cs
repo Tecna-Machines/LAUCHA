@@ -1,5 +1,5 @@
 ﻿using LAUCHA.application.DTOs.AdicionalDTOs;
-using LAUCHA.application.DTOs.ContratoDTO;
+using LAUCHA.application.DTOs.ContratoDTOs;
 using LAUCHA.application.interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

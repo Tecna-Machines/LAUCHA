@@ -1,5 +1,4 @@
-﻿using LAUCHA.application.DTOs.ContratoDTO;
-using LAUCHA.application.DTOs.ContratoDTOs;
+﻿using LAUCHA.application.DTOs.ContratoDTOs;
 using LAUCHA.application.interfaces;
 using LAUCHA.application.Mappers;
 using LAUCHA.domain.entities;

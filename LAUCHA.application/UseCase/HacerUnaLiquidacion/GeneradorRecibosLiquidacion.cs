@@ -19,13 +19,16 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
     public class GeneradorRecibosLiquidacion : IGeneradorRecibos
     {
         private readonly ConvertidorNumeroEnPalabra _GeneradorNumeroPalabra;
+        private DateTime _FechaIngreso;
         public GeneradorRecibosLiquidacion()
         {
             _GeneradorNumeroPalabra = new();
         }
 
-        public byte[] GenerarPdfRecibo(LiquidacionDTO liquidacion)
+        public byte[] GenerarPdfRecibo(LiquidacionDTO liquidacion,DateTime fechaIngreso)
         {
+            _FechaIngreso = fechaIngreso;
+
             using (MemoryStream stream = new MemoryStream())
             {
                 PdfWriter writer = new PdfWriter(stream);
@@ -39,7 +42,10 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
                 Table header = this.GenerarTablaHeader(liquidacion);
                 document.Add(header);
 
+                Table acuerdo = this.GeneralTablaAcuerdo(liquidacion);
 
+                document.Add(new Paragraph("\n"));
+                document.Add(acuerdo);
 
                 Paragraph subtituloRemuBlanca = new Paragraph("sueldo en banco")
                            .SetTextAlignment(iText.Layout.Properties.TextAlignment.LEFT)
@@ -76,6 +82,9 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
 
                 document.Add(new Paragraph("\n"));
                 document.Add(netoEfectivo);
+
+                document.Add(new Paragraph("\n"));
+                document.Add(GenerarTablaResumen(liquidacion));
 
 
                 // Crear una tabla para las firmas
@@ -203,7 +212,7 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
             string leyenda = esEfecitvo == true ? "EFECTIVO" : "DEPOSITO";
 
             Table tablaNeto = new Table(2).UseAllAvailableWidth();
-            Cell celdaDescripcion = new Cell().Add(new Paragraph($"TOTAL NETO A PAGAR {leyenda}: "))
+            Cell celdaDescripcion = new Cell().Add(new Paragraph($"TOTAL NETO A PAGAR EN {leyenda}: "))
                                     .SetBackgroundColor(ColorConstants.LIGHT_GRAY)
                                     .SetTextAlignment(TextAlignment.RIGHT);
 
@@ -240,13 +249,69 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
             header.AddHeaderCell(new Cell().Add(new Paragraph("N° de documento")));
             header.AddHeaderCell(new Cell().Add(new Paragraph(liquidacion.Dni)));
 
-            header.AddHeaderCell(new Cell().Add(new Paragraph("Total sueldo bruto: ").SetBackgroundColor(ColorConstants.LIGHT_GRAY)));
-            header.AddHeaderCell(new Cell().Add(new Paragraph(totaSueldo.ToString("C")).SetBackgroundColor(ColorConstants.LIGHT_GRAY)));
+            header.AddHeaderCell(new Cell().Add(new Paragraph("Fecha ingreso")));
+            header.AddHeaderCell(new Cell().Add(new Paragraph(_FechaIngreso.ToString("dd/MM/yyyy"))));
 
             header.AddHeaderCell(new Cell().Add(new Paragraph("Periodo liquidado")));
             header.AddHeaderCell(new Cell().Add(new Paragraph(periodo)));
 
             return header;
+        }
+
+        private Table GeneralTablaAcuerdo(LiquidacionDTO liquidacion)
+        {
+            Table AcuerdoTable = new Table(4).UseAllAvailableWidth();
+
+            Cell celdaTitulo = new Cell(1, 4).Add(new Paragraph("RESUMEN DE ACUERDO"))
+                                            .SetTextAlignment(TextAlignment.LEFT);
+
+            celdaTitulo.SetBackgroundColor(ColorConstants.LIGHT_GRAY);
+            AcuerdoTable.AddHeaderCell(celdaTitulo);
+
+            Cell numeroAcuerdo = new Cell().Add(new Paragraph("N° DE ACUERDO")).SetBackgroundColor(ColorConstants.LIGHT_GRAY);
+            Cell totalBruto = new Cell().Add(new Paragraph("TOTAL SUELDO BRUTO")).SetBackgroundColor(ColorConstants.LIGHT_GRAY);
+            Cell totalPorHora = new Cell().Add(new Paragraph("MONTO POR HORA")).SetBackgroundColor(ColorConstants.LIGHT_GRAY);
+            Cell modalidad = new Cell().Add(new Paragraph("MODALIDAD")).SetBackgroundColor(ColorConstants.LIGHT_GRAY);
+
+            AcuerdoTable.AddHeaderCell(numeroAcuerdo);
+            AcuerdoTable.AddHeaderCell(totalBruto);
+            AcuerdoTable.AddHeaderCell(totalPorHora);
+            AcuerdoTable.AddHeaderCell(modalidad);
+
+            AcuerdoTable.AddCell(liquidacion.Contrato.Codigo);
+            AcuerdoTable.AddCell(liquidacion.Contrato.MontoFijo.ToString("C"));
+            AcuerdoTable.AddCell(liquidacion.Contrato.MontoHora.ToString("C"));
+            AcuerdoTable.AddCell(liquidacion.Contrato.Modalidad.Descripcion);
+
+            return AcuerdoTable;
+        }
+
+        private Table GenerarTablaResumen(LiquidacionDTO liquidacion)
+        {
+            decimal totalPagado = liquidacion.TotalPagarBanco + liquidacion.TotalPagarEfectivo;
+
+            Table resumenTable = new Table(2).UseAllAvailableWidth();
+
+            Cell celdaTitulo = new Cell(1,2).Add(new Paragraph("RESUMEN"))
+                                            .SetBold()
+                                            .SetTextAlignment(TextAlignment.LEFT);
+
+            celdaTitulo.SetBackgroundColor(ColorConstants.LIGHT_GRAY);
+            resumenTable.AddHeaderCell(celdaTitulo);
+
+            resumenTable.AddHeaderCell(new Cell().Add(new Paragraph("Total cobrado en deposito")));
+            resumenTable.AddHeaderCell(new Cell().Add(new Paragraph(liquidacion.TotalPagarBanco.ToString("C"))));
+
+            resumenTable.AddHeaderCell(new Cell().Add(new Paragraph("Total cobrado en efectivo")));
+            resumenTable.AddHeaderCell(new Cell().Add(new Paragraph(liquidacion.TotalPagarEfectivo.ToString("C"))));
+
+            resumenTable.AddHeaderCell(new Cell().Add(new Paragraph("Total cobrado:")
+                                      .SetBold()
+                                      .SetTextAlignment(TextAlignment.RIGHT).SetBackgroundColor(ColorConstants.LIGHT_GRAY)));
+
+            resumenTable.AddHeaderCell(new Cell().Add(new Paragraph(totalPagado.ToString("C"))));
+
+            return resumenTable;
         }
 
     }

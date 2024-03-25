@@ -1,10 +1,4 @@
-﻿using LAUCHA.application.DTOs.ContratoDTO;
-using LAUCHA.application.DTOs.ContratoDTOs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using LAUCHA.application.DTOs.ContratoDTOs;
 
 namespace LAUCHA.application.interfaces
 {

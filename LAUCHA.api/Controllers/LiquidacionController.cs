@@ -1,11 +1,10 @@
-﻿using LAUCHA.application.DTOs.LiquidacionDTOs;
+﻿using LAUCHA.application.DTOs.ContratoDTOs;
+using LAUCHA.application.DTOs.LiquidacionDTOs;
 using LAUCHA.application.DTOs.PaginaDTOs;
-using LAUCHA.application.DTOs.RemuneracionDTOs;
 using LAUCHA.application.DTOs.SystemaDTO;
 using LAUCHA.application.Exceptios;
 using LAUCHA.application.interfaces;
 using LAUCHA.domain.interfaces.IRepositories;
-using LAUCHA.domain.interfaces.IServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LAUCHA.api.Controllers
@@ -20,14 +19,12 @@ namespace LAUCHA.api.Controllers
         private readonly IConsultarContratoTrabajoService _ContratoService;
         private readonly IConsultarLiquidacionService _ConsultarLiquidacionService;
         private readonly IGeneradorRecibos _GeneradorRecibos;
-        private readonly IMarcasService _MarcasTest;
         public LiquidacionController(ILiquidacionService liquidacionService,
                                      IConsultarEmpleadoService empleadoService,
                                      IAgregarCuentaService cuentaService,
                                      IConsultarContratoTrabajoService contratoService,
                                      IConsultarLiquidacionService consultarLiquidacionService,
-                                     IGeneradorRecibos generadorRecibos,
-                                     IMarcasService marcasTest)
+                                     IGeneradorRecibos generadorRecibos)
         {
             _liquidacionService = liquidacionService;
             _empleadoService = empleadoService;
@@ -35,7 +32,6 @@ namespace LAUCHA.api.Controllers
             _ContratoService = contratoService;
             _ConsultarLiquidacionService = consultarLiquidacionService;
             _GeneradorRecibos = generadorRecibos;
-            _MarcasTest = marcasTest;
         }
 
         [HttpPost("empleado/{dni}/deducir-retenciones")]
@@ -116,15 +112,16 @@ namespace LAUCHA.api.Controllers
 
             var result = await _ConsultarLiquidacionService.ConsultarLiquidaciones(filtros, index, cantidadRegistros);
 
-            return new JsonResult(result) { StatusCode = 200};
+            return new JsonResult(result) { StatusCode = 200 };
         }
 
         [HttpGet("{codigoLiquidacion}/recibo")]
         public IActionResult GenerarReciboSueldos(string codigoLiquidacion)
         {
             LiquidacionDTO liquidacion = _ConsultarLiquidacionService.ConsulatarLiquidacion(codigoLiquidacion);
+            DateTime fechaIngreso = _empleadoService.ConsultarUnEmpleado(liquidacion.Dni).FechaIngreso;
             // Generar el PDF del recibo
-            byte[] pdfBytes = _GeneradorRecibos.GenerarPdfRecibo(liquidacion);
+            byte[] pdfBytes = _GeneradorRecibos.GenerarPdfRecibo(liquidacion,fechaIngreso);
 
             // Devolver el PDF como una descarga
             return File(pdfBytes, "application/pdf", $"{liquidacion.Codigo}_{liquidacion.Empleado}.pdf");
