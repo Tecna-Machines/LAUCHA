@@ -1,6 +1,7 @@
 ﻿using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.infrastructure.persistence;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,8 +32,16 @@ namespace LAUCHA.infrastructure.repositories
 
         public RetencionFija GetById(string codigoRetencionFija)
         {
-            RetencionFija? retencionFijaEncontrada = _context.RetencionesFijas.Find(codigoRetencionFija);
-            return retencionFijaEncontrada != null ? retencionFijaEncontrada : throw new NullReferenceException();
+            RetencionFija? retencionFijaEncontrada = _context.RetencionesFijas
+                            .Include(r => r.HistorialRetencionesFijas) 
+                            .FirstOrDefault(r => r.CodigoRetencionFija == codigoRetencionFija);
+
+            if (retencionFijaEncontrada != null)
+            {
+                return retencionFijaEncontrada;
+            }
+
+            throw new NullReferenceException();
         }
 
         public RetencionFija Insert(RetencionFija nuevaRetencionFija)
@@ -42,10 +51,21 @@ namespace LAUCHA.infrastructure.repositories
             return nuevaRetencionFija;
         }
 
-        public RetencionFija Update(RetencionFija entity)
-        {   
-            //TODO: implementar para crear el historial
-            throw new NotImplementedException();
+        public RetencionFija Update(RetencionFija retencionFija)
+        {
+            var origin = _context.RetencionesFijas.Find(retencionFija.CodigoRetencionFija);
+
+            if (origin != null)
+            {
+                _context.Entry(origin).CurrentValues.SetValues(new
+                {
+                    retencionFija.Unidades,
+                    retencionFija.EsPorcentual,
+                    retencionFija.EsQuincenal
+                });
+            }
+
+            return retencionFija;
         }
         public int Save() => _context.SaveChanges();
 

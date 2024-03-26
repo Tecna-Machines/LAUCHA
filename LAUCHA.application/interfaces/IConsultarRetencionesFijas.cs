@@ -9,7 +9,7 @@ namespace LAUCHA.application.interfaces
 {
     public interface IConsultarRetencionesFijasService
     {
-        RetencionFijaDTO ConsultarUnaRetencionFija(string codigoRetencion);
+        RetencionFijaConHistorialDTO ConsultarUnaRetencionFija(string codigoRetencion);
         List<RetencionFijaDTO> ConsultarRetencionesFijas();
     }
 }

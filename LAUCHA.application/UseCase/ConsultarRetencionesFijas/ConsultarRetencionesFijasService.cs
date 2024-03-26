@@ -3,11 +3,6 @@ using LAUCHA.application.interfaces;
 using LAUCHA.application.Mappers;
 using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IRepositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.application.UseCase.ConsultarRetencionesFijas
 {
@@ -36,13 +31,37 @@ namespace LAUCHA.application.UseCase.ConsultarRetencionesFijas
             return retencionesFijasDTOs;
         }
 
-        public RetencionFijaDTO ConsultarUnaRetencionFija(string codigoRetencion)
+        public RetencionFijaConHistorialDTO ConsultarUnaRetencionFija(string codigoRetencion)
         {
             RetencionFija retencion = _RetencionFijaRepository.GetById(codigoRetencion);
 
-            if(retencion == null) { throw new NullReferenceException(); }
+            List<HistorialRetencionDTO> historialDTO = new();
 
-            return _RetencionFijaMapper.GenerarRetencionFijaDTO(retencion);
+            var historial = retencion.HistorialRetencionesFijas.ToList();
+
+            foreach (var registro in historial)
+            {
+                var dtoHistorial = new HistorialRetencionDTO
+                {
+                    Unidades = registro.Unidades,
+                    EsPorcentual = registro.EsPorcentual,
+                    FechaFinVigencia = registro.FechaFinVigencia
+                };
+
+                historialDTO.Add(dtoHistorial);
+            }
+
+            if (retencion == null) { throw new NullReferenceException(); }
+
+            return new RetencionFijaConHistorialDTO
+            {
+                Codigo = retencion.CodigoRetencionFija,
+                Concepto = retencion.Concepto,
+                EsPorcentual = retencion.EsPorcentual,
+                EsQuincenal = retencion.EsQuincenal,
+                Unidades = retencion.Unidades,
+                Historial = historialDTO
+            };
         }
     }
 }

@@ -16,6 +16,7 @@ using LAUCHA.application.UseCase.CrearRemuneracionNueva;
 using LAUCHA.application.UseCase.CrearRetencionesFijas;
 using LAUCHA.application.UseCase.GenerarRecibo;
 using LAUCHA.application.UseCase.HacerUnaLiquidacion;
+using LAUCHA.application.UseCase.ModificarRetencionFija;
 using LAUCHA.application.UseCase.OperacionesDescuento;
 using LAUCHA.application.UseCase.OperarConceptos;
 using LAUCHA.application.UseCase.OperarCredito;
@@ -139,6 +140,9 @@ builder.Services.AddScoped<ICalculadoraCredito, CalculadoraCredito>();
 builder.Services.AddScoped<IRecuperarItemsParaLiquidacion, AsociarItemsLiquidacion>();
 builder.Services.AddScoped<ICreditoService, OperarCreditosService>();
 builder.Services.AddScoped<IGenericRepository<PagoCredito>,PagoCreditoRepository>();
+
+builder.Services.AddScoped<IGenericRepository<HistorialRetencionFija>,HistorialRetencionFijaRepository>();
+builder.Services.AddScoped<IModificarRetencionFijaService,ModificarRetencionFijaService>();
 
 
 //servicios externos

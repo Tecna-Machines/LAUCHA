@@ -12,12 +12,15 @@ namespace LAUCHA.api.Controllers
     {
         private readonly ICrearRetencionesFijasService _crearRetencionesFijasService;
         private readonly IConsultarRetencionesFijasService _consultarRetencionesFijasService;
+        private readonly IModificarRetencionFijaService _modificarRetencionFijaService;
 
         public RetencionFijaController(ICrearRetencionesFijasService crearRetencionesFijasService,
-                                       IConsultarRetencionesFijasService consultarRetencionesFijasService)
+                                       IConsultarRetencionesFijasService consultarRetencionesFijasService,
+                                       IModificarRetencionFijaService modificarRetencionFijaService)
         {
             _crearRetencionesFijasService = crearRetencionesFijasService;
             _consultarRetencionesFijasService = consultarRetencionesFijasService;
+            _modificarRetencionFijaService = modificarRetencionFijaService;
         }
 
         [HttpPost]
@@ -41,6 +44,14 @@ namespace LAUCHA.api.Controllers
         public IActionResult ObtenerTodasLasRetencionesFijas()
         {
             var result = _consultarRetencionesFijasService.ConsultarRetencionesFijas();
+            return new JsonResult(result) { StatusCode = 200 };
+        }
+
+        [HttpPatch("{codigoRetencionFija}")]
+        [ProducesResponseType(typeof(RetencionFijaDTO), 200)]
+        public IActionResult ModificarRetencionFija(string codigoRetencionFija,ModificadorRetencionFijaDTO modificaciones)
+        {
+            var result = _modificarRetencionFijaService.ModificarRetencionFija(codigoRetencionFija, modificaciones);
             return new JsonResult(result) { StatusCode = 200 };
         }
     }
