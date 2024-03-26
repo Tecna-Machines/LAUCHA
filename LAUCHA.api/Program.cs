@@ -14,6 +14,7 @@ using LAUCHA.application.UseCase.ContratosDeTrabajo;
 using LAUCHA.application.UseCase.CrearCredito;
 using LAUCHA.application.UseCase.CrearRemuneracionNueva;
 using LAUCHA.application.UseCase.CrearRetencionesFijas;
+using LAUCHA.application.UseCase.GenerarRecibo;
 using LAUCHA.application.UseCase.HacerUnaLiquidacion;
 using LAUCHA.application.UseCase.OperacionesDescuento;
 using LAUCHA.application.UseCase.OperarConceptos;
