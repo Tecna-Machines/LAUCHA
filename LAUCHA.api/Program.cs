@@ -34,14 +34,12 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 // Add services to the container.
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
 
 //custom
 
@@ -144,11 +142,23 @@ builder.Services.AddScoped<IGenericRepository<PagoCredito>,PagoCreditoRepository
 builder.Services.AddScoped<IGenericRepository<HistorialRetencionFija>,HistorialRetencionFijaRepository>();
 builder.Services.AddScoped<IModificarRetencionFijaService,ModificarRetencionFijaService>();
 
-
 //servicios externos
-builder.Services.AddHttpClient<IMenuesService, MenuesService>(client =>
+builder.Services.AddScoped<IMenuesService>(sp =>
 {
-    client.BaseAddress = new Uri("http://192.168.0.252:7008/api/v1.3/");
+    var configuration = sp.GetRequiredService<IConfiguration>();
+    string? user = configuration["MenuService:user"];
+    string? password = configuration["MenuService:password"];
+    string? url = configuration["MenuService:url"];
+
+    if (user == null || password == null || url == null)
+    {
+        throw new ArgumentNullException();
+    }
+
+    var httpClient = sp.GetRequiredService<IHttpClientFactory>().CreateClient();
+    httpClient.BaseAddress = new Uri(url);
+
+    return new MenuesService(httpClient,user,password);
 });
 
 builder.Services.AddScoped<IMarcasService, MarcasService>(provider =>

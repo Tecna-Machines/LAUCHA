@@ -10,10 +10,16 @@ namespace LAUCHA.infrastructure.Services
     public class MenuesService : IMenuesService
     {
         private readonly HttpClient _httpClient;
-        private string UsuarioService { get; set; } = "43859853";
-        private string PasswordUsuario { get; set; } = "42751357";
+        private string UsuarioService;
+        private string PasswordUsuario;
 
-        public MenuesService(HttpClient httpClient) => (_httpClient) = (httpClient);
+        public MenuesService(HttpClient httpClient, string usuarioService, string passwordUsuario)
+        {
+            (_httpClient) = (httpClient);
+            UsuarioService = usuarioService;
+            PasswordUsuario = passwordUsuario;
+        }
+
         public async Task<CostoPersonalResponse> ObtenerGastosComida(string dniEmpleado, DateTime inicioPeriodo, DateTime finPeriodo)
         {
             string token = await ObtenerJwtToken();
@@ -71,9 +77,9 @@ namespace LAUCHA.infrastructure.Services
 
             if (jsonRequest != null)
             {
-                UsuarioLoginResponse loginResponse = JsonSerializer.Deserialize<UsuarioLoginResponse>(jsonRequest);
+                UsuarioLoginResponse? loginResponse = JsonSerializer.Deserialize<UsuarioLoginResponse>(jsonRequest);
 
-                return loginResponse.token;
+                return loginResponse.token ?? null;
             }
 
             throw new NullReferenceException();
