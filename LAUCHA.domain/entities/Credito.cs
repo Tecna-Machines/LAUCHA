@@ -1,7 +1,9 @@
-﻿using System;
+﻿using LAUCHA.domain.interfaces.IRepositories;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace LAUCHA.domain.entities
@@ -23,5 +25,25 @@ namespace LAUCHA.domain.entities
         public int NumeroConcepto { get; set; }
         public Concepto Concepto { get; set; } = null!;
         public ICollection<PagoCredito> PagosCreditos { get; set; } = null!;
+    
+        public decimal MontoCuota() 
+        {
+            return (Monto - MontoPagado) / CantidadCuotasFaltantes;
+        }
+        public decimal montoFaltante()
+        {
+            return (Monto - MontoPagado);
+        }
+        public void cobrarProximaCuotaManual()
+        {
+            Suspendido = true;
+            CobrarProximaCuota();
+        }
+        public void CobrarProximaCuota()
+        {
+            MontoPagado = MontoPagado + MontoCuota();
+            CantidadCuotasFaltantes = CantidadCuotasFaltantes - 1;
+
+        }
     }
 }

@@ -35,5 +35,13 @@ namespace LAUCHA.api.Controllers
             return new JsonResult(result) { StatusCode = 200};
         }
 
+        [HttpPost("{codigoCredito},{monto}/crearDescuentoManualmente")]
+        [ProducesResponseType(typeof(CreditoDTO), 200)]
+        public IActionResult CrearDescuentoManualmente(string codigoCredito, int monto)
+        {
+            var result = _CreditoService.PagarUnCreditoManualmente(codigoCredito, monto);
+            return new JsonResult(result) { StatusCode = 200 };
+        }
+
     }
 }

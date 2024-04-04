@@ -1,10 +1,11 @@
 ﻿using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.infrastructure.persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace LAUCHA.infrastructure.repositories
 {
-    public class CreditoRepository : IGenericRepository<Credito>, ICreditoRepository
+    public class CreditoRepository : IGenericRepository<Credito>, ICreditoRepository,ICreditoRepositoryTotal
     {
         private readonly LiquidacionesDbContext _context;
         public CreditoRepository(LiquidacionesDbContext context)
@@ -22,9 +23,15 @@ namespace LAUCHA.infrastructure.repositories
             throw new NotImplementedException();
         }
 
-        public Credito GetById(string id)
+        public Credito GetById(string codigoCredito)
         {
-            throw new NotImplementedException();
+            return _context.Creditos
+                .Where(c => c.CodigoCredito == codigoCredito)
+                .Include(c=>c.PagosCreditos)
+                .Include(c=>c.Concepto)
+                .Include(c=>c.Cuenta)
+                .First();
+            //throw new NotImplementedException();
         }
 
         public Credito Insert(Credito credito)
@@ -44,7 +51,11 @@ namespace LAUCHA.infrastructure.repositories
         public List<Credito> ObtenerTodosCreditosDeCuenta(string NumeroCuenta)
         {
             //TODO: a implementar por NICO
-            throw new NotImplementedException();
+            return _context.Creditos
+                .Where(c => c.NumeroCuenta == NumeroCuenta)
+                .Include(c => c.PagosCreditos)
+                .Include(c => c.Concepto)
+                .ToList();
         }
 
         public int Save()

@@ -1,4 +1,5 @@
-﻿using LAUCHA.domain.entities;
+﻿using LAUCHA.application.interfaces;
+using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.infrastructure.pagination;
 using LAUCHA.infrastructure.persistence;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace LAUCHA.infrastructure.repositories
 {
-    public class DescuentoRepository : IGenericRepository<Descuento> , IDescuentoRepository
+    public class DescuentoRepository : IGenericRepository<Descuento> , IDescuentoRepository,IDescuentoRepositoryTotal
     {
         private readonly LiquidacionesDbContext _context;
 

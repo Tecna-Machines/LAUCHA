@@ -1,5 +1,6 @@
 ﻿using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IRepositories;
+using LAUCHA.infrastructure.persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,11 @@ namespace LAUCHA.infrastructure.repositories
 {
     public class PagoCreditoRepository : IGenericRepository<PagoCredito>
     {
-        //TODO: por completar para nico
+        private readonly LiquidacionesDbContext _context;
+        public PagoCreditoRepository(LiquidacionesDbContext context)
+        {
+            _context = context;
+        }
         public PagoCredito Delete(string id)
         {
             throw new NotImplementedException();
@@ -26,14 +31,16 @@ namespace LAUCHA.infrastructure.repositories
             throw new NotImplementedException();
         }
 
-        public PagoCredito Insert(PagoCredito entity)
+        public PagoCredito Insert(PagoCredito pagoCredito)
         {
-            throw new NotImplementedException();
+            _context.PagosCreditos.Add(pagoCredito);
+            _context.SaveChanges();
+            return pagoCredito;
         }
 
         public int Save()
         {
-            throw new NotImplementedException();
+            return _context.SaveChanges();
         }
 
         public PagoCredito Update(PagoCredito entity)

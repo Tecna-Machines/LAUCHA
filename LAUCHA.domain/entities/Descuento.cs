@@ -19,5 +19,10 @@ namespace LAUCHA.domain.entities
         public IList<DescuentoPorLiquidacionPersonal> DescuentoPorLiquidacionPersonales { get; set; } = null!;
         public ICollection<PagoCredito> PagosCreditos { get; set; } = null!;
 
+        public Descuento(string numeroCuenta) 
+        {
+            NumeroCuenta = numeroCuenta;
+            CodigoDescuento = $"DES:{NumeroCuenta}{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}{new Random().Next(0, 150)}";
+        }
     }
 }
