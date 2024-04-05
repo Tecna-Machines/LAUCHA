@@ -138,6 +138,8 @@ builder.Services.AddScoped<ICalculadoraCredito, CalculadoraCredito>();
 builder.Services.AddScoped<IRecuperarItemsParaLiquidacion, AsociarItemsLiquidacion>();
 builder.Services.AddScoped<ICreditoService, OperarCreditosService>();
 builder.Services.AddScoped<IGenericRepository<PagoCredito>,PagoCreditoRepository>();
+builder.Services.AddScoped<ICreditoRepositoryTotal, CreditoRepository>(); 
+builder.Services.AddScoped<IDescuentoRepositoryTotal, DescuentoRepository>();
 
 builder.Services.AddScoped<IGenericRepository<HistorialRetencionFija>,HistorialRetencionFijaRepository>();
 builder.Services.AddScoped<IModificarRetencionFijaService,ModificarRetencionFijaService>();

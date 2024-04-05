@@ -40,5 +40,6 @@ namespace LAUCHA.api.Controllers
             return new JsonResult(result) { StatusCode = 200 };
         }
 
+
     }
 }

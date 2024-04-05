@@ -1,4 +1,5 @@
-﻿using LAUCHA.application.DTOs.DescuentoDTOs;
+﻿using LAUCHA.application.DTOs.CreditoDTOs;
+using LAUCHA.application.DTOs.DescuentoDTOs;
 using LAUCHA.application.DTOs.PaginaDTOs;
 using LAUCHA.application.interfaces;
 using Microsoft.AspNetCore.Http;
@@ -11,7 +12,7 @@ namespace LAUCHA.api.Controllers
     public class DescuentoController : ControllerBase
     {
         private readonly IOperarDescuentosService _DescuentoService;
-
+        
         public DescuentoController(IOperarDescuentosService descuentoService)
         {
             _DescuentoService = descuentoService;
@@ -49,5 +50,8 @@ namespace LAUCHA.api.Controllers
             var result = await _DescuentoService.ConsultarDescuentosFiltrados(numeroCuenta, desde, hasta, orden, descripcion, indice, cantidadReg);
             return new JsonResult(result) { StatusCode = 200 };
         }
+
+
+
     }
 }

@@ -42,12 +42,12 @@ namespace LAUCHA.application.Mappers
             DateTime fechaActual = DateTime.Now;
             int random = _GeneradorNumero.GenerarAleatorioEntreValores(0, 150);
 
-            return new Descuento
+            return new Descuento(descuentoDTO.NumeroCuenta)
             {
-                CodigoDescuento = $"DES:{descuentoDTO.NumeroCuenta}{fechaActual.Minute}{fechaActual.Second}{random}",
+                //CodigoDescuento = $"DES:{descuentoDTO.NumeroCuenta}{fechaActual.Minute}{fechaActual.Second}{random}",
                 Descripcion = descuentoDTO.Descripcion,
                 NumeroConcepto = descuentoDTO.NumeroConcepto,
-                NumeroCuenta = descuentoDTO.NumeroCuenta,
+                //NumeroCuenta = descuentoDTO.NumeroCuenta,
                 Fecha =  fechaActual,
                 Monto = descuentoDTO.Monto
             };
