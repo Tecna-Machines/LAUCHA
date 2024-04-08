@@ -71,6 +71,7 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
                 Monto = aDescontar,
             });
             _PagoCreditoRepository.Save();
+            _CreditoRepository.Save();
             credito.PagosCreditos.Add(pagoCredito);
         }
     }
