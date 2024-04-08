@@ -63,9 +63,17 @@ namespace LAUCHA.infrastructure.repositories
             return _context.SaveChanges();
         }
 
-        public Credito Update(Credito entity)
+        public Credito Update(Credito credito)
         {
-            throw new NotImplementedException();
+            var existingCredito = _context.Creditos.FirstOrDefault(c => c.CodigoCredito == credito.CodigoCredito);
+
+            if (existingCredito != null)
+            {
+                _context.Entry(existingCredito).CurrentValues.SetValues(credito);
+
+            }
+
+            return existingCredito ?? throw new NullReferenceException();
         }
     }
 }

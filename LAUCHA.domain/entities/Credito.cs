@@ -42,7 +42,7 @@ namespace LAUCHA.domain.entities
         public void CobrarProximaCuota()
         {
             MontoPagado = MontoPagado + MontoCuota();
-            CantidadCuotasFaltantes = CantidadCuotasFaltantes - 1;
+            CantidadCuotasFaltantes = CantidadCuotasFaltantes--;
 
         }
     }

@@ -56,6 +56,7 @@ namespace LAUCHA.application.UseCase.OperarCredito
             /*debe ser capaz se incorporar un pago a un credito*/
             Credito credito = _CreditoRepository.GetById(codigoCredito);
             credito.cobrarProximaCuotaManual();
+
             Descuento descuento = _DescuentoRepository.Insert(new Descuento(credito.Cuenta.NumeroCuenta)
             {
                 Fecha = DateTime.Now,

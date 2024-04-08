@@ -36,42 +36,40 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
 
             foreach (Credito credito in creditosPorPagar) 
             {
-                if (credito.Suspendido) { credito.Suspendido = false; continue; }
+                if (credito.Suspendido){ credito.Suspendido = false;}
                 procesarCredito(credito);
 
             }
-            //crear un descuento con lo equivalente a 1 cuota
-
-            //crear un PagoCredito y guardarlo
-
-            //el codigo de pago credito tiene el formato CPR{ANIO}{DNI}{HORA}{DIA}{MES}
-
-            // NOTA: no olvidar de usar el metodo save() de los repositorios 
-
-            //NOTA: si el metodo crece bastante considere usar metodos mas pequeños pero privados en esta clase
         }
 
-        private void procesarCredito(Credito credito) 
+        private void procesarCredito(Credito credito)
         {
             decimal aDescontar = credito.MontoCuota();
             credito.CobrarProximaCuota();
-            Descuento descuento = _DescuentoRepository.Insert(new Descuento(credito.Cuenta.NumeroCuenta)
+
+            _CreditoRepository.Update(credito);
+
+            Descuento descuento = new Descuento(credito.Cuenta.NumeroCuenta)
             {
                 Fecha = DateTime.Now,
                 Monto = aDescontar,
-                Descripcion = "Descuento sin descripcion"
-            });
+                Descripcion = $"{credito.Descripcion} | cuota ({credito.CantidadCuotasPagadas+1}/{(credito.CantidadCuotasPagadas+1) + credito.CantidadCuotasFaltantes})"
+            };
+
+            _DescuentoRepository.Insert(descuento);
             _DescuentoRepository.Save();
-            PagoCredito pagoCredito = _PagoCreditoRepository.Insert(new PagoCredito
+
+            PagoCredito pagoCredito = new PagoCredito
             {
-                Descuento = descuento,
-                Credito = credito,
-                Descripcion = "Pago credito sin descripcion",
+                CodigoCredito = credito.CodigoCredito,
+                CodigoDescuento = descuento.CodigoDescuento,
+                Descripcion = $"Pago de credito: {credito.Descripcion}",
                 FechaPago = DateTime.Now,
                 Monto = aDescontar,
-            });
+            };
+
+            _PagoCreditoRepository.Insert(pagoCredito);
             _PagoCreditoRepository.Save();
-            credito.PagosCreditos.Add(pagoCredito);
         }
     }
 }
