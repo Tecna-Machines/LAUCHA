@@ -29,26 +29,14 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
 
         public void CrearDescuentosCreditos(string NumeroCuenta)
         {
-            //TODO: implementar logica 
-
-            //un empleado puede tener varias creditos/adelantos a la vez
             List<Credito> creditosPorPagar = _CreditoRepositoryEspecifico.ObtenerCreditosSinPagarDeCuenta(NumeroCuenta);
 
             foreach (Credito credito in creditosPorPagar) 
             {
                 if (credito.Suspendido) { credito.Suspendido = false; _CreditoRepository.Save(); continue; }
                 procesarCredito(credito);
-
+                
             }
-            //crear un descuento con lo equivalente a 1 cuota
-
-            //crear un PagoCredito y guardarlo
-
-            //el codigo de pago credito tiene el formato CPR{ANIO}{DNI}{HORA}{DIA}{MES}
-
-            // NOTA: no olvidar de usar el metodo save() de los repositorios 
-
-            //NOTA: si el metodo crece bastante considere usar metodos mas pequeños pero privados en esta clase
         }
 
         private void procesarCredito(Credito credito) 
@@ -70,9 +58,10 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
                 FechaPago = DateTime.Now,
                 Monto = aDescontar,
             });
-            _CreditoRepository.Save();
+            
             _PagoCreditoRepository.Save();
-           
+            _CreditoRepository.Save();
+
             credito.PagosCreditos.Add(pagoCredito);
         }
     }
