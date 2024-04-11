@@ -36,7 +36,7 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
 
             foreach (Credito credito in creditosPorPagar) 
             {
-                if (credito.Suspendido) { credito.Suspendido = false; continue; }
+                if (credito.Suspendido) { credito.Suspendido = false; _CreditoRepository.Save(); continue; }
                 procesarCredito(credito);
 
             }
@@ -70,8 +70,9 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
                 FechaPago = DateTime.Now,
                 Monto = aDescontar,
             });
-            _PagoCreditoRepository.Save();
             _CreditoRepository.Save();
+            _PagoCreditoRepository.Save();
+           
             credito.PagosCreditos.Add(pagoCredito);
         }
     }
