@@ -13,14 +13,18 @@ namespace LAUCHA.application.UseCase.AgregarUnAdicional
     public class CrearAdicionalService: ICrearAdicionalService
     {
         private readonly IGenericRepository<Adicional> _repository;
+        private readonly ILogsApp log;
 
-        public CrearAdicionalService(IGenericRepository<Adicional> repository)
+        public CrearAdicionalService(IGenericRepository<Adicional> repository, ILogsApp log)
         {
             _repository = repository;
+            this.log = log;
         }
 
         public AdicionalDTO CrearNuevoAdicional(AdicionalDTO nuevoAdicional)
         {
+            log.LogInformation("creando nuevo adicional: {adi}", nuevoAdicional.Concepto);
+
             Adicional adicional = new Adicional
             {
                 CodigoAdicional = nuevoAdicional.Codigo,
@@ -30,6 +34,8 @@ namespace LAUCHA.application.UseCase.AgregarUnAdicional
             };
 
             adicional = _repository.Insert(adicional);
+
+            log.LogInformation("se creo el adicional exitosamente");
 
             return new AdicionalDTO
             {

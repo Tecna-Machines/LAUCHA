@@ -13,18 +13,24 @@ namespace LAUCHA.application.UseCase.OperacionesDescuento
         private readonly IGenericRepository<Concepto> _ConceptoRepository;
         private readonly IDescuentoRepository _DescuentoRepositoryEspecifico;
         private readonly DescuentoMapper _DescuentoMapper;
+        private readonly ILogsApp log;
         public OperarDescuentosService(IGenericRepository<Descuento> descuentoRepository,
                                        IGenericRepository<Concepto> conceptoRepository,
-                                       IDescuentoRepository descuentoRepositoryEspecifico)
+                                       IDescuentoRepository descuentoRepositoryEspecifico,
+                                       ILogsApp log)
         {
             _DescuentoRepository = descuentoRepository;
             _DescuentoMapper = new();
             _ConceptoRepository = conceptoRepository;
             _DescuentoRepositoryEspecifico = descuentoRepositoryEspecifico;
+            this.log = log;
         }
 
         public DescuentoDTO CrearUnDescuentoNuevo(CrearDescuentoDTO nuevoDescuentoDTO)
         {
+            log.LogInformation("Se creara el descuento: {des}", nuevoDescuentoDTO.Descripcion);
+            log.LogInformation("monto del descuento: {m}", nuevoDescuentoDTO.Monto);
+
             Descuento nuevo = _DescuentoMapper.CrearDescuento(nuevoDescuentoDTO);
             Concepto? concepto = null;
 
@@ -35,6 +41,8 @@ namespace LAUCHA.application.UseCase.OperacionesDescuento
             {
                 concepto = _ConceptoRepository.GetById(nuevoDescuentoDTO.NumeroConcepto.ToString());
             }
+
+            log.LogInformation("se creo exitosament el descuento");
 
             return _DescuentoMapper.CrearDescuentoDTO(nuevo, concepto);
         }

@@ -9,16 +9,21 @@ namespace LAUCHA.application.UseCase.ModificarRetencionFija
     {
         private readonly IGenericRepository<RetencionFija> _RetencionFijaRepository;
         private readonly IGenericRepository<HistorialRetencionFija> _HistorialRepository;
+        private readonly ILogsApp log;
 
         public ModificarRetencionFijaService(IGenericRepository<RetencionFija> retencionFijaRepository,
-                                            IGenericRepository<HistorialRetencionFija> historialRepository)
+                                            IGenericRepository<HistorialRetencionFija> historialRepository,
+                                            ILogsApp log)
         {
             _RetencionFijaRepository = retencionFijaRepository;
             _HistorialRepository = historialRepository;
+            this.log = log;
         }
 
         public RetencionFijaDTO ModificarRetencionFija(string codigoRetencionFija, ModificadorRetencionFijaDTO modifcaciones)
         {
+            log.LogInformation("se va a modificar la retencion fija: {cod}", codigoRetencionFija);
+
             var retencion = _RetencionFijaRepository.GetById(codigoRetencionFija);
 
             var registroHistorya = new HistorialRetencionFija
@@ -30,6 +35,9 @@ namespace LAUCHA.application.UseCase.ModificarRetencionFija
                 Unidades = retencion.Unidades
             };
 
+            log.LogInformation("se guarda el registro historico: codigo {cod} , monto: {mont} , porcentual {p}, vigencia: {date}",
+                            codigoRetencionFija, registroHistorya.Unidades, registroHistorya.EsPorcentual, registroHistorya.FechaFinVigencia);
+
             _HistorialRepository.Insert(registroHistorya);
 
             retencion.Unidades = modifcaciones.Unidades;
@@ -37,6 +45,9 @@ namespace LAUCHA.application.UseCase.ModificarRetencionFija
             retencion.EsQuincenal = modifcaciones.EsQuicenal;
 
             RetencionFija retencionActualizada = _RetencionFijaRepository.Update(retencion);
+
+            log.LogInformation("se actualizo la retencion fija: cod: {c}, monto: {m}, esQuincenal: {q}",
+                                retencion.CodigoRetencionFija, retencion.Unidades, retencion.EsQuincenal);
 
             _RetencionFijaRepository.Save();
             _HistorialRepository.Save();

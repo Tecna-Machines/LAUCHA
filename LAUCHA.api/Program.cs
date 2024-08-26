@@ -43,6 +43,14 @@ builder.Services.AddSwaggerGen();
 
 //custom
 
+//Logs
+string logPath = builder.Configuration["Appsettings:logPath"];
+
+builder.Services.AddSingleton<ILogsApp, LogService>( log =>
+{
+    return new LogService(logPath);
+});
+
 //database
 string connectionString = builder.Configuration["ConnectionStrings:Production"];
 
@@ -145,6 +153,9 @@ builder.Services.AddScoped<IGenericRepository<HistorialRetencionFija>,HistorialR
 builder.Services.AddScoped<IModificarRetencionFijaService,ModificarRetencionFijaService>();
 
 builder.Services.AddHttpClient();
+
+
+
 //servicios externos
 builder.Services.AddScoped<IMenuesService>(sp =>
 {
@@ -196,5 +207,8 @@ if (app.Environment.IsDevelopment())
 app.UseCors("AllowAll");
 
 app.MapControllers();
+
+var logger = app.Services.GetRequiredService<ILogsApp>();
+logger.LogInformation("app run...");
 
 app.Run();

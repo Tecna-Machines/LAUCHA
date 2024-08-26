@@ -17,21 +17,28 @@ namespace LAUCHA.application.UseCase.OperarRetenciones
         private readonly IGenericRepository<Retencion> _RetencionRepository;
         private readonly IRetencionRepository _RetencionRepositoryEspecifo;
         private readonly RetencionMapper _RetencionMapper;
-
-        public OperarRetencionesService(IGenericRepository<Retencion> retencionRepository, IRetencionRepository retencionRepositoryEspecifo)
+        private readonly ILogsApp log;
+        public OperarRetencionesService(IGenericRepository<Retencion> retencionRepository,
+                                        IRetencionRepository retencionRepositoryEspecifo,
+                                        ILogsApp log)
         {
             _RetencionRepository = retencionRepository;
             _RetencionMapper = new();
             _RetencionRepositoryEspecifo = retencionRepositoryEspecifo;
+            this.log = log;
         }
 
         public RetencionDTO CrearRetencion(CrearRetencionDTO nuevaRetencionDTO)
         {
+            log.LogInformation("generando nueva retencion, cuenta:{c}, desc: {descp} , monto: {mont}",
+                               nuevaRetencionDTO.NumeroCuenta, nuevaRetencionDTO.Descripcion, nuevaRetencionDTO.Monto);
+
             Retencion nuevaRetencion = _RetencionMapper.GenerarRetencion(nuevaRetencionDTO);
 
             nuevaRetencion =  _RetencionRepository.Insert(nuevaRetencion);
             _RetencionRepository.Save();
 
+            log.LogInformation("se genero la nueva retencion con el codigo: {c}", nuevaRetencion.CodigoRetencion);
             return _RetencionMapper.GenerarRetencionDTO(nuevaRetencion);
         }
 
@@ -50,6 +57,9 @@ namespace LAUCHA.application.UseCase.OperarRetenciones
                                                               int indexPagina,
                                                               int cantidadRegistros)
         {
+
+            log.LogInformation("consultando las retenciones de la cuenta: {c}", numeroCuenta ?? "no cuenta");
+
             PaginaRegistro<Retencion> pagina = await _RetencionRepositoryEspecifo.ObtenerRetencionesFiltradas(numeroCuenta,
                                                                                                               desde,
                                                                                                               hasta,

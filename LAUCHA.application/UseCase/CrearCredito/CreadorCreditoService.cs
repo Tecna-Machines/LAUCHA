@@ -9,16 +9,21 @@ namespace LAUCHA.application.UseCase.CrearCredito
     public class CreadorCreditoService : ICreadorCreditos
     {
         private readonly IGenericRepository<Credito> _CreditoRepository;
-        public CreadorCreditoService(IGenericRepository<Credito> creditoRepository)
+        private readonly ILogsApp log;
+        public CreadorCreditoService(IGenericRepository<Credito> creditoRepository, ILogsApp log)
         {
             _CreditoRepository = creditoRepository;
+            this.log = log;
         }
 
         public CreditoDTO CrearNuevoCredito(CrearCreditoDTO nuevoCredito)
         {
-
+            log.LogInformation("se esta creando un nuevo credito, cuenta n: ",nuevoCredito.NumeroCuenta);
+            log.LogInformation("monto: {m} /cant. de cuotas: {c}", nuevoCredito.Monto, nuevoCredito.CantidadCuotas);
+            
             if (nuevoCredito.CantidadCuotas > 24) 
             {
+                log.LogWarning("el credito excede las cuotas permitidas");
                 throw new NotSupportedException() { };
             }
 
@@ -38,7 +43,14 @@ namespace LAUCHA.application.UseCase.CrearCredito
             };
 
             Credito creditoRet = _CreditoRepository.Insert(credito);
+
+            log.LogInformation("Se creo el credito: {cod}", credito.CodigoCredito);
+            log.LogInformation("cant. cuotas originales: ", credito.CantidadCuotasOriginales);
+            log.LogInformation("fecha inicio de pago: ", credito.FechaInicio);
+
             _CreditoRepository.Save();
+
+            log.LogInformation("el credito se guardo exitosamente");
 
             return new CreditoDTO()
             {

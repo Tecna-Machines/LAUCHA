@@ -3,23 +3,20 @@ using LAUCHA.application.interfaces;
 using LAUCHA.application.Mappers;
 using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IUnitsOfWork;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.application.UseCase.AgregarEmpleadoNuevo
 {
     public class AgregarEmpleadoNuevoService : ICrearEmpleadoService
     {
+        private readonly ILogsApp log;
         private readonly IUnitOfWorkEmpleado _unitOfWork;
         private EmpleadoMapper _empleadoMapper;
 
-        public AgregarEmpleadoNuevoService(IUnitOfWorkEmpleado unitOfWork)
+        public AgregarEmpleadoNuevoService(IUnitOfWorkEmpleado unitOfWork, ILogsApp log)
         {
             _unitOfWork = unitOfWork;
             _empleadoMapper = new EmpleadoMapper();
+            this.log = log;
         }
 
         public EmpleadoDTO CargarNuevoEmpleado(CrearEmpleadoDTO nuevoEmpleado)
@@ -28,6 +25,8 @@ namespace LAUCHA.application.UseCase.AgregarEmpleadoNuevo
             empleado = _unitOfWork.EmpleadoRepository.Insert(empleado);
 
             DateTime fechaActual = DateTime.Now;
+
+            log.LogInformation("se creo un empleado nuevo, nombre: {name} dni: {dni}", empleado.Nombre, empleado.Dni);
 
             Cuenta nuevaCuenta = new Cuenta
             {
@@ -39,9 +38,13 @@ namespace LAUCHA.application.UseCase.AgregarEmpleadoNuevo
 
             nuevaCuenta = _unitOfWork.CuentaRepository.Insert(nuevaCuenta);
 
+            log.LogInformation("se creo la cuenta para el empleado , cuento n: {num}", nuevaCuenta.NumeroCuenta);
+
             _unitOfWork.Save();
 
-            return _empleadoMapper.GenerarEmpleadoDTO(empleado,nuevaCuenta);
+            log.LogInformation("se guardaron los datos del nuevo empleado...");
+
+            return _empleadoMapper.GenerarEmpleadoDTO(empleado, nuevaCuenta);
         }
     }
 }

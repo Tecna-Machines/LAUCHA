@@ -14,15 +14,21 @@ namespace LAUCHA.application.UseCase.ContratosDeTrabajo
     {
         private readonly IUnitOfWorkContrato _unitOfWork;
         private readonly IConsultarContratoTrabajoService _contratoTrabajoService;
+        private readonly ILogsApp log;
 
-        public CrearContratoService(IUnitOfWorkContrato unitOfWork, IConsultarContratoTrabajoService contratoTrabajoService)
+        public CrearContratoService(IUnitOfWorkContrato unitOfWork,
+                                    IConsultarContratoTrabajoService contratoTrabajoService,
+                                    ILogsApp log)
         {
             _unitOfWork = unitOfWork;
             _contratoTrabajoService = contratoTrabajoService;
+            this.log = log;
         }
 
         public ContratoDTO CrearNuevoContrato(CrearContratoDTO nuevoContrato)
         {
+            log.LogInformation("se esta creando un nuevo contrato para empleado: ", nuevoContrato.Dni);
+
             Contrato contratoCreado = AgregarContrato(nuevoContrato);
             string codigoContrato = contratoCreado.CodigoContrato;
 
@@ -33,12 +39,15 @@ namespace LAUCHA.application.UseCase.ContratosDeTrabajo
 
             if (existenAdicionales)
             {
+                log.LogInformation("se estan creando adicionales para el contrato n: {contrato}}"
+                                    , contratoCreado.CodigoContrato);
                 AgregarAdicionales(nuevoContrato, codigoContrato);
             }
 
             //confirmar el contrato
             _unitOfWork.Save();
 
+            log.LogInformation("se realizo con exito la creacion del contrato n: {n}", contratoCreado.CodigoContrato);
             return _contratoTrabajoService.ConsultarContrato(codigoContrato);
         }
 
@@ -57,6 +66,8 @@ namespace LAUCHA.application.UseCase.ContratosDeTrabajo
                 TipoContrato = nuevoContrato.Tipo
             };
 
+            log.LogInformation("se agrego el contrato n: {num}", contrato.CodigoContrato);
+
             return _unitOfWork.ContratoRepository.Insert(contrato);
         }
 
@@ -73,6 +84,9 @@ namespace LAUCHA.application.UseCase.ContratosDeTrabajo
                 CodigoContrato = codigoContrato
             };
 
+            log.LogInformation("se esta agrando un acuerdo blanco , contrato n: {n} ,unidades: {u}"
+                               , codigoContrato, acuerdoBlanco.Unidades);
+
             _unitOfWork.AcuerdoBlancoRepository.Insert(acuerdoBlanco);
         }
 
@@ -84,6 +98,7 @@ namespace LAUCHA.application.UseCase.ContratosDeTrabajo
                 CodigoContrato = codigoContrato
             };
 
+            log.LogInformation("se configuro la modalidad: {m}", modalidadDelContrato.CodigoModalidad);
             _unitOfWork.ModalidadPorContratoRepository.Insert(modalidadDelContrato);
         }
 

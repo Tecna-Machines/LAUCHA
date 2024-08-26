@@ -15,12 +15,14 @@ namespace LAUCHA.application.UseCase.AgregarCuenta
         private readonly IGenericRepository<RetencionFija> _RetencionFijaRepository;
         private readonly IRetencionFijaPorCuentaRepository _RetencionFijaPorCuentaRepository;
         private readonly CuentaMapper _CuentaMapper;
+        private readonly ILogsApp log;
 
         public AgregarCuentaService(IUnitOfWorkRetencionFijaCuenta unitOfWorkRetencionFijaCuenta,
                                     IGenericRepository<Cuenta> cuentaRepository,
                                     IGenericRepository<Empleado> empleadoRepository,
                                     IRetencionFijaPorCuentaRepository retencionFijaPorCuentaRepository,
-                                    IGenericRepository<RetencionFija> retencionFijaRepository)
+                                    IGenericRepository<RetencionFija> retencionFijaRepository,
+                                    ILogsApp log)
         {
             _unitOfWorkRetencionFijaCuenta = unitOfWorkRetencionFijaCuenta;
             _CuentaMapper = new CuentaMapper();
@@ -28,26 +30,35 @@ namespace LAUCHA.application.UseCase.AgregarCuenta
             _EmpleadoRepository = empleadoRepository;
             _RetencionFijaPorCuentaRepository = retencionFijaPorCuentaRepository;
             _RetencionFijaRepository = retencionFijaRepository;
+            this.log = log;
         }
 
         public CuentaDTO AgregarRetencionesFijas(string numeroCuenta, string[] codigosRetenciones)
         {
+            log.LogInformation("se configuraran retenciones fijas para la cuenta: {cuenta}", numeroCuenta);
+
             foreach (string codigo in codigosRetenciones)
             {
                 RetencionFijaPorCuenta nuevaRetencionCuenta = new();
                 nuevaRetencionCuenta.CodigoRetencionFija = codigo;
                 nuevaRetencionCuenta.NumeroCuenta = numeroCuenta;
 
+                log.LogInformation("configurando retencion: {codigo}", codigo);
+
                 _unitOfWorkRetencionFijaCuenta.RetencionFijaRepository.Insert(nuevaRetencionCuenta);
             }
 
             //confirma las retenciones de la cuenta
+            log.LogInformation("confirmando configuracion de la cuenta");
             _unitOfWorkRetencionFijaCuenta.Save();
             return this.ConsularUnaCuenta(numeroCuenta);
         }
 
         public CuentaDTO ConsularUnaCuenta(string numeroCuenta)
         {
+
+            log.LogInformation("se esta consultando la cuenta n: {cuenta}", numeroCuenta);
+
             Cuenta cuenta = _CuentaRepository.GetById(numeroCuenta);
             Empleado empleado = _EmpleadoRepository.GetById(cuenta.DniEmpleado);
             List<RetencionFijaPorCuenta> retencionesFijaPorCuenta = _RetencionFijaPorCuentaRepository.

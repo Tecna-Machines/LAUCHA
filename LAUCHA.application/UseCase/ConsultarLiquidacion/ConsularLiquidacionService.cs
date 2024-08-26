@@ -1,15 +1,9 @@
 ﻿using LAUCHA.application.DTOs.LiquidacionDTOs;
 using LAUCHA.application.DTOs.PaginaDTOs;
-using LAUCHA.application.DTOs.RemuneracionDTOs;
 using LAUCHA.application.interfaces;
 using LAUCHA.application.Mappers;
 using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IRepositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.application.UseCase.ConsultarLiquidacion
 {
@@ -22,13 +16,15 @@ namespace LAUCHA.application.UseCase.ConsultarLiquidacion
         private readonly IGenericRepository<Empleado> _EmpleadoRepository;
         private readonly ILiquidacionRepository _LiquidacionRepositoyEspecifico;
         private readonly IConsultarContratoTrabajoService _ConsultarContratoService;
+        private readonly ILogsApp log;
 
         public ConsularLiquidacionService(IGenericRepository<LiquidacionPersonal> liquidacionRepository,
                                           IItemsLiquidacionRepository itemsLiquidacionRepository,
                                           IGenericRepository<Cuenta> cuentaRepository,
                                           IGenericRepository<Empleado> empleadoRepository,
                                           ILiquidacionRepository liquidacionRepositoyEspecifico,
-                                          IConsultarContratoTrabajoService consultarContratoService)
+                                          IConsultarContratoTrabajoService consultarContratoService,
+                                          ILogsApp log)
         {
             _MapperLiquidacion = new();
             _LiquidacionRepository = liquidacionRepository;
@@ -37,10 +33,13 @@ namespace LAUCHA.application.UseCase.ConsultarLiquidacion
             _EmpleadoRepository = empleadoRepository;
             _LiquidacionRepositoyEspecifico = liquidacionRepositoyEspecifico;
             _ConsultarContratoService = consultarContratoService;
+            this.log = log;
         }
 
         public LiquidacionDTO ConsulatarLiquidacion(string codigoLiquidacion)
         {
+            log.LogInformation("se esta consultando por la liquidacion: {cod}", codigoLiquidacion);
+
             LiquidacionPersonal liquidacion = _LiquidacionRepository.GetById(codigoLiquidacion);
 
             List<Retencion> retenciones = _ItemsLiquidacionRepository.ObtenerRetencionesLiquidacion(codigoLiquidacion);
@@ -57,19 +56,23 @@ namespace LAUCHA.application.UseCase.ConsultarLiquidacion
 
             var contrato = _ConsultarContratoService.ConsultarContrato(liquidacion.CodigoContrato);
 
-            return _MapperLiquidacion.GenerarLiquidacionDTO(liquidacion,remuneraciones,retenciones,descuentos,noRemuneraciones,pagos,empleado,contrato);
+            return _MapperLiquidacion.GenerarLiquidacionDTO(liquidacion, remuneraciones, retenciones, descuentos, noRemuneraciones, pagos, empleado, contrato);
         }
 
         public async Task<PaginaDTO<LiquidacionResumenDTO>> ConsultarLiquidaciones(FiltroLiquidacion filtros, int indice, int cantidadRegistros)
         {
+            log.LogInformation("se esta consultando por varias liquidaciones");
+
             PaginaRegistro<LiquidacionPersonal> pagina = await _LiquidacionRepositoyEspecifico
-                                                               .ConseguirLiquidacionesFiltradas(filtros,indice,cantidadRegistros);
+                                                               .ConseguirLiquidacionesFiltradas(filtros, indice, cantidadRegistros);
 
             List<LiquidacionResumenDTO> liquidacionesResumenDTOs = new();
             List<LiquidacionPersonal> liquidaciones = pagina.Registros;
 
             foreach (var liq in liquidaciones)
             {
+                log.LogInformation("Devoliendo la liquidacion N: {n}", liq.CodigoLiquidacion);
+
                 var liquidacionDTO = new LiquidacionResumenDTO
                 {
                     Codigo = liq.CodigoLiquidacion,

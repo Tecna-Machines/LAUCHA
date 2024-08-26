@@ -10,15 +10,21 @@ namespace LAUCHA.application.UseCase.CrearRemuneracionNueva
     {
         private readonly IGenericRepository<Remuneracion> _RemuneracionRepository;
         private GeneradorDeNumeroAleatorio _GeneradorNumeros;
+        private readonly ILogsApp log;
 
-        public CrearRemuneracionNuevaService(IGenericRepository<Remuneracion> remuneracionRepository)
+        public CrearRemuneracionNuevaService(IGenericRepository<Remuneracion> remuneracionRepository, ILogsApp log)
         {
             _RemuneracionRepository = remuneracionRepository;
             _GeneradorNumeros = new();
+            this.log = log;
         }
 
         public RemuneracionDTO CrearNuevaRemuneracion(CrearRemuneracionDTO nuevaRemuneracion)
         {
+            log.LogInformation("se solicito la creacion de una remuneracion");
+            log.LogInformation("cuenta: {c} ,monto: {m}, descripcion: {d}, es blanco: {b}",
+                nuevaRemuneracion.Cuenta, nuevaRemuneracion.Monto, nuevaRemuneracion.Descripcion, nuevaRemuneracion.EsBlanco);
+
             DateTime FechaActual = DateTime.Now;
             int numeroRandom = _GeneradorNumeros.GenerarAleatorioEntreValores(FechaActual.Day, 100);
             string codigoRemuneracion = $"{nuevaRemuneracion.Cuenta}{FechaActual.Minute}{FechaActual.Second}{numeroRandom}";
@@ -33,11 +39,17 @@ namespace LAUCHA.application.UseCase.CrearRemuneracionNueva
                 Fecha = FechaActual
             };
 
+            log.LogInformation("se creo la remuneracion con codigo: {c}", remuneracion.CodigoRemuneracion);
+
             // guardar la remuneracion en la BBDD
             _RemuneracionRepository.Insert(remuneracion);
 
+            log.LogInformation("se guardo la nueva remuneracion");
+
             //obtener la remuneracion de la BBDD
             remuneracion = _RemuneracionRepository.GetById(codigoRemuneracion);
+
+            log.LogInformation("recuperando informacion de la remuneraicon: {cod}", codigoRemuneracion);
 
             return new RemuneracionDTO
             {

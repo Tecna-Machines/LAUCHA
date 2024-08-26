@@ -16,21 +16,27 @@ namespace LAUCHA.application.UseCase.ConsultarEmpleado
         private readonly IGenericRepository<Empleado> _EmpleadoRepository;
         private readonly ICuentaRepository _CuentaRepository;
         private readonly EmpleadoMapper _EmpleadoMapper;
+        private readonly ILogsApp log;
 
-        public ConsultarEmpleadoService(IGenericRepository<Empleado> empleadoRepository, ICuentaRepository cuentaRepository)
+        public ConsultarEmpleadoService(IGenericRepository<Empleado> empleadoRepository, ICuentaRepository cuentaRepository, ILogsApp log)
         {
             _EmpleadoRepository = empleadoRepository;
             _CuentaRepository = cuentaRepository;
             _EmpleadoMapper = new EmpleadoMapper();
+            this.log = log;
         }
 
         public EmpleadoDTO ConsultarUnEmpleado(string dniEmpleado)
         {
+            log.LogInformation("se esta consultando el empleado: {dni}", dniEmpleado);
+
             Empleado? empleadoObenitdo = _EmpleadoRepository.GetById(dniEmpleado);
 
             if(empleadoObenitdo == null) { throw new NullReferenceException(); }
 
             Cuenta? cuentaDelEmpleado = _CuentaRepository.ObtenerCuentaDelEmpleado(empleadoObenitdo.Dni);
+
+            log.LogInformation("devolviendo informacion del empleado: {emp}", empleadoObenitdo.Nombre);
 
             return _EmpleadoMapper.GenerarEmpleadoDTO(empleadoObenitdo, cuentaDelEmpleado);
         }
@@ -39,6 +45,8 @@ namespace LAUCHA.application.UseCase.ConsultarEmpleado
         {
             IList<Empleado> empleados = _EmpleadoRepository.GetAll();
             List<EmpleadoDTO> empleadoDTOs = new();
+
+            log.LogInformation("recuperando informacion de todos los empleados");
 
             foreach (var empleado in empleados)
             {   

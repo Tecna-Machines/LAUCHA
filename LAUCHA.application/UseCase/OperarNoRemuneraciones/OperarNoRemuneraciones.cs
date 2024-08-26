@@ -12,11 +12,15 @@ namespace LAUCHA.application.UseCase.OperarNoRemuneraciones
         private readonly IGenericRepository<NoRemuneracion> _NoRemuneracionRepository;
         private readonly INoRemuneracionRepository _NoRemuneracionRepositoryEspecifico;
         private readonly NoRemuneracionMapper _NoRemuneracionMapper;
-        public OperarNoRemuneraciones(IGenericRepository<NoRemuneracion> noRemuneracionRepository, INoRemuneracionRepository noRemuneracionRepositoryEspecifico)
+        private readonly ILogsApp log;
+        public OperarNoRemuneraciones(IGenericRepository<NoRemuneracion> noRemuneracionRepository,
+                                      INoRemuneracionRepository noRemuneracionRepositoryEspecifico,
+                                      ILogsApp log)
         {
             _NoRemuneracionRepository = noRemuneracionRepository;
             _NoRemuneracionRepositoryEspecifico = noRemuneracionRepositoryEspecifico;
             _NoRemuneracionMapper = new();
+            this.log = log;
         }
 
         public async Task<PaginaDTO<NoRemuneracionDTO>> ConsultarNoRemuneraciones(string? cuenta,
@@ -66,11 +70,15 @@ namespace LAUCHA.application.UseCase.OperarNoRemuneraciones
 
         public NoRemuneracionDTO CrearNuevaNoRemuneracion(CrearNoRemuneracionDTO nuevaNoRemuneracion)
         {
+            log.LogInformation("creando una nueva NO remuneracion , cuenta: {c} ,desc: {d},monto: {m}",
+                nuevaNoRemuneracion.Cuenta, nuevaNoRemuneracion.Descripcion, nuevaNoRemuneracion.Monto);
+
             NoRemuneracion noRemuneracion = _NoRemuneracionMapper.GenerarNoRemuneracion(nuevaNoRemuneracion);
 
             _NoRemuneracionRepository.Insert(noRemuneracion);
             _NoRemuneracionRepository.Save();
 
+            log.LogInformation("Se creo la NO remuneracion con condigo: {c}", noRemuneracion.CodigoNoRemuneracion);
             return _NoRemuneracionMapper.GenerarDtoNoRemuneracion(noRemuneracion);
         }
     }
