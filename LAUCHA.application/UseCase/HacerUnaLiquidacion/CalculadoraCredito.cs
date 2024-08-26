@@ -63,7 +63,7 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
                 Descripcion = $"Pago de credito: {credito.Descripcion}",
                 FechaPago = DateTime.Now,
                 Monto = aDescontar,
-            });
+            };
             
             _PagoCreditoRepository.Save();
             _CreditoRepository.Save();
