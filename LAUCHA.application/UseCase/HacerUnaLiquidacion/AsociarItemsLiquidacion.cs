@@ -56,7 +56,8 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
         public async Task<List<Descuento>> ObtenerDescuentosParaLiquidacion(string NumeroCuenta, string dniEmp, DateTime inicioPeriodo, DateTime finPeriodo)
         {
             //TODO: eliminar despues de PRUEBAS IMPORTANTE
-            var costosComida = new CostoPersonalResponse { costoTotal = 0, cantidadPedidos = 0 };
+            //se coloco la linea correcta
+            var costosComida = await _MenuService.ObtenerGastosComida(dniEmp, inicioPeriodo, finPeriodo);
 
             //TODO: llamar a una logica para crear el descuento de un credito
             _CalculadoraCredito.CrearDescuentosCreditos(NumeroCuenta);

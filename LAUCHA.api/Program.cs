@@ -144,6 +144,8 @@ builder.Services.AddScoped<IDescuentoRepositoryTotal, DescuentoRepository>();
 builder.Services.AddScoped<IGenericRepository<HistorialRetencionFija>,HistorialRetencionFijaRepository>();
 builder.Services.AddScoped<IModificarRetencionFijaService,ModificarRetencionFijaService>();
 
+builder.Services.AddHttpClient();
+
 //servicios externos
 builder.Services.AddScoped<IMenuesService>(sp =>
 {

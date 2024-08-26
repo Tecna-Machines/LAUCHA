@@ -29,11 +29,21 @@ namespace LAUCHA.infrastructure.Services
 
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            var costos = await _httpClient.GetFromJsonAsync<CostoPersonalResponse>
+            CostoPersonalResponse? costos = null;
+            
+            try
+            {
+                costos = await _httpClient.GetFromJsonAsync<CostoPersonalResponse>
                                 ($"{_httpClient.BaseAddress}Costo/personal?fechaInicio={inicioPeriodo.ToString("MM/dd/yyyy")}" +
                                 $"&fechaFin={finPeriodo.ToString("MM/dd/yyyy")}&" +
                                 $"idPersonal={empleado.id}");
 
+            }
+            catch (Exception ex)
+            {
+                
+            }
+            
             return costos! ?? new CostoPersonalResponse();
         }
 
