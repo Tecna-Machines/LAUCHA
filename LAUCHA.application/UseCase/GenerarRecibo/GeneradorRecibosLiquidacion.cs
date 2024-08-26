@@ -17,15 +17,19 @@ namespace LAUCHA.application.UseCase.GenerarRecibo
         private readonly GeneradorTablasComunes _GeneradorTablasComunes;
         private readonly GeneradorTablasSueldos _GeneradorTablasSueldo;
         private DateTime _FechaIngreso;
-        public GeneradorRecibosLiquidacion()
+        private readonly ILogsApp log;
+        public GeneradorRecibosLiquidacion(ILogsApp log)
         {
             _GeneradorNumeroPalabra = new();
             _GeneradorTablasComunes = new();
             _GeneradorTablasSueldo = new();
+            this.log = log;
         }
 
         public byte[] GenerarPdfRecibo(LiquidacionDTO liquidacion, DateTime fechaIngreso)
         {
+            log.LogInformation("generando recibo de la liquidacion N: {n}", liquidacion.Codigo);
+
             _FechaIngreso = fechaIngreso;
 
             using (MemoryStream stream = new MemoryStream())

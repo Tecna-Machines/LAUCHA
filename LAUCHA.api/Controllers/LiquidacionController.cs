@@ -19,12 +19,14 @@ namespace LAUCHA.api.Controllers
         private readonly IConsultarContratoTrabajoService _ContratoService;
         private readonly IConsultarLiquidacionService _ConsultarLiquidacionService;
         private readonly IGeneradorRecibos _GeneradorRecibos;
+        private readonly ILogsApp log;
         public LiquidacionController(ILiquidacionService liquidacionService,
                                      IConsultarEmpleadoService empleadoService,
                                      IAgregarCuentaService cuentaService,
                                      IConsultarContratoTrabajoService contratoService,
                                      IConsultarLiquidacionService consultarLiquidacionService,
-                                     IGeneradorRecibos generadorRecibos)
+                                     IGeneradorRecibos generadorRecibos,
+                                     ILogsApp log)
         {
             _liquidacionService = liquidacionService;
             _empleadoService = empleadoService;
@@ -32,6 +34,7 @@ namespace LAUCHA.api.Controllers
             _ContratoService = contratoService;
             _ConsultarLiquidacionService = consultarLiquidacionService;
             _GeneradorRecibos = generadorRecibos;
+            this.log = log;
         }
 
         [HttpPost("empleado/{dni}/deducir-retenciones")]
@@ -53,6 +56,8 @@ namespace LAUCHA.api.Controllers
         [ProducesResponseType(typeof(LiquidacionDTO), 201)]
         public async Task<IActionResult> LiquidarEmpleado(string dni, DateTime desde, DateTime hasta)
         {
+            log.LogInformation("se solicito la liquidacion del empleado: {dni}", dni);
+
             try
             {
                 var empleado = _empleadoService.ConsultarUnEmpleado(dni);
@@ -67,10 +72,17 @@ namespace LAUCHA.api.Controllers
             }
             catch (PeriodoExcepcion e)
             {
+                log.LogError(e, "ocurrio un problema en el periodo de liquidacion");
                 return new JsonResult(new RespuestaSystema { Mensaje = e.Message, StatusCode = e.Codigo }) { StatusCode = e.Codigo };
+            }
+            catch(ServicioException e)
+            {
+                log.LogError(e, "ocurrio un problema con un servicio externo");
+                return new JsonResult(new RespuestaSystema { Mensaje = e.Message, StatusCode = 500 });
             }
             catch (Exception e)
             {
+                log.LogError(e, "ocurrio un problema al liquidar: {m}", e.Message);
                 return new JsonResult(new RespuestaSystema { Mensaje = e.Message, StatusCode = 500 }) { StatusCode = 500 };
             }
 

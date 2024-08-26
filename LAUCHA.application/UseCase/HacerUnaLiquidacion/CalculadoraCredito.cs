@@ -1,11 +1,6 @@
 ﻿using LAUCHA.application.interfaces;
 using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IRepositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
 {
@@ -31,11 +26,11 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
         {
             List<Credito> creditosPorPagar = _CreditoRepositoryEspecifico.ObtenerCreditosSinPagarDeCuenta(NumeroCuenta);
 
-            foreach (Credito credito in creditosPorPagar) 
+            foreach (Credito credito in creditosPorPagar)
             {
                 if (credito.Suspendido) { credito.Suspendido = false; _CreditoRepository.Save(); continue; }
                 procesarCredito(credito);
-                
+
             }
         }
 
@@ -50,7 +45,7 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
             {
                 Fecha = DateTime.Now,
                 Monto = aDescontar,
-                Descripcion = $"{credito.Descripcion} | cuota ({credito.CantidadCuotasPagadas+1}/{(credito.CantidadCuotasPagadas+1) + credito.CantidadCuotasFaltantes})"
+                Descripcion = $"{credito.Descripcion} | cuota ({credito.CantidadCuotasPagadas + 1}/{(credito.CantidadCuotasPagadas + 1) + credito.CantidadCuotasFaltantes})"
             };
 
             _DescuentoRepository.Insert(descuento);
@@ -64,7 +59,7 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
                 FechaPago = DateTime.Now,
                 Monto = aDescontar,
             };
-            
+
             _PagoCreditoRepository.Save();
             _CreditoRepository.Save();
 

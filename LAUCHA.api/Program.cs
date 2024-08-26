@@ -31,6 +31,9 @@ using LAUCHA.infrastructure.repositories;
 using LAUCHA.infrastructure.Services;
 using LAUCHA.infrastructure.unitOfWork;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
+using MySql.Data.MySqlClient;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,6 +48,12 @@ builder.Services.AddSwaggerGen();
 
 //Logs
 string logPath = builder.Configuration["Appsettings:logPath"];
+
+if(logPath == null)
+{
+    Console.WriteLine("error , falta la ruta del archivo de log");
+    return;
+}
 
 builder.Services.AddSingleton<ILogsApp, LogService>( log =>
 {
@@ -209,6 +218,31 @@ app.UseCors("AllowAll");
 app.MapControllers();
 
 var logger = app.Services.GetRequiredService<ILogsApp>();
+logger.LogInformation("preparando inicio de aplicacion");
+
+//test database
+var builderConnectionString = new MySqlConnectionStringBuilder(connectionString);
+string host = builderConnectionString.Server;
+
+logger.LogInformation("iniciando prueba de conexion con base de datos...");
+
+    try
+    {
+        using var scope = builder.Services.BuildServiceProvider().CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<LiquidacionesDbContext>();
+
+    if (!context.Database.CanConnect()){
+        logger.LogError($"fallo la conexion con el servidor de base de datos: {host}");
+    }
+    
+        logger.LogInformation("conexion exitosa con el servidor DB: {Host}", host);
+    }
+    catch (Exception ex)
+    {
+    logger.LogError(ex, "se genero una excepcion al conectar con el host: {Host}", host);
+    }
+
+logger.LogInformation("todo parece ir bien c: ");
 logger.LogInformation("app run...");
 
 app.Run();

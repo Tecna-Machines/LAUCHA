@@ -1,9 +1,4 @@
 ﻿using LAUCHA.application.interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Serilog;
 
 
@@ -16,6 +11,7 @@ namespace LAUCHA.infrastructure.Services
         {
             _logger = new LoggerConfiguration()
                         .MinimumLevel.Debug()
+                        .WriteTo.Console()
                         .WriteTo.File(logPathFile, rollingInterval: RollingInterval.Day, shared: true)
                         .CreateLogger();
 

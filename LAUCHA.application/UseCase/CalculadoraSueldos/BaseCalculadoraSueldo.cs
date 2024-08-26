@@ -6,11 +6,6 @@ using LAUCHA.application.Helpers;
 using LAUCHA.application.interfaces;
 using LAUCHA.application.Mappers;
 using LAUCHA.domain.entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.application.UseCase.CalculadoraSueldos
 {
@@ -23,7 +18,7 @@ namespace LAUCHA.application.UseCase.CalculadoraSueldos
 
         public BaseCalculadoraSueldo()
         {
-            _MapperRetencion = new ();
+            _MapperRetencion = new();
             _CalculadoraPorcentaje = new();
             _MapperRemuneracion = new();
         }
@@ -33,7 +28,7 @@ namespace LAUCHA.application.UseCase.CalculadoraSueldos
             return DateTime.Now.Day < 15;
         }
 
-        protected Retencion CrearRetencion(RetencionFijaDTO retencionFija,decimal monto, int indice, string numeroCuenta)
+        protected Retencion CrearRetencion(RetencionFijaDTO retencionFija, decimal monto, int indice, string numeroCuenta)
         {
             string simbolo = retencionFija.EsPorcentual == true ? "%" : "$";
             string descripcionRetencion = $"{retencionFija.Concepto} {simbolo}({retencionFija.Unidades})";

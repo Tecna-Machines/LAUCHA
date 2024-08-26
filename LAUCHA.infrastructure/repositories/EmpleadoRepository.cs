@@ -1,4 +1,5 @@
-﻿using LAUCHA.domain.entities;
+﻿using LAUCHA.application.Exceptios;
+using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.infrastructure.persistence;
 using System;
@@ -37,7 +38,8 @@ namespace LAUCHA.infrastructure.repositories
         public Empleado GetById(string id)
         {
             Empleado? empleadoEncontrado = _context.Empleados.Find(id);
-            return empleadoEncontrado != null ? empleadoEncontrado : throw new NullReferenceException();
+            return empleadoEncontrado != null ? 
+                   empleadoEncontrado : throw new ServicioException("no se encontro al empleado","menu service");
         }
 
         public Empleado Insert(Empleado nuevoEmpleado)

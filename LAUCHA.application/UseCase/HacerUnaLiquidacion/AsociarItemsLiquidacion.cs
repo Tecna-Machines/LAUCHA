@@ -60,7 +60,7 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
             var costosComida = await _MenuService.ObtenerGastosComida(dniEmp, inicioPeriodo, finPeriodo);
 
             //TODO: llamar a una logica para crear el descuento de un credito
-            _CalculadoraCredito.CrearDescuentosCreditos(NumeroCuenta);
+            //_CalculadoraCredito.CrearDescuentosCreditos(NumeroCuenta);
 
             var descuentoComidaDTO = new CrearDescuentoDTO
             {
