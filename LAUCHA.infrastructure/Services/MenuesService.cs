@@ -30,28 +30,22 @@ namespace LAUCHA.infrastructure.Services
 
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            var response = await _httpClient.GetAsync
+            CostoPersonalResponse? costos = null;
+            
+            try
+            {
+                costos = await _httpClient.GetFromJsonAsync<CostoPersonalResponse>
                                 ($"{_httpClient.BaseAddress}Costo/personal?fechaInicio={inicioPeriodo.ToString("MM/dd/yyyy")}" +
                                 $"&fechaFin={finPeriodo.ToString("MM/dd/yyyy")}&" +
                                 $"idPersonal={empleado.id}");
 
-            if (response.IsSuccessStatusCode)
-            {
-                try
-                {
-                    var costos = await response.Content.ReadFromJsonAsync<CostoPersonalResponse>();
-                    return costos ?? throw new NullReferenceException();
-                }
-                catch
-                {
-                    return new CostoPersonalResponse { cantidadPedidos = -1, costoTotal= 0 ,descuento =0};
-                }
-
-            }else
-            {
-                    throw new ServicioException("error al consultar costos","menu service");
             }
-
+            catch (Exception ex)
+            {
+                
+            }
+            
+            return costos! ?? new CostoPersonalResponse();
         }
 
         private async Task<PersonalResponse> ObtenerPersonaDelMenu(string dniEmpleado,string token)

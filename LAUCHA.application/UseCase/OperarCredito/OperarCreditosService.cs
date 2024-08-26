@@ -55,8 +55,7 @@ namespace LAUCHA.application.UseCase.OperarCredito
             CreditoMapper creditoMapper = new CreditoMapper();
             /*debe ser capaz se incorporar un pago a un credito*/
             Credito credito = _CreditoRepository.GetById(codigoCredito);
-            credito.cobrarProximaCuotaManual();
-
+            credito.cobrarProximaCuotaManual(monto);
             Descuento descuento = _DescuentoRepository.Insert(new Descuento(credito.Cuenta.NumeroCuenta)
             {
                 Fecha = DateTime.Now,
@@ -76,6 +75,7 @@ namespace LAUCHA.application.UseCase.OperarCredito
             
             credito.PagosCreditos.Add(pagoCredito);
             _pagoCreditoRepository.Save();
+            _CreditoRepository.Save();
 
             return creditoMapper.GenerarCreditoDTO(credito);
         }

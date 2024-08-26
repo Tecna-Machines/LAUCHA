@@ -34,16 +34,20 @@ namespace LAUCHA.domain.entities
         {
             return (Monto - MontoPagado);
         }
-        public void cobrarProximaCuotaManual()
+        public void cobrarProximaCuotaManual(decimal monto)
         {
+            if (CantidadCuotasFaltantes == 0) { throw new IndexOutOfRangeException(); }
             Suspendido = true;
-            CobrarProximaCuota();
+            MontoPagado = MontoPagado + monto;
+            CantidadCuotasFaltantes = CantidadCuotasFaltantes - 1;
+            CantidadCuotasPagadas = CantidadCuotasPagadas + 1;
         }
         public void CobrarProximaCuota()
         {
+            if (CantidadCuotasFaltantes == 0) { throw new IndexOutOfRangeException(); }
             MontoPagado = MontoPagado + MontoCuota();
-            CantidadCuotasFaltantes = CantidadCuotasFaltantes--;
-
+            CantidadCuotasFaltantes = CantidadCuotasFaltantes - 1;
+            CantidadCuotasPagadas = CantidadCuotasPagadas + 1;
         }
     }
 }

@@ -29,16 +29,13 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
 
         public void CrearDescuentosCreditos(string NumeroCuenta)
         {
-            //TODO: implementar logica 
-
-            //un empleado puede tener varias creditos/adelantos a la vez
             List<Credito> creditosPorPagar = _CreditoRepositoryEspecifico.ObtenerCreditosSinPagarDeCuenta(NumeroCuenta);
 
             foreach (Credito credito in creditosPorPagar) 
             {
-                if (credito.Suspendido){ credito.Suspendido = false;}
+                if (credito.Suspendido) { credito.Suspendido = false; _CreditoRepository.Save(); continue; }
                 procesarCredito(credito);
-
+                
             }
         }
 
@@ -66,10 +63,12 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
                 Descripcion = $"Pago de credito: {credito.Descripcion}",
                 FechaPago = DateTime.Now,
                 Monto = aDescontar,
-            };
-
-            _PagoCreditoRepository.Insert(pagoCredito);
+            });
+            
             _PagoCreditoRepository.Save();
+            _CreditoRepository.Save();
+
+            credito.PagosCreditos.Add(pagoCredito);
         }
     }
 }
