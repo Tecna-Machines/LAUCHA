@@ -1,11 +1,6 @@
 ﻿using LAUCHA.domain.entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.infrastructure.config
 {
@@ -13,7 +8,7 @@ namespace LAUCHA.infrastructure.config
     {
         public void Configure(EntityTypeBuilder<RetencionFijaPorCuenta> builder)
         {
-            builder.HasKey(retencioneFijaPorCuenta => 
+            builder.HasKey(retencioneFijaPorCuenta =>
                            new { retencioneFijaPorCuenta.NumeroCuenta, retencioneFijaPorCuenta.CodigoRetencionFija });
 
             builder.HasOne(retencionesFijaPorCuenta => retencionesFijaPorCuenta.Cuenta)

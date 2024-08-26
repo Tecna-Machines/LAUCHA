@@ -1,6 +1,5 @@
 ﻿using LAUCHA.application.DTOs.ConceptoDTOs;
 using LAUCHA.application.interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LAUCHA.api.Controllers
@@ -17,12 +16,12 @@ namespace LAUCHA.api.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(ConceptoDTO),201)]
+        [ProducesResponseType(typeof(ConceptoDTO), 201)]
         public IActionResult CrearUnConcepto(ConceptoDTO conceptoNuevo)
         {
             var result = _ConceptoService.CrearUnConcepto(conceptoNuevo);
-            
-            return new JsonResult(result) { StatusCode = 201};
+
+            return new JsonResult(result) { StatusCode = 201 };
         }
 
         [HttpGet("{numeroConcepto}")]

@@ -2,11 +2,7 @@
 using LAUCHA.application.DTOs.ContratoDTOs;
 using LAUCHA.application.DTOs.CuentaDTOs;
 using LAUCHA.application.DTOs.RemuneracionDTOs;
-using LAUCHA.application.DTOs.RetencionDTOs;
 using LAUCHA.application.DTOs.RetencionesFijasDTOs;
-using LAUCHA.application.Helpers;
-using LAUCHA.application.interfaces;
-using LAUCHA.application.Mappers;
 using LAUCHA.domain.entities;
 
 namespace LAUCHA.application.UseCase.CalculadoraSueldos
@@ -14,7 +10,7 @@ namespace LAUCHA.application.UseCase.CalculadoraSueldos
     internal class CalculadoraQuicenalFijo : BaseCalculadoraSueldo
     {
 
-        public override List<Remuneracion> CalcularSueldoBruto(DateTime desde, DateTime hasta,ContratoDTO contrato, CuentaDTO cuenta)
+        public override List<Remuneracion> CalcularSueldoBruto(DateTime desde, DateTime hasta, ContratoDTO contrato, CuentaDTO cuenta)
         {
             decimal montoFijoContrato = contrato.MontoFijo;
             decimal montoBancoBruto;
@@ -24,7 +20,7 @@ namespace LAUCHA.application.UseCase.CalculadoraSueldos
             bool blancoEsPorcentual = acuerdoBlanco.EsPorcentual;
 
             montoBancoBruto = _CalculadoraPorcentaje.
-                                CalcularPorcentajeSiEstaHabilitado(blancoEsPorcentual,acuerdoBlanco.Cantidad,montoFijoContrato);
+                                CalcularPorcentajeSiEstaHabilitado(blancoEsPorcentual, acuerdoBlanco.Cantidad, montoFijoContrato);
 
             montoBancoBruto = (montoBancoBruto / 2);
 

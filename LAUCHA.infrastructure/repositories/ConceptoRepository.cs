@@ -1,11 +1,6 @@
 ﻿using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.infrastructure.persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.infrastructure.repositories
 {
@@ -22,9 +17,9 @@ namespace LAUCHA.infrastructure.repositories
         {
             Concepto? encontrado = _context.Conceptos.Find(int.Parse(numeroConcepto));
 
-            if(encontrado == null) { throw new NullReferenceException(); }
+            if (encontrado == null) { throw new NullReferenceException(); }
 
-           _context.Remove(encontrado);
+            _context.Remove(encontrado);
             return encontrado;
         }
 
@@ -45,7 +40,7 @@ namespace LAUCHA.infrastructure.repositories
             return conceptoNuevo;
         }
         public Concepto Update(Concepto entity)
-        {   
+        {
             //TODO: quizas innecesario
             throw new NotImplementedException();
         }

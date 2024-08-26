@@ -1,6 +1,4 @@
-﻿using LAUCHA.application.DTOs.ConceptoDTOs;
-using LAUCHA.application.DTOs.CreditoDTOs;
-using LAUCHA.application.DTOs.LiquidacionDTOs;
+﻿using LAUCHA.application.DTOs.CreditoDTOs;
 using LAUCHA.application.interfaces;
 using LAUCHA.application.Mappers;
 using LAUCHA.domain.entities;
@@ -36,7 +34,7 @@ namespace LAUCHA.application.UseCase.OperarCredito
         {
             //TODO: debe recuperar 1 credito especifco junto con sus pagos
             Credito credito = _CreditoRepository.GetById(codigoCredito);
-            
+
             return creditoMapper.GenerarCreditoDTO(credito);
         }
 
@@ -49,7 +47,7 @@ namespace LAUCHA.application.UseCase.OperarCredito
 
             List<Credito> creditos = _CreditoRepository.ObtenerTodosCreditosDeCuenta(numeroCuenta);
             List<CreditoDTO> creditosDTO = new List<CreditoDTO>();
-            foreach (Credito c in creditos) 
+            foreach (Credito c in creditos)
             {
                 creditosDTO.Add(creditoMapper.GenerarCreditoDTO(c));
             }
@@ -58,7 +56,7 @@ namespace LAUCHA.application.UseCase.OperarCredito
 
         public CreditoDTO PagarUnCreditoManualmente(string codigoCredito, decimal monto)
         {
-            log.LogInformation("realizando pago manual del credito n: {cod} , monto a pagar: {m}",codigoCredito,monto);
+            log.LogInformation("realizando pago manual del credito n: {cod} , monto a pagar: {m}", codigoCredito, monto);
 
             CreditoMapper creditoMapper = new CreditoMapper();
             /*debe ser capaz se incorporar un pago a un credito*/
@@ -74,7 +72,7 @@ namespace LAUCHA.application.UseCase.OperarCredito
                 Fecha = DateTime.Now,
                 Monto = monto,
                 Descripcion = "Descuento sin descripcion"
-            }) ;
+            });
 
             log.LogInformation("agregando el descuento del credito con monto: {m}", descuento.Monto);
 
@@ -90,7 +88,7 @@ namespace LAUCHA.application.UseCase.OperarCredito
             });
 
             log.LogInformation("Se creo el pago del credito con monto: {m}", pagoCredito.Monto);
-            
+
             credito.PagosCreditos.Add(pagoCredito);
             _pagoCreditoRepository.Save();
             _CreditoRepository.Save();

@@ -31,9 +31,7 @@ using LAUCHA.infrastructure.repositories;
 using LAUCHA.infrastructure.Services;
 using LAUCHA.infrastructure.unitOfWork;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
 using MySql.Data.MySqlClient;
-using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,13 +47,13 @@ builder.Services.AddSwaggerGen();
 //Logs
 string logPath = builder.Configuration["Appsettings:logPath"];
 
-if(logPath == null)
+if (logPath == null)
 {
     Console.WriteLine("error , falta la ruta del archivo de log");
     return;
 }
 
-builder.Services.AddSingleton<ILogsApp, LogService>( log =>
+builder.Services.AddSingleton<ILogsApp, LogService>(log =>
 {
     return new LogService(logPath);
 });
@@ -154,12 +152,12 @@ builder.Services.AddScoped<ICreditoRepository, CreditoRepository>();
 builder.Services.AddScoped<ICalculadoraCredito, CalculadoraCredito>();
 builder.Services.AddScoped<IRecuperarItemsParaLiquidacion, AsociarItemsLiquidacion>();
 builder.Services.AddScoped<ICreditoService, OperarCreditosService>();
-builder.Services.AddScoped<IGenericRepository<PagoCredito>,PagoCreditoRepository>();
-builder.Services.AddScoped<ICreditoRepositoryTotal, CreditoRepository>(); 
+builder.Services.AddScoped<IGenericRepository<PagoCredito>, PagoCreditoRepository>();
+builder.Services.AddScoped<ICreditoRepositoryTotal, CreditoRepository>();
 builder.Services.AddScoped<IDescuentoRepositoryTotal, DescuentoRepository>();
 
-builder.Services.AddScoped<IGenericRepository<HistorialRetencionFija>,HistorialRetencionFijaRepository>();
-builder.Services.AddScoped<IModificarRetencionFijaService,ModificarRetencionFijaService>();
+builder.Services.AddScoped<IGenericRepository<HistorialRetencionFija>, HistorialRetencionFijaRepository>();
+builder.Services.AddScoped<IModificarRetencionFijaService, ModificarRetencionFijaService>();
 
 builder.Services.AddHttpClient();
 
@@ -181,7 +179,7 @@ builder.Services.AddScoped<IMenuesService>(sp =>
     var httpClient = sp.GetRequiredService<IHttpClientFactory>().CreateClient();
     httpClient.BaseAddress = new Uri(url);
 
-    return new MenuesService(httpClient,user,password);
+    return new MenuesService(httpClient, user, password);
 });
 
 builder.Services.AddScoped<IMarcasService, MarcasService>(provider =>
@@ -226,21 +224,22 @@ string host = builderConnectionString.Server;
 
 logger.LogInformation("iniciando prueba de conexion con base de datos...");
 
-    try
-    {
-        using var scope = builder.Services.BuildServiceProvider().CreateScope();
-        var context = scope.ServiceProvider.GetRequiredService<LiquidacionesDbContext>();
+try
+{
+    using var scope = builder.Services.BuildServiceProvider().CreateScope();
+    var context = scope.ServiceProvider.GetRequiredService<LiquidacionesDbContext>();
 
-    if (!context.Database.CanConnect()){
+    if (!context.Database.CanConnect())
+    {
         logger.LogError($"fallo la conexion con el servidor de base de datos: {host}");
     }
-    
-        logger.LogInformation("conexion exitosa con el servidor DB: {Host}", host);
-    }
-    catch (Exception ex)
-    {
+
+    logger.LogInformation("conexion exitosa con el servidor DB: {Host}", host);
+}
+catch (Exception ex)
+{
     logger.LogError(ex, "se genero una excepcion al conectar con el host: {Host}", host);
-    }
+}
 
 logger.LogInformation("todo parece ir bien c: ");
 logger.LogInformation("app run...");

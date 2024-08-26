@@ -1,6 +1,6 @@
 ﻿namespace LAUCHA.application.Exceptios
 {
-    public class PeriodoExcepcion : Exception 
+    public class PeriodoExcepcion : Exception
     {
         public PeriodoExcepcion(string mensaje) : base(mensaje)
         {

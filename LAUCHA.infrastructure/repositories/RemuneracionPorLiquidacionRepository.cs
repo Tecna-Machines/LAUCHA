@@ -1,11 +1,6 @@
 ﻿using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.infrastructure.persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.infrastructure.repositories
 {
@@ -24,7 +19,7 @@ namespace LAUCHA.infrastructure.repositories
                          Where(rl => rl.CodigoLiquidacionPersonal == codigoLiquidacion)
                          .FirstOrDefault();
 
-            if (found == null) { throw new NullReferenceException();}
+            if (found == null) { throw new NullReferenceException(); }
             _context.Remove(found);
             return found;
         }
@@ -41,7 +36,7 @@ namespace LAUCHA.infrastructure.repositories
                          Where(rl => rl.CodigoLiquidacionPersonal == codigoLiquidacion)
                          .FirstOrDefault();
 
-            return found != null ?  found : throw new NullReferenceException();
+            return found != null ? found : throw new NullReferenceException();
         }
 
         public RemuneracionPorLiquidacionPersonal Insert(RemuneracionPorLiquidacionPersonal nueva)

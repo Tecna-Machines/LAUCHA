@@ -1,5 +1,4 @@
-﻿using LAUCHA.application.DTOs.ContratoDTOs;
-using LAUCHA.application.DTOs.LiquidacionDTOs;
+﻿using LAUCHA.application.DTOs.LiquidacionDTOs;
 using LAUCHA.application.DTOs.PaginaDTOs;
 using LAUCHA.application.DTOs.SystemaDTO;
 using LAUCHA.application.Exceptios;
@@ -75,7 +74,7 @@ namespace LAUCHA.api.Controllers
                 log.LogError(e, "ocurrio un problema en el periodo de liquidacion");
                 return new JsonResult(new RespuestaSystema { Mensaje = e.Message, StatusCode = e.Codigo }) { StatusCode = e.Codigo };
             }
-            catch(ServicioException e)
+            catch (ServicioException e)
             {
                 log.LogError(e, "ocurrio un problema con un servicio externo");
                 return new JsonResult(new RespuestaSystema { Mensaje = e.Message, StatusCode = 500 });
@@ -133,7 +132,7 @@ namespace LAUCHA.api.Controllers
             LiquidacionDTO liquidacion = _ConsultarLiquidacionService.ConsulatarLiquidacion(codigoLiquidacion);
             DateTime fechaIngreso = _empleadoService.ConsultarUnEmpleado(liquidacion.Dni).FechaIngreso;
             // Generar el PDF del recibo
-            byte[] pdfBytes = _GeneradorRecibos.GenerarPdfRecibo(liquidacion,fechaIngreso);
+            byte[] pdfBytes = _GeneradorRecibos.GenerarPdfRecibo(liquidacion, fechaIngreso);
 
             // Devolver el PDF como una descarga
             return File(pdfBytes, "application/pdf", $"{liquidacion.Codigo}_{liquidacion.Empleado}.pdf");

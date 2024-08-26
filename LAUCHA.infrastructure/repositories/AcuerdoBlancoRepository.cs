@@ -1,11 +1,6 @@
 ﻿using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.infrastructure.persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.infrastructure.repositories
 {
@@ -19,7 +14,7 @@ namespace LAUCHA.infrastructure.repositories
         }
 
         public AcuerdoBlanco Delete(string id)
-        {   
+        {
             // TODO: no se deberian poder boorar acuerdos
             throw new NotImplementedException();
         }
@@ -42,7 +37,7 @@ namespace LAUCHA.infrastructure.repositories
         }
 
         public AcuerdoBlanco Update(AcuerdoBlanco entity)
-        {   
+        {
             //TODO: no es necesario actualizar acuerdos en blanco
             throw new NotImplementedException();
         }

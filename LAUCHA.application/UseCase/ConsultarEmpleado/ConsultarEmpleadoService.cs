@@ -3,11 +3,6 @@ using LAUCHA.application.interfaces;
 using LAUCHA.application.Mappers;
 using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IRepositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.application.UseCase.ConsultarEmpleado
 {
@@ -32,7 +27,7 @@ namespace LAUCHA.application.UseCase.ConsultarEmpleado
 
             Empleado? empleadoObenitdo = _EmpleadoRepository.GetById(dniEmpleado);
 
-            if(empleadoObenitdo == null) { throw new NullReferenceException(); }
+            if (empleadoObenitdo == null) { throw new NullReferenceException(); }
 
             Cuenta? cuentaDelEmpleado = _CuentaRepository.ObtenerCuentaDelEmpleado(empleadoObenitdo.Dni);
 
@@ -49,7 +44,7 @@ namespace LAUCHA.application.UseCase.ConsultarEmpleado
             log.LogInformation("recuperando informacion de todos los empleados");
 
             foreach (var empleado in empleados)
-            {   
+            {
                 Cuenta cuentaEmpleado = _CuentaRepository.ObtenerCuentaDelEmpleado(empleado.Dni);
                 EmpleadoDTO empleadoDTO = _EmpleadoMapper.GenerarEmpleadoDTO(empleado, cuentaEmpleado);
                 empleadoDTOs.Add(empleadoDTO);

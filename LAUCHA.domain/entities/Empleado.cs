@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LAUCHA.domain.entities
+﻿namespace LAUCHA.domain.entities
 {
-     public class Empleado
+    public class Empleado
     {
         public string Dni { get; set; } = null!;
         public string Nombre { get; set; } = null!;

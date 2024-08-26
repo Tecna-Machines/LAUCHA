@@ -2,11 +2,6 @@
 using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.infrastructure.persistence;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.infrastructure.repositories
 {
@@ -20,20 +15,20 @@ namespace LAUCHA.infrastructure.repositories
         }
 
         public RetencionFija Delete(string id)
-        {   
+        {
             // TODO: deben eliminarse y pasar a historial
             throw new NotImplementedException();
         }
 
         public IList<RetencionFija> GetAll()
         {
-           return _context.RetencionesFijas.ToList();
+            return _context.RetencionesFijas.ToList();
         }
 
         public RetencionFija GetById(string codigoRetencionFija)
         {
             RetencionFija? retencionFijaEncontrada = _context.RetencionesFijas
-                            .Include(r => r.HistorialRetencionesFijas) 
+                            .Include(r => r.HistorialRetencionesFijas)
                             .FirstOrDefault(r => r.CodigoRetencionFija == codigoRetencionFija);
 
             if (retencionFijaEncontrada != null)

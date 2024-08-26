@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LAUCHA.infrastructure.repositories
 {
-    public class RemuneracionRepository : IGenericRepository<Remuneracion> , IRemuneracionRepository
+    public class RemuneracionRepository : IGenericRepository<Remuneracion>, IRemuneracionRepository
     {
         private readonly LiquidacionesDbContext _context;
 
@@ -38,42 +38,42 @@ namespace LAUCHA.infrastructure.repositories
             return remuneracion;
         }
 
-        public async Task<PaginaRegistro<Remuneracion>> ObtenerRemuneracionesFiltradas(string? numeroCuenta, 
-                                                              DateTime? desde, 
-                                                              DateTime? hasta, 
-                                                              string? orden, 
-                                                              string? descripcion, 
-                                                              int indexPagina, 
+        public async Task<PaginaRegistro<Remuneracion>> ObtenerRemuneracionesFiltradas(string? numeroCuenta,
+                                                              DateTime? desde,
+                                                              DateTime? hasta,
+                                                              string? orden,
+                                                              string? descripcion,
+                                                              int indexPagina,
                                                               int cantidadRegistros)
         {
-           var remuneraciones = from r in _context.Remuneraciones select r;
+            var remuneraciones = from r in _context.Remuneraciones select r;
 
-            if(numeroCuenta != null)
+            if (numeroCuenta != null)
             {
                 remuneraciones = remuneraciones.Where(r => r.NumeroCuenta == numeroCuenta);
             }
 
-            if(descripcion != null)
+            if (descripcion != null)
             {
                 remuneraciones = remuneraciones.Where(r => r.Descripcion.Contains(descripcion));
             }
 
-            if(desde != null)
+            if (desde != null)
             {
                 remuneraciones = remuneraciones.Where(r => r.Fecha.Date >= desde.Value.Date);
             }
 
-            if(hasta != null)
+            if (hasta != null)
             {
                 remuneraciones = remuneraciones.Where(r => r.Fecha.Date <= hasta.Value.Date);
             }
 
-            if(orden == "DESC")
+            if (orden == "DESC")
             {
                 remuneraciones = remuneraciones.OrderByDescending(r => r.Fecha);
             }
 
-            var pagina = await PaginationGeneric<Remuneracion>.CrearPaginacion(remuneraciones.AsNoTracking(),indexPagina,cantidadRegistros);
+            var pagina = await PaginationGeneric<Remuneracion>.CrearPaginacion(remuneraciones.AsNoTracking(), indexPagina, cantidadRegistros);
 
             return new PaginaRegistro<Remuneracion>
             {
@@ -98,11 +98,11 @@ namespace LAUCHA.infrastructure.repositories
 
             foreach (var remu in remuPorLiquidacion)
             {
-               var remuEncontrada =  _context.Remuneraciones.Find(remu.CodigoRemuneracion);
+                var remuEncontrada = _context.Remuneraciones.Find(remu.CodigoRemuneracion);
 
-                if (remuEncontrada != null) 
+                if (remuEncontrada != null)
                 {
-                remuneracionesLiquidacion.Add(remuEncontrada);
+                    remuneracionesLiquidacion.Add(remuEncontrada);
 
                 }
                 else

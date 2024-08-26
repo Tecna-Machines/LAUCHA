@@ -31,7 +31,7 @@ namespace LAUCHA.application.UseCase.GenerarRecibo
             tablaParteBlanco.AddHeaderCell(noRemuHeaderCell);
             tablaParteBlanco.AddHeaderCell(descuentoHeaderCell);
 
-            
+
 
             var listaRemuneracionesBlanca = remuneraciones.Where(r => r.EsBlanco == true);
             var listaRetenciones = retenciones;
@@ -39,7 +39,7 @@ namespace LAUCHA.application.UseCase.GenerarRecibo
             decimal totalRemunerativo = 0;
             decimal totalNoRemunerativo = 0;
             decimal totalRetenciones = 0;
-            
+
 
 
             foreach (RemuneracionDTO remuBlanca in listaRemuneracionesBlanca)

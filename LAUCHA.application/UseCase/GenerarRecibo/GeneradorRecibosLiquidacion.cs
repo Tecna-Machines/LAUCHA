@@ -1,10 +1,8 @@
 ﻿using iText.Kernel.Colors;
 using iText.Kernel.Geom;
 using iText.Kernel.Pdf;
-using iText.Layout;
 using iText.Layout.Element;
 using iText.Layout.Properties;
-using iText.StyledXmlParser.Jsoup.Nodes;
 using LAUCHA.application.DTOs.LiquidacionDTOs;
 using LAUCHA.application.Helpers;
 using LAUCHA.application.interfaces;
@@ -42,7 +40,7 @@ namespace LAUCHA.application.UseCase.GenerarRecibo
                         iText.Layout.Document document = new iText.Layout.Document(pdf, ps);
 
                         // Generar contenido de la primera página
-                        GenerarPaginaReciboBlanco(document,ps, liquidacion);
+                        GenerarPaginaReciboBlanco(document, ps, liquidacion);
 
                         // Agregar salto de página
                         document.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
@@ -57,7 +55,7 @@ namespace LAUCHA.application.UseCase.GenerarRecibo
         }
 
 
-        private void GenerarPaginaReciboBlanco(iText.Layout.Document document,PageSize ps,LiquidacionDTO liquidacion)
+        private void GenerarPaginaReciboBlanco(iText.Layout.Document document, PageSize ps, LiquidacionDTO liquidacion)
         {
             iText.Layout.Document primeraPagina = document;
 

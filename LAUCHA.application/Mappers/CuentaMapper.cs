@@ -1,20 +1,15 @@
 ﻿using LAUCHA.application.DTOs.CuentaDTOs;
 using LAUCHA.application.DTOs.RetencionesFijasDTOs;
 using LAUCHA.domain.entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.application.Mappers
 {
     internal class CuentaMapper
     {
         private readonly RetencionFijaMapper _RetencionFijaMapper = new();
-        public CuentaDTO GenerarCuentaDTO(Cuenta cuenta,Empleado empleado,List<RetencionFija> retencionesFijas )
+        public CuentaDTO GenerarCuentaDTO(Cuenta cuenta, Empleado empleado, List<RetencionFija> retencionesFijas)
         {
-            List<RetencionFijaDTO> retencionesDTOs = new List<RetencionFijaDTO> ();
+            List<RetencionFijaDTO> retencionesDTOs = new List<RetencionFijaDTO>();
 
             foreach (var retencionFija in retencionesFijas)
             {

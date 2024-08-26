@@ -2,20 +2,15 @@
 using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.domain.interfaces.IUnitsOfWork;
 using LAUCHA.infrastructure.persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.infrastructure.unitOfWork
 {
-    public class UnitOfWorkRetencionFijaCuenta : IUnitOfWorkRetencionFijaCuenta , IDisposable
+    public class UnitOfWorkRetencionFijaCuenta : IUnitOfWorkRetencionFijaCuenta, IDisposable
     {
         public IGenericRepository<RetencionFijaPorCuenta> RetencionFijaRepository { get; }
         private readonly LiquidacionesDbContext _context;
 
-        public UnitOfWorkRetencionFijaCuenta(IGenericRepository<RetencionFijaPorCuenta> retencionFijaRepository, 
+        public UnitOfWorkRetencionFijaCuenta(IGenericRepository<RetencionFijaPorCuenta> retencionFijaRepository,
                                             LiquidacionesDbContext context)
         {
             RetencionFijaRepository = retencionFijaRepository;

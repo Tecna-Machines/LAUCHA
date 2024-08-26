@@ -1,12 +1,6 @@
 ﻿using LAUCHA.application.DTOs.RemuneracionDTOs;
-using LAUCHA.application.DTOs.RetencionDTOs;
 using LAUCHA.application.Helpers;
 using LAUCHA.domain.entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.application.Mappers
 {
@@ -29,7 +23,7 @@ namespace LAUCHA.application.Mappers
         public Remuneracion GenerarRemuneracion(RemuneracionDTO remuneracionDTO)
         {
             DateTime fechaActual = DateTime.Now;
-            int numeroRandom = _NumeroAleatorio.GenerarAleatorioEntreValores(0,fechaActual.Second+ fechaActual.Millisecond);
+            int numeroRandom = _NumeroAleatorio.GenerarAleatorioEntreValores(0, fechaActual.Second + fechaActual.Millisecond);
 
             return new Remuneracion
             {

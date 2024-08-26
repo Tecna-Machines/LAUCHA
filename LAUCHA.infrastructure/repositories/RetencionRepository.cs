@@ -3,11 +3,6 @@ using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.infrastructure.pagination;
 using LAUCHA.infrastructure.persistence;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.infrastructure.repositories
 {
@@ -27,7 +22,7 @@ namespace LAUCHA.infrastructure.repositories
 
         public IList<Retencion> GetAll()
         {
-           return _context.Retenciones.ToList();
+            return _context.Retenciones.ToList();
         }
 
         public Retencion GetById(string codigoRetencion)
@@ -40,7 +35,7 @@ namespace LAUCHA.infrastructure.repositories
         {
             _context.Add(nuevaRetencion);
             return nuevaRetencion;
-        } 
+        }
 
         public Retencion Update(Retencion entity)
         {
@@ -49,7 +44,7 @@ namespace LAUCHA.infrastructure.repositories
         }
         public int Save() => _context.SaveChanges();
 
-        public async Task<PaginaRegistro<Retencion>> ObtenerRetencionesFiltradas(string? numeroCuenta, 
+        public async Task<PaginaRegistro<Retencion>> ObtenerRetencionesFiltradas(string? numeroCuenta,
                                                                  DateTime? desde,
                                                                  DateTime? hasta,
                                                                  string? orden,
@@ -93,7 +88,7 @@ namespace LAUCHA.infrastructure.repositories
                 totalRegistros = pagina.TotalRegistros,
                 Registros = pagina
             };
-            
+
         }
 
         public List<Retencion> ObtenerRetencionesDeLiquidacion(string codigoLiquidacion)

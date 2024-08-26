@@ -2,16 +2,11 @@
 using LAUCHA.application.interfaces;
 using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IRepositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.application.UseCase.ConsultarAdicionales
 {
-    public class ConsultarAdicionales: IConsultarAdicionalesService
-    {   
+    public class ConsultarAdicionales : IConsultarAdicionalesService
+    {
         private readonly IGenericRepository<Adicional> _repository;
 
         public ConsultarAdicionales(IGenericRepository<Adicional> repository)

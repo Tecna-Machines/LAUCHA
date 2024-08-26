@@ -1,11 +1,4 @@
 ﻿using LAUCHA.domain.interfaces.IServices;
-using System;
-using System.Collections.Generic;
-using System.Data.Odbc;
-using System.Data.OleDb;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.infrastructure.Services
 {
@@ -18,15 +11,15 @@ namespace LAUCHA.infrastructure.Services
             _connectionString = connectionString;
         }
 
-        public HorasPeriodo ConsularHorasPeriodo(string dni,DateTime desde, DateTime hasta)
+        public HorasPeriodo ConsularHorasPeriodo(string dni, DateTime desde, DateTime hasta)
         {
 
 
-                return new HorasPeriodo
-                {
-                    HorasTotales = 20,
-                    HorasExtraTotales = 3
-                };
+            return new HorasPeriodo
+            {
+                HorasTotales = 20,
+                HorasExtraTotales = 3
+            };
         }
     }
 }

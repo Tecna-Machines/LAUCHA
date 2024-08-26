@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LAUCHA.application.DTOs.AcuerdoBlancoDTOs
+﻿namespace LAUCHA.application.DTOs.AcuerdoBlancoDTOs
 {
     public class AcuerdoBlancoDTO
     {
         public string Concepto { get; set; } = null!;
-        public decimal Cantidad { get;set; }
+        public decimal Cantidad { get; set; }
         public bool EsPorcentual { get; set; }
     }
 }

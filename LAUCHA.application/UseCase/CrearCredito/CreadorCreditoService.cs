@@ -18,10 +18,10 @@ namespace LAUCHA.application.UseCase.CrearCredito
 
         public CreditoDTO CrearNuevoCredito(CrearCreditoDTO nuevoCredito)
         {
-            log.LogInformation("se esta creando un nuevo credito, cuenta n: ",nuevoCredito.NumeroCuenta);
+            log.LogInformation("se esta creando un nuevo credito, cuenta n: ", nuevoCredito.NumeroCuenta);
             log.LogInformation("monto: {m} /cant. de cuotas: {c}", nuevoCredito.Monto, nuevoCredito.CantidadCuotas);
-            
-            if (nuevoCredito.CantidadCuotas > 24) 
+
+            if (nuevoCredito.CantidadCuotas > 24)
             {
                 log.LogWarning("el credito excede las cuotas permitidas");
                 throw new NotSupportedException() { };
@@ -31,7 +31,7 @@ namespace LAUCHA.application.UseCase.CrearCredito
 
             Credito credito = new Credito
             {
-                CodigoCredito = codigoCreditoNuevo, 
+                CodigoCredito = codigoCreditoNuevo,
                 CantidadCuotasOriginales = nuevoCredito.CantidadCuotas,
                 CantidadCuotasFaltantes = nuevoCredito.CantidadCuotas,
                 NumeroCuenta = nuevoCredito.NumeroCuenta,
@@ -56,12 +56,13 @@ namespace LAUCHA.application.UseCase.CrearCredito
             {
                 Codigo = creditoRet.CodigoCredito,
                 FechaInicio = creditoRet.FechaInicio,
-                Concepto = new ConceptoDTO { 
-                    Nombre = creditoRet.Concepto.NombreConcepto, 
-                    Numero = creditoRet.Concepto.NumeroConcepto, 
+                Concepto = new ConceptoDTO
+                {
+                    Nombre = creditoRet.Concepto.NombreConcepto,
+                    Numero = creditoRet.Concepto.NumeroConcepto,
                 },
                 CantidadCuotasFaltantes = creditoRet.CantidadCuotasFaltantes,
-                MontoCuota = creditoRet.Monto  / creditoRet.CantidadCuotasOriginales,
+                MontoCuota = creditoRet.Monto / creditoRet.CantidadCuotasOriginales,
                 MontoFaltante = creditoRet.Monto
             };
         }

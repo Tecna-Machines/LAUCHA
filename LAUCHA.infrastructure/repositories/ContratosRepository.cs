@@ -1,15 +1,10 @@
 ﻿using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.infrastructure.persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.infrastructure.repositories
 {
-    public class ContratosRepository : IGenericRepository<Contrato> , IContratoRepository
+    public class ContratosRepository : IGenericRepository<Contrato>, IContratoRepository
     {
         private readonly LiquidacionesDbContext _context;
 
@@ -24,7 +19,7 @@ namespace LAUCHA.infrastructure.repositories
         }
 
         public Contrato Delete(string id)
-        {   
+        {
             // TODO: checar si es necesario
             throw new NotImplementedException();
         }
@@ -56,7 +51,7 @@ namespace LAUCHA.infrastructure.repositories
         }
 
         public Contrato Update(Contrato entity)
-        {   
+        {
             // TODO: quizas no sea necesario
             throw new NotImplementedException();
         }

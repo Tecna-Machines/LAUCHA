@@ -2,11 +2,6 @@
 using LAUCHA.application.interfaces;
 using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IUnitsOfWork;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.application.UseCase.ContratosDeTrabajo
 {
@@ -32,9 +27,9 @@ namespace LAUCHA.application.UseCase.ContratosDeTrabajo
             Contrato contratoCreado = AgregarContrato(nuevoContrato);
             string codigoContrato = contratoCreado.CodigoContrato;
 
-            AgregarAcuerdoBlanco(nuevoContrato,codigoContrato);
+            AgregarAcuerdoBlanco(nuevoContrato, codigoContrato);
             AgregarModalidad(nuevoContrato, codigoContrato);
-            
+
             bool existenAdicionales = nuevoContrato.Adicionales.Count() > 0;
 
             if (existenAdicionales)
@@ -57,7 +52,7 @@ namespace LAUCHA.application.UseCase.ContratosDeTrabajo
             string nuevoCodigoContrato = $"{nuevoContrato.Dni}{fechaActual.Day}{fechaActual.Minute}";
 
             Contrato contrato = new Contrato
-            {   
+            {
                 CodigoContrato = nuevoCodigoContrato,
                 DniEmpleado = nuevoContrato.Dni,
                 MontoFijo = nuevoContrato.MontoFijo,
@@ -71,7 +66,7 @@ namespace LAUCHA.application.UseCase.ContratosDeTrabajo
             return _unitOfWork.ContratoRepository.Insert(contrato);
         }
 
-        private void AgregarAcuerdoBlanco(CrearContratoDTO nuevoContrato,string codigoContrato)
+        private void AgregarAcuerdoBlanco(CrearContratoDTO nuevoContrato, string codigoContrato)
         {
             string concepto = "ACUERDO BANCO";
 

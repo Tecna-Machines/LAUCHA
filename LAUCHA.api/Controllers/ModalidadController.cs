@@ -1,6 +1,5 @@
 ﻿using LAUCHA.application.DTOs.ModalidadDTOs;
 using LAUCHA.application.interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LAUCHA.api.Controllers
@@ -17,7 +16,7 @@ namespace LAUCHA.api.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(List<ModalidadDTO>),200)]
+        [ProducesResponseType(typeof(List<ModalidadDTO>), 200)]
         public IActionResult ObtenerLasModalidades()
         {
             var result = _ConsultarModalidadService.ObtenerTodasLasModalidades();

@@ -2,11 +2,6 @@
 using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.domain.interfaces.IUnitsOfWork;
 using LAUCHA.infrastructure.persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.infrastructure.unitOfWork
 {
@@ -16,8 +11,8 @@ namespace LAUCHA.infrastructure.unitOfWork
         public IGenericRepository<Cuenta> CuentaRepository { get; }
         private readonly LiquidacionesDbContext _context;
 
-        public UnitOfWorkEmpleado(LiquidacionesDbContext context, 
-                                IGenericRepository<Cuenta> cuentaRepository, 
+        public UnitOfWorkEmpleado(LiquidacionesDbContext context,
+                                IGenericRepository<Cuenta> cuentaRepository,
                                 IGenericRepository<Empleado> empleadoRepository)
         {
             _context = context;
@@ -25,9 +20,9 @@ namespace LAUCHA.infrastructure.unitOfWork
             EmpleadoRepository = empleadoRepository;
         }
 
-        public  int Save()
-        =>  _context.SaveChanges();
-        
+        public int Save()
+        => _context.SaveChanges();
+
 
         public void Dispose()
         {

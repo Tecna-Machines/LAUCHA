@@ -3,15 +3,10 @@ using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.infrastructure.pagination;
 using LAUCHA.infrastructure.persistence;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.infrastructure.repositories
 {
-    public class LiquidacionPersonalRepository : IGenericRepository<LiquidacionPersonal> , ILiquidacionRepository
+    public class LiquidacionPersonalRepository : IGenericRepository<LiquidacionPersonal>, ILiquidacionRepository
     {
         private readonly LiquidacionesDbContext _context;
 
@@ -42,7 +37,7 @@ namespace LAUCHA.infrastructure.repositories
                 liquidacionesPersonales = liquidacionesPersonales.Where(l => l.InicioPeriodo.Date > filtros.InicioPeriodo.Value.Date);
             }
 
-            if (filtros.FinPeriodo !=null)
+            if (filtros.FinPeriodo != null)
             {
                 liquidacionesPersonales = liquidacionesPersonales.Where(l => l.FinPeriodo.Date < filtros.FinPeriodo.Value.Date);
             }
@@ -58,7 +53,7 @@ namespace LAUCHA.infrastructure.repositories
             }
 
             var pagina = await PaginationGeneric<LiquidacionPersonal>
-                      .CrearPaginacion(liquidacionesPersonales.AsNoTracking(), indice,cantidadRegistros);
+                      .CrearPaginacion(liquidacionesPersonales.AsNoTracking(), indice, cantidadRegistros);
 
             return new PaginaRegistro<LiquidacionPersonal>
             {
@@ -97,13 +92,13 @@ namespace LAUCHA.infrastructure.repositories
 
         public LiquidacionPersonal Update(LiquidacionPersonal liquidacion)
         {
-             var origin = _context.LiquidacionesGenerales.FirstOrDefault(l => l.CodigoLiquidacionGeneral == liquidacion.CodigoLiquidacionGeneral);
+            var origin = _context.LiquidacionesGenerales.FirstOrDefault(l => l.CodigoLiquidacionGeneral == liquidacion.CodigoLiquidacionGeneral);
 
-            if (origin != null) 
-            { 
-            _context.Entry(origin).CurrentValues.SetValues(liquidacion);
+            if (origin != null)
+            {
+                _context.Entry(origin).CurrentValues.SetValues(liquidacion);
             }
-            
+
             return liquidacion;
         }
     }

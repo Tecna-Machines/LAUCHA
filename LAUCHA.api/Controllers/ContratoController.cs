@@ -1,7 +1,5 @@
-﻿using LAUCHA.application.DTOs.AdicionalDTOs;
-using LAUCHA.application.DTOs.ContratoDTOs;
+﻿using LAUCHA.application.DTOs.ContratoDTOs;
 using LAUCHA.application.interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LAUCHA.api.Controllers
@@ -24,7 +22,7 @@ namespace LAUCHA.api.Controllers
         public IActionResult CrearUnNuevoContrato(CrearContratoDTO nuevoContrato)
         {
             var result = _crearContratoService.CrearNuevoContrato(nuevoContrato);
-            return new JsonResult(result) { StatusCode = 201};
+            return new JsonResult(result) { StatusCode = 201 };
         }
 
         [HttpGet("{codigoContrato}")]

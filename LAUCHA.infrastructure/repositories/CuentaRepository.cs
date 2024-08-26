@@ -1,15 +1,10 @@
 ﻿using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.infrastructure.persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.infrastructure.repositories
 {
-    public class CuentaRepository : IGenericRepository<Cuenta> , ICuentaRepository
+    public class CuentaRepository : IGenericRepository<Cuenta>, ICuentaRepository
     {
         private readonly LiquidacionesDbContext _context;
 
@@ -48,7 +43,7 @@ namespace LAUCHA.infrastructure.repositories
         }
 
         public Cuenta Update(Cuenta entity)
-        {   
+        {
             // TODO: se debe implementar
             throw new NotImplementedException();
         }

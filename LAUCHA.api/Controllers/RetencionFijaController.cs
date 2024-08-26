@@ -1,7 +1,5 @@
-﻿using LAUCHA.application.DTOs.EmpleadoDTO;
-using LAUCHA.application.DTOs.RetencionesFijasDTOs;
+﻿using LAUCHA.application.DTOs.RetencionesFijasDTOs;
 using LAUCHA.application.interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LAUCHA.api.Controllers
@@ -49,7 +47,7 @@ namespace LAUCHA.api.Controllers
 
         [HttpPatch("{codigoRetencionFija}")]
         [ProducesResponseType(typeof(RetencionFijaDTO), 200)]
-        public IActionResult ModificarRetencionFija(string codigoRetencionFija,ModificadorRetencionFijaDTO modificaciones)
+        public IActionResult ModificarRetencionFija(string codigoRetencionFija, ModificadorRetencionFijaDTO modificaciones)
         {
             var result = _modificarRetencionFijaService.ModificarRetencionFija(codigoRetencionFija, modificaciones);
             return new JsonResult(result) { StatusCode = 200 };

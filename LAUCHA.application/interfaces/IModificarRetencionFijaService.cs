@@ -4,6 +4,6 @@ namespace LAUCHA.application.interfaces
 {
     public interface IModificarRetencionFijaService
     {
-        RetencionFijaDTO ModificarRetencionFija(string codigoRetencionFija,ModificadorRetencionFijaDTO modifcaciones);
+        RetencionFijaDTO ModificarRetencionFija(string codigoRetencionFija, ModificadorRetencionFijaDTO modifcaciones);
     }
 }

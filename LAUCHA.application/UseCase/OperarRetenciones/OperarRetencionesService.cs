@@ -4,11 +4,6 @@ using LAUCHA.application.interfaces;
 using LAUCHA.application.Mappers;
 using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IRepositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.application.UseCase.OperarRetenciones
 {
@@ -35,7 +30,7 @@ namespace LAUCHA.application.UseCase.OperarRetenciones
 
             Retencion nuevaRetencion = _RetencionMapper.GenerarRetencion(nuevaRetencionDTO);
 
-            nuevaRetencion =  _RetencionRepository.Insert(nuevaRetencion);
+            nuevaRetencion = _RetencionRepository.Insert(nuevaRetencion);
             _RetencionRepository.Save();
 
             log.LogInformation("se genero la nueva retencion con el codigo: {c}", nuevaRetencion.CodigoRetencion);
@@ -64,7 +59,7 @@ namespace LAUCHA.application.UseCase.OperarRetenciones
                                                                                                               desde,
                                                                                                               hasta,
                                                                                                               orden,
-                                                                                                              descripcion, 
+                                                                                                              descripcion,
                                                                                                               indexPagina,
                                                                                                               cantidadRegistros);
             List<RetencionDTO> retencionesDTO = new();

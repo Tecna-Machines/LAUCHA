@@ -1,11 +1,6 @@
 ﻿using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.infrastructure.persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.infrastructure.repositories
 {
@@ -22,7 +17,7 @@ namespace LAUCHA.infrastructure.repositories
         {
             Adicional? adicionalEncontrado = _context.Adicionales.Find(codigoAdicional);
 
-            if(adicionalEncontrado == null) { throw new NullReferenceException(); }
+            if (adicionalEncontrado == null) { throw new NullReferenceException(); }
 
             _context.Remove(adicionalEncontrado);
             return adicionalEncontrado;
@@ -47,7 +42,7 @@ namespace LAUCHA.infrastructure.repositories
         }
 
         public Adicional Update(Adicional entity)
-        {   
+        {
             // TODO: plantear actualizar un adicional
             throw new NotImplementedException();
         }

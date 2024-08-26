@@ -2,15 +2,10 @@
 using LAUCHA.application.interfaces;
 using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IRepositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.application.UseCase.AgregarUnAdicional
 {
-    public class CrearAdicionalService: ICrearAdicionalService
+    public class CrearAdicionalService : ICrearAdicionalService
     {
         private readonly IGenericRepository<Adicional> _repository;
         private readonly ILogsApp log;

@@ -2,8 +2,6 @@
 using LAUCHA.application.DTOs.EmpleadoDTO;
 using LAUCHA.application.DTOs.SystemaDTO;
 using LAUCHA.application.interfaces;
-using LAUCHA.domain.entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LAUCHA.api.Controllers
@@ -16,8 +14,8 @@ namespace LAUCHA.api.Controllers
         private readonly IConsultarEmpleadoService _consultarEmpleadoService;
         private readonly IConsultarContratoTrabajoService _consultarContratoTrabajoService;
 
-        public EmpleadoController(ICrearEmpleadoService crearEmpleadoService, 
-                                  IConsultarEmpleadoService consultarEmpleadoService, 
+        public EmpleadoController(ICrearEmpleadoService crearEmpleadoService,
+                                  IConsultarEmpleadoService consultarEmpleadoService,
                                   IConsultarContratoTrabajoService consultarContratoTrabajoService)
         {
             _crearEmpleadoService = crearEmpleadoService;
@@ -37,9 +35,9 @@ namespace LAUCHA.api.Controllers
             catch (Exception)
             {
                 var mensaje = new RespuestaSystema { Mensaje = "ocurrio un problema", StatusCode = 500 };
-                return new JsonResult(mensaje) { StatusCode = mensaje.StatusCode};
+                return new JsonResult(mensaje) { StatusCode = mensaje.StatusCode };
             }
-           
+
         }
 
         [HttpGet]

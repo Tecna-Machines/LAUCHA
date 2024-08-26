@@ -38,8 +38,8 @@ namespace LAUCHA.application.UseCase.ConsultarRemuneraciones
                                                                      int index,
                                                                      int cantidad)
         {
-           PaginaRegistro<Remuneracion> pagina = await _RemuneracionRepositoryEspecifico.
-                                                ObtenerRemuneracionesFiltradas(numeroCuenta,desde,hasta,orden,descripcion,index,cantidad);
+            PaginaRegistro<Remuneracion> pagina = await _RemuneracionRepositoryEspecifico.
+                                                 ObtenerRemuneracionesFiltradas(numeroCuenta, desde, hasta, orden, descripcion, index, cantidad);
 
             List<RemuneracionDTO> remuneracionesDTOs = new();
             List<Remuneracion> remuneraciones = pagina.Registros;

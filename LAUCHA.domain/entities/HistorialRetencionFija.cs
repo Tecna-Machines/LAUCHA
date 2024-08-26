@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LAUCHA.domain.entities
+﻿namespace LAUCHA.domain.entities
 {
     public class HistorialRetencionFija
     {
@@ -13,6 +7,6 @@ namespace LAUCHA.domain.entities
         public decimal Unidades { get; set; }
         public bool EsPorcentual { get; set; }
         public DateTime FechaFinVigencia { get; set; }
-        public RetencionFija RetencionFija { get; set; } = null!;  
+        public RetencionFija RetencionFija { get; set; } = null!;
     }
 }

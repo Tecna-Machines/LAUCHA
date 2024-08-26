@@ -2,7 +2,6 @@
 using LAUCHA.application.interfaces;
 using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IRepositories;
-using System.Collections.Generic;
 
 namespace LAUCHA.application.UseCase.OperarConceptos
 {
@@ -18,9 +17,9 @@ namespace LAUCHA.application.UseCase.OperarConceptos
         public List<ConceptoDTO> ConsultarTodosLosConceptos()
         {
             //TODO: POR COMPLETAR
-            List <Concepto> conceptos = _ConceptoRepositoy.GetAll().ToList();
+            List<Concepto> conceptos = _ConceptoRepositoy.GetAll().ToList();
             List<ConceptoDTO> retConceptosDto = new List<ConceptoDTO>();
-            foreach (Concepto c in conceptos) 
+            foreach (Concepto c in conceptos)
             {
                 retConceptosDto.Add(new ConceptoDTO { Nombre = c.NombreConcepto, Numero = c.NumeroConcepto });
             }
@@ -30,12 +29,12 @@ namespace LAUCHA.application.UseCase.OperarConceptos
         public ConceptoDTO ConsultarUnConcepto(int numeroConcepto)
         {
             Concepto retConcepto = _ConceptoRepositoy.GetById(numeroConcepto.ToString());
-            return new ConceptoDTO { Nombre = retConcepto.NombreConcepto, Numero = retConcepto.NumeroConcepto };  
+            return new ConceptoDTO { Nombre = retConcepto.NombreConcepto, Numero = retConcepto.NumeroConcepto };
         }
 
         public ConceptoDTO CrearUnConcepto(ConceptoDTO nuevoConcepto)
         {
-            _ConceptoRepositoy.Insert(new Concepto{ NombreConcepto= nuevoConcepto.Nombre,NumeroConcepto=nuevoConcepto.Numero });
+            _ConceptoRepositoy.Insert(new Concepto { NombreConcepto = nuevoConcepto.Nombre, NumeroConcepto = nuevoConcepto.Numero });
             _ConceptoRepositoy.Save();
             return nuevoConcepto;
         }

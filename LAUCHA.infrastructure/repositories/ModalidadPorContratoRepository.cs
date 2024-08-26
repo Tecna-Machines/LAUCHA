@@ -1,11 +1,6 @@
 ﻿using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.infrastructure.persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.infrastructure.repositories
 {
@@ -44,7 +39,7 @@ namespace LAUCHA.infrastructure.repositories
         }
 
         public ModalidadPorContrato Update(ModalidadPorContrato entity)
-        {   
+        {
             // TODO: por implementar pero no parece necesario
             throw new NotImplementedException();
         }

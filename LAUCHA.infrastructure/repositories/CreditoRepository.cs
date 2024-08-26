@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LAUCHA.infrastructure.repositories
 {
-    public class CreditoRepository : IGenericRepository<Credito>, ICreditoRepository,ICreditoRepositoryTotal
+    public class CreditoRepository : IGenericRepository<Credito>, ICreditoRepository, ICreditoRepositoryTotal
     {
         private readonly LiquidacionesDbContext _context;
         public CreditoRepository(LiquidacionesDbContext context)
@@ -27,9 +27,9 @@ namespace LAUCHA.infrastructure.repositories
         {
             return _context.Creditos
                 .Where(c => c.CodigoCredito == codigoCredito)
-                .Include(c=>c.PagosCreditos)
-                .Include(c=>c.Concepto)
-                .Include(c=>c.Cuenta)
+                .Include(c => c.PagosCreditos)
+                .Include(c => c.Concepto)
+                .Include(c => c.Cuenta)
                 .First();
             //throw new NotImplementedException();
         }

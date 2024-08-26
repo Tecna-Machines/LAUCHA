@@ -2,11 +2,6 @@
 using LAUCHA.application.interfaces;
 using LAUCHA.application.Mappers;
 using LAUCHA.domain.entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
 {
@@ -19,7 +14,7 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
             _RemuneracionMapper = new();
         }
 
-        public Remuneracion CalcularAntiguedad(Empleado empleado,decimal montoBrutoBlanco)
+        public Remuneracion CalcularAntiguedad(Empleado empleado, decimal montoBrutoBlanco)
         {
             DateTime fechaIngreso = empleado.FechaIngreso;
             DateTime fechaActual = DateTime.Now;
@@ -30,7 +25,7 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
             {
                 aniosAntiguedad--;
             }
-            else if(fechaActual.Month == fechaIngreso.Month)
+            else if (fechaActual.Month == fechaIngreso.Month)
             {
                 if (fechaActual.Day < fechaIngreso.Day)
                 {

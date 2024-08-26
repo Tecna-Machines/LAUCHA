@@ -2,17 +2,12 @@
 using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.domain.interfaces.IUnitsOfWork;
 using LAUCHA.infrastructure.persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.infrastructure.unitOfWork
 {
-    public class UnitOfWorkContrato : IUnitOfWorkContrato , IDisposable
+    public class UnitOfWorkContrato : IUnitOfWorkContrato, IDisposable
     {
-        public IGenericRepository<Contrato> ContratoRepository { get;}
+        public IGenericRepository<Contrato> ContratoRepository { get; }
         public IGenericRepository<AcuerdoBlanco> AcuerdoBlancoRepository { get; }
         public IGenericRepository<ModalidadPorContrato> ModalidadPorContratoRepository { get; }
         public IGenericRepository<AdicionalPorContrato> AdicionalPorContratoRepositoy { get; }

@@ -1,6 +1,5 @@
 ﻿using LAUCHA.application.DTOs.CreditoDTOs;
 using LAUCHA.application.interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LAUCHA.api.Controllers
@@ -22,7 +21,7 @@ namespace LAUCHA.api.Controllers
         public IActionResult ConsultarUnaCuenta(string numeroCuenta)
         {
             var result = _cuentaService.ConsularUnaCuenta(numeroCuenta);
-            return new JsonResult(result) { StatusCode = 200};
+            return new JsonResult(result) { StatusCode = 200 };
         }
 
         [HttpPost("{numeroCuenta}/retenciones-fijas")]
@@ -33,7 +32,7 @@ namespace LAUCHA.api.Controllers
         }
 
         [HttpGet("{numeroCuenta}/creditos")]
-        [ProducesResponseType(typeof(CreditoDTO),200)]
+        [ProducesResponseType(typeof(CreditoDTO), 200)]
         public IActionResult ConsultarCreditosCuenta(string numeroCuenta)
         {
             var result = _creditoService.ConsultarCreditosCuenta(numeroCuenta);

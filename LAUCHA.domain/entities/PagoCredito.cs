@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LAUCHA.domain.entities
+﻿namespace LAUCHA.domain.entities
 {
     public class PagoCredito
     {
@@ -12,8 +6,8 @@ namespace LAUCHA.domain.entities
         public Descuento Descuento { get; set; } = null!;
         public string CodigoCredito { get; set; } = null!;
         public Credito Credito { get; set; } = null!;
-        public DateTime FechaPago {  get; set; }
-        public string Descripcion { get; set; } = null!;    
+        public DateTime FechaPago { get; set; }
+        public string Descripcion { get; set; } = null!;
         public decimal Monto { get; set; }
 
     }

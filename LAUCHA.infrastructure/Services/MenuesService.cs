@@ -1,8 +1,6 @@
-﻿using LAUCHA.application.Exceptios;
-using LAUCHA.domain.interfaces.IServices;
+﻿using LAUCHA.domain.interfaces.IServices;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
 
@@ -26,12 +24,12 @@ namespace LAUCHA.infrastructure.Services
             string token = await ObtenerJwtToken();
 
 
-            PersonalResponse empleado = await ObtenerPersonaDelMenu(dniEmpleado,token);
+            PersonalResponse empleado = await ObtenerPersonaDelMenu(dniEmpleado, token);
 
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             CostoPersonalResponse? costos = null;
-            
+
             try
             {
                 costos = await _httpClient.GetFromJsonAsync<CostoPersonalResponse>
@@ -42,13 +40,13 @@ namespace LAUCHA.infrastructure.Services
             }
             catch (Exception ex)
             {
-                
+
             }
-            
+
             return costos! ?? new CostoPersonalResponse();
         }
 
-        private async Task<PersonalResponse> ObtenerPersonaDelMenu(string dniEmpleado,string token)
+        private async Task<PersonalResponse> ObtenerPersonaDelMenu(string dniEmpleado, string token)
         {
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 

@@ -1,15 +1,10 @@
 ﻿using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.infrastructure.persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.infrastructure.repositories
 {
-    public class AdicionalPorContratoRepository : IGenericRepository<AdicionalPorContrato> , IAdicionalesPorContratoRepository
+    public class AdicionalPorContratoRepository : IGenericRepository<AdicionalPorContrato>, IAdicionalesPorContratoRepository
     {
         private readonly LiquidacionesDbContext _context;
 
@@ -48,7 +43,7 @@ namespace LAUCHA.infrastructure.repositories
         }
 
         public AdicionalPorContrato Update(AdicionalPorContrato entity)
-        {   
+        {
             // TODO: es probable que no se necesite
             throw new NotImplementedException();
         }

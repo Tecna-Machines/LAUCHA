@@ -1,15 +1,10 @@
 ﻿using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.infrastructure.persistence;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.infrastructure.repositories
 {
-    public class RetencionFijaPorCuentaRepository : IGenericRepository<RetencionFijaPorCuenta> , IRetencionFijaPorCuentaRepository
+    public class RetencionFijaPorCuentaRepository : IGenericRepository<RetencionFijaPorCuenta>, IRetencionFijaPorCuentaRepository
     {
         private readonly LiquidacionesDbContext _context;
 
@@ -19,7 +14,7 @@ namespace LAUCHA.infrastructure.repositories
         }
 
         public RetencionFijaPorCuenta Delete(string id)
-        {   
+        {
             // TODO: considerar que se pueda borrar
             throw new NotImplementedException();
         }
@@ -30,7 +25,7 @@ namespace LAUCHA.infrastructure.repositories
         }
 
         public RetencionFijaPorCuenta GetById(string id)
-        {   
+        {
             // TODO: fijas porque key devolver
             throw new NotImplementedException();
         }
@@ -47,7 +42,7 @@ namespace LAUCHA.infrastructure.repositories
         }
 
         public RetencionFijaPorCuenta Update(RetencionFijaPorCuenta entity)
-        {   
+        {
             //TODO: no se deberia implementar
             throw new NotImplementedException();
         }

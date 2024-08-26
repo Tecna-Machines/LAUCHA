@@ -27,12 +27,12 @@ namespace LAUCHA.api.Controllers
         }
 
         [HttpGet("{codigoCredito}")]
-        [ProducesResponseType(typeof(CreditoDTO),200)]
+        [ProducesResponseType(typeof(CreditoDTO), 200)]
         public IActionResult ConsultarCredito(string codigoCredito)
         {
             var result = _CreditoService.ConsularCredito(codigoCredito);
 
-            return new JsonResult(result) { StatusCode = 200};
+            return new JsonResult(result) { StatusCode = 200 };
         }
 
         [HttpPost("{codigoCredito}/pago-manual")]

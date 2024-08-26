@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LAUCHA.application.DTOs.EmpleadoDTO
+﻿namespace LAUCHA.application.DTOs.EmpleadoDTO
 {
     public class CrearEmpleadoDTO
     {
@@ -12,6 +6,6 @@ namespace LAUCHA.application.DTOs.EmpleadoDTO
         public string Nombre { get; set; } = null!;
         public string Apellido { get; set; } = null!;
         public DateTime FechaIngreso { get; set; }
-        public DateTime FechaNacimiento { get;set; }
+        public DateTime FechaNacimiento { get; set; }
     }
 }

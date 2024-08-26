@@ -1,7 +1,6 @@
 ﻿using LAUCHA.application.DTOs.PaginaDTOs;
 using LAUCHA.application.DTOs.RetencionDTOs;
 using LAUCHA.application.interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LAUCHA.api.Controllers
@@ -18,7 +17,7 @@ namespace LAUCHA.api.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(RetencionDTO),201)]
+        [ProducesResponseType(typeof(RetencionDTO), 201)]
         public IActionResult CrearRetencion(CrearRetencionDTO nueva)
         {
             var result = _RetencionService.CrearRetencion(nueva);
@@ -45,7 +44,7 @@ namespace LAUCHA.api.Controllers
         }
 
         [HttpGet("{codigoRetencion}")]
-        [ProducesResponseType(typeof(RetencionDTO),200)]
+        [ProducesResponseType(typeof(RetencionDTO), 200)]
         public IActionResult ObtenerUnaRetencion(string codigoRetencion)
         {
             var result = _RetencionService.ConsultarRetencion(codigoRetencion);

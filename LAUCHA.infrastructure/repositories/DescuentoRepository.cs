@@ -4,15 +4,10 @@ using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.infrastructure.pagination;
 using LAUCHA.infrastructure.persistence;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.infrastructure.repositories
 {
-    public class DescuentoRepository : IGenericRepository<Descuento> , IDescuentoRepository,IDescuentoRepositoryTotal
+    public class DescuentoRepository : IGenericRepository<Descuento>, IDescuentoRepository, IDescuentoRepositoryTotal
     {
         private readonly LiquidacionesDbContext _context;
 
@@ -25,12 +20,12 @@ namespace LAUCHA.infrastructure.repositories
         {
             Descuento? encontrado = _context.Descuentos.Find(codigoDescuento);
 
-            if(encontrado != null)
+            if (encontrado != null)
             {
                 _context.Remove(encontrado);
                 return encontrado;
             }
-             
+
             throw new NullReferenceException();
         }
 
@@ -52,7 +47,7 @@ namespace LAUCHA.infrastructure.repositories
         }
 
         public Descuento Update(Descuento entity)
-        {   
+        {
             // TODO: podria no ser necesario
             throw new NotImplementedException();
         }

@@ -2,18 +2,13 @@
 using LAUCHA.application.DTOs.DescuentoDTOs;
 using LAUCHA.application.Helpers;
 using LAUCHA.domain.entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.application.Mappers
 {
-    internal class DescuentoMapper 
+    internal class DescuentoMapper
     {
         private readonly GeneradorDeNumeroAleatorio _GeneradorNumero = new();
-        public DescuentoDTO CrearDescuentoDTO(Descuento descuento,Concepto? concepto)
+        public DescuentoDTO CrearDescuentoDTO(Descuento descuento, Concepto? concepto)
         {
             ConceptoDTO conceptoDTO = new();
 
@@ -24,7 +19,7 @@ namespace LAUCHA.application.Mappers
                     Numero = concepto.NumeroConcepto,
                     Nombre = concepto.NombreConcepto
                 };
-            } 
+            }
 
             return new DescuentoDTO
             {
@@ -48,7 +43,7 @@ namespace LAUCHA.application.Mappers
                 Descripcion = descuentoDTO.Descripcion,
                 NumeroConcepto = descuentoDTO.NumeroConcepto,
                 //NumeroCuenta = descuentoDTO.NumeroCuenta,
-                Fecha =  fechaActual,
+                Fecha = fechaActual,
                 Monto = descuentoDTO.Monto
             };
         }

@@ -1,6 +1,5 @@
 ﻿using LAUCHA.application.DTOs.AdicionalDTOs;
 using LAUCHA.application.interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LAUCHA.api.Controllers
@@ -23,12 +22,12 @@ namespace LAUCHA.api.Controllers
         public IActionResult CrearUnNuevoAdicional(AdicionalDTO nuevoAdicional)
         {
             var result = _crearAdicionalService.CrearNuevoAdicional(nuevoAdicional);
-            return new JsonResult(result) { StatusCode = 201};
+            return new JsonResult(result) { StatusCode = 201 };
         }
 
         [HttpGet("{codigoAdicional}")]
         [ProducesResponseType(typeof(AdicionalDTO), 200)]
-        public IActionResult ObtenerUnAdicional(string codigoAdicional) 
+        public IActionResult ObtenerUnAdicional(string codigoAdicional)
         {
             var result = _consultarAdicionalesService.ObtenerAdicionalPorCodigo(codigoAdicional);
             return new JsonResult(result) { StatusCode = 200 };

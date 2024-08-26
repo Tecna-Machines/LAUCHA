@@ -21,7 +21,7 @@ namespace LAUCHA.application.UseCase.CrearRetencionesFijas
 
         public RetencionFijaDTO CrearNuevaRetencionFija(RetencionFijaDTO nuevaRetencionFija)
         {
-            log.LogInformation("se esta creando una retencion: descripcion: {d},monto: {m}", 
+            log.LogInformation("se esta creando una retencion: descripcion: {d},monto: {m}",
                nuevaRetencionFija.Concepto, nuevaRetencionFija.Unidades);
 
             RetencionFija retencionFija = _RetencionFijaMapper.GenerarRetencionFija(nuevaRetencionFija);

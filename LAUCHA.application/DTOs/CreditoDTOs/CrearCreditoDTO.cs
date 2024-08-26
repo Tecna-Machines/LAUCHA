@@ -8,6 +8,6 @@
         public string NumeroCuenta { get; set; } = null!;
         public int CantidadCuotas { get; set; }
         public int NumeroConcepto { get; set; }
-        public bool esQuincenal {  get; set; }
+        public bool esQuincenal { get; set; }
     }
 }

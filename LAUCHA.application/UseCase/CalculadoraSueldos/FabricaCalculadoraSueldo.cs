@@ -1,11 +1,6 @@
 ﻿using LAUCHA.application.interfaces;
 using LAUCHA.domain.Enums;
 using LAUCHA.domain.interfaces.IServices;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.application.UseCase.CalculadoraSueldos
 {

@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LAUCHA.application.Helpers
+﻿namespace LAUCHA.application.Helpers
 {
     internal class GeneradorDeNumeroAleatorio
     {
-        public int GenerarAleatorioEntreValores(int valorMinimo,int valorMaximo)
+        public int GenerarAleatorioEntreValores(int valorMinimo, int valorMaximo)
         {
             if (valorMinimo >= valorMaximo)
             {

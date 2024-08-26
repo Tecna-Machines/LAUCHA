@@ -79,7 +79,7 @@ namespace LAUCHA.infrastructure.repositories
         public List<NoRemuneracion> ObtenerNoRemuneracionesLiquidacion(string codigoLiquidacion)
         {
             var listaNoRemuPorLiquidacion = _context.NoRemuneracionesPorLiquidaciones
-                                            .Where(noRemuPorLiq => 
+                                            .Where(noRemuPorLiq =>
                                             noRemuPorLiq.CodigoLiquidacionPersonal == codigoLiquidacion)
                                             .ToList();
 

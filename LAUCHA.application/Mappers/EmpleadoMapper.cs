@@ -1,10 +1,5 @@
 ﻿using LAUCHA.application.DTOs.EmpleadoDTO;
 using LAUCHA.domain.entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.application.Mappers
 {
@@ -22,7 +17,7 @@ namespace LAUCHA.application.Mappers
             };
         }
 
-        public EmpleadoDTO GenerarEmpleadoDTO(Empleado empleado,Cuenta cuenta)
+        public EmpleadoDTO GenerarEmpleadoDTO(Empleado empleado, Cuenta cuenta)
         {
             return new EmpleadoDTO
             {

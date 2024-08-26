@@ -68,19 +68,19 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
             if (diasPeriodo > 31)
             {
                 log.LogError("Se seteo un periodo mayor a 31 dias");
-                throw new PeriodoExcepcion("el periodo no puede ser mayor a 31 dias"); 
+                throw new PeriodoExcepcion("el periodo no puede ser mayor a 31 dias");
             }
 
             if (inicioPeriodo > finPeriodo)
             {
-                log.LogError(null,"la fecha de inicio del periodo: {i} , es menor al fin del periodo: {f}", inicioPeriodo, finPeriodo);
-                throw new PeriodoExcepcion("el inicio de periodo  es menor que el fin del periodo"); 
+                log.LogError(null, "la fecha de inicio del periodo: {i} , es menor al fin del periodo: {f}", inicioPeriodo, finPeriodo);
+                throw new PeriodoExcepcion("el inicio de periodo  es menor que el fin del periodo");
             }
 
             if (inicioPeriodo == finPeriodo)
             {
-                log.LogError(null,"se seteo la misma fecha para inicio y final de periodo: {f}", inicioPeriodo);
-                throw new PeriodoExcepcion("no pueden utilizarse las mismas fechas para liquidar"); 
+                log.LogError(null, "se seteo la misma fecha para inicio y final de periodo: {f}", inicioPeriodo);
+                throw new PeriodoExcepcion("no pueden utilizarse las mismas fechas para liquidar");
             }
 
             _Contrato = contratoEmp;
@@ -115,7 +115,7 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
             if (remuneracionesSueldo.Count < 1)
             {
                 log.LogError("el calculo de las remuneraciones obtuvo menos de 1 remuneracion ");
-                throw new SueldoException("no se pudieron calcular remuneraciones"); 
+                throw new SueldoException("no se pudieron calcular remuneraciones");
             }
 
             log.LogInformation("se calcularon las remuneraciones de la deduccion");
@@ -141,15 +141,15 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
                 remuneracionesDTO.Add(remuneracionDTO);
             }
 
-            Remuneracion antiguedadRemuneracion = _CalculadoraAntiguedad.CalcularAntiguedad(this._Empleado!,montoBrutoBlanco);
+            Remuneracion antiguedadRemuneracion = _CalculadoraAntiguedad.CalcularAntiguedad(this._Empleado!, montoBrutoBlanco);
 
             log.LogInformation("se calculo la antiguedad en: {d} y monto: {m}",
-                antiguedadRemuneracion.Descripcion,antiguedadRemuneracion.Monto);
+                antiguedadRemuneracion.Descripcion, antiguedadRemuneracion.Monto);
 
             _UnitOfWorkLiquidacion.RemuneracionRepository.Insert(antiguedadRemuneracion);
             remuneracionesDTO.Add(_MapperRemuneracion.GenerarRemuneracionDTO(antiguedadRemuneracion));
 
-            var retenciones = _CalculadoraSueldo.CalcularRetencionesSueldo((montoBrutoBlanco+antiguedadRemuneracion.Monto), _Cuenta!);
+            var retenciones = _CalculadoraSueldo.CalcularRetencionesSueldo((montoBrutoBlanco + antiguedadRemuneracion.Monto), _Cuenta!);
 
             log.LogInformation("se calcularon las retenciones ,cant. de retenciones: {c}", retenciones.Count);
 
@@ -163,8 +163,8 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
             }
 
             //guardar nuevas remuneraciones y retenciones
-            log.LogInformation("se estan almacenado las retenciones, cant. {rc}",retenciones.Count);
-            log.LogInformation("se estan almacenado las remuneraciones, cant. {rc}",remuneracionesSueldo.Count);
+            log.LogInformation("se estan almacenado las retenciones, cant. {rc}", retenciones.Count);
+            log.LogInformation("se estan almacenado las remuneraciones, cant. {rc}", remuneracionesSueldo.Count);
 
             _UnitOfWorkLiquidacion.Save();
 
@@ -184,7 +184,7 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
         public async Task<LiquidacionDTO> HacerUnaLiquidacion()
         {
 
-            if(_Contrato == null || _Empleado == null)
+            if (_Contrato == null || _Empleado == null)
             {
                 log.LogError("no se han seteado correctamente el empleado o el contrato");
                 throw new ArgumentNullException();
@@ -193,7 +193,7 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
             string nombreEmp = $"{_Empleado.Nombre} {_Empleado.Apellido}";
 
             log.LogInformation("INICIO de liquidacion");
-            log.LogInformation("empleado seteado: {e}, contrato seteado: {c}",nombreEmp,_Contrato.Codigo);
+            log.LogInformation("empleado seteado: {e}, contrato seteado: {c}", nombreEmp, _Contrato.Codigo);
 
             DateTime fechaActual = DateTime.Now;
 
@@ -330,7 +330,7 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
             log.LogInformation("FIN de liquidacion, liquidacion condigo: {c}", nuevaLiquidacion.CodigoLiquidacion);
 
             return _MapperLiquidacion.GenerarLiquidacionDTO(nuevaLiquidacion, remuneraciones,
-                                                            retenciones, descuentos, noRemuneraciones, pagos, empleado,contrato);
+                                                            retenciones, descuentos, noRemuneraciones, pagos, empleado, contrato);
         }
 
     }

@@ -1,11 +1,6 @@
 ﻿using LAUCHA.domain.entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.infrastructure.Data
 {
@@ -19,8 +14,8 @@ namespace LAUCHA.infrastructure.Data
                 {
                     Nombre = "Mario",
                     Apellido = "Guitierrez",
-                    FechaIngreso = new DateTime(1995,10,1),
-                    FechaNacimiento = new DateTime(1940,10,2),
+                    FechaIngreso = new DateTime(1995, 10, 1),
+                    FechaNacimiento = new DateTime(1940, 10, 2),
                     Dni = "11584752"
                 },
 
@@ -41,7 +36,7 @@ namespace LAUCHA.infrastructure.Data
                     Dni = "14784252"
                 }
 
-                ); 
+                );
         }
     }
 }
