@@ -28,7 +28,9 @@ using LAUCHA.domain.interfaces.IServices;
 using LAUCHA.domain.interfaces.IUnitsOfWork;
 using LAUCHA.infrastructure.persistence;
 using LAUCHA.infrastructure.repositories;
-using LAUCHA.infrastructure.Services;
+using LAUCHA.infrastructure.Services.Logs;
+using LAUCHA.infrastructure.Services.Marcas;
+using LAUCHA.infrastructure.Services.Menues;
 using LAUCHA.infrastructure.unitOfWork;
 using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
@@ -182,10 +184,10 @@ builder.Services.AddScoped<IMenuesService>(sp =>
     return new MenuesService(httpClient, user, password);
 });
 
-builder.Services.AddScoped<IMarcasService, MarcasService>(provider =>
+builder.Services.AddSingleton<IMarcasService, MarcasServiceAccess>(provider =>
 {
-    var connectionString = "Dsn=MS Access Database;";
-    return new MarcasService(connectionString);
+    var connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=\\pc-marcas\Marcas 2008\marcas.mdb;";
+    return new MarcasServiceAccess(connectionString,"administrador","stoned","pc-marcas");
 });
 
 //CORS deshabilitar

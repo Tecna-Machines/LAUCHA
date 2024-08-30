@@ -4,7 +4,7 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 
-namespace LAUCHA.infrastructure.Services
+namespace LAUCHA.infrastructure.Services.Menues
 {
     public class MenuesService : IMenuesService
     {
@@ -14,7 +14,7 @@ namespace LAUCHA.infrastructure.Services
 
         public MenuesService(HttpClient httpClient, string usuarioService, string passwordUsuario)
         {
-            (_httpClient) = (httpClient);
+            _httpClient = httpClient;
             UsuarioService = usuarioService;
             PasswordUsuario = passwordUsuario;
         }
@@ -71,8 +71,8 @@ namespace LAUCHA.infrastructure.Services
         {
             UsuarioLoginRequest credenciales = new UsuarioLoginRequest
             {
-                username = this.UsuarioService,
-                password = this.PasswordUsuario
+                username = UsuarioService,
+                password = PasswordUsuario
             };
 
             string json = JsonSerializer.Serialize(credenciales);

@@ -2,7 +2,7 @@
 using Serilog;
 
 
-namespace LAUCHA.infrastructure.Services
+namespace LAUCHA.infrastructure.Services.Logs
 {
     public class LogService : ILogsApp
     {

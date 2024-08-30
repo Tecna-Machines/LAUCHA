@@ -118,5 +118,38 @@ namespace LAUCHA.application.UseCase.GenerarRecibo
 
             return tablaNeto;
         }
+
+        public Table GenerarTablaHeaderMarcas(LiquidacionDTO liquidacion, DateTime fechaIngreso)
+        {
+            string periodo = $"{liquidacion.Periodo.Inicio.ToString("dd/MM/yyyy")} - {liquidacion.Periodo.Fin.ToString("dd/MM/yyyy")}";
+
+            Table header = new Table(2).UseAllAvailableWidth();
+            header.SetFontSize(10);
+
+            // Crear celda para el título que abarca 2 columnas
+            Cell celdaTitulo = new Cell(1, 2).Add(new Paragraph("PLANILLA DE MARCAS"))
+                                             .SetTextAlignment(TextAlignment.CENTER);
+
+            celdaTitulo.SetBackgroundColor(ColorConstants.LIGHT_GRAY);
+            header.AddHeaderCell(celdaTitulo);
+
+            // Agregar celdas a la tabla
+            header.AddHeaderCell(new Cell().Add(new Paragraph("Pertenece a la liquidacion: ")
+                                .SetBackgroundColor(ColorConstants.LIGHT_GRAY)));
+
+            header.AddHeaderCell(new Cell().Add(new Paragraph(liquidacion.Codigo).SetBackgroundColor(ColorConstants.LIGHT_GRAY)));
+
+            header.AddHeaderCell(new Cell().Add(new Paragraph("Apellido y nombre")));
+            header.AddHeaderCell(new Cell().Add(new Paragraph(liquidacion.Empleado)));
+
+            header.AddHeaderCell(new Cell().Add(new Paragraph("N° de documento")));
+            header.AddHeaderCell(new Cell().Add(new Paragraph(liquidacion.Dni)));
+
+
+            header.AddHeaderCell(new Cell().Add(new Paragraph("Periodo:")));
+            header.AddHeaderCell(new Cell().Add(new Paragraph(periodo)));
+
+            return header;
+        }
     }
 }
