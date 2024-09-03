@@ -1,4 +1,5 @@
 ﻿using LAUCHA.domain.entities;
+using LAUCHA.domain.entities.diasEspeciales;
 using LAUCHA.infrastructure.config;
 using LAUCHA.infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -34,6 +35,12 @@ namespace LAUCHA.infrastructure.persistence
         public DbSet<RetencionFija> RetencionesFijas { get; set; }
         public DbSet<RetencionFijaPorCuenta> RetencionesFijasPorCuentas { get; set; }
         public DbSet<RetencionPorLiquidacionPersonal> RetencionesPorLiquidaciones { get; set; }
+
+        //DbSet de dias especiales
+        public DbSet<AvisosAusencia> AvisosAusencia { get; set; }
+        public DbSet<DiaFeriado> DiasFeriados { get; set; }
+        public DbSet<PeriodoVacaciones> PeriodoVacaciones { get; set; }
+        public DbSet<HabilitacionHorasExtra> HabilitacionHorasExtra { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -71,6 +78,13 @@ namespace LAUCHA.infrastructure.persistence
             modelBuilder.ApplyConfiguration(new EmpleadosData());
             modelBuilder.ApplyConfiguration(new ModalidadData());
             modelBuilder.ApplyConfiguration(new RetencionesFijasData());
+
+            //configuracion dias especiales
+            modelBuilder.ApplyConfiguration(new DiasFeriadosConfig());
+            modelBuilder.ApplyConfiguration(new PeriodoVacacionesConfig());
+            modelBuilder.ApplyConfiguration(new AvisosAusenciaConfig());
+            modelBuilder.ApplyConfiguration(new HabilitacionHorasExtraConfig());
+
 
         }
     }

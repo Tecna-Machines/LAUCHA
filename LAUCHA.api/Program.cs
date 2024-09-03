@@ -237,6 +237,7 @@ try
     }
 
     logger.LogInformation("conexion exitosa con el servidor DB: {Host}", host);
+    scope.Dispose();
 }
 catch (Exception ex)
 {

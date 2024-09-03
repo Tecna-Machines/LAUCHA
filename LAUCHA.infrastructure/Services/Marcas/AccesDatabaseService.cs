@@ -1,8 +1,10 @@
 ﻿using LAUCHA.domain.interfaces.IServices;
 using System.Data.OleDb;
+using System.Runtime.Versioning;
 
 namespace LAUCHA.infrastructure.Services.Marcas
 {
+    [SupportedOSPlatform("windows")]
     internal class AccesDatabaseService
     {
         private readonly string _connectionString;

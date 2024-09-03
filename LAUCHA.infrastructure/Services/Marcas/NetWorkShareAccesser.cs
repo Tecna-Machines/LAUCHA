@@ -40,7 +40,7 @@ namespace LAUCHA.infrastructure.Services.Marcas
             };
 
             var process = Process.Start(processInfo);
-            process.WaitForExit();
+            process?.WaitForExit();
         }
     }
 }

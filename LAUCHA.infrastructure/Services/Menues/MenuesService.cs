@@ -21,7 +21,12 @@ namespace LAUCHA.infrastructure.Services.Menues
 
         public async Task<CostoPersonalResponse> ObtenerGastosComida(string dniEmpleado, DateTime inicioPeriodo, DateTime finPeriodo)
         {
-            string token = await ObtenerJwtToken();
+            string? token = await ObtenerJwtToken();
+
+            if(token == null)
+            { 
+                throw new ArgumentNullException(); 
+            }
 
 
             PersonalResponse empleado = await ObtenerPersonaDelMenu(dniEmpleado, token);
@@ -67,7 +72,7 @@ namespace LAUCHA.infrastructure.Services.Menues
             throw new NullReferenceException();
         }
 
-        private async Task<string> ObtenerJwtToken()
+        private async Task<string?> ObtenerJwtToken()
         {
             UsuarioLoginRequest credenciales = new UsuarioLoginRequest
             {
@@ -88,7 +93,7 @@ namespace LAUCHA.infrastructure.Services.Menues
             {
                 UsuarioLoginResponse? loginResponse = JsonSerializer.Deserialize<UsuarioLoginResponse>(jsonRequest);
 
-                return loginResponse.token ?? null;
+                return loginResponse?.token ?? null;
             }
 
             throw new NullReferenceException();

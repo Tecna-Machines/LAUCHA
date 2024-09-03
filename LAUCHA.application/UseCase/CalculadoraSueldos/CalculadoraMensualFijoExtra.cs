@@ -45,6 +45,7 @@ namespace LAUCHA.application.UseCase.CalculadoraSueldos
             HorasPeriodo horasTrabajadas = _MarcasService.ConsularHorasPeriodo(contrato.Dni, desde, hasta);
 
             decimal cantidadHorasExtra = horasTrabajadas.HorasExtraTotales;
+            decimal cantidadHorasDoble = horasTrabajadas.HorasDoble;
 
             decimal montoFijoContrato = contrato.MontoFijo;
             decimal montoBancoBruto;
@@ -54,6 +55,7 @@ namespace LAUCHA.application.UseCase.CalculadoraSueldos
             bool blancoEsPorcentual = acuerdoBlanco.EsPorcentual;
 
             decimal montoHorasExtra = cantidadHorasExtra * (contrato.MontoHora * (decimal)1.5);
+            decimal montoHorasDoble = cantidadHorasDoble * (contrato.MontoHora * 2);
 
             montoBancoBruto = _CalculadoraPorcentaje.
                                CalcularPorcentajeSiEstaHabilitado(blancoEsPorcentual, acuerdoBlanco.Cantidad, montoFijoContrato);
@@ -84,11 +86,20 @@ namespace LAUCHA.application.UseCase.CalculadoraSueldos
                 Monto = montoHorasExtra
             };
 
+            var remuHorasDoble = new RemuneracionDTO
+            {
+                Descripcion = $"horas doble: ({cantidadHorasDoble}) HS computadas",
+                EsBlanco = false,
+                Cuenta = cuenta.NumeroCuenta,
+                Monto = montoHorasDoble
+            };
+
             Remuneracion remuneracionBlanco = _MapperRemuneracion.GenerarRemuneracion(remuBlanco);
             Remuneracion remuneracionNegro = _MapperRemuneracion.GenerarRemuneracion(remuNegro);
             Remuneracion remuneracionHorasExtra = _MapperRemuneracion.GenerarRemuneracion(remuHorasExtra);
+            Remuneracion remuneracionHorasDoble = _MapperRemuneracion.GenerarRemuneracion(remuHorasDoble);
 
-            return new List<Remuneracion> { remuneracionBlanco, remuneracionNegro, remuneracionHorasExtra };
+            return new List<Remuneracion> { remuneracionBlanco, remuneracionNegro, remuneracionHorasExtra,remuneracionHorasDoble };
         }
     }
 }

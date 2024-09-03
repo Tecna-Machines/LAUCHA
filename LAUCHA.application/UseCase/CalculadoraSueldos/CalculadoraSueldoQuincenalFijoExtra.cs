@@ -54,7 +54,10 @@ namespace LAUCHA.application.UseCase.CalculadoraSueldos
             HorasPeriodo horasTrabajo = _MarcasService.ConsularHorasPeriodo(contrato.Dni, desde, hasta);
 
             decimal cantidadHorasExtra = horasTrabajo.HorasExtraTotales;
+            decimal cantidadHorasDoble = horasTrabajo.HorasDoble;
+
             decimal montoHorasExtra = cantidadHorasExtra * (contrato.MontoHora * (decimal)1.5);
+            decimal montoHorasDoble = cantidadHorasDoble * (contrato.MontoHora * 2);
             decimal montoFijoContrato = contrato.MontoFijo;
             decimal montoBancoBruto;
             decimal montoEfectivoBruto;
@@ -96,11 +99,20 @@ namespace LAUCHA.application.UseCase.CalculadoraSueldos
                 Monto = montoHorasExtra
             };
 
+            var remuHorasDoble = new RemuneracionDTO
+            {
+                Descripcion= $"sueldo horas doble: ({cantidadHorasDoble}) HS computadas",
+                EsBlanco = false,
+                Cuenta = cuenta.NumeroCuenta,
+                Monto = montoHorasExtra
+            };
+
             Remuneracion remuneracionBlanco = _MapperRemuneracion.GenerarRemuneracion(remuBlanco);
             Remuneracion remuneracionNegro = _MapperRemuneracion.GenerarRemuneracion(remuNegro);
             Remuneracion remuneracionHorasExtra = _MapperRemuneracion.GenerarRemuneracion(remuHorasExtra);
+            Remuneracion remuneracionHorasDoble = _MapperRemuneracion.GenerarRemuneracion(remuHorasDoble);
 
-            return new List<Remuneracion> { remuneracionBlanco, remuneracionNegro, remuneracionHorasExtra };
+            return new List<Remuneracion> { remuneracionBlanco, remuneracionNegro, remuneracionHorasExtra, remuneracionHorasDoble };
         }
     }
 }

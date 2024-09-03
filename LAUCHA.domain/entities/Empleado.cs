@@ -1,4 +1,6 @@
-﻿namespace LAUCHA.domain.entities
+﻿using LAUCHA.domain.entities.diasEspeciales;
+
+namespace LAUCHA.domain.entities
 {
     public class Empleado
     {
@@ -9,6 +11,8 @@
         public DateTime FechaIngreso { get; set; }
         public Cuenta Cuenta { get; set; } = null!;
         public ICollection<Contrato> Contratos { get; set; } = null!;
+        public ICollection<AvisosAusencia> Ausencias { get; set; } = null!;
+        public ICollection<HabilitacionHorasExtra> HabilitacionesHorasExtra { get; set; } = null!;
     }
 
 }
