@@ -15,6 +15,9 @@ using LAUCHA.application.UseCase.ContratosDeTrabajo;
 using LAUCHA.application.UseCase.CrearCredito;
 using LAUCHA.application.UseCase.CrearRemuneracionNueva;
 using LAUCHA.application.UseCase.CrearRetencionesFijas;
+using LAUCHA.application.UseCase.DiasEspeciales.CrearConsultarAusencias;
+using LAUCHA.application.UseCase.DiasEspeciales.CrearConsultarFeriados;
+using LAUCHA.application.UseCase.DiasEspeciales.CrearConsultarHsExtraHabilitadas;
 using LAUCHA.application.UseCase.DiasEspeciales.CrearConsultarVacaciones;
 using LAUCHA.application.UseCase.GenerarRecibo;
 using LAUCHA.application.UseCase.HacerUnaLiquidacion;
@@ -165,12 +168,16 @@ builder.Services.AddScoped<IModificarRetencionFijaService, ModificarRetencionFij
 
 //dias especiales
 builder.Services.AddScoped<IDiasFeriadosRepository, DiaFeriadoRepository>();
+builder.Services.AddScoped<ICrearConsultarFeriados, CrearConsultarFeriado>();
+
 builder.Services.AddScoped<IAvisoAusenciaRepository, AvisoAuseciaRepository>();
+builder.Services.AddScoped<ICrearConsultarAusencias, CrearConsultarAusenciasService>();
 
 builder.Services.AddScoped<IPeriodoVacacionesRepository, PeriodoVacacionRepository>();
 builder.Services.AddScoped<ICrearConsultarVacacionesService, CrearConsultarVacacionesService>();
 
 builder.Services.AddScoped<IHabilitacionHorasExtraRepository, HabilitacionHorasExtraRepository>();
+builder.Services.AddScoped<ICrearConsultarHsExtraHabilitadas, ConsultarCrearPermisoHsExtra>();
 
 builder.Services.AddHttpClient();
 

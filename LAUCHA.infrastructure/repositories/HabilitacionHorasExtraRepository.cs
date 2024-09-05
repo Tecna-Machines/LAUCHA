@@ -1,6 +1,7 @@
 ﻿using LAUCHA.domain.entities.diasEspeciales;
 using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.infrastructure.persistence;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,22 +21,34 @@ namespace LAUCHA.infrastructure.repositories
 
         public HabilitacionHorasExtra cargarNuevaHabilitacionHsExtra(HabilitacionHorasExtra habilitacion)
         {
-            throw new NotImplementedException();
+            _context.HabilitacionHorasExtra.Add(habilitacion);
+            _context.SaveChanges();
+
+            habilitacion.Empleado = _context.Empleados.Find(habilitacion.DniEmpleado) ?? throw new ArgumentNullException();
+            habilitacion.Responsable = _context.Empleados.Find(habilitacion.DniResponsable) ?? throw new ArgumentNullException();
+
+            return habilitacion;
         }
 
         public List<HabilitacionHorasExtra> obtenerHabilitacionEmpleado(string dniEmpleado)
         {
-            return _context.HabilitacionHorasExtra.Where(he => he.Equals(dniEmpleado)).ToList();
+            return _context.HabilitacionHorasExtra
+                            .Include(he => he.Empleado)
+                            .Include(he => he.Responsable)
+                            .Where(he => he.Equals(dniEmpleado)).ToList();
         }
 
         public List<HabilitacionHorasExtra> obtenerHabilitacionesEmpleadoPeriodo(string dniEmpleado,
                                                                                  DateTime fechaInicio,
                                                                                  DateTime fechaFin)
         {
-            return _context.HabilitacionHorasExtra.Where(hs => hs.DniEmpleado == dniEmpleado
-                && hs.FechaInicio >= fechaInicio 
-                && hs.FechaFin <= fechaFin) 
-                .ToList();
+            return _context.HabilitacionHorasExtra
+                            .Include(he => he.Empleado)
+                            .Include(he => he.Responsable)
+                            .Where(hs => hs.DniEmpleado == dniEmpleado
+                            && hs.FechaInicio >= fechaInicio 
+                            && hs.FechaFin <= fechaFin) 
+                            .ToList();
         }
     }
 }

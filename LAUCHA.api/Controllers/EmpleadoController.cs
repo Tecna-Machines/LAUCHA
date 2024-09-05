@@ -1,4 +1,6 @@
 ﻿using LAUCHA.application.DTOs.ContratoDTOs;
+using LAUCHA.application.DTOs.DiasEspecialesDTOs.AusenciasDTO;
+using LAUCHA.application.DTOs.DiasEspecialesDTOs.HabilitacionHsExtraDTO;
 using LAUCHA.application.DTOs.DiasEspecialesDTOs.VacacionesDTO;
 using LAUCHA.application.DTOs.EmpleadoDTO;
 using LAUCHA.application.DTOs.SystemaDTO;
@@ -16,16 +18,22 @@ namespace LAUCHA.api.Controllers
         private readonly IConsultarEmpleadoService _consultarEmpleadoService;
         private readonly IConsultarContratoTrabajoService _consultarContratoTrabajoService;
         private readonly ICrearConsultarVacacionesService _vacacionesService;
+        private readonly ICrearConsultarAusencias _ausenciasService;
+        private readonly ICrearConsultarHsExtraHabilitadas _hsExtraService;
 
         public EmpleadoController(ICrearEmpleadoService crearEmpleadoService,
                                   IConsultarEmpleadoService consultarEmpleadoService,
                                   IConsultarContratoTrabajoService consultarContratoTrabajoService,
-                                  ICrearConsultarVacacionesService vacacionesService)
+                                  ICrearConsultarVacacionesService vacacionesService,
+                                  ICrearConsultarAusencias ausenciasService,
+                                  ICrearConsultarHsExtraHabilitadas hsExtraService)
         {
             _crearEmpleadoService = crearEmpleadoService;
             _consultarEmpleadoService = consultarEmpleadoService;
             _consultarContratoTrabajoService = consultarContratoTrabajoService;
             _vacacionesService = vacacionesService;
+            _ausenciasService = ausenciasService;
+            _hsExtraService = hsExtraService;
         }
 
         [HttpPost]
@@ -85,11 +93,40 @@ namespace LAUCHA.api.Controllers
         }
 
         [HttpGet("{dni}/vacaciones")]
-        public IActionResult ConsultarVacacionesEmpleado(string dni,int? anio)
+        public IActionResult ConsultarVacacionesEmpleado(string dni, int? anio)
         {
-            var result = _vacacionesService.obtenerVacacionesEmpleado(dni,anio);
+            var result = _vacacionesService.obtenerVacacionesEmpleado(dni, anio);
             return new JsonResult(result) { StatusCode = 200 };
         }
+
+        [HttpPost("ausencia")]
+        public IActionResult AgregarAusencia(CrearAusenciaDTO ausencia)
+        {
+            var result = _ausenciasService.crearAusencia(ausencia);
+            return new JsonResult(result) { StatusCode = 201 };
+        }
+
+        [HttpGet("{dni}/ausencias")]
+        public IActionResult ConsultarAusencias(string dni,int? anio)
+        {
+            var result = _ausenciasService.obtenerAusenciasEmpleado(dni,anio);
+            return new JsonResult(result) { StatusCode = 200 };
+        }
+
+        [HttpPost("habilitar-hs-extra")]
+        public IActionResult AgregarPermisoHsExtra(CrearHabilitacionHsExtraDTO hsExtra)
+        {
+            var result = _hsExtraService.crearPermisoHsExtra(hsExtra);
+            return new JsonResult(result) { StatusCode = 201 };
+        }
+
+        [HttpGet("{dni}/habilitar-hs-extra")]
+        public IActionResult ConsultarHsExtraHabilitadas(string dni,DateTime inicioPeriodo,DateTime finPeriodo)
+        {
+            var result = _hsExtraService.verPermisoHsExtraPeriodoEmpleado(dni, inicioPeriodo, finPeriodo);
+            return new JsonResult(result) { StatusCode = 200 };
+        }
+
 
     }
 }

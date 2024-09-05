@@ -23,7 +23,7 @@ namespace LAUCHA.infrastructure.repositories
 
         public List<DiaFeriado> obtenerFeriadosAnio(int anio)
         {
-            return _context.DiasFeriados.Where(f => f.FechaFeriado.Equals(anio)).ToList();
+            return _context.DiasFeriados.Where(f => f.FechaFeriado.Year.Equals(anio)).ToList();
         }
     }
 }
