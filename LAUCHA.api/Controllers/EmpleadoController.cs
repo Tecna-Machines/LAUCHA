@@ -1,7 +1,9 @@
 ﻿using LAUCHA.application.DTOs.ContratoDTOs;
+using LAUCHA.application.DTOs.DiasEspecialesDTOs.VacacionesDTO;
 using LAUCHA.application.DTOs.EmpleadoDTO;
 using LAUCHA.application.DTOs.SystemaDTO;
 using LAUCHA.application.interfaces;
+using LAUCHA.application.interfaces.IDiasEspecialesServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LAUCHA.api.Controllers
@@ -13,14 +15,17 @@ namespace LAUCHA.api.Controllers
         private readonly ICrearEmpleadoService _crearEmpleadoService;
         private readonly IConsultarEmpleadoService _consultarEmpleadoService;
         private readonly IConsultarContratoTrabajoService _consultarContratoTrabajoService;
+        private readonly ICrearConsultarVacacionesService _vacacionesService;
 
         public EmpleadoController(ICrearEmpleadoService crearEmpleadoService,
                                   IConsultarEmpleadoService consultarEmpleadoService,
-                                  IConsultarContratoTrabajoService consultarContratoTrabajoService)
+                                  IConsultarContratoTrabajoService consultarContratoTrabajoService,
+                                  ICrearConsultarVacacionesService vacacionesService)
         {
             _crearEmpleadoService = crearEmpleadoService;
             _consultarEmpleadoService = consultarEmpleadoService;
             _consultarContratoTrabajoService = consultarContratoTrabajoService;
+            _vacacionesService = vacacionesService;
         }
 
         [HttpPost]
@@ -69,6 +74,20 @@ namespace LAUCHA.api.Controllers
         public IActionResult ObtenerLosContratosDeUnEmpleado(string dni)
         {
             var result = _consultarContratoTrabajoService.ObtenerTodosLosContratosDeEmpleado(dni);
+            return new JsonResult(result) { StatusCode = 200 };
+        }
+
+        [HttpPost("vacaciones")]
+        public IActionResult CrearVacaciones(CrearVacacionesDTO vacaciones)
+        {
+            var result = _vacacionesService.crearNuevaVacacion(vacaciones);
+            return new JsonResult(result) { StatusCode = 201 };
+        }
+
+        [HttpGet("{dni}/vacaciones")]
+        public IActionResult ConsultarVacacionesEmpleado(string dni,int? anio)
+        {
+            var result = _vacacionesService.obtenerVacacionesEmpleado(dni,anio);
             return new JsonResult(result) { StatusCode = 200 };
         }
 
