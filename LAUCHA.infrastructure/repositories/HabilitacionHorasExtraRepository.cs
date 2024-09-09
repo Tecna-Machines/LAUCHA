@@ -2,11 +2,6 @@
 using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.infrastructure.persistence;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.infrastructure.repositories
 {
@@ -46,8 +41,8 @@ namespace LAUCHA.infrastructure.repositories
                             .Include(he => he.Empleado)
                             .Include(he => he.Responsable)
                             .Where(hs => hs.DniEmpleado == dniEmpleado
-                            && hs.FechaInicio >= fechaInicio 
-                            && hs.FechaFin <= fechaFin) 
+                            && hs.FechaInicio >= fechaInicio
+                            && hs.FechaFin <= fechaFin)
                             .ToList();
         }
     }
