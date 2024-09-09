@@ -7,7 +7,7 @@ using LAUCHA.application.interfaces;
 using LAUCHA.application.Mappers;
 using LAUCHA.domain.entities;
 
-namespace LAUCHA.application.UseCase.CalculadoraSueldos
+namespace LAUCHA.application.UseCase.V1.CalculadoraSueldos
 {
     internal abstract class BaseCalculadoraSueldo : IEstrategiaCalcularSueldo
     {

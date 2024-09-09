@@ -3,7 +3,7 @@ using LAUCHA.application.interfaces.IDiasEspecialesServices;
 using LAUCHA.domain.entities.diasEspeciales;
 using LAUCHA.domain.interfaces.IRepositories;
 
-namespace LAUCHA.application.UseCase.DiasEspeciales.CrearConsultarVacaciones
+namespace LAUCHA.application.UseCase.V1.DiasEspeciales.CrearConsultarVacaciones
 {
     public class CrearConsultarVacacionesService : ICrearConsultarVacacionesService
     {

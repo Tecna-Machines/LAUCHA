@@ -4,7 +4,7 @@ using LAUCHA.application.Mappers;
 using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IRepositories;
 
-namespace LAUCHA.application.UseCase.ConsultarRetencionesFijas
+namespace LAUCHA.application.UseCase.V1.ConsultarRetencionesFijas
 {
     public class ConsultarRetencionesFijasService : IConsultarRetencionesFijasService
     {

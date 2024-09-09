@@ -5,7 +5,7 @@ using LAUCHA.application.DTOs.RemuneracionDTOs;
 using LAUCHA.application.DTOs.RetencionesFijasDTOs;
 using LAUCHA.domain.entities;
 
-namespace LAUCHA.application.UseCase.CalculadoraSueldos
+namespace LAUCHA.application.UseCase.V1.CalculadoraSueldos
 {
     internal class CalculadoraQuicenalFijo : BaseCalculadoraSueldo
     {
@@ -22,9 +22,9 @@ namespace LAUCHA.application.UseCase.CalculadoraSueldos
             montoBancoBruto = _CalculadoraPorcentaje.
                                 CalcularPorcentajeSiEstaHabilitado(blancoEsPorcentual, acuerdoBlanco.Cantidad, montoFijoContrato);
 
-            montoBancoBruto = (montoBancoBruto / 2);
+            montoBancoBruto = montoBancoBruto / 2;
 
-            montoEfectivoBruto = (montoFijoContrato / 2) - montoBancoBruto;
+            montoEfectivoBruto = montoFijoContrato / 2 - montoBancoBruto;
 
             bool quincena = EsPrimeraQuicena();
             string mensajeQuicena = quincena == true ? "1ra quincena" : "2da quincena";

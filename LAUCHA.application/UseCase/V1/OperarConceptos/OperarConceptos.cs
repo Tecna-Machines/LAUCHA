@@ -3,7 +3,7 @@ using LAUCHA.application.interfaces;
 using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IRepositories;
 
-namespace LAUCHA.application.UseCase.OperarConceptos
+namespace LAUCHA.application.UseCase.V1.OperarConceptos
 {
     public class OperarConceptos : IOperarConceptosService
     {

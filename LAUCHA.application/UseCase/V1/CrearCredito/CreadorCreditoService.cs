@@ -4,7 +4,7 @@ using LAUCHA.application.interfaces;
 using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IRepositories;
 
-namespace LAUCHA.application.UseCase.CrearCredito
+namespace LAUCHA.application.UseCase.V1.CrearCredito
 {
     public class CreadorCreditoService : ICreadorCreditos
     {

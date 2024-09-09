@@ -3,7 +3,7 @@ using LAUCHA.application.interfaces;
 using LAUCHA.application.Mappers;
 using LAUCHA.domain.entities;
 
-namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
+namespace LAUCHA.application.UseCase.V1.HacerUnaLiquidacion
 {
     public class CalculadoraAntiguedad : ICalculadoraAntiguedad
     {
@@ -38,7 +38,7 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
                 aniosAntiguedad = 0;
             }
 
-            decimal montoAntiguedad = (montoBrutoBlanco / 100) * aniosAntiguedad;
+            decimal montoAntiguedad = montoBrutoBlanco / 100 * aniosAntiguedad;
 
             var remuneracionDTO = new RemuneracionDTO
             {
