@@ -8,7 +8,9 @@ namespace LAUCHA.infrastructure.unitOfWork
     public class UnitOfWorkLiquidacion : IUnitOfWorkLiquidacion, IDisposable
     {
         public IGenericRepository<Retencion> RetencionRepository { get; }
+        public IGenericRepository<NoRemuneracion> NORemuneracionRepository { get; }
         public IGenericRepository<Remuneracion> RemuneracionRepository { get; }
+        public IGenericRepository<Descuento> DescuentoRepository { get; }
         public IGenericRepository<LiquidacionPersonal> LiquidacionRepository { get; }
         public IGenericRepository<RemuneracionPorLiquidacionPersonal> RemuneracionLiquidacion { get; }
         public IGenericRepository<RetencionPorLiquidacionPersonal> RetencionLiquidacion { get; }
@@ -25,7 +27,9 @@ namespace LAUCHA.infrastructure.unitOfWork
                                      IGenericRepository<RetencionPorLiquidacionPersonal> retencionLiquidacion,
                                      IGenericRepository<DescuentoPorLiquidacionPersonal> descuentoLiquidacion,
                                      IGenericRepository<LiquidacionPersonal> liquidacionRepository,
-                                     IGenericRepository<NoRemuneracionPorLiquidacionPersonal> noRemuneracionLiquidacion)
+                                     IGenericRepository<NoRemuneracionPorLiquidacionPersonal> noRemuneracionLiquidacion,
+                                     IGenericRepository<NoRemuneracion> nORemuneracionRepository,
+                                     IGenericRepository<Descuento> descuentoRepository)
         {
             _context = context;
             RemuneracionRepository = remuneracionRepository;
@@ -35,6 +39,8 @@ namespace LAUCHA.infrastructure.unitOfWork
             DescuentoLiquidacion = descuentoLiquidacion;
             LiquidacionRepository = liquidacionRepository;
             NoRemuneracionLiquidacion = noRemuneracionLiquidacion;
+            NORemuneracionRepository = nORemuneracionRepository;
+            DescuentoRepository = descuentoRepository;
         }
 
 

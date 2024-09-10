@@ -3,30 +3,42 @@ using LAUCHA.application.interfaces.IDiasEspecialesServices;
 using LAUCHA.application.UseCase.AgregarCuenta;
 using LAUCHA.application.UseCase.AgregarEmpleadoNuevo;
 using LAUCHA.application.UseCase.AgregarUnAdicional;
-using LAUCHA.application.UseCase.CalculadoraSueldos;
 using LAUCHA.application.UseCase.ConsularModalidades;
 using LAUCHA.application.UseCase.ConsultarAdicionales;
 using LAUCHA.application.UseCase.ConsultarContratoDeTrabajo;
 using LAUCHA.application.UseCase.ConsultarEmpleado;
 using LAUCHA.application.UseCase.ConsultarLiquidacion;
 using LAUCHA.application.UseCase.ConsultarRemuneraciones;
-using LAUCHA.application.UseCase.ConsultarRetencionesFijas;
 using LAUCHA.application.UseCase.ContratosDeTrabajo;
-using LAUCHA.application.UseCase.CrearCredito;
 using LAUCHA.application.UseCase.CrearRemuneracionNueva;
 using LAUCHA.application.UseCase.CrearRetencionesFijas;
 using LAUCHA.application.UseCase.DiasEspeciales.CrearConsultarAusencias;
 using LAUCHA.application.UseCase.DiasEspeciales.CrearConsultarFeriados;
 using LAUCHA.application.UseCase.DiasEspeciales.CrearConsultarHsExtraHabilitadas;
-using LAUCHA.application.UseCase.DiasEspeciales.CrearConsultarVacaciones;
 using LAUCHA.application.UseCase.GenerarRecibo;
 using LAUCHA.application.UseCase.HacerUnaLiquidacion;
 using LAUCHA.application.UseCase.ModificarRetencionFija;
 using LAUCHA.application.UseCase.OperacionesDescuento;
-using LAUCHA.application.UseCase.OperarConceptos;
 using LAUCHA.application.UseCase.OperarCredito;
 using LAUCHA.application.UseCase.OperarNoRemuneraciones;
 using LAUCHA.application.UseCase.OperarRetenciones;
+using LAUCHA.application.UseCase.V1.ConsultarRetencionesFijas;
+using LAUCHA.application.UseCase.V1.CrearCredito;
+using LAUCHA.application.UseCase.V1.DiasEspeciales.CrearConsultarVacaciones;
+using LAUCHA.application.UseCase.V1.HacerUnaLiquidacion;
+using LAUCHA.application.UseCase.V1.OperarConceptos;
+using LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Calculadoras.Antiguedad;
+using LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Calculadoras.Sueldos;
+using LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Interfaces;
+using LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo1;
+using LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo2;
+using LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo3;
+using LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo4;
+using LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo5;
+using LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo6;
+using LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo7;
+using LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo8;
+using LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo9;
 using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.domain.interfaces.IServices;
@@ -127,7 +139,7 @@ builder.Services.AddScoped<IRetencionRepository, RetencionRepository>();
 builder.Services.AddScoped<IDescuentoRepository, DescuentoRepository>();
 
 builder.Services.AddScoped<IFabricaCalculadoraSueldo, FabricaCalculadoraSueldo>();
-builder.Services.AddScoped<ILiquidacionService, CrearLiquidacionService>();
+//builder.Services.AddScoped<ILiquidacionService, CrearLiquidacionService>();
 builder.Services.AddScoped<IUnitOfWorkLiquidacion, UnitOfWorkLiquidacion>();
 
 builder.Services.AddScoped<IGenericRepository<RemuneracionPorLiquidacionPersonal>, RemuneracionPorLiquidacionRepository>();
@@ -179,6 +191,20 @@ builder.Services.AddScoped<ICrearConsultarVacacionesService, CrearConsultarVacac
 builder.Services.AddScoped<IHabilitacionHorasExtraRepository, HabilitacionHorasExtraRepository>();
 builder.Services.AddScoped<ICrearConsultarHsExtraHabilitadas, ConsultarCrearPermisoHsExtra>();
 
+
+//modulos de liquidacion
+builder.Services.AddScoped<IModuloLiquidador, ModuloRecuperadorEmpleado>();  // 1
+builder.Services.AddScoped<IModuloLiquidador, ModuloRecuperadorItemsExistentes>();          // 2
+builder.Services.AddScoped<IModuloLiquidador, ModuloCalculadorSueldoBase>();           // 3
+builder.Services.AddScoped<IModuloLiquidador, ModuloCalculadorSueldoHsExtra>();       // 4
+builder.Services.AddScoped<IModuloLiquidador, ModuloCalculadorAntiguedad>();     // 5
+builder.Services.AddScoped<IModuloLiquidador, ModuloCalculadorDeRetenciones>();              // 6
+builder.Services.AddScoped<IModuloLiquidador, ModuloCalculadorGastosComida>();       // 7
+builder.Services.AddScoped<IModuloLiquidador, ModuloCalculadorDeCreditos>();          // 8
+builder.Services.AddScoped<IModuloLiquidador, ModuloAsociador>();   // 9
+
+builder.Services.AddScoped<ILiquidacionService, LiquidacionService2>();
+
 builder.Services.AddHttpClient();
 
 
@@ -205,7 +231,7 @@ builder.Services.AddScoped<IMenuesService>(sp =>
 builder.Services.AddSingleton<IMarcasService, MarcasServiceAccess>(provider =>
 {
     var connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=\\pc-marcas\Marcas 2008\marcas.mdb;";
-    return new MarcasServiceAccess(connectionString,"administrador","stoned","pc-marcas");
+    return new MarcasServiceAccess(connectionString, "administrador", "stoned", "pc-marcas");
 });
 
 //CORS deshabilitar

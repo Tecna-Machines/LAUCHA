@@ -2,7 +2,7 @@
 using LAUCHA.domain.Enums;
 using LAUCHA.domain.interfaces.IServices;
 
-namespace LAUCHA.application.UseCase.V1.CalculadoraSueldos
+namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Calculadoras.Sueldos
 {
     public class FabricaCalculadoraSueldo : IFabricaCalculadoraSueldo
     {

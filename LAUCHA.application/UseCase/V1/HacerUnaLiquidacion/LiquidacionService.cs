@@ -333,5 +333,9 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
                                                             retenciones, descuentos, noRemuneraciones, pagos, empleado, contrato);
         }
 
+        public Task<LiquidacionDTO> HacerUnaLiquidacion(string dni, PeriodoDTO periodo)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -5,7 +5,7 @@ using LAUCHA.application.DTOs.RemuneracionDTOs;
 using LAUCHA.application.DTOs.RetencionesFijasDTOs;
 using LAUCHA.domain.entities;
 
-namespace LAUCHA.application.UseCase.CalculadoraSueldos
+namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Calculadoras.Sueldos
 {
     internal class CalculadoraMensualFijo : BaseCalculadoraSueldo
     {
@@ -64,7 +64,7 @@ namespace LAUCHA.application.UseCase.CalculadoraSueldos
 
 
 
-                var nuevoRetencion = this.CrearRetencion(retencion, montoRetencion, indice++, cuenta.NumeroCuenta);
+                var nuevoRetencion = CrearRetencion(retencion, montoRetencion, indice++, cuenta.NumeroCuenta);
                 retencionesSueldo.Add(nuevoRetencion);
             }
 
