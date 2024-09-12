@@ -16,21 +16,10 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo9
             _unitOfWorkLiquidacion = unitOfWorkLiquidacion;
         }
 
-        public Task EjecutarRutina(LiquidacionPayload payload)
+        public async Task EjecutarRutina(LiquidacionPayload payload)
         {
-
-            LiquidacionPersonal liquidacion = new();
-
-            liquidacion.CodigoContrato = payload.Contrato.Codigo;
-            liquidacion.Concepto = "kcyo";
-
-            liquidacion.CodigoLiquidacion = this.CrearCodigoLiquidacion(payload.Empleado.Dni);
-            _unitOfWorkLiquidacion.LiquidacionRepository.Insert(liquidacion);
-
+            var liquidacion = this.InicializarLiquidacion(payload);
             string codigo = liquidacion.CodigoLiquidacion;
-            //TODO: eliminar despues
-            liquidacion.CodigoLiquidacion = codigo;
-
 
             if (!payload.esSimulacion)
             {
@@ -45,7 +34,22 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo9
             var resultado = this.GenerarResultado(payload,liquidacion);
             payload.SetResultado(resultado);
 
-            return Task.CompletedTask;
+        }
+
+        private LiquidacionPersonal InicializarLiquidacion(LiquidacionPayload payload)
+        {
+            LiquidacionPersonal liquidacion = new();
+
+            liquidacion.CodigoLiquidacion = this.CrearCodigoLiquidacion(payload.Empleado.Dni);
+            liquidacion.CodigoContrato = payload.Contrato.Codigo;
+            liquidacion.Concepto = $"liquidacion ,{payload.Empleado.Nombre} {payload.Empleado.Apellido}";
+            liquidacion.InicioPeriodo = payload.periodoliquidar.Inicio;
+            liquidacion.FinPeriodo = payload.periodoliquidar.Fin;
+            liquidacion.FechaLiquidacion = DateTime.Now;
+
+            _unitOfWorkLiquidacion.LiquidacionRepository.Insert(liquidacion);
+
+            return liquidacion;
         }
 
         private string CrearCodigoLiquidacion(string dniEmpleado)
@@ -136,6 +140,7 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo9
             EmpleadoMapper empMapper = new();
 
             var empleado = empMapper.GenerarEmpleado(payload.Empleado);
+
 
             return mappper.GenerarLiquidacionDTO(liquidacion: liquidacion,
                                                   remuneraciones: payload.remuneracionesLiquidacion,

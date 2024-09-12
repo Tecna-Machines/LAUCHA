@@ -36,7 +36,6 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo1
             payload.RetencionesFijasCuenta = payload.Cuenta.Retenciones;
 
             return Task.CompletedTask;
-
         }
 
         private EmpleadoDTO obtenerDatosEmpleado(string dniEmpleado)

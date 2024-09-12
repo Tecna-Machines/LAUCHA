@@ -138,7 +138,7 @@ namespace LAUCHA.api.Controllers
             return File(pdfBytes, "application/pdf", $"{liquidacion.Codigo}_{liquidacion.Empleado}.pdf");
         }
 
-        [HttpPost("empleado/{dni}/simular-liquidar")]
+        [HttpPost("empleado/{dni}/simular")]
         public IActionResult ProbarLiquidacion(string dni, DateTime desde, DateTime hasta)
         {
             var result = _liquidacionService.HacerUnaLiquidacion(dni,new PeriodoDTO { Inicio = desde,Fin = hasta});

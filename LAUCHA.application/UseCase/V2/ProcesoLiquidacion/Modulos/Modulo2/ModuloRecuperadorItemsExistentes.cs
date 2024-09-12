@@ -29,22 +29,17 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo2
             string numeroCuenta = payload.Cuenta.NumeroCuenta;
             PeriodoDTO periodo = payload.periodoliquidar;
 
-            // Ejecutar todas las tareas asincrónicas en paralelo
-            var obtenerRemuneracionesTask = this.ObtenerRemuneracionesExistentes(numeroCuenta, periodo);
-            var obtenerDescuentosTask = this.ObtenerDescuentosPreexistentes(numeroCuenta, periodo);
-            var obtenerNoRemuneracionesTask = this.ObtenerNoRemuneracionesPreexistentes(numeroCuenta, periodo);
-            var obtenerRetencionesTask = this.ObtenerRetencionesPreexistentes(numeroCuenta, periodo);
+            var remuneraciones =   await this.ObtenerRemuneracionesExistentes(numeroCuenta, periodo);
+            payload.remuneracionesLiquidacion = remuneraciones ?? new List<Remuneracion>();
 
-            // Esperar que todas las tareas se completen
-            await Task.WhenAll(obtenerRemuneracionesTask, obtenerDescuentosTask, obtenerNoRemuneracionesTask, obtenerRetencionesTask);
+            var descuentos = await this.ObtenerDescuentosPreexistentes(numeroCuenta, periodo);
+            payload.descuentosLiquidacion = descuentos ?? new List<Descuento>();
 
-            // Asignar los resultados a las propiedades del payload
-            payload.remuneracionesLiquidacion = await obtenerRemuneracionesTask ?? new List<Remuneracion>();
-            payload.descuentosLiquidacion = await obtenerDescuentosTask ?? new List<Descuento>();
-            payload.noRemuneracionesLiquidacion = await obtenerNoRemuneracionesTask ?? new List<NoRemuneracion>();
-            payload.retencionesLiquidacion = await obtenerRetencionesTask ?? new List<Retencion>();
-        
-             payload.retencionesLiquidacion = obtenerRetencionesTask.Result ?? new List<Retencion>();
+            var noRemuneraciones = await this.ObtenerNoRemuneracionesPreexistentes(numeroCuenta, periodo);
+            payload.noRemuneracionesLiquidacion = noRemuneraciones ?? new List<NoRemuneracion>();
+
+            var retenciones = await this.ObtenerRetencionesPreexistentes(numeroCuenta, periodo);
+            payload.retencionesLiquidacion = retenciones ?? new List<Retencion>();
         }
 
 

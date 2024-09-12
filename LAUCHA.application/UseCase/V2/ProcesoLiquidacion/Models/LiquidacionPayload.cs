@@ -50,6 +50,7 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Models
             totalMontoRemunerativo = (this.remuneracionesLiquidacion?.Where(r => r.EsBlanco == true).Sum(r => r.Monto)) ?? 0;
             totalMontoNoRemunerativo = (this.noRemuneracionesLiquidacion?.Sum(r => r.Monto)) ?? 0;
             totalMontoRetenciones = (this.retencionesLiquidacion?.Sum(r => r.Monto)) ?? 0;
+            totalMontoDescuento = (this.descuentosLiquidacion?.Sum(d => d.Monto)) ?? 0;
         }
 
 

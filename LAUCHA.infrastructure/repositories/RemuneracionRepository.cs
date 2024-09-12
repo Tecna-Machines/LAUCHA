@@ -34,7 +34,7 @@ namespace LAUCHA.infrastructure.repositories
         public Remuneracion Insert(Remuneracion remuneracion)
         {
             _context.Add(remuneracion);
-            _context.SaveChanges();
+           // _context.SaveChanges();
             return remuneracion;
         }
 

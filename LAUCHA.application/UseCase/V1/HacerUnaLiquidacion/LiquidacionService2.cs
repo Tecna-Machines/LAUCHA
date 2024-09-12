@@ -35,20 +35,17 @@ namespace LAUCHA.application.UseCase.V1.HacerUnaLiquidacion
 
             payload.Inicializar(dni,periodo,true);
 
-            this.ProcesarLiquidacion(payload);
+            await this.ProcesarLiquidacion(payload);
 
             return payload.ObtenerResultado() ?? throw new IOException();
         }
 
-        private void ProcesarLiquidacion(LiquidacionPayload payload)
+        private async Task ProcesarLiquidacion(LiquidacionPayload payload)
         {
             foreach (var modulo in _modulos)
             {
-                Console.WriteLine("INICIO....................");
-                modulo.EjecutarRutina(payload);
+                await modulo.EjecutarRutina(payload);
                 payload.actualizarMontos();
-                Console.WriteLine("TERMINO UN MODULO....................");
-
             }
         }
 

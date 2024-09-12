@@ -104,7 +104,7 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Calculadoras.Sueldos
                 Descripcion = $"sueldo horas doble: ({cantidadHorasDoble}) HS computadas",
                 EsBlanco = false,
                 Cuenta = cuenta.NumeroCuenta,
-                Monto = montoHorasExtra
+                Monto = montoHorasDoble
             };
 
             Remuneracion remuneracionBlanco = _MapperRemuneracion.GenerarRemuneracion(remuBlanco);
