@@ -19,21 +19,12 @@ namespace LAUCHA.application.UseCase.V1.HacerUnaLiquidacion
             _consultarLiquidacion = consultarLiquidacion;
         }
 
-        public DeduccionDTOs HacerDeduccionesSueldo()
-        {
-            throw new NotImplementedException();
-        }
 
-        public Task<LiquidacionDTO> HacerUnaLiquidacion()
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<LiquidacionDTO> HacerUnaLiquidacion(string dni, PeriodoDTO periodo)
+        public async Task<LiquidacionDTO> HacerUnaLiquidacion(string dni, PeriodoDTO periodo, bool esSimulacion)
         {
             LiquidacionPayload payload = new();
 
-            payload.Inicializar(dni,periodo,true);
+            payload.Inicializar(dni,periodo,esSimulacion);
 
             await this.ProcesarLiquidacion(payload);
 

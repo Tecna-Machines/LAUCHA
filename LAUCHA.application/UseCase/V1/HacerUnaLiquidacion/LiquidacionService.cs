@@ -12,7 +12,7 @@ using LAUCHA.domain.interfaces.IUnitsOfWork;
 
 namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
 {
-    public class CrearLiquidacionService : ILiquidacionService
+    public class CrearLiquidacionService // : ILiquidacionService <- TODO: descartar posiblemente
     {
         private readonly ILogsApp log;
         private IEstrategiaCalcularSueldo _CalculadoraSueldo = null!;

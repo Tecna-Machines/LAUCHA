@@ -36,54 +36,15 @@ namespace LAUCHA.api.Controllers
             this.log = log;
         }
 
-        [HttpPost("empleado/{dni}/deducir-retenciones")]
-        [ProducesResponseType(typeof(DeduccionDTOs), 201)]
-        public IActionResult HacerDeducciones(string dni, DateTime desde, DateTime hasta)
-        {
-            var empleado = _empleadoService.ConsultarUnEmpleado(dni);
-
-            var cuenta = _CuentaService.ConsularUnaCuenta(empleado.NumeroCuenta);
-            var contrato = _ContratoService.ObtenerContratoDeEmpleado(empleado.Dni);
-
-            _liquidacionService.SetearEmpleadoALiquidar(desde, hasta, contrato, cuenta);
-            var result = _liquidacionService.HacerDeduccionesSueldo();
-
-            return new JsonResult(result) { StatusCode = 201 };
-        }
-
         [HttpPost("empleado/{dni}/liquidar")]
         [ProducesResponseType(typeof(LiquidacionDTO), 201)]
         public async Task<IActionResult> LiquidarEmpleado(string dni, DateTime desde, DateTime hasta)
         {
-            log.LogInformation("se solicito la liquidacion del empleado: {dni}", dni);
+            var result = await _liquidacionService.HacerUnaLiquidacion(dni,
+                                                                new PeriodoDTO { Inicio = desde,Fin = hasta},
+                                                                false);
 
-            try
-            {
-                var empleado = _empleadoService.ConsultarUnEmpleado(dni);
-
-                var cuenta = _CuentaService.ConsularUnaCuenta(empleado.NumeroCuenta);
-                var contrato = _ContratoService.ObtenerContratoDeEmpleado(empleado.Dni);
-
-                _liquidacionService.SetearEmpleadoALiquidar(desde, hasta, contrato, cuenta);
-                var result = await _liquidacionService.HacerUnaLiquidacion();
-
-                return new JsonResult(result) { StatusCode = 201 };
-            }
-            catch (PeriodoExcepcion e)
-            {
-                log.LogError(e, "ocurrio un problema en el periodo de liquidacion");
-                return new JsonResult(new RespuestaSystema { Mensaje = e.Message, StatusCode = e.Codigo }) { StatusCode = e.Codigo };
-            }
-            catch (ServicioException e)
-            {
-                log.LogError(e, "ocurrio un problema con un servicio externo");
-                return new JsonResult(new RespuestaSystema { Mensaje = e.Message, StatusCode = 500 });
-            }
-            catch (Exception e)
-            {
-                log.LogError(e, "ocurrio un problema al liquidar: {m}", e.Message);
-                return new JsonResult(new RespuestaSystema { Mensaje = e.Message, StatusCode = 500 }) { StatusCode = 500 };
-            }
+            return new JsonResult(result) { StatusCode = 201 };
 
         }
 
@@ -141,7 +102,9 @@ namespace LAUCHA.api.Controllers
         [HttpPost("empleado/{dni}/simular")]
         public IActionResult ProbarLiquidacion(string dni, DateTime desde, DateTime hasta)
         {
-            var result = _liquidacionService.HacerUnaLiquidacion(dni,new PeriodoDTO { Inicio = desde,Fin = hasta});
+            var result = _liquidacionService.HacerUnaLiquidacion(dni,
+                                                                 new PeriodoDTO { Inicio = desde,Fin = hasta},
+                                                                 true);
 
             return new JsonResult(result.Result) { StatusCode = 200 };
         }
