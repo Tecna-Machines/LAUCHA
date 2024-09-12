@@ -6,10 +6,11 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo6
 {
     public class ModuloCalculadorDeRetenciones : IModuloLiquidador
     {
-        public void EjecutarRutina(LiquidacionPayload payload)
+        public Task EjecutarRutina(LiquidacionPayload payload)
         {
 
             payload.retencionesLiquidacion.AddRange(this.CalcularRetencionesDeLiquidacion(payload));
+            return Task.CompletedTask;
         }
 
         private List<Retencion> CalcularRetencionesDeLiquidacion(LiquidacionPayload payload)

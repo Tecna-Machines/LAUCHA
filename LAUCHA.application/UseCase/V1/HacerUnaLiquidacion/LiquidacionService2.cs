@@ -32,13 +32,12 @@ namespace LAUCHA.application.UseCase.V1.HacerUnaLiquidacion
         public async Task<LiquidacionDTO> HacerUnaLiquidacion(string dni, PeriodoDTO periodo)
         {
             LiquidacionPayload payload = new();
-            payload.dniEmpleado = dni;
-            payload.periodoliquidar = periodo;
-            payload.esSimulacion = true;
+
+            payload.Inicializar(dni,periodo,true);
 
             this.ProcesarLiquidacion(payload);
 
-            return  _consultarLiquidacion.ConsulatarLiquidacion(payload.CodigoLiquidacion);
+            return payload.ObtenerResultado() ?? throw new IOException();
         }
 
         private void ProcesarLiquidacion(LiquidacionPayload payload)

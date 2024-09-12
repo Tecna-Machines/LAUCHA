@@ -26,7 +26,7 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo1
             _contratoService = contratoService;
         }
 
-        public void EjecutarRutina(LiquidacionPayload payload)
+        public Task EjecutarRutina(LiquidacionPayload payload)
         {
             payload.Empleado = this.obtenerDatosEmpleado(payload.dniEmpleado);
             payload.Cuenta = this.obtenerDatosCuenta(payload.Empleado.NumeroCuenta);
@@ -34,6 +34,8 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo1
             payload.Contrato = this.obtenerContratoEmpleado(payload.dniEmpleado);
 
             payload.RetencionesFijasCuenta = payload.Cuenta.Retenciones;
+
+            return Task.CompletedTask;
 
         }
 
@@ -56,5 +58,6 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo1
         {
             return _contratoService.ObtenerContratoDeEmpleado(dni);
         }
+
     }
 }

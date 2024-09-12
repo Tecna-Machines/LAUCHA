@@ -5,9 +5,9 @@ namespace LAUCHA.application.Mappers
 {
     internal class EmpleadoMapper
     {
-        public Empleado GenerarEmpleado(CrearEmpleadoDTO empleado)
+        public domain.entities.Empleado GenerarEmpleado(CrearEmpleadoDTO empleado)
         {
-            return new Empleado
+            return new domain.entities.Empleado
             {
                 Dni = empleado.Dni,
                 Apellido = empleado.Apellido,
@@ -17,9 +17,9 @@ namespace LAUCHA.application.Mappers
             };
         }
 
-        public EmpleadoDTO GenerarEmpleadoDTO(Empleado empleado, Cuenta cuenta)
+        public DTOs.EmpleadoDTO.EmpleadoDTO GenerarEmpleadoDTO(domain.entities.Empleado empleado, Cuenta cuenta)
         {
-            return new EmpleadoDTO
+            return new DTOs.EmpleadoDTO.EmpleadoDTO
             {
                 Dni = empleado.Dni,
                 Nombre = empleado.Nombre,

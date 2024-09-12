@@ -18,10 +18,11 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo7
             _menuService = menuService;
         }
 
-        public async void EjecutarRutina(LiquidacionPayload payload)
+        public async Task EjecutarRutina(LiquidacionPayload payload)
         {
             var descuentoComida = await this.RecuperarGastosComida(payload.Empleado, payload.periodoliquidar);
             payload.descuentosLiquidacion.Add(descuentoComida);
+
         }
 
         private async Task<Descuento> RecuperarGastosComida(EmpleadoDTO emp, PeriodoDTO periodo)

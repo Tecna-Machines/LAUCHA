@@ -4,6 +4,6 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Interfaces
 {
     public interface IModuloLiquidador
     {
-        void EjecutarRutina(LiquidacionPayload payload);
+        Task EjecutarRutina(LiquidacionPayload payload);
     }
 }

@@ -1,4 +1,6 @@
-﻿using LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Interfaces;
+﻿using LAUCHA.application.DTOs.LiquidacionDTOs;
+using LAUCHA.application.Mappers;
+using LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Interfaces;
 using LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Models;
 using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IUnitsOfWork;
@@ -14,29 +16,36 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo9
             _unitOfWorkLiquidacion = unitOfWorkLiquidacion;
         }
 
-        public void EjecutarRutina(LiquidacionPayload payload)
+        public Task EjecutarRutina(LiquidacionPayload payload)
         {
 
             LiquidacionPersonal liquidacion = new();
+
+            liquidacion.CodigoContrato = payload.Contrato.Codigo;
+            liquidacion.Concepto = "kcyo";
 
             liquidacion.CodigoLiquidacion = this.CrearCodigoLiquidacion(payload.Empleado.Dni);
             _unitOfWorkLiquidacion.LiquidacionRepository.Insert(liquidacion);
 
             string codigo = liquidacion.CodigoLiquidacion;
-
-
             //TODO: eliminar despues
             liquidacion.CodigoLiquidacion = codigo;
 
-            this.AsociarRemuneraciones(codigo, payload.remuneracionesLiquidacion);
-            this.AsociarNoRemuneraciones(codigo, payload.noRemuneracionesLiquidacion);
-            this.AsociarRetenciones(codigo, payload.retencionesLiquidacion);
-            this.AsociarDescuentos(codigo, payload.descuentosLiquidacion);
 
             if (!payload.esSimulacion)
             {
+                this.AsociarRemuneraciones(codigo, payload.remuneracionesLiquidacion);
+                this.AsociarNoRemuneraciones(codigo, payload.noRemuneracionesLiquidacion);
+                this.AsociarRetenciones(codigo, payload.retencionesLiquidacion);
+                this.AsociarDescuentos(codigo, payload.descuentosLiquidacion);
+
                 this.guardarCambios();
             }
+
+            var resultado = this.GenerarResultado(payload,liquidacion);
+            payload.SetResultado(resultado);
+
+            return Task.CompletedTask;
         }
 
         private string CrearCodigoLiquidacion(string dniEmpleado)
@@ -118,6 +127,26 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo9
         private int guardarCambios()
         {
             return _unitOfWorkLiquidacion.Save();
+        }
+
+
+        private LiquidacionDTO GenerarResultado(LiquidacionPayload payload,LiquidacionPersonal liquidacion)
+        {
+            LiquidacionMapper mappper = new();
+            EmpleadoMapper empMapper = new();
+
+            var empleado = empMapper.GenerarEmpleado(payload.Empleado);
+
+            return mappper.GenerarLiquidacionDTO(liquidacion: liquidacion,
+                                                  remuneraciones: payload.remuneracionesLiquidacion,
+                                                  retenciones: payload.retencionesLiquidacion,
+                                                  descuentos: payload.descuentosLiquidacion,
+                                                  noRemuneraciones: payload.noRemuneracionesLiquidacion,
+                                                  empleado: empleado,
+                                                  pagos: new List<PagoLiquidacion>(),
+                                                  contratoDTO: payload.Contrato
+
+                );
         }
     }
 }

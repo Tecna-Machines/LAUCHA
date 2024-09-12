@@ -18,14 +18,14 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo3
             _fabricaCalculadoraSueldo = fabricaCalculadoraSueldo;
         }
 
-        public void EjecutarRutina(LiquidacionPayload payload)
+        public Task EjecutarRutina(LiquidacionPayload payload)
         {
-
-
 
             List<Remuneracion> remuneracionesSueldoBase = this.calcularSueldoBase(payload);
 
             payload.remuneracionesLiquidacion.AddRange(remuneracionesSueldoBase);
+
+            return Task.CompletedTask;
         }
 
         private List<Remuneracion> calcularSueldoBase(LiquidacionPayload payload)

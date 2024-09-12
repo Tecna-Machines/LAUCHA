@@ -19,9 +19,9 @@ namespace LAUCHA.application.UseCase.AgregarEmpleadoNuevo
             this.log = log;
         }
 
-        public EmpleadoDTO CargarNuevoEmpleado(CrearEmpleadoDTO nuevoEmpleado)
+        public DTOs.EmpleadoDTO.EmpleadoDTO CargarNuevoEmpleado(CrearEmpleadoDTO nuevoEmpleado)
         {
-            Empleado empleado = _empleadoMapper.GenerarEmpleado(nuevoEmpleado);
+            domain.entities.Empleado empleado = _empleadoMapper.GenerarEmpleado(nuevoEmpleado);
             empleado = _unitOfWork.EmpleadoRepository.Insert(empleado);
 
             DateTime fechaActual = DateTime.Now;

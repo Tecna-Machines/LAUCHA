@@ -143,7 +143,7 @@ namespace LAUCHA.api.Controllers
         {
             var result = _liquidacionService.HacerUnaLiquidacion(dni,new PeriodoDTO { Inicio = desde,Fin = hasta});
 
-            return new JsonResult(result) { StatusCode = 200 };
+            return new JsonResult(result.Result) { StatusCode = 200 };
         }
 
 

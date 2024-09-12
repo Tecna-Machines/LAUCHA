@@ -5,10 +5,12 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo8
 {
     public class ModuloCalculadorDeCreditos : IModuloLiquidador
     {
-        public void EjecutarRutina(LiquidacionPayload payload)
+        public Task EjecutarRutina(LiquidacionPayload payload)
         {
             //TODO: implementar este modulo
             Console.WriteLine("MODULO CALCULADOR DE CREDITOS VIVO");
+
+            return Task.CompletedTask;
         }
     }
 }

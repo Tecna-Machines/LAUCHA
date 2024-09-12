@@ -5,10 +5,11 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo4
 {
     public class ModuloCalculadorSueldoHsExtra : IModuloLiquidador
     {
-        public void EjecutarRutina(LiquidacionPayload payload)
+        public Task EjecutarRutina(LiquidacionPayload payload)
         {
             //TODO: por completar
             Console.WriteLine("MODULO DE HS EXTRA VIVO");
+            return Task.CompletedTask;
         }
     }
 }

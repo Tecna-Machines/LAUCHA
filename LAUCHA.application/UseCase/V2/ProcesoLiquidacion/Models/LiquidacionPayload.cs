@@ -12,8 +12,8 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Models
     public class LiquidacionPayload
     {
         //TODO: eliminar
-        public string CodigoLiquidacion { get; set; }
-        
+        public string CodigoLiquidacion { get; set; } = null!;
+
         public PeriodoDTO periodoliquidar { get; set; } = null!;
         public string dniEmpleado { get; set; } = null!;
         public bool esSimulacion { get; set; }
@@ -21,6 +21,8 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Models
         public CuentaDTO Cuenta { get; set; } = null!;
         public List<RetencionFijaDTO> RetencionesFijasCuenta { get; set; } = null!;
         public EmpleadoDTO Empleado { get; set; } = null!;
+
+        private LiquidacionDTO? Resultado;
 
         private decimal totalMontoRemunerativo;
         private decimal totalMontoNoRemunerativo;
@@ -55,6 +57,28 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Models
         public decimal GetMontoNoRemunerativo() => this.totalMontoNoRemunerativo;
         public decimal GetMontoDescuentos() => this.totalMontoDescuento;
         public decimal GetMontoRetenciones() => this.totalMontoRetenciones;
+
+        public void Inicializar(string dniEmp, PeriodoDTO periodo, bool esSimulacion)
+        {
+            this.dniEmpleado = dniEmp;
+            this.periodoliquidar = periodo;
+            this.esSimulacion = esSimulacion;
+
+            this.remuneracionesLiquidacion = new List<Remuneracion>();
+            this.noRemuneracionesLiquidacion = new List<NoRemuneracion>();
+            this.descuentosLiquidacion = new List<Descuento>();
+            this.retencionesLiquidacion = new List<Retencion>();
+        }
+
+        public LiquidacionDTO? ObtenerResultado()
+        {
+            return this.Resultado;
+        }
+
+        public void SetResultado(LiquidacionDTO liquidacionGenerada)
+        {
+            this.Resultado = liquidacionGenerada;
+        }
 
     }
 }

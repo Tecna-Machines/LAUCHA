@@ -8,12 +8,12 @@ namespace LAUCHA.application.UseCase.ConsultarEmpleado
 {
     public class ConsultarEmpleadoService : IConsultarEmpleadoService
     {
-        private readonly IGenericRepository<Empleado> _EmpleadoRepository;
+        private readonly IGenericRepository<domain.entities.Empleado> _EmpleadoRepository;
         private readonly ICuentaRepository _CuentaRepository;
         private readonly EmpleadoMapper _EmpleadoMapper;
         private readonly ILogsApp log;
 
-        public ConsultarEmpleadoService(IGenericRepository<Empleado> empleadoRepository, ICuentaRepository cuentaRepository, ILogsApp log)
+        public ConsultarEmpleadoService(IGenericRepository<domain.entities.Empleado> empleadoRepository, ICuentaRepository cuentaRepository, ILogsApp log)
         {
             _EmpleadoRepository = empleadoRepository;
             _CuentaRepository = cuentaRepository;
@@ -21,11 +21,11 @@ namespace LAUCHA.application.UseCase.ConsultarEmpleado
             this.log = log;
         }
 
-        public EmpleadoDTO ConsultarUnEmpleado(string dniEmpleado)
+        public DTOs.EmpleadoDTO.EmpleadoDTO ConsultarUnEmpleado(string dniEmpleado)
         {
             log.LogInformation("se esta consultando el empleado: {dni}", dniEmpleado);
 
-            Empleado? empleadoObenitdo = _EmpleadoRepository.GetById(dniEmpleado);
+            domain.entities.Empleado? empleadoObenitdo = _EmpleadoRepository.GetById(dniEmpleado);
 
             if (empleadoObenitdo == null) { throw new NullReferenceException(); }
 
@@ -36,17 +36,17 @@ namespace LAUCHA.application.UseCase.ConsultarEmpleado
             return _EmpleadoMapper.GenerarEmpleadoDTO(empleadoObenitdo, cuentaDelEmpleado);
         }
 
-        public List<EmpleadoDTO> ConsultarTodosLosEmpleados()
+        public List<DTOs.EmpleadoDTO.EmpleadoDTO> ConsultarTodosLosEmpleados()
         {
-            IList<Empleado> empleados = _EmpleadoRepository.GetAll();
-            List<EmpleadoDTO> empleadoDTOs = new();
+            IList<domain.entities.Empleado> empleados = _EmpleadoRepository.GetAll();
+            List<DTOs.EmpleadoDTO.EmpleadoDTO> empleadoDTOs = new();
 
             log.LogInformation("recuperando informacion de todos los empleados");
 
             foreach (var empleado in empleados)
             {
                 Cuenta cuentaEmpleado = _CuentaRepository.ObtenerCuentaDelEmpleado(empleado.Dni);
-                EmpleadoDTO empleadoDTO = _EmpleadoMapper.GenerarEmpleadoDTO(empleado, cuentaEmpleado);
+                DTOs.EmpleadoDTO.EmpleadoDTO empleadoDTO = _EmpleadoMapper.GenerarEmpleadoDTO(empleado, cuentaEmpleado);
                 empleadoDTOs.Add(empleadoDTO);
             }
 

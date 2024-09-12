@@ -1,4 +1,5 @@
-﻿using LAUCHA.application.DTOs.RemuneracionDTOs;
+﻿using LAUCHA.application.DTOs.EmpleadoDTO;
+using LAUCHA.application.DTOs.RemuneracionDTOs;
 using LAUCHA.application.interfaces;
 using LAUCHA.application.Mappers;
 using LAUCHA.domain.entities;
@@ -14,7 +15,7 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Calculadoras.Antigued
             _RemuneracionMapper = new();
         }
 
-        public Remuneracion CalcularAntiguedad(Empleado empleado, decimal montoBrutoBlanco)
+        public Remuneracion CalcularAntiguedad(EmpleadoDTO empleado, decimal montoBrutoBlanco)
         {
             DateTime fechaIngreso = empleado.FechaIngreso;
             DateTime fechaActual = DateTime.Now;
@@ -43,7 +44,7 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Calculadoras.Antigued
             var remuneracionDTO = new RemuneracionDTO
             {
                 Descripcion = $"Antiguedad ({aniosAntiguedad})",
-                Cuenta = empleado.Cuenta.NumeroCuenta,
+                Cuenta = empleado.NumeroCuenta,
                 EsBlanco = true,
                 Monto = montoAntiguedad
             };

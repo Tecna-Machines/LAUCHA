@@ -193,15 +193,15 @@ builder.Services.AddScoped<ICrearConsultarHsExtraHabilitadas, ConsultarCrearPerm
 
 
 //modulos de liquidacion
-builder.Services.AddScoped<IModuloLiquidador, ModuloRecuperadorEmpleado>();  // 1
-builder.Services.AddScoped<IModuloLiquidador, ModuloRecuperadorItemsExistentes>();          // 2
-builder.Services.AddScoped<IModuloLiquidador, ModuloCalculadorSueldoBase>();           // 3
-builder.Services.AddScoped<IModuloLiquidador, ModuloCalculadorSueldoHsExtra>();       // 4
-builder.Services.AddScoped<IModuloLiquidador, ModuloCalculadorAntiguedad>();     // 5
+builder.Services.AddScoped<IModuloLiquidador, ModuloRecuperadorEmpleado>();                  // 1
+builder.Services.AddScoped<IModuloLiquidador, ModuloRecuperadorItemsExistentes>();           // 2
+builder.Services.AddScoped<IModuloLiquidador, ModuloCalculadorSueldoBase>();                 // 3
+builder.Services.AddScoped<IModuloLiquidador, ModuloCalculadorSueldoHsExtra>();              // 4
+builder.Services.AddScoped<IModuloLiquidador, ModuloCalculadorAntiguedad>();                 // 5
 builder.Services.AddScoped<IModuloLiquidador, ModuloCalculadorDeRetenciones>();              // 6
-builder.Services.AddScoped<IModuloLiquidador, ModuloCalculadorGastosComida>();       // 7
-builder.Services.AddScoped<IModuloLiquidador, ModuloCalculadorDeCreditos>();          // 8
-builder.Services.AddScoped<IModuloLiquidador, ModuloAsociador>();   // 9
+builder.Services.AddScoped<IModuloLiquidador, ModuloCalculadorGastosComida>();               // 7
+builder.Services.AddScoped<IModuloLiquidador, ModuloCalculadorDeCreditos>();                 // 8
+builder.Services.AddScoped<IModuloLiquidador, ModuloAsociador>();                            // 9
 
 builder.Services.AddScoped<ILiquidacionService, LiquidacionService2>();
 

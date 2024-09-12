@@ -141,7 +141,7 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
                 remuneracionesDTO.Add(remuneracionDTO);
             }
 
-            Remuneracion antiguedadRemuneracion = _CalculadoraAntiguedad.CalcularAntiguedad(this._Empleado!, montoBrutoBlanco);
+            Remuneracion antiguedadRemuneracion = _CalculadoraAntiguedad.CalcularAntiguedad(null, montoBrutoBlanco);
 
             log.LogInformation("se calculo la antiguedad en: {d} y monto: {m}",
                 antiguedadRemuneracion.Descripcion, antiguedadRemuneracion.Monto);
