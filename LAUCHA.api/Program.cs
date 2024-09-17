@@ -230,8 +230,9 @@ builder.Services.AddScoped<IMenuesService>(sp =>
 
 builder.Services.AddSingleton<IMarcasService, MarcasServiceAccess>(provider =>
 {
-    var connectionString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=\\pc-marcas\Marcas 2008\marcas.mdb;";
-    return new MarcasServiceAccess(connectionString, "administrador", "stoned", "pc-marcas");
+    //TODO: revisar atentamente
+    var connectionString = @"Driver={Microsoft Access Driver (*.mdb)};DBQ=C:\path\to\your\database.mdb;";
+    return new MarcasServiceAccess(connectionString,"");
 });
 
 //CORS deshabilitar

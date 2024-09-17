@@ -1,21 +1,18 @@
 ﻿using LAUCHA.domain.interfaces.IServices;
 using System.Data.OleDb;
+using System.Data.Odbc;
 using System.Runtime.Versioning;
 
 namespace LAUCHA.infrastructure.Services.Marcas
 {
-    [SupportedOSPlatform("windows")]
     internal class AccesDatabaseService
     {
         private readonly string _connectionString;
-        private NetworkShareAccesser _networkAccess;
 
         public AccesDatabaseService(string networkSource,
-                                    string connectionString,
-                                    NetworkShareAccesser networkAccess)
+                                    string connectionString)
         {
             _connectionString = connectionString;
-            _networkAccess = networkAccess;
         }
 
 
@@ -24,9 +21,8 @@ namespace LAUCHA.infrastructure.Services.Marcas
 
                 var marcas = new List<Marca>();
 
-                using (this._networkAccess)
-                {
-                    using (var connection = new OleDbConnection(_connectionString))
+
+                    using (var connection = new OdbcConnection(_connectionString))
                     {
                         connection.Open();
 
@@ -44,7 +40,7 @@ namespace LAUCHA.infrastructure.Services.Marcas
         AND marcas.ingreso BETWEEN @fechaInicio AND @fechaFin
         ORDER BY marcas.ingreso;";
 
-                    using (var command = new OleDbCommand(query, connection))
+                    using (var command = new OdbcCommand(query, connection))
                         {
                             command.Parameters.AddWithValue("@dni", dni);
                             command.Parameters.AddWithValue("@fechaInicio", fechaInicio);
@@ -86,7 +82,7 @@ namespace LAUCHA.infrastructure.Services.Marcas
                             }
                         }
                     }
-                }
+                
 
             //ignora los egresos ,cuya fecha es 00/00/0000
             return marcas.Where(m => m.Egreso != DateTime.MinValue).ToList();
@@ -96,9 +92,7 @@ namespace LAUCHA.infrastructure.Services.Marcas
         {
             var marcas = new List<Marca>();
 
-            using (this._networkAccess)
-            {
-                using (var connection = new OleDbConnection(_connectionString))
+                using (var connection = new OdbcConnection(_connectionString))
                 {
                     connection.Open();
 
@@ -115,7 +109,7 @@ namespace LAUCHA.infrastructure.Services.Marcas
                     AND marcas.ingreso BETWEEN @fechaInicio AND @fechaFin
                     ORDER BY marcas.ingreso;";
 
-                    using (var command = new OleDbCommand(query, connection))
+                    using (var command = new OdbcCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@fechaInicio", fechaInicio);
                         command.Parameters.AddWithValue("@fechaFin", fechaFin);
@@ -171,8 +165,7 @@ namespace LAUCHA.infrastructure.Services.Marcas
                         }
                     }
                 }
-            }
-
+            
             return marcas;
         }
     }

@@ -5,13 +5,11 @@ namespace LAUCHA.infrastructure.Services.Marcas
     {
         private readonly string _connectionString;
         private readonly AccesDatabaseService _accesDatabaseService;
-        private readonly NetworkShareAccesser _networkSMBaccess;
         private readonly CalculadoraHs _calculadoraHs;
-        public MarcasServiceAccess(string connectionString,string user,string password,string networkSource)
+        public MarcasServiceAccess(string connectionString,string networkSource)
         {
             _connectionString = connectionString;
-            _networkSMBaccess = new(networkSource,user,password);
-            _accesDatabaseService = new(networkSource,connectionString,this._networkSMBaccess);
+            _accesDatabaseService = new(networkSource,connectionString);
             _calculadoraHs = new();
         }
 
