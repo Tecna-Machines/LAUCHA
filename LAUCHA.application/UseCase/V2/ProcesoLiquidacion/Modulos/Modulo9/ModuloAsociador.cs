@@ -142,7 +142,7 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo9
             var empleado = empMapper.GenerarEmpleado(payload.Empleado);
 
 
-            return mappper.GenerarLiquidacionDTO(liquidacion: liquidacion,
+            var liquidacionDto=  mappper.GenerarLiquidacionDTO(liquidacion: liquidacion,
                                                   remuneraciones: payload.remuneracionesLiquidacion,
                                                   retenciones: payload.retencionesLiquidacion,
                                                   descuentos: payload.descuentosLiquidacion,
@@ -152,6 +152,9 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo9
                                                   contratoDTO: payload.Contrato
 
                 );
+
+            liquidacionDto.Marcas = payload.marcasDelPeriodo;
+            return liquidacionDto;
         }
     }
 }

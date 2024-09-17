@@ -1,4 +1,5 @@
 ﻿using LAUCHA.application.DTOs.ContratoDTOs;
+using LAUCHA.domain.interfaces.IServices;
 
 namespace LAUCHA.application.DTOs.LiquidacionDTOs
 {
@@ -17,5 +18,6 @@ namespace LAUCHA.application.DTOs.LiquidacionDTOs
         public decimal TotalPagarBanco { set; get; }
         public decimal TotalPagarEfectivo { get; set; }
         public List<PagoDTO> Pagos { get; set; } = null!;
+        public List<MarcaVista> Marcas { get; set; } = null!;
     }
 }
