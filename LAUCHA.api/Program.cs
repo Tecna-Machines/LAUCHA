@@ -47,6 +47,7 @@ using LAUCHA.infrastructure.persistence;
 using LAUCHA.infrastructure.repositories;
 using LAUCHA.infrastructure.Services.Logs;
 using LAUCHA.infrastructure.Services.Marcas;
+using LAUCHA.infrastructure.Services.Marcas.Persistence;
 using LAUCHA.infrastructure.Services.Menues;
 using LAUCHA.infrastructure.unitOfWork;
 using Microsoft.EntityFrameworkCore;
@@ -228,14 +229,14 @@ builder.Services.AddScoped<IMenuesService>(sp =>
     return new MenuesService(httpClient, user, password);
 });
 
-builder.Services.AddSingleton<IMarcasService, MarcasServiceAccess>(provider =>
-{
-//TODO: revisar atentamente
-    var config = provider.GetRequiredService<IConfiguration>();
-    string? databaseMarcas = config["MarcasService:databasePath"];
-    var connectionString = databaseMarcas; ;
-    return new MarcasServiceAccess(connectionString,"");
-});
+
+//Marcas
+string? databaseMarcas =  builder.Configuration["MarcasService:databasePath"];
+
+
+builder.Services.AddDbContext<MarcasDbContext>(options => options.UseMySQL(databaseMarcas));
+
+builder.Services.AddSingleton<IMarcasService, MarcasServiceAccess>();
 
 //CORS deshabilitar
 builder.Services.AddCors(options =>

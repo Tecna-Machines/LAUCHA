@@ -1,21 +1,22 @@
 ﻿using LAUCHA.domain.interfaces.IServices;
+using LAUCHA.infrastructure.Services.Marcas.Interface;
 namespace LAUCHA.infrastructure.Services.Marcas
 {
     public class MarcasServiceAccess : IMarcasService
     {
-        private readonly string _connectionString;
-        private readonly AccesDatabaseService _accesDatabaseService;
-        private readonly CalculadoraHs _calculadoraHs;
-        public MarcasServiceAccess(string connectionString,string networkSource)
+        private readonly IMarcasDb marcasDatabase;
+
+        public MarcasServiceAccess(IMarcasDb marcasDatabase)
         {
-            _connectionString = connectionString;
-            _accesDatabaseService = new(networkSource,connectionString);
-            _calculadoraHs = new();
+            this.marcasDatabase = marcasDatabase;
         }
+
+        private readonly CalculadoraHs _calculadoraHs;
+        
 
         public HorasPeriodo ConsularHorasPeriodo(string dni, DateTime desde, DateTime hasta)
         {
-            List<domain.interfaces.IServices.Marca> marcas = _accesDatabaseService.GetUserMarcas(dni,desde,hasta);
+            List<domain.interfaces.IServices.Marca> marcas = marcasDatabase.GetUserMarcas(dni,desde,hasta);
 
             decimal hsTotalesTrabajadas = (decimal)_calculadoraHs.calcularHs(marcas);
             decimal hsFinde = (decimal)_calculadoraHs.calcularHsFindeSemana(marcas);
@@ -34,13 +35,13 @@ namespace LAUCHA.infrastructure.Services.Marcas
 
         public List<domain.interfaces.IServices.Marca> ConsultarMarcasPeriodo(string dni,DateTime desde,DateTime hasta)
         {
-            return _accesDatabaseService.GetUserMarcas(dni, desde, hasta);
+            return marcasDatabase.GetUserMarcas(dni, desde, hasta);
         }
 
         public List<MarcaVista> ConsultarMarcasPeriodoVista(string dni, DateTime desde, DateTime hasta)
         {
             //utilice este metodo para visualizar marcas de una forma mas clara y detallada
-            var marcasOriginales = _accesDatabaseService.GetUserMarcas(dni, desde, hasta);
+            var marcasOriginales = marcasDatabase.GetUserMarcas(dni, desde, hasta);
             List <MarcaVista> marcasVista = new();
 
             foreach (var marc in marcasOriginales)
