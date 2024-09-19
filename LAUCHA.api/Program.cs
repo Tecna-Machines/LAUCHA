@@ -230,8 +230,10 @@ builder.Services.AddScoped<IMenuesService>(sp =>
 
 builder.Services.AddSingleton<IMarcasService, MarcasServiceAccess>(provider =>
 {
-    //TODO: revisar atentamente
-    var connectionString = @"Driver={Microsoft Access Driver (*.mdb)};DBQ=C:\path\to\your\database.mdb;";
+//TODO: revisar atentamente
+    var config = provider.GetRequiredService<IConfiguration>();
+    string? databaseMarcas = config["MarcasService:databasePath"];
+    var connectionString = databaseMarcas; ;
     return new MarcasServiceAccess(connectionString,"");
 });
 

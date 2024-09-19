@@ -36,15 +36,15 @@ namespace LAUCHA.infrastructure.Services.Marcas
         INNER JOIN datos_personal 
         ON marcas.IdPersonal = datos_personal.ID
         WHERE datos_personal.activo = Yes
-        AND datos_personal.dni = @dni 
-        AND marcas.ingreso BETWEEN @fechaInicio AND @fechaFin
+        AND datos_personal.dni = ? 
+        AND marcas.ingreso BETWEEN ? AND ?
         ORDER BY marcas.ingreso;";
 
                     using (var command = new OdbcCommand(query, connection))
                         {
-                            command.Parameters.AddWithValue("@dni", dni);
-                            command.Parameters.AddWithValue("@fechaInicio", fechaInicio);
-                            command.Parameters.AddWithValue("@fechaFin", fechaFin);
+                            command.Parameters.AddWithValue("?", dni);
+                            command.Parameters.AddWithValue("?", fechaInicio);
+                            command.Parameters.AddWithValue("?", fechaFin);
 
                             using (var reader = command.ExecuteReader())
                             {
