@@ -47,6 +47,7 @@ using LAUCHA.infrastructure.persistence;
 using LAUCHA.infrastructure.repositories;
 using LAUCHA.infrastructure.Services.Logs;
 using LAUCHA.infrastructure.Services.Marcas;
+using LAUCHA.infrastructure.Services.Marcas.Interface;
 using LAUCHA.infrastructure.Services.Marcas.Persistence;
 using LAUCHA.infrastructure.Services.Menues;
 using LAUCHA.infrastructure.unitOfWork;
@@ -236,7 +237,8 @@ string? databaseMarcas =  builder.Configuration["MarcasService:databasePath"];
 
 builder.Services.AddDbContext<MarcasDbContext>(options => options.UseMySQL(databaseMarcas));
 
-builder.Services.AddSingleton<IMarcasService, MarcasServiceAccess>();
+builder.Services.AddScoped<IMarcasDb, MarcasDb>();
+builder.Services.AddScoped<IMarcasService, MarcasServiceAccess>();
 
 //CORS deshabilitar
 builder.Services.AddCors(options =>

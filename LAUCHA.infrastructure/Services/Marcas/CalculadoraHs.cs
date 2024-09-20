@@ -21,7 +21,7 @@ namespace LAUCHA.infrastructure.Services.Marcas
 
             foreach (var marc in marcas)
             {
-                bool esfinde = this.esFinde(marc.Egreso);
+                bool esfinde = this.esFinde(marc.Ingreso);
 
                 if (marc.HsTrabajadas > hsJornada && !esfinde)
                 {
@@ -40,7 +40,7 @@ namespace LAUCHA.infrastructure.Services.Marcas
 
             foreach (var marc in marcas)
             {
-                bool esfinde = this.esFinde(marc.Egreso);
+                bool esfinde = this.esFinde(marc.Ingreso);
 
                 if (esfinde && marc.HsTrabajadas > hsJornadaReducida)
                 {
@@ -58,7 +58,7 @@ namespace LAUCHA.infrastructure.Services.Marcas
 
             foreach (var marc in marcas)
             {
-                bool esfinde = this.esFinde(marc.Egreso);
+                bool esfinde = this.esFinde(marc.Ingreso);
 
                 if (esfinde)
                 {

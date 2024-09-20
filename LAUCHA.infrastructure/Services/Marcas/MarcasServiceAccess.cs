@@ -5,13 +5,14 @@ namespace LAUCHA.infrastructure.Services.Marcas
     public class MarcasServiceAccess : IMarcasService
     {
         private readonly IMarcasDb marcasDatabase;
+        private readonly CalculadoraHs _calculadoraHs;
 
         public MarcasServiceAccess(IMarcasDb marcasDatabase)
         {
             this.marcasDatabase = marcasDatabase;
+            this._calculadoraHs = new();
         }
 
-        private readonly CalculadoraHs _calculadoraHs;
         
 
         public HorasPeriodo ConsularHorasPeriodo(string dni, DateTime desde, DateTime hasta)
@@ -57,8 +58,7 @@ namespace LAUCHA.infrastructure.Services.Marcas
                 var aux = new MarcaVista
                 {
                     IdPersonal = marc.IdPersonal,
-                    DebeEntrar = marc.DebeEntrar,
-                    Egreso = marc.Egreso,
+                    Egreso = marc.Egreso ?? DateTime.MinValue,
                     Ingreso = marc.Ingreso,
                     Tarde = marc.Tarde,
                     NombreCompleto = marc.NombreCompleto,
