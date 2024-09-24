@@ -23,10 +23,10 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo9
 
             if (!payload.esSimulacion)
             {
+                this.AsociarDescuentos(codigo, payload.descuentosLiquidacion);
                 this.AsociarRemuneraciones(codigo, payload.remuneracionesLiquidacion);
                 this.AsociarNoRemuneraciones(codigo, payload.noRemuneracionesLiquidacion);
                 this.AsociarRetenciones(codigo, payload.retencionesLiquidacion);
-                this.AsociarDescuentos(codigo, payload.descuentosLiquidacion);
 
                 this.guardarCambios();
             }

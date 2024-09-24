@@ -16,7 +16,7 @@
         public Descuento(string numeroCuenta)
         {
             NumeroCuenta = numeroCuenta;
-            CodigoDescuento = $"DES:{NumeroCuenta}{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}{new Random().Next(0, 150)}";
+            CodigoDescuento = $"DES:{NumeroCuenta}{DateTime.Now:yyyyMMddHHmmss}{new Random().Next(1000, 99999)}";
         }
     }
 }

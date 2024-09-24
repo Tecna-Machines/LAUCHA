@@ -1,6 +1,7 @@
 ﻿using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.infrastructure.persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace LAUCHA.infrastructure.repositories
 {
@@ -45,6 +46,8 @@ namespace LAUCHA.infrastructure.repositories
         public Contrato ObtenerContratoDeEmpleado(string dniEmpleado)
         {
             Contrato? ultimoContratoEmpleado = _context.Contratos.Where(c => c.DniEmpleado == dniEmpleado)
+                                               .Include(c => c.ModalidadesPorContratos)
+                                               .ThenInclude(m => m.Modalidad)
                                                .OrderByDescending(c => c.FechaContrato).FirstOrDefault();
 
             return ultimoContratoEmpleado != null ? ultimoContratoEmpleado : throw new NullReferenceException();

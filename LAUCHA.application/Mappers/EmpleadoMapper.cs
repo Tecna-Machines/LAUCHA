@@ -30,5 +30,32 @@ namespace LAUCHA.application.Mappers
                 EstadoCuenta = cuenta.estadoCuenta
             };
         }
+
+        public DTOs.EmpleadoDTO.EmpleadoDTO GenerarEmpleadoDTO(domain.entities.Empleado empleado, Cuenta cuenta,Contrato? contrato)
+        {
+            var contratoDTO = new ContratoResumenDTO();
+
+            if(contrato != null)
+            {
+                contratoDTO = new ContratoResumenDTO
+                {
+                    CodigoContrato = contrato.CodigoContrato,
+                    DescripcionModalidad = contrato.ModalidadesPorContratos.First().Modalidad.Descripcion,
+                    CodigoModalidad = contrato.ModalidadesPorContratos.First().Modalidad.CodigoModalidad
+                };
+            }
+
+            return new DTOs.EmpleadoDTO.EmpleadoDTO
+            {
+                Dni = empleado.Dni,
+                Nombre = empleado.Nombre,
+                Apellido = empleado.Apellido,
+                FechaIngreso = empleado.FechaIngreso,
+                NumeroCuenta = cuenta.NumeroCuenta,
+                FechaCreacion = cuenta.FechaCreacion,
+                EstadoCuenta = cuenta.estadoCuenta,
+                ContratoResumen = contratoDTO
+            };
+        }
     }
 }

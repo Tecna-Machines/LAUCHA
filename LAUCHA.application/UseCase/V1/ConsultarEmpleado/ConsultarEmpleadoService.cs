@@ -1,4 +1,5 @@
-﻿using LAUCHA.application.DTOs.EmpleadoDTO;
+﻿using LAUCHA.application.DTOs.ContratoDTOs;
+using LAUCHA.application.DTOs.EmpleadoDTO;
 using LAUCHA.application.interfaces;
 using LAUCHA.application.Mappers;
 using LAUCHA.domain.entities;
@@ -10,15 +11,20 @@ namespace LAUCHA.application.UseCase.ConsultarEmpleado
     {
         private readonly IGenericRepository<domain.entities.Empleado> _EmpleadoRepository;
         private readonly ICuentaRepository _CuentaRepository;
+        private readonly IContratoRepository _ContratoRepository;
         private readonly EmpleadoMapper _EmpleadoMapper;
         private readonly ILogsApp log;
 
-        public ConsultarEmpleadoService(IGenericRepository<domain.entities.Empleado> empleadoRepository, ICuentaRepository cuentaRepository, ILogsApp log)
+        public ConsultarEmpleadoService(IGenericRepository<domain.entities.Empleado> empleadoRepository,
+                                        ICuentaRepository cuentaRepository,
+                                        ILogsApp log,
+                                        IContratoRepository contratoRepository)
         {
             _EmpleadoRepository = empleadoRepository;
             _CuentaRepository = cuentaRepository;
             _EmpleadoMapper = new EmpleadoMapper();
             this.log = log;
+            _ContratoRepository = contratoRepository;
         }
 
         public DTOs.EmpleadoDTO.EmpleadoDTO ConsultarUnEmpleado(string dniEmpleado)
@@ -46,7 +52,18 @@ namespace LAUCHA.application.UseCase.ConsultarEmpleado
             foreach (var empleado in empleados)
             {
                 Cuenta cuentaEmpleado = _CuentaRepository.ObtenerCuentaDelEmpleado(empleado.Dni);
-                DTOs.EmpleadoDTO.EmpleadoDTO empleadoDTO = _EmpleadoMapper.GenerarEmpleadoDTO(empleado, cuentaEmpleado);
+                Contrato? contrato;
+                
+                try
+                {
+                     contrato = _ContratoRepository.ObtenerContratoDeEmpleado(empleado.Dni);
+                }
+                catch(NullReferenceException)
+                {
+                    contrato = null;
+                }
+
+                DTOs.EmpleadoDTO.EmpleadoDTO empleadoDTO = _EmpleadoMapper.GenerarEmpleadoDTO(empleado, cuentaEmpleado,contrato);
                 empleadoDTOs.Add(empleadoDTO);
             }
 
