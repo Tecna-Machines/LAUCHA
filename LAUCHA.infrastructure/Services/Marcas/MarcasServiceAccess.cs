@@ -58,7 +58,7 @@ namespace LAUCHA.infrastructure.Services.Marcas
                 var aux = new MarcaVista
                 {
                     IdPersonal = marc.IdPersonal,
-                    Egreso = marc.Egreso ?? DateTime.MinValue,
+                    Egreso = marc.Egreso,
                     Ingreso = marc.Ingreso,
                     Tarde = marc.Tarde,
                     NombreCompleto = marc.NombreCompleto,

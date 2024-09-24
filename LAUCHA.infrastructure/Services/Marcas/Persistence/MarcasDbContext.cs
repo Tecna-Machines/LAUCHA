@@ -7,11 +7,11 @@ namespace LAUCHA.infrastructure.Services.Marcas.Persistence
     {
         public string IdPersonal { get; set; } // Suponiendo que DNI no es nulo
         public string NombreCompleto { get; set; } // Suponiendo que NombreCompleto no es nulo
-        public DateTime Ingreso { get; set; } // Suponiendo que Ingreso no es nulo
+        public DateTime? Ingreso { get; set; } // Suponiendo que Ingreso no es nulo
         public DateTime? Egreso { get; set; } // Puede ser nulo
         public int? Tarde { get; set; } // Puede ser nulo
-        public double HsTrabajadas { get; set; } // Suponiendo que no es nulo
-        public double Minutos { get; set; } // Suponiendo que no es nulo
+        public double? HsTrabajadas { get; set; } // Suponiendo que no es nulo
+        public double? Minutos { get; set; } // Suponiendo que no es nulo
         public string Area { get; set; } // Puede ser nulo
     }
 
@@ -23,6 +23,9 @@ namespace LAUCHA.infrastructure.Services.Marcas.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<MarcaMySQL>()
+                .HasNoKey();
+
             modelBuilder.Entity<MarcaMySQL>()
                 .ToTable("asistencias");
 
