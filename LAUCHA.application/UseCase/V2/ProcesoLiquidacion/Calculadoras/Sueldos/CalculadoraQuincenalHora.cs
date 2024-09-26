@@ -31,7 +31,7 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Calculadoras.Sueldos
             decimal montoBancoBruto = horasAleatorias * contrato.MontoHora;
             decimal montoEfectivoBruto = horasReales * contrato.MontoHora;
 
-            bool quincena = EsPrimeraQuicena();
+            bool quincena = EsPrimeraQuicena(desde);
             string mensajeQuicena = quincena == true ? "1ra quincena" : "2da quincena";
 
             var remuBlanco = new RemuneracionDTO

@@ -16,6 +16,13 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo5
 
         public Task EjecutarRutina(LiquidacionPayload payload)
         {
+            bool esPrimeraQuincena = payload.periodoliquidar.Inicio.Day < 15;
+            
+            if(esPrimeraQuincena)
+            {
+                return Task.CompletedTask;
+            }
+
             decimal montoRemunerativoBase = payload.GetMontoRemunerativo();
 
 

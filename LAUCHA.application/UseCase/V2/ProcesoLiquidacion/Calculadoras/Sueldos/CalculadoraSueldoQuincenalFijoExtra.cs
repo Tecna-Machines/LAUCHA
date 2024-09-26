@@ -72,7 +72,7 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Calculadoras.Sueldos
 
             montoEfectivoBruto = montoFijoContrato / 2 - montoBancoBruto;
 
-            bool quincena = EsPrimeraQuicena();
+            bool quincena = EsPrimeraQuicena(desde);
             string mensajeQuicena = quincena == true ? "1ra quincena" : "2da quincena";
 
             var remuBlanco = new RemuneracionDTO

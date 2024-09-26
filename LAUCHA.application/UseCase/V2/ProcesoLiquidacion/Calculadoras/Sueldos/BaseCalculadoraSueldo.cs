@@ -23,11 +23,6 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Calculadoras.Sueldos
             _MapperRemuneracion = new();
         }
 
-        protected bool EsPrimeraQuincena()
-        {
-            return DateTime.Now.Day < 15;
-        }
-
         protected Retencion CrearRetencion(RetencionFijaDTO retencionFija, decimal monto, int indice, string numeroCuenta)
         {
             string simbolo = retencionFija.EsPorcentual == true ? "%" : "$";
