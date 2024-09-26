@@ -19,7 +19,9 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo6
 
             decimal montoRemunerativoTotal = payload.GetMontoRemunerativo();
 
-            return calculadora.CalcularRetencionesSueldo(montoBrutoBlanco: montoRemunerativoTotal,
+            return calculadora.CalcularRetencionesSueldo(desde: payload.periodoliquidar.Inicio,
+                                                         hasta: payload.periodoliquidar.Fin,
+                                                         montoBrutoBlanco: montoRemunerativoTotal,
                                                          cuentaConRetenciones: payload.Cuenta);
         }
     }

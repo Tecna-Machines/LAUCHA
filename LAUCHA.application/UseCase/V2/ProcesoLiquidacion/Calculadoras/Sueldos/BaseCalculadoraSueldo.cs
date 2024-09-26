@@ -52,7 +52,45 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Calculadoras.Sueldos
             return DateTime.Now.Day < 15;
         }
 
+        protected bool EsPrimeraQuicena(DateTime fecha)
+        {
+            return fecha.Day < 15;
+        }
+
         public abstract List<Remuneracion> CalcularSueldoBruto(DateTime desde, DateTime hasta, ContratoDTO contrato, CuentaDTO cuenta);
         public abstract List<Retencion> CalcularRetencionesSueldo(decimal montoBrutoBlanco, CuentaDTO cuenta);
+        public  List<Retencion> CalcularRetencionesSueldo(DateTime desde,DateTime hasta,decimal montoBrutoBlanco,CuentaDTO cuenta)
+        {
+            {
+
+                int indice = 0;
+
+                List<RetencionFijaDTO> retencionesFijas = cuenta.Retenciones;
+                List<Retencion> retencionesSueldo = new List<Retencion>();
+
+                foreach (var retencion in retencionesFijas)
+                {
+                    decimal montoRetencion = _CalculadoraPorcentaje.
+                                             CalcularPorcentajeSiEstaHabilitado(retencion.EsPorcentual, retencion.Unidades, montoBrutoBlanco);
+
+                    if (EsPrimeraQuicena(desde) && retencion.EsQuincenal)
+                    {
+                        //aplicar retenciones 1ra quincena
+                        var nuevoRetencion = CrearRetencion(retencion, montoRetencion, indice++, cuenta.NumeroCuenta);
+                        retencionesSueldo.Add(nuevoRetencion);
+                    }
+
+                    if (!EsPrimeraQuicena(desde) && !retencion.EsQuincenal)
+                    {
+                        //aplicar retenciones 2da quincena
+                        var nuevoRetencion = CrearRetencion(retencion, montoRetencion, indice++, cuenta.NumeroCuenta);
+                        retencionesSueldo.Add(nuevoRetencion);
+                    }
+
+                }
+
+                return retencionesSueldo;
+            }
+        }
     }
 }
