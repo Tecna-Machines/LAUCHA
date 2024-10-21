@@ -41,15 +41,17 @@ namespace LAUCHA.application.UseCase.CrearRemuneracionNueva
 
             log.LogInformation("se creo la remuneracion con codigo: {c}", remuneracion.CodigoRemuneracion);
 
-            // guardar la remuneracion en la BBDD
             _RemuneracionRepository.Insert(remuneracion);
+
+            // guardar la remuneracion en la BBDD
+            _RemuneracionRepository.Save();
 
             log.LogInformation("se guardo la nueva remuneracion");
 
             //obtener la remuneracion de la BBDD
             remuneracion = _RemuneracionRepository.GetById(codigoRemuneracion);
 
-            log.LogInformation("recuperando informacion de la remuneraicon: {cod}", codigoRemuneracion);
+            log.LogInformation("recuperando informacion de la remuneracion: {cod}", codigoRemuneracion);
 
             return new RemuneracionDTO
             {

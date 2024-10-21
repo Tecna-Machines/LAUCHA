@@ -3,6 +3,7 @@ using LAUCHA.application.Mappers;
 using LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Interfaces;
 using LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Models;
 using LAUCHA.domain.entities;
+using LAUCHA.domain.Enums;
 using LAUCHA.domain.interfaces.IUnitsOfWork;
 
 namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo9
@@ -40,10 +41,21 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo9
         {
             LiquidacionPersonal liquidacion = new();
 
+            DateTime fechaInicio = payload.periodoliquidar.Inicio;
+
+            int modalidad;
+            bool parseCodigo = int.TryParse(payload.Contrato.Modalidad.Codigo, out modalidad);
+
+
+            if (modalidad == (int)ModalidadContrato.mensualFijo || modalidad == (int)ModalidadContrato.mensualFijoHorasExtra)
+            {
+                fechaInicio = new DateTime(payload.periodoliquidar.Inicio.Year, payload.periodoliquidar.Inicio.Month, 1);
+            }
+
             liquidacion.CodigoLiquidacion = this.CrearCodigoLiquidacion(payload.Empleado.Dni);
             liquidacion.CodigoContrato = payload.Contrato.Codigo;
             liquidacion.Concepto = $"liquidacion ,{payload.Empleado.Nombre} {payload.Empleado.Apellido}";
-            liquidacion.InicioPeriodo = payload.periodoliquidar.Inicio;
+            liquidacion.InicioPeriodo = fechaInicio;
             liquidacion.FinPeriodo = payload.periodoliquidar.Fin;
             liquidacion.FechaLiquidacion = DateTime.Now;
 

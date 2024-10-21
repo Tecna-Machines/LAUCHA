@@ -5,6 +5,7 @@ using LAUCHA.application.DTOs.LiquidacionDTOs;
 using LAUCHA.application.interfaces;
 using LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Interfaces;
 using LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Models;
+using LAUCHA.domain.Enums;
 using LAUCHA.domain.interfaces.IServices;
 
 namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo1
@@ -30,8 +31,8 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo1
         {
             payload.Empleado = this.obtenerDatosEmpleado(payload.dniEmpleado);
             payload.Cuenta = this.obtenerDatosCuenta(payload.Empleado.NumeroCuenta);
-            payload.marcasDelPeriodo = this.obtenerMarcasDelPeriodo(payload.dniEmpleado, payload.periodoliquidar);
             payload.Contrato = this.obtenerContratoEmpleado(payload.dniEmpleado);
+            payload.marcasDelPeriodo = this.obtenerMarcasDelPeriodo(payload.Contrato.Modalidad.Codigo, payload.dniEmpleado, payload.periodoliquidar);
 
             payload.RetencionesFijasCuenta = payload.Cuenta.Retenciones;
 
@@ -48,9 +49,20 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo1
             return _cuentaService.ConsularUnaCuenta(numeroCuenta);
         }
 
-        private List<MarcaVista> obtenerMarcasDelPeriodo(string dni, PeriodoDTO periodo)
+        private List<MarcaVista> obtenerMarcasDelPeriodo(string codigoModalidad,string dni, PeriodoDTO periodo)
         {
-            return _marcasService.ConsultarMarcasPeriodoVista(dni, periodo.Inicio, periodo.Fin);
+            DateTime fechaInicio = periodo.Inicio;
+
+            int modalidad;
+            bool parseCodigo = int.TryParse(codigoModalidad, out modalidad);
+
+
+            if(modalidad == (int)ModalidadContrato.mensualFijo || modalidad == (int)ModalidadContrato.mensualFijoHorasExtra)
+            {
+                fechaInicio = new DateTime(periodo.Inicio.Year, periodo.Inicio.Month, 1);
+            }
+
+            return _marcasService.ConsultarMarcasPeriodoVista(dni,fechaInicio, periodo.Fin);
         }
 
         private ContratoDTO obtenerContratoEmpleado(string dni)
