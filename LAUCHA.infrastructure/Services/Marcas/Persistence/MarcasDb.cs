@@ -16,13 +16,15 @@ namespace LAUCHA.infrastructure.Services.Marcas.Persistence
         public List<Marca> GetUserMarcas(string dni, DateTime fechaInicio, DateTime fechaFin)
         {
             var marcasMySQL = _context.Marcas.Where(m => m.IdPersonal == dni)
-                                              .Where(m => m.Egreso != null)
-                                              .Where(m => m.Ingreso >= fechaInicio && m.Egreso <= fechaInicio);
+                                             .Where(m => m.Egreso != null)
+                                             .Where(m => m.Ingreso != null && m.Egreso != null)
+                                             .Where(m => m.Ingreso.Value.Date >= fechaInicio.Date && m.Egreso.Value.Date <= fechaFin.Date)
+                                             .ToList();
 
 
             var marcas = new List<Marca>();
 
-            marcasMySQL.ForEachAsync(my =>
+            marcasMySQL.ForEach(my =>
             {
                 var aux = new Marca
                 {
