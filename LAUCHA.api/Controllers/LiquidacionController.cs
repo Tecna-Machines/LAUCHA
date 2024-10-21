@@ -3,6 +3,7 @@ using LAUCHA.application.DTOs.PaginaDTOs;
 using LAUCHA.application.DTOs.SystemaDTO;
 using LAUCHA.application.Exceptios;
 using LAUCHA.application.interfaces;
+using LAUCHA.application.interfaces.V2.Liquidacion;
 using LAUCHA.domain.interfaces.IRepositories;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,6 +19,7 @@ namespace LAUCHA.api.Controllers
         private readonly IConsultarContratoTrabajoService _ContratoService;
         private readonly IConsultarLiquidacionService _ConsultarLiquidacionService;
         private readonly IGeneradorRecibos _GeneradorRecibos;
+        private readonly IPagarLiquidacionService _pagarLiquidacion;
         private readonly ILogsApp log;
         public LiquidacionController(ILiquidacionService liquidacionService,
                                      IConsultarEmpleadoService empleadoService,
@@ -25,7 +27,8 @@ namespace LAUCHA.api.Controllers
                                      IConsultarContratoTrabajoService contratoService,
                                      IConsultarLiquidacionService consultarLiquidacionService,
                                      IGeneradorRecibos generadorRecibos,
-                                     ILogsApp log)
+                                     ILogsApp log,
+                                     IPagarLiquidacionService pagarLiquidacion)
         {
             _liquidacionService = liquidacionService;
             _empleadoService = empleadoService;
@@ -34,6 +37,7 @@ namespace LAUCHA.api.Controllers
             _ConsultarLiquidacionService = consultarLiquidacionService;
             _GeneradorRecibos = generadorRecibos;
             this.log = log;
+            _pagarLiquidacion = pagarLiquidacion;
         }
 
         [HttpPost("empleado/{dni}/liquidar")]
@@ -107,6 +111,13 @@ namespace LAUCHA.api.Controllers
                                                                  true);
 
             return new JsonResult(result.Result) { StatusCode = 200 };
+        }
+
+        [HttpPost("pago")]
+        public IActionResult PagarUnaLiquidacion(CrearPagoLiquidacionDTO pago)
+        {
+            var result = _pagarLiquidacion.CrearPagoLiquidacion(pago);
+            return new JsonResult(result) { StatusCode = 201 };
         }
 
 

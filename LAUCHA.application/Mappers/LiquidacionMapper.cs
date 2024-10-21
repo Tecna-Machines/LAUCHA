@@ -73,6 +73,17 @@ namespace LAUCHA.application.Mappers
                 descuentosDTOs.Add(descDTO);
             }
 
+            foreach (var pago in pagos)
+            {
+                var pagoDto = new PagoDTO
+                {
+                    codigo = pago.CodigoPago,
+                    Fecha = pago.Fecha,
+                    Monto = pago.Monto
+                };
+
+                pagosDTOs.Add(pagoDto);
+            }
             return new LiquidacionDTO
             {
                 Codigo = liquidacion.CodigoLiquidacion,

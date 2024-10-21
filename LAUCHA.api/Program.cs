@@ -1,5 +1,7 @@
 using LAUCHA.application.interfaces;
-using LAUCHA.application.interfaces.IDiasEspecialesServices;
+using LAUCHA.application.interfaces.V2.Credito;
+using LAUCHA.application.interfaces.V2.IDiasEspecialesServices;
+using LAUCHA.application.interfaces.V2.Liquidacion;
 using LAUCHA.application.UseCase.AgregarCuenta;
 using LAUCHA.application.UseCase.AgregarEmpleadoNuevo;
 using LAUCHA.application.UseCase.AgregarUnAdicional;
@@ -27,6 +29,8 @@ using LAUCHA.application.UseCase.V1.CrearCredito;
 using LAUCHA.application.UseCase.V1.DiasEspeciales.CrearConsultarVacaciones;
 using LAUCHA.application.UseCase.V1.HacerUnaLiquidacion;
 using LAUCHA.application.UseCase.V1.OperarConceptos;
+using LAUCHA.application.UseCase.V2.Credito.GetByEmpleadoId;
+using LAUCHA.application.UseCase.V2.Liquidacion.Pago;
 using LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Calculadoras.Antiguedad;
 using LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Calculadoras.Sueldos;
 using LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Interfaces;
@@ -164,6 +168,7 @@ builder.Services.AddScoped<IOperarConceptosService, OperarConceptos>();
 
 builder.Services.AddScoped<IGenericRepository<Credito>, CreditoRepository>();
 builder.Services.AddScoped<ICreadorCreditos, CreadorCreditoService>();
+builder.Services.AddScoped<IGetCreditosByDni, GetCreditosByDni>();
 
 builder.Services.AddScoped<ILiquidacionRepository, LiquidacionPersonalRepository>();
 
@@ -206,6 +211,8 @@ builder.Services.AddScoped<IModuloLiquidador, ModuloCalculadorDeCreditos>();    
 builder.Services.AddScoped<IModuloLiquidador, ModuloAsociador>();                            // 9
 
 builder.Services.AddScoped<ILiquidacionService, LiquidacionService2>();
+builder.Services.AddScoped<IPagarLiquidacionService, PagarLiquidacion>();
+builder.Services.AddScoped<IGenericRepository<PagoLiquidacion>, PagoLiquidacionRepository>();
 
 builder.Services.AddHttpClient();
 

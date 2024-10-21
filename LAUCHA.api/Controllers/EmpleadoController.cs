@@ -5,7 +5,8 @@ using LAUCHA.application.DTOs.DiasEspecialesDTOs.VacacionesDTO;
 using LAUCHA.application.DTOs.EmpleadoDTO;
 using LAUCHA.application.DTOs.SystemaDTO;
 using LAUCHA.application.interfaces;
-using LAUCHA.application.interfaces.IDiasEspecialesServices;
+using LAUCHA.application.interfaces.V2.Credito;
+using LAUCHA.application.interfaces.V2.IDiasEspecialesServices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LAUCHA.api.Controllers
@@ -20,13 +21,15 @@ namespace LAUCHA.api.Controllers
         private readonly ICrearConsultarVacacionesService _vacacionesService;
         private readonly ICrearConsultarAusencias _ausenciasService;
         private readonly ICrearConsultarHsExtraHabilitadas _hsExtraService;
+        private readonly IGetCreditosByDni _getCreditosEmp;
 
         public EmpleadoController(ICrearEmpleadoService crearEmpleadoService,
                                   IConsultarEmpleadoService consultarEmpleadoService,
                                   IConsultarContratoTrabajoService consultarContratoTrabajoService,
                                   ICrearConsultarVacacionesService vacacionesService,
                                   ICrearConsultarAusencias ausenciasService,
-                                  ICrearConsultarHsExtraHabilitadas hsExtraService)
+                                  ICrearConsultarHsExtraHabilitadas hsExtraService,
+                                  IGetCreditosByDni getCreditosEmp)
         {
             _crearEmpleadoService = crearEmpleadoService;
             _consultarEmpleadoService = consultarEmpleadoService;
@@ -34,6 +37,7 @@ namespace LAUCHA.api.Controllers
             _vacacionesService = vacacionesService;
             _ausenciasService = ausenciasService;
             _hsExtraService = hsExtraService;
+            _getCreditosEmp = getCreditosEmp;
         }
 
         [HttpPost]
@@ -107,9 +111,16 @@ namespace LAUCHA.api.Controllers
         }
 
         [HttpGet("{dni}/ausencias")]
-        public IActionResult ConsultarAusencias(string dni,int? anio)
+        public IActionResult ConsultarAusencias(string dni, int? anio)
         {
-            var result = _ausenciasService.obtenerAusenciasEmpleado(dni,anio);
+            var result = _ausenciasService.obtenerAusenciasEmpleado(dni, anio);
+            return new JsonResult(result) { StatusCode = 200 };
+        }
+
+        [HttpGet("{dni}/creditos")]
+        public IActionResult ConsultarCreditos(string dni)
+        {
+            var result = _getCreditosEmp.ObtenerCreditosDeUnEmpleado(dni);
             return new JsonResult(result) { StatusCode = 200 };
         }
 
@@ -121,7 +132,7 @@ namespace LAUCHA.api.Controllers
         }
 
         [HttpGet("{dni}/habilitar-hs-extra")]
-        public IActionResult ConsultarHsExtraHabilitadas(string dni,DateTime inicioPeriodo,DateTime finPeriodo)
+        public IActionResult ConsultarHsExtraHabilitadas(string dni, DateTime inicioPeriodo, DateTime finPeriodo)
         {
             var result = _hsExtraService.verPermisoHsExtraPeriodoEmpleado(dni, inicioPeriodo, finPeriodo);
             return new JsonResult(result) { StatusCode = 200 };

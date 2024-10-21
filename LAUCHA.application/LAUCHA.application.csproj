@@ -14,4 +14,8 @@
     <ProjectReference Include="..\LAUCHA.domain\LAUCHA.domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="UseCase\V2\Pagos\" />
+  </ItemGroup>
+
 </Project>

@@ -17,6 +17,8 @@ namespace LAUCHA.application.Mappers
                     FechaPago = pc.FechaPago,
                     Monto = pc.Monto,
                 };
+
+                pagosCreditoDTO.Add(pagoCreditoDto);
             }
             CreditoDTO creditoDTO = new CreditoDTO
             {

@@ -2,6 +2,7 @@
 using LAUCHA.domain.entities;
 using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.infrastructure.persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace LAUCHA.infrastructure.repositories
 {
@@ -31,7 +32,11 @@ namespace LAUCHA.infrastructure.repositories
 
         public Empleado GetById(string id)
         {
-            Empleado? empleadoEncontrado = _context.Empleados.Find(id);
+            Empleado? empleadoEncontrado = _context.Empleados
+                                          .Include(e => e.Cuenta)
+                                          .Where(e => e.Dni.Equals(id))
+                                          .First();
+
             return empleadoEncontrado != null ?
                    empleadoEncontrado : throw new ServicioException("no se encontro al empleado", "menu service");
         }

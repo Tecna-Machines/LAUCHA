@@ -1,5 +1,5 @@
 ﻿using LAUCHA.application.DTOs.DiasEspecialesDTOs.FeriadosDTO;
-using LAUCHA.application.interfaces.IDiasEspecialesServices;
+using LAUCHA.application.interfaces.V2.IDiasEspecialesServices;
 using LAUCHA.domain.entities.diasEspeciales;
 using LAUCHA.domain.interfaces.IRepositories;
 
