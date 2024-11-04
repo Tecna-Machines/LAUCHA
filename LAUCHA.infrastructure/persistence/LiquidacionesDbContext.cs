@@ -10,6 +10,8 @@ namespace LAUCHA.infrastructure.persistence
     {
         public LiquidacionesDbContext(DbContextOptions<LiquidacionesDbContext> options) : base(options) { }
 
+        public LiquidacionesDbContext() { }
+
         public DbSet<AcuerdoBlanco> AcuerdosBlancos { get; set; }
         public DbSet<Adicional> Adicionales { get; set; }
         public DbSet<AdicionalPorContrato> AdicionalesPorContrato { get; set; }
@@ -73,9 +75,9 @@ namespace LAUCHA.infrastructure.persistence
 
             //agregar datos de prueba
             // TODO: son datos solo para pruebas 
-            modelBuilder.ApplyConfiguration(new AdicionalData());
-            modelBuilder.ApplyConfiguration(new CuentaData());
-            modelBuilder.ApplyConfiguration(new EmpleadosData());
+            //modelBuilder.ApplyConfiguration(new AdicionalData());
+            //modelBuilder.ApplyConfiguration(new CuentaData());
+            //modelBuilder.ApplyConfiguration(new EmpleadosData());
             modelBuilder.ApplyConfiguration(new ModalidadData());
             modelBuilder.ApplyConfiguration(new RetencionesFijasData());
 
