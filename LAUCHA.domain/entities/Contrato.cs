@@ -11,7 +11,8 @@
         public Empleado Empleado { get; set; } = null!;
         public AcuerdoBlanco AcuerdoBlanco { get; set; } = null!;
         public IList<ModalidadPorContrato> ModalidadesPorContratos { get; set; } = null!;
-        public IList<AdicionalPorContrato> AdicionalesPorContratos { get; set; } = null!;
-        public IList<LiquidacionPersonal> Liquidaciones { get; set; } = null!;
+
+        public ICollection<Adicional> Adicionales { get; set; } = null!;
+        public ICollection<LiquidacionPersonal> Liquidaciones { get; set; } = null!;
     }
 }

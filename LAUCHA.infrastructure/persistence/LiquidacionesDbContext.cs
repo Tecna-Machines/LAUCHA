@@ -14,7 +14,6 @@ namespace LAUCHA.infrastructure.persistence
 
         public DbSet<AcuerdoBlanco> AcuerdosBlancos { get; set; }
         public DbSet<Adicional> Adicionales { get; set; }
-        public DbSet<AdicionalPorContrato> AdicionalesPorContrato { get; set; }
         public DbSet<Concepto> Conceptos { get; set; }
         public DbSet<Contrato> Contratos { get; set; }
         public DbSet<Credito> Creditos { get; set; }
@@ -49,7 +48,6 @@ namespace LAUCHA.infrastructure.persistence
         {
             modelBuilder.ApplyConfiguration(new AcuerdoBlancoConfig());
             modelBuilder.ApplyConfiguration(new AdicionalConfig());
-            modelBuilder.ApplyConfiguration(new AdicionalesPorContratoConfig());
             modelBuilder.ApplyConfiguration(new ConceptoConfig());
             modelBuilder.ApplyConfiguration(new ContratoConfig());
             modelBuilder.ApplyConfiguration(new CreditoConfig());

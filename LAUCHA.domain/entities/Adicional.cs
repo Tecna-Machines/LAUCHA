@@ -2,10 +2,13 @@
 {
     public class Adicional
     {
-        public string CodigoAdicional { get; set; } = null!;
+        public string Codigo { get; set; } = null!;
         public string Concepto { get; set; } = null!;
-        public decimal Unidades { get; set; }
+        public decimal Monto { get; set; }
         public bool EsPorcentual { get; set; }
-        public IList<AdicionalPorContrato> AdicionalesPorContrato { get; set; } = null!;
+        public bool EsEnBlanco { get; set; }
+        public DateTime FechaCreacion { get; set; }
+        public string CodigoContrato { get; set; } = null!;
+
     }
 }

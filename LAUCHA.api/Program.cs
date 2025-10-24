@@ -91,7 +91,8 @@ if (builder.Environment.IsDevelopment())
     connectionString = builder.Configuration["ConnectionStrings:Test"];
 }
 
-builder.Services.AddDbContext<LiquidacionesDbContext>(options => options.UseMySQL(connectionString));
+builder.Services.AddDbContext<LiquidacionesDbContext>(options => 
+                                                     options.UseMySql(connectionString,ServerVersion.AutoDetect(connectionString)));
 
 //dependecy injection
 builder.Services.AddScoped<ICrearEmpleadoService, AgregarEmpleadoNuevoService>();
@@ -101,8 +102,6 @@ builder.Services.AddScoped<IGenericRepository<Cuenta>, CuentaRepository>();
 
 builder.Services.AddScoped<IGenericRepository<ModalidadPorContrato>, ModalidadPorContratoRepository>();
 builder.Services.AddScoped<IGenericRepository<Adicional>, AdicionalRepository>();
-builder.Services.AddScoped<IGenericRepository<AdicionalPorContrato>, AdicionalPorContratoRepository>();
-builder.Services.AddScoped<IAdicionalesPorContratoRepository, AdicionalPorContratoRepository>();
 builder.Services.AddScoped<IGenericRepository<AcuerdoBlanco>, AcuerdoBlancoRepository>();
 builder.Services.AddScoped<IGenericRepository<Contrato>, ContratosRepository>();
 builder.Services.AddScoped<IGenericRepository<Modalidad>, ModalidadRepository>();

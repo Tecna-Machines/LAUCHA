@@ -30,14 +30,8 @@ namespace LAUCHA.application.UseCase.ContratosDeTrabajo
             AgregarAcuerdoBlanco(nuevoContrato, codigoContrato);
             AgregarModalidad(nuevoContrato, codigoContrato);
 
+            //TODO: fijarse que no tiene adicionales
             bool existenAdicionales = nuevoContrato.Adicionales.Count() > 0;
-
-            if (existenAdicionales)
-            {
-                log.LogInformation("se estan creando adicionales para el contrato n: {contrato}}"
-                                    , contratoCreado.CodigoContrato);
-                AgregarAdicionales(nuevoContrato, codigoContrato);
-            }
 
             //confirmar el contrato
             _unitOfWork.Save();
@@ -97,20 +91,5 @@ namespace LAUCHA.application.UseCase.ContratosDeTrabajo
             _unitOfWork.ModalidadPorContratoRepository.Insert(modalidadDelContrato);
         }
 
-        private void AgregarAdicionales(CrearContratoDTO nuevoContrato, string codigoContrato)
-        {
-            string[] codigosAdicionales = nuevoContrato.Adicionales;
-
-            foreach (var codigo in codigosAdicionales)
-            {
-                AdicionalPorContrato adicionalDelContrato = new AdicionalPorContrato
-                {
-                    CodigoAdicional = codigo,
-                    CodigoContrato = codigoContrato
-                };
-
-                _unitOfWork.AdicionalPorContratoRepositoy.Insert(adicionalDelContrato);
-            }
-        }
     }
 }

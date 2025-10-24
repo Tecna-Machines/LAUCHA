@@ -8,7 +8,7 @@ namespace LAUCHA.infrastructure.config
     {
         public void Configure(EntityTypeBuilder<Adicional> builder)
         {
-            builder.HasKey(adi => adi.CodigoAdicional);
+            builder.HasKey(adi => adi.Codigo);
         }
     }
 }

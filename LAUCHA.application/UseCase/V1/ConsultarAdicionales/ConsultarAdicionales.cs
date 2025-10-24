@@ -20,8 +20,8 @@ namespace LAUCHA.application.UseCase.ConsultarAdicionales
 
             return new AdicionalDTO
             {
-                Codigo = adicionalConsultado.CodigoAdicional,
-                Cantidad = adicionalConsultado.Unidades,
+                Codigo = adicionalConsultado.Codigo,
+                Cantidad = adicionalConsultado.Monto,
                 Concepto = adicionalConsultado.Concepto,
                 EsPorcentual = adicionalConsultado.EsPorcentual
             };
@@ -36,8 +36,8 @@ namespace LAUCHA.application.UseCase.ConsultarAdicionales
             {
                 var adicionalMapeado = new AdicionalDTO
                 {
-                    Codigo = adicional.CodigoAdicional,
-                    Cantidad = adicional.Unidades,
+                    Codigo = adicional.Codigo,
+                    Cantidad = adicional.Monto,
                     Concepto = adicional.Concepto,
                     EsPorcentual = adicional.EsPorcentual
                 };

@@ -30,9 +30,9 @@ namespace LAUCHA.application.Mappers
             {
                 var nuevoAdicional = new AdicionalDTO
                 {
-                    Codigo = adicional.CodigoAdicional,
+                    Codigo = adicional.Codigo,
                     Concepto = adicional.Concepto,
-                    Cantidad = adicional.Unidades,
+                    Cantidad = adicional.Monto,
                     EsPorcentual = adicional.EsPorcentual
                 };
 

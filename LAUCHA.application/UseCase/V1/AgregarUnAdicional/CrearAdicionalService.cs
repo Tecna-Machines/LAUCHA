@@ -22,10 +22,10 @@ namespace LAUCHA.application.UseCase.AgregarUnAdicional
 
             Adicional adicional = new Adicional
             {
-                CodigoAdicional = nuevoAdicional.Codigo,
+                Codigo = nuevoAdicional.Codigo,
                 Concepto = nuevoAdicional.Concepto,
                 EsPorcentual = nuevoAdicional.EsPorcentual,
-                Unidades = nuevoAdicional.Cantidad
+                Monto = nuevoAdicional.Cantidad
             };
 
             adicional = _repository.Insert(adicional);
@@ -34,8 +34,8 @@ namespace LAUCHA.application.UseCase.AgregarUnAdicional
 
             return new AdicionalDTO
             {
-                Codigo = adicional.CodigoAdicional,
-                Cantidad = adicional.Unidades,
+                Codigo = adicional.Codigo,
+                Cantidad = adicional.Monto,
                 Concepto = adicional.Concepto,
                 EsPorcentual = adicional.EsPorcentual
             };

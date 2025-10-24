@@ -11,31 +11,31 @@ namespace LAUCHA.infrastructure.Data
             builder.HasData(
                     new Adicional
                     {
-                        CodigoAdicional = "3040",
+                        Codigo = "3040",
                         Concepto = "Adicional Titulo Universitario",
                         EsPorcentual = true,
-                        Unidades = 2
+                        Monto = 2
                     },
                     new Adicional
                     {
-                        CodigoAdicional = "3050",
+                        Codigo = "3050",
                         Concepto = "Adicional viaticos",
                         EsPorcentual = false,
-                        Unidades = 2000
+                        Monto = 2000
                     },
                     new Adicional
                     {
-                        CodigoAdicional = "3060",
+                        Codigo = "3060",
                         Concepto = "Adicional por trabajo riesgoso",
                         EsPorcentual = false,
-                        Unidades = 10000
+                        Monto = 10000
                     },
                     new Adicional
                     {
-                        CodigoAdicional = "3070",
+                        Codigo = "3070",
                         Concepto = "Adicional Extra Plus",
                         EsPorcentual = false,
-                        Unidades = 90000
+                        Monto = 90000
                     }
                 );
         }

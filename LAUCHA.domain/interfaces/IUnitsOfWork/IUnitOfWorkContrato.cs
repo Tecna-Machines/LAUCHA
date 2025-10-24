@@ -8,7 +8,6 @@ namespace LAUCHA.domain.interfaces.IUnitsOfWork
         IGenericRepository<Contrato> ContratoRepository { get; }
         IGenericRepository<AcuerdoBlanco> AcuerdoBlancoRepository { get; }
         IGenericRepository<ModalidadPorContrato> ModalidadPorContratoRepository { get; }
-        IGenericRepository<AdicionalPorContrato> AdicionalPorContratoRepositoy { get; }
         int Save();
     }
 }
