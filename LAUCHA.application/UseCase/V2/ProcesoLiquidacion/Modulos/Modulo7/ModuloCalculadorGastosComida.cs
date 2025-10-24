@@ -22,14 +22,14 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo7
         public async Task EjecutarRutina(LiquidacionPayload payload)
         {
 
-            bool esSegundaQuincena = payload.periodoliquidar.Inicio.Day > 15;
+            //bool esSegundaQuincena = payload.periodoliquidar.Inicio.Day > 15;
 
-            if (esSegundaQuincena)
-            {
-                var descuentoComida = await this.RecuperarGastosComida(payload.Empleado, payload.periodoliquidar);
+            //if (esSegundaQuincena)
+            //{
+            //    var descuentoComida = await this.RecuperarGastosComida(payload.Empleado, payload.periodoliquidar);
 
-                payload.descuentosLiquidacion.Add(descuentoComida);
-            }
+            //    payload.descuentosLiquidacion.Add(descuentoComida);
+            //}
 
         }
 

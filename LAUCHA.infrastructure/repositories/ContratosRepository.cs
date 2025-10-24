@@ -50,7 +50,7 @@ namespace LAUCHA.infrastructure.repositories
                                                .ThenInclude(m => m.Modalidad)
                                                .OrderByDescending(c => c.FechaContrato).FirstOrDefault();
 
-            return ultimoContratoEmpleado != null ? ultimoContratoEmpleado : throw new NullReferenceException();
+            return ultimoContratoEmpleado;
         }
 
         public Contrato Update(Contrato entity)

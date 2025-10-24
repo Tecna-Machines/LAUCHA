@@ -13,7 +13,8 @@ namespace LAUCHA.application.Mappers
                 Apellido = empleado.Apellido,
                 Nombre = empleado.Nombre,
                 FechaNacimiento = empleado.FechaNacimiento,
-                FechaIngreso = empleado.FechaIngreso
+                FechaIngreso = empleado.FechaIngreso,
+                FechaAlta = empleado.FechaAlta
             };
         }
 

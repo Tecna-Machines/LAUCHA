@@ -8,14 +8,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="UseCase\V2\Pagos\**" />
+    <EmbeddedResource Remove="UseCase\V2\Pagos\**" />
+    <None Remove="UseCase\V2\Pagos\**" />
+  </ItemGroup>
+
+  <ItemGroup>
 	  <PackageReference Include="Humanizer.Core.es" Version="2.14.1" />
 	  <PackageReference Include="itext7" Version="8.0.3" />
 	  <PackageReference Include="itext7.bouncy-castle-adapter" Version="8.0.3" />
     <ProjectReference Include="..\LAUCHA.domain\LAUCHA.domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="UseCase\V2\Pagos\" />
   </ItemGroup>
 
 </Project>

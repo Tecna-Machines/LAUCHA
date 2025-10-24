@@ -7,5 +7,6 @@
         public string Apellido { get; set; } = null!;
         public DateTime FechaIngreso { get; set; }
         public DateTime FechaNacimiento { get; set; }
+        public DateTime FechaAlta { get; set; }
     }
 }

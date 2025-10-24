@@ -8,7 +8,16 @@ namespace LAUCHA.domain.entities
         public string Nombre { get; set; } = null!;
         public string Apellido { get; set; } = null!;
         public DateTime FechaNacimiento { get; set; }
+
+        /// <summary>
+        /// ingreso del empleado , se utiliza para calcular antiguedad
+        /// </summary>
         public DateTime FechaIngreso { get; set; }
+
+        /// <summary>
+        /// fecha de alta legal del empleado
+        /// </summary>
+        public DateTime FechaAlta { get; set; }
         public Cuenta Cuenta { get; set; } = null!;
         public ICollection<Contrato> Contratos { get; set; } = null!;
         public ICollection<AvisosAusencia> Ausencias { get; set; } = null!;
