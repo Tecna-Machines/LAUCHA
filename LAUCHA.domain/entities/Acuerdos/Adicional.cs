@@ -1,4 +1,4 @@
-﻿namespace LAUCHA.domain.entities
+﻿namespace LAUCHA.domain.entities.Contrato
 {
     public class Adicional
     {

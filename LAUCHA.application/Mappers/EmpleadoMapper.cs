@@ -1,13 +1,15 @@
 ﻿using LAUCHA.application.DTOs.EmpleadoDTO;
 using LAUCHA.domain.entities;
+using LAUCHA.domain.Entities;
+using LAUCHA.domain.Entities.Acuerdos;
 
 namespace LAUCHA.application.Mappers
 {
     internal class EmpleadoMapper
     {
-        public domain.entities.Empleado GenerarEmpleado(CrearEmpleadoDTO empleado)
+        public Empleado GenerarEmpleado(CrearEmpleadoDTO empleado)
         {
-            return new domain.entities.Empleado
+            return new Empleado
             {
                 Dni = empleado.Dni,
                 Apellido = empleado.Apellido,
@@ -18,7 +20,7 @@ namespace LAUCHA.application.Mappers
             };
         }
 
-        public DTOs.EmpleadoDTO.EmpleadoDTO GenerarEmpleadoDTO(domain.entities.Empleado empleado, Cuenta cuenta)
+        public DTOs.EmpleadoDTO.EmpleadoDTO GenerarEmpleadoDTO(Empleado empleado, Cuenta cuenta)
         {
             return new DTOs.EmpleadoDTO.EmpleadoDTO
             {
@@ -32,17 +34,17 @@ namespace LAUCHA.application.Mappers
             };
         }
 
-        public DTOs.EmpleadoDTO.EmpleadoDTO GenerarEmpleadoDTO(domain.entities.Empleado empleado, Cuenta cuenta,Contrato? contrato)
+        public DTOs.EmpleadoDTO.EmpleadoDTO GenerarEmpleadoDTO(Empleado empleado, Cuenta cuenta, Acuerdo? contrato)
         {
             var contratoDTO = new ContratoResumenDTO();
 
-            if(contrato != null)
+            if (contrato != null)
             {
                 contratoDTO = new ContratoResumenDTO
                 {
-                    CodigoContrato = contrato.CodigoContrato,
-                    DescripcionModalidad = contrato.ModalidadesPorContratos.First().Modalidad.Descripcion,
-                    CodigoModalidad = contrato.ModalidadesPorContratos.First().Modalidad.CodigoModalidad
+                    CodigoContrato = contrato.Codigo,
+                    DescripcionModalidad = "test",
+                    CodigoModalidad = "test"
                 };
             }
 

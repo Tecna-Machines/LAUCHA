@@ -5,7 +5,6 @@ using LAUCHA.application.Mappers;
 using LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Interfaces;
 using LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Models;
 using LAUCHA.domain.entities;
-using LAUCHA.domain.Enums;
 using LAUCHA.domain.interfaces.IServices;
 
 namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo7

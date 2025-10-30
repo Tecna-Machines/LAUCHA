@@ -1,5 +1,4 @@
-﻿using LAUCHA.domain.interfaces.IServices;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace LAUCHA.infrastructure.Services.Marcas.Persistence
 {

@@ -1,4 +1,4 @@
-﻿using LAUCHA.domain.entities;
+﻿using LAUCHA.domain.Entities.Acuerdos;
 using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.infrastructure.persistence;
 
@@ -21,19 +21,18 @@ namespace LAUCHA.infrastructure.repositories
 
         public IList<AcuerdoBlanco> GetAll()
         {
-            return _context.AcuerdosBlancos.ToList();
+            throw new NotImplementedException();
         }
 
         public AcuerdoBlanco GetById(string codigoContrato)
         {
-            AcuerdoBlanco? acuerdo = _context.AcuerdosBlancos.FirstOrDefault(a => a.CodigoContrato == codigoContrato);
-            return acuerdo != null ? acuerdo : throw new NullReferenceException();
+            throw new NotImplementedException();
+
         }
 
         public AcuerdoBlanco Insert(AcuerdoBlanco nuevoAcuerdo)
         {
-            _context.Add(nuevoAcuerdo);
-            return nuevoAcuerdo;
+            throw new NotImplementedException();
         }
 
         public AcuerdoBlanco Update(AcuerdoBlanco entity)

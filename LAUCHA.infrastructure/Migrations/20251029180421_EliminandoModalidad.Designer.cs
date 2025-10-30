@@ -3,6 +3,7 @@ using System;
 using LAUCHA.infrastructure.persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,105 +11,16 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LAUCHA.infrastructure.Migrations
 {
     [DbContext(typeof(LiquidacionesDbContext))]
-    partial class LiquidacionesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251029180421_EliminandoModalidad")]
+    partial class EliminandoModalidad
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "7.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
-
-            modelBuilder.Entity("LAUCHA.domain.Entities.Acuerdos.Acuerdo", b =>
-                {
-                    b.Property<string>("Codigo")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("DniEmpleado")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<DateTime>("Fecha")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Notas")
-                        .HasColumnType("longtext");
-
-                    b.Property<decimal>("Sueldo")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("TipoSueldo")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("ValorBlanco")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("ValorHora")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Codigo");
-
-                    b.HasIndex("DniEmpleado");
-
-                    b.ToTable("Acuerdos", (string)null);
-                });
-
-            modelBuilder.Entity("LAUCHA.domain.Entities.Acuerdos.AcuerdoBlanco", b =>
-                {
-                    b.Property<string>("CodigoAcuerdoBlanco")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("CodigoContrato")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("Concepto")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("ContratoCodigo")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<bool>("EsPorcentual")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<decimal>("Unidades")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.HasKey("CodigoAcuerdoBlanco");
-
-                    b.HasIndex("ContratoCodigo");
-
-                    b.ToTable("AcuerdoBlanco");
-                });
-
-            modelBuilder.Entity("LAUCHA.domain.Entities.Empleado", b =>
-                {
-                    b.Property<string>("Dni")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("Apellido")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("FechaAlta")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("FechaIngreso")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("FechaNacimiento")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Dni");
-
-                    b.ToTable("Empleados");
-                });
 
             modelBuilder.Entity("LAUCHA.domain.entities.Concepto", b =>
                 {
@@ -123,6 +35,68 @@ namespace LAUCHA.infrastructure.Migrations
                     b.HasKey("NumeroConcepto");
 
                     b.ToTable("Conceptos");
+                });
+
+            modelBuilder.Entity("LAUCHA.domain.entities.Contrato.Acuerdo", b =>
+                {
+                    b.Property<string>("Codigo")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("DniEmpleado")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<DateTime>("Fecha")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<decimal>("Sueldo")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<string>("TipoContrato")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("TipoSueldo")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("ValorBlanco")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.Property<decimal>("ValorHora")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.HasKey("Codigo");
+
+                    b.HasIndex("DniEmpleado");
+
+                    b.ToTable("Contratos");
+                });
+
+            modelBuilder.Entity("LAUCHA.domain.entities.Contrato.AcuerdoBlanco", b =>
+                {
+                    b.Property<string>("CodigoAcuerdoBlanco")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("CodigoContrato")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Concepto")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("EsPorcentual")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<decimal>("Unidades")
+                        .HasColumnType("decimal(65,30)");
+
+                    b.HasKey("CodigoAcuerdoBlanco");
+
+                    b.HasIndex("CodigoContrato")
+                        .IsUnique();
+
+                    b.ToTable("AcuerdosBlancos");
                 });
 
             modelBuilder.Entity("LAUCHA.domain.entities.Contrato.Adicional", b =>
@@ -275,6 +249,33 @@ namespace LAUCHA.infrastructure.Migrations
                     b.ToTable("DescuentosPorLiquidaciones");
                 });
 
+            modelBuilder.Entity("LAUCHA.domain.entities.Empleado", b =>
+                {
+                    b.Property<string>("Dni")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Apellido")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("FechaAlta")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("FechaIngreso")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("FechaNacimiento")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Dni");
+
+                    b.ToTable("Empleados");
+                });
+
             modelBuilder.Entity("LAUCHA.domain.entities.HistorialRetencionFija", b =>
                 {
                     b.Property<string>("CodigoRetencionFija")
@@ -328,6 +329,9 @@ namespace LAUCHA.infrastructure.Migrations
                     b.Property<string>("CodigoLiquidacion")
                         .HasColumnType("varchar(255)");
 
+                    b.Property<string>("AcuerdoCodigo")
+                        .HasColumnType("varchar(255)");
+
                     b.Property<string>("CodigoContrato")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
@@ -364,6 +368,8 @@ namespace LAUCHA.infrastructure.Migrations
                         .HasColumnType("decimal(65,30)");
 
                     b.HasKey("CodigoLiquidacion");
+
+                    b.HasIndex("AcuerdoCodigo");
 
                     b.HasIndex("CodigoContrato");
 
@@ -706,9 +712,9 @@ namespace LAUCHA.infrastructure.Migrations
                     b.ToTable("PeriodoVacaciones");
                 });
 
-            modelBuilder.Entity("LAUCHA.domain.Entities.Acuerdos.Acuerdo", b =>
+            modelBuilder.Entity("LAUCHA.domain.entities.Contrato.Acuerdo", b =>
                 {
-                    b.HasOne("LAUCHA.domain.Entities.Empleado", "Empleado")
+                    b.HasOne("LAUCHA.domain.entities.Empleado", "Empleado")
                         .WithMany("Contratos")
                         .HasForeignKey("DniEmpleado")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -717,11 +723,11 @@ namespace LAUCHA.infrastructure.Migrations
                     b.Navigation("Empleado");
                 });
 
-            modelBuilder.Entity("LAUCHA.domain.Entities.Acuerdos.AcuerdoBlanco", b =>
+            modelBuilder.Entity("LAUCHA.domain.entities.Contrato.AcuerdoBlanco", b =>
                 {
-                    b.HasOne("LAUCHA.domain.Entities.Acuerdos.Acuerdo", "Contrato")
-                        .WithMany()
-                        .HasForeignKey("ContratoCodigo")
+                    b.HasOne("LAUCHA.domain.entities.Contrato.Acuerdo", "Contrato")
+                        .WithOne("AcuerdoBlanco")
+                        .HasForeignKey("LAUCHA.domain.entities.Contrato.AcuerdoBlanco", "CodigoContrato")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -730,7 +736,7 @@ namespace LAUCHA.infrastructure.Migrations
 
             modelBuilder.Entity("LAUCHA.domain.entities.Contrato.Adicional", b =>
                 {
-                    b.HasOne("LAUCHA.domain.Entities.Acuerdos.Acuerdo", null)
+                    b.HasOne("LAUCHA.domain.entities.Contrato.Acuerdo", null)
                         .WithMany("Adicionales")
                         .HasForeignKey("CodigoContrato")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -758,7 +764,7 @@ namespace LAUCHA.infrastructure.Migrations
 
             modelBuilder.Entity("LAUCHA.domain.entities.Cuenta", b =>
                 {
-                    b.HasOne("LAUCHA.domain.Entities.Empleado", "Empleado")
+                    b.HasOne("LAUCHA.domain.entities.Empleado", "Empleado")
                         .WithOne("Cuenta")
                         .HasForeignKey("LAUCHA.domain.entities.Cuenta", "DniEmpleado")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -816,7 +822,11 @@ namespace LAUCHA.infrastructure.Migrations
 
             modelBuilder.Entity("LAUCHA.domain.entities.LiquidacionPersonal", b =>
                 {
-                    b.HasOne("LAUCHA.domain.Entities.Acuerdos.Acuerdo", "Contrato")
+                    b.HasOne("LAUCHA.domain.entities.Contrato.Acuerdo", null)
+                        .WithMany("Liquidaciones")
+                        .HasForeignKey("AcuerdoCodigo");
+
+                    b.HasOne("LAUCHA.domain.entities.Contrato.Acuerdo", "Contrato")
                         .WithMany()
                         .HasForeignKey("CodigoContrato")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -972,7 +982,7 @@ namespace LAUCHA.infrastructure.Migrations
 
             modelBuilder.Entity("LAUCHA.domain.entities.diasEspeciales.AvisosAusencia", b =>
                 {
-                    b.HasOne("LAUCHA.domain.Entities.Empleado", "Empleado")
+                    b.HasOne("LAUCHA.domain.entities.Empleado", "Empleado")
                         .WithMany("Ausencias")
                         .HasForeignKey("DniEmpleado")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -983,13 +993,13 @@ namespace LAUCHA.infrastructure.Migrations
 
             modelBuilder.Entity("LAUCHA.domain.entities.diasEspeciales.HabilitacionHorasExtra", b =>
                 {
-                    b.HasOne("LAUCHA.domain.Entities.Empleado", "Empleado")
+                    b.HasOne("LAUCHA.domain.entities.Empleado", "Empleado")
                         .WithMany("HabilitacionesHorasExtra")
                         .HasForeignKey("DniEmpleado")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("LAUCHA.domain.Entities.Empleado", "Responsable")
+                    b.HasOne("LAUCHA.domain.entities.Empleado", "Responsable")
                         .WithMany()
                         .HasForeignKey("DniResponsable")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1002,7 +1012,7 @@ namespace LAUCHA.infrastructure.Migrations
 
             modelBuilder.Entity("LAUCHA.domain.entities.diasEspeciales.PeriodoVacaciones", b =>
                 {
-                    b.HasOne("LAUCHA.domain.Entities.Empleado", "Empleado")
+                    b.HasOne("LAUCHA.domain.entities.Empleado", "Empleado")
                         .WithMany("PeriodosVacaciones")
                         .HasForeignKey("DniEmpleado")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1011,30 +1021,21 @@ namespace LAUCHA.infrastructure.Migrations
                     b.Navigation("Empleado");
                 });
 
-            modelBuilder.Entity("LAUCHA.domain.Entities.Acuerdos.Acuerdo", b =>
-                {
-                    b.Navigation("Adicionales");
-                });
-
-            modelBuilder.Entity("LAUCHA.domain.Entities.Empleado", b =>
-                {
-                    b.Navigation("Ausencias");
-
-                    b.Navigation("Contratos");
-
-                    b.Navigation("Cuenta")
-                        .IsRequired();
-
-                    b.Navigation("HabilitacionesHorasExtra");
-
-                    b.Navigation("PeriodosVacaciones");
-                });
-
             modelBuilder.Entity("LAUCHA.domain.entities.Concepto", b =>
                 {
                     b.Navigation("Creditos");
 
                     b.Navigation("Descuentos");
+                });
+
+            modelBuilder.Entity("LAUCHA.domain.entities.Contrato.Acuerdo", b =>
+                {
+                    b.Navigation("AcuerdoBlanco")
+                        .IsRequired();
+
+                    b.Navigation("Adicionales");
+
+                    b.Navigation("Liquidaciones");
                 });
 
             modelBuilder.Entity("LAUCHA.domain.entities.Credito", b =>
@@ -1062,6 +1063,20 @@ namespace LAUCHA.infrastructure.Migrations
                     b.Navigation("DescuentoPorLiquidacionPersonales");
 
                     b.Navigation("PagosCreditos");
+                });
+
+            modelBuilder.Entity("LAUCHA.domain.entities.Empleado", b =>
+                {
+                    b.Navigation("Ausencias");
+
+                    b.Navigation("Contratos");
+
+                    b.Navigation("Cuenta")
+                        .IsRequired();
+
+                    b.Navigation("HabilitacionesHorasExtra");
+
+                    b.Navigation("PeriodosVacaciones");
                 });
 
             modelBuilder.Entity("LAUCHA.domain.entities.LiquidacionGeneral", b =>

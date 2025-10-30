@@ -20,4 +20,8 @@
     <ProjectReference Include="..\LAUCHA.domain\LAUCHA.domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Contratos\CrearContrato\" />
+  </ItemGroup>
+
 </Project>

@@ -1,6 +1,6 @@
 ﻿using LAUCHA.application.DTOs.ContratoDTOs;
 using LAUCHA.application.interfaces;
-using LAUCHA.domain.entities;
+using LAUCHA.domain.Entities.Acuerdos;
 using LAUCHA.domain.interfaces.IUnitsOfWork;
 
 namespace LAUCHA.application.UseCase.ContratosDeTrabajo
@@ -24,11 +24,10 @@ namespace LAUCHA.application.UseCase.ContratosDeTrabajo
         {
             log.LogInformation("se esta creando un nuevo contrato para empleado: ", nuevoContrato.Dni);
 
-            Contrato contratoCreado = AgregarContrato(nuevoContrato);
-            string codigoContrato = contratoCreado.CodigoContrato;
+            Acuerdo contratoCreado = AgregarContrato(nuevoContrato);
+            string codigoContrato = contratoCreado.Codigo;
 
             AgregarAcuerdoBlanco(nuevoContrato, codigoContrato);
-            AgregarModalidad(nuevoContrato, codigoContrato);
 
             //TODO: fijarse que no tiene adicionales
             bool existenAdicionales = nuevoContrato.Adicionales.Count() > 0;
@@ -36,26 +35,25 @@ namespace LAUCHA.application.UseCase.ContratosDeTrabajo
             //confirmar el contrato
             _unitOfWork.Save();
 
-            log.LogInformation("se realizo con exito la creacion del contrato n: {n}", contratoCreado.CodigoContrato);
+            log.LogInformation("se realizo con exito la creacion del contrato n: {n}", contratoCreado.Codigo);
             return _contratoTrabajoService.ConsultarContrato(codigoContrato);
         }
 
-        private Contrato AgregarContrato(CrearContratoDTO nuevoContrato)
+        private Acuerdo AgregarContrato(CrearContratoDTO nuevoContrato)
         {
             DateTime fechaActual = DateTime.Now;
             string nuevoCodigoContrato = $"{nuevoContrato.Dni}{fechaActual.Day}{fechaActual.Minute}";
 
-            Contrato contrato = new Contrato
+            Acuerdo contrato = new Acuerdo
             {
-                CodigoContrato = nuevoCodigoContrato,
+                Codigo = nuevoCodigoContrato,
                 DniEmpleado = nuevoContrato.Dni,
-                MontoFijo = nuevoContrato.MontoFijo,
-                MontoPorHora = nuevoContrato.MontoHora,
-                FechaContrato = fechaActual,
-                TipoContrato = nuevoContrato.Tipo
+                Sueldo = nuevoContrato.MontoFijo,
+                ValorHora = nuevoContrato.MontoHora,
+                Fecha = fechaActual,
             };
 
-            log.LogInformation("se agrego el contrato n: {num}", contrato.CodigoContrato);
+            log.LogInformation("se agrego el contrato n: {num}", contrato.Codigo);
 
             return _unitOfWork.ContratoRepository.Insert(contrato);
         }
@@ -77,18 +75,6 @@ namespace LAUCHA.application.UseCase.ContratosDeTrabajo
                                , codigoContrato, acuerdoBlanco.Unidades);
 
             _unitOfWork.AcuerdoBlancoRepository.Insert(acuerdoBlanco);
-        }
-
-        private void AgregarModalidad(CrearContratoDTO nuevoContrato, string codigoContrato)
-        {
-            ModalidadPorContrato modalidadDelContrato = new ModalidadPorContrato
-            {
-                CodigoModalidad = nuevoContrato.Modalidad,
-                CodigoContrato = codigoContrato
-            };
-
-            log.LogInformation("se configuro la modalidad: {m}", modalidadDelContrato.CodigoModalidad);
-            _unitOfWork.ModalidadPorContratoRepository.Insert(modalidadDelContrato);
         }
 
     }

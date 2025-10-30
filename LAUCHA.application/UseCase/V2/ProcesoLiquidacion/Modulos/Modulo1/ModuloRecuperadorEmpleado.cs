@@ -49,7 +49,7 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo1
             return _cuentaService.ConsularUnaCuenta(numeroCuenta);
         }
 
-        private List<MarcaVista> obtenerMarcasDelPeriodo(string codigoModalidad,string dni, PeriodoDTO periodo)
+        private List<MarcaVista> obtenerMarcasDelPeriodo(string codigoModalidad, string dni, PeriodoDTO periodo)
         {
             DateTime fechaInicio = periodo.Inicio;
 
@@ -57,12 +57,12 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo1
             bool parseCodigo = int.TryParse(codigoModalidad, out modalidad);
 
 
-            if(modalidad == (int)ModalidadContrato.mensualFijo || modalidad == (int)ModalidadContrato.mensualFijoHorasExtra)
+            if (modalidad == (int)ModalidadContrato.mensualFijo || modalidad == (int)ModalidadContrato.mensualFijoHorasExtra)
             {
                 fechaInicio = new DateTime(periodo.Inicio.Year, periodo.Inicio.Month, 1);
             }
 
-            return _marcasService.ConsultarMarcasPeriodoVista(dni,fechaInicio, periodo.Fin);
+            return _marcasService.ConsultarMarcasPeriodoVista(dni, fechaInicio, periodo.Fin);
         }
 
         private ContratoDTO obtenerContratoEmpleado(string dni)

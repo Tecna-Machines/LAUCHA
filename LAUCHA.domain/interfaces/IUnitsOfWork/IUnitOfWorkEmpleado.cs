@@ -1,4 +1,5 @@
 ﻿using LAUCHA.domain.entities;
+using LAUCHA.domain.Entities;
 using LAUCHA.domain.interfaces.IRepositories;
 
 namespace LAUCHA.domain.interfaces.IUnitsOfWork

@@ -1,4 +1,4 @@
-﻿namespace LAUCHA.domain.entities
+﻿namespace LAUCHA.domain.Entities.Acuerdos
 {
     public class AcuerdoBlanco
     {
@@ -7,6 +7,6 @@
         public decimal Unidades { get; set; }
         public bool EsPorcentual { get; set; }
         public string CodigoContrato { get; set; } = null!;
-        public Contrato Contrato { get; set; } = null!;
+        public Acuerdo Contrato { get; set; } = null!;
     }
 }

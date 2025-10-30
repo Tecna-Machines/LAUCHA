@@ -2,21 +2,23 @@
 using LAUCHA.application.DTOs.AdicionalDTOs;
 using LAUCHA.application.DTOs.ContratoDTOs;
 using LAUCHA.application.DTOs.ModalidadDTOs;
-using LAUCHA.domain.entities;
+using LAUCHA.domain.entities.Contrato;
+using LAUCHA.domain.Entities;
+using LAUCHA.domain.Entities.Acuerdos;
 
 namespace LAUCHA.application.Mappers
 {
     public class ContratoMapper
     {
-        public ContratoDTO GenerarContrato(Contrato contrato, Modalidad modalidad,
+        public ContratoDTO GenerarContrato(Acuerdo contrato, TipoSueldo modalidad,
                                            Empleado empleado, List<Adicional> adicionales, AcuerdoBlanco acuerdoBlanco)
         {
             List<AdicionalDTO> adicionalesDTOs = new List<AdicionalDTO>();
 
             ModalidadDTO modalidadDTO = new ModalidadDTO
             {
-                Codigo = modalidad.CodigoModalidad,
-                Descripcion = modalidad.Descripcion
+                Codigo = modalidad.ToString(),
+                Descripcion = modalidad.ToString()
             };
 
             AcuerdoBlancoDTO acuerdoDTO = new AcuerdoBlancoDTO
@@ -41,13 +43,13 @@ namespace LAUCHA.application.Mappers
 
             return new ContratoDTO
             {
-                Codigo = contrato.CodigoContrato,
+                Codigo = contrato.Codigo,
                 Dni = empleado.Dni,
                 Empleado = $"{empleado.Nombre} {empleado.Apellido}",
-                Fecha = contrato.FechaContrato.ToString("dd-MM-yyyy"),
-                MontoHora = contrato.MontoPorHora,
-                MontoFijo = contrato.MontoFijo,
-                Tipo = contrato.TipoContrato,
+                Fecha = contrato.Fecha.ToString("dd-MM-yyyy"),
+                MontoHora = contrato.ValorHora,
+                MontoFijo = contrato.Sueldo,
+                Tipo = "contrato.TipoContrato",
                 Modalidad = modalidadDTO,
                 Adicionales = adicionalesDTOs,
                 AcuerdoBlanco = acuerdoDTO

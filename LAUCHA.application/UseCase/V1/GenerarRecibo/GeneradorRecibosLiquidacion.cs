@@ -4,7 +4,6 @@ using iText.Kernel.Pdf;
 using iText.Layout.Element;
 using iText.Layout.Properties;
 using LAUCHA.application.DTOs.LiquidacionDTOs;
-using LAUCHA.application.DTOs.RemuneracionDTOs;
 using LAUCHA.application.Helpers;
 using LAUCHA.application.interfaces;
 using LAUCHA.domain.interfaces.IServices;
@@ -58,7 +57,7 @@ namespace LAUCHA.application.UseCase.GenerarRecibo
                         document.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
 
                         //generar contenido de la pagina de marca
-                        GenerarPaginaMarcas(document, ps, liquidacion,marcas);
+                        GenerarPaginaMarcas(document, ps, liquidacion, marcas);
                     }
                 }
 
@@ -156,7 +155,7 @@ namespace LAUCHA.application.UseCase.GenerarRecibo
             paginaMarcas.Add(new Paragraph("\n"));
 
             // Ancho de columnas en porcentajes
-            float[] columnWidths = { 5f, 5f, 5f, 5f, 6f,5f,5f,5f };
+            float[] columnWidths = { 5f, 5f, 5f, 5f, 6f, 5f, 5f, 5f };
             Table tablaMarcas = new Table(UnitValue.CreatePercentArray(columnWidths)).UseAllAvailableWidth();
             tablaMarcas.SetFontSize(10);
 

@@ -1,21 +1,21 @@
-﻿using LAUCHA.application.DTOs.ContratoDTOs;
-using LAUCHA.application.DTOs.EmpleadoDTO;
-using LAUCHA.application.interfaces;
+﻿using LAUCHA.application.interfaces;
 using LAUCHA.application.Mappers;
 using LAUCHA.domain.entities;
+using LAUCHA.domain.Entities;
+using LAUCHA.domain.Entities.Acuerdos;
 using LAUCHA.domain.interfaces.IRepositories;
 
 namespace LAUCHA.application.UseCase.ConsultarEmpleado
 {
     public class ConsultarEmpleadoService : IConsultarEmpleadoService
     {
-        private readonly IGenericRepository<domain.entities.Empleado> _EmpleadoRepository;
+        private readonly IGenericRepository<Empleado> _EmpleadoRepository;
         private readonly ICuentaRepository _CuentaRepository;
         private readonly IContratoRepository _ContratoRepository;
         private readonly EmpleadoMapper _EmpleadoMapper;
         private readonly ILogsApp log;
 
-        public ConsultarEmpleadoService(IGenericRepository<domain.entities.Empleado> empleadoRepository,
+        public ConsultarEmpleadoService(IGenericRepository<Empleado> empleadoRepository,
                                         ICuentaRepository cuentaRepository,
                                         ILogsApp log,
                                         IContratoRepository contratoRepository)
@@ -31,7 +31,7 @@ namespace LAUCHA.application.UseCase.ConsultarEmpleado
         {
             log.LogInformation("se esta consultando el empleado: {dni}", dniEmpleado);
 
-            domain.entities.Empleado? empleadoObenitdo = _EmpleadoRepository.GetById(dniEmpleado);
+            Empleado? empleadoObenitdo = _EmpleadoRepository.GetById(dniEmpleado);
 
             if (empleadoObenitdo == null) { throw new NullReferenceException(); }
 
@@ -44,7 +44,7 @@ namespace LAUCHA.application.UseCase.ConsultarEmpleado
 
         public List<DTOs.EmpleadoDTO.EmpleadoDTO> ConsultarTodosLosEmpleados()
         {
-            IList<domain.entities.Empleado> empleados = _EmpleadoRepository.GetAll();
+            IList<Empleado> empleados = _EmpleadoRepository.GetAll();
             List<DTOs.EmpleadoDTO.EmpleadoDTO> empleadoDTOs = new();
 
             log.LogInformation("recuperando informacion de todos los empleados");
@@ -52,18 +52,18 @@ namespace LAUCHA.application.UseCase.ConsultarEmpleado
             foreach (var empleado in empleados)
             {
                 Cuenta cuentaEmpleado = _CuentaRepository.ObtenerCuentaDelEmpleado(empleado.Dni);
-                Contrato? contrato;
-                
+                Acuerdo? contrato;
+
                 try
                 {
-                     contrato = _ContratoRepository.ObtenerContratoDeEmpleado(empleado.Dni);
+                    contrato = _ContratoRepository.ObtenerContratoDeEmpleado(empleado.Dni);
                 }
-                catch(NullReferenceException)
+                catch (NullReferenceException)
                 {
                     contrato = null;
                 }
 
-                DTOs.EmpleadoDTO.EmpleadoDTO empleadoDTO = _EmpleadoMapper.GenerarEmpleadoDTO(empleado, cuentaEmpleado,contrato);
+                DTOs.EmpleadoDTO.EmpleadoDTO empleadoDTO = _EmpleadoMapper.GenerarEmpleadoDTO(empleado, cuentaEmpleado, contrato);
                 empleadoDTOs.Add(empleadoDTO);
             }
 

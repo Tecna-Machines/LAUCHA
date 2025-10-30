@@ -19,7 +19,7 @@ namespace LAUCHA.infrastructure.repositories
             _context.PeriodoVacaciones.Add(vacaciones);
             _context.SaveChanges();
 
-            vacaciones.Empleado = _context.Empleados.Find(vacaciones.DniEmpleado) 
+            vacaciones.Empleado = _context.Empleados.Find(vacaciones.DniEmpleado)
                                   ?? throw new ArgumentNullException();
 
             return vacaciones;
@@ -30,7 +30,7 @@ namespace LAUCHA.infrastructure.repositories
             return _context.PeriodoVacaciones.Include(v => v.Empleado)
                                              .Where(v => v.FechaInicio.Year == anio)
                                              .ToList();
-                                            
+
         }
 
         public List<PeriodoVacaciones> obtenerVacacionesEmpleado(string dniEmpleado, int anio)

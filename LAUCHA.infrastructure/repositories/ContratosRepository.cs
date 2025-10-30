@@ -1,11 +1,10 @@
-﻿using LAUCHA.domain.entities;
+﻿using LAUCHA.domain.Entities.Acuerdos;
 using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.infrastructure.persistence;
-using Microsoft.EntityFrameworkCore;
 
 namespace LAUCHA.infrastructure.repositories
 {
-    public class ContratosRepository : IGenericRepository<Contrato>, IContratoRepository
+    public class ContratosRepository : IGenericRepository<Acuerdo>, IContratoRepository
     {
         private readonly LiquidacionesDbContext _context;
 
@@ -14,46 +13,44 @@ namespace LAUCHA.infrastructure.repositories
             _context = context;
         }
 
-        public List<Contrato> ObtenerContratosDeEmpleado(string dniEmpleado)
+        public List<Acuerdo> ObtenerContratosDeEmpleado(string dniEmpleado)
         {
             return _context.Contratos.Where(c => c.DniEmpleado == dniEmpleado).ToList();
         }
 
-        public Contrato Delete(string id)
+        public Acuerdo Delete(string id)
         {
             // TODO: checar si es necesario
             throw new NotImplementedException();
         }
 
-        public IList<Contrato> GetAll()
+        public IList<Acuerdo> GetAll()
         {
             return _context.Contratos.ToList();
 
         }
 
-        public Contrato GetById(string codigoContrato)
+        public Acuerdo GetById(string codigoContrato)
         {
-            Contrato? contratoEncontrado = _context.Contratos.Find(codigoContrato);
+            Acuerdo? contratoEncontrado = _context.Contratos.Find(codigoContrato);
             return contratoEncontrado != null ? contratoEncontrado : throw new NullReferenceException();
         }
 
-        public Contrato Insert(Contrato contratoNuevo)
+        public Acuerdo Insert(Acuerdo contratoNuevo)
         {
             _context.Add(contratoNuevo);
             return contratoNuevo;
         }
 
-        public Contrato ObtenerContratoDeEmpleado(string dniEmpleado)
+        public Acuerdo ObtenerContratoDeEmpleado(string dniEmpleado)
         {
-            Contrato? ultimoContratoEmpleado = _context.Contratos.Where(c => c.DniEmpleado == dniEmpleado)
-                                               .Include(c => c.ModalidadesPorContratos)
-                                               .ThenInclude(m => m.Modalidad)
-                                               .OrderByDescending(c => c.FechaContrato).FirstOrDefault();
+            Acuerdo? ultimoContratoEmpleado = _context.Contratos.Where(c => c.DniEmpleado == dniEmpleado)
+                                               .OrderByDescending(c => c.Fecha).FirstOrDefault();
 
             return ultimoContratoEmpleado;
         }
 
-        public Contrato Update(Contrato entity)
+        public Acuerdo Update(Acuerdo entity)
         {
             // TODO: quizas no sea necesario
             throw new NotImplementedException();

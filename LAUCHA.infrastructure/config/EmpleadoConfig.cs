@@ -1,4 +1,4 @@
-﻿using LAUCHA.domain.entities;
+﻿using LAUCHA.domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

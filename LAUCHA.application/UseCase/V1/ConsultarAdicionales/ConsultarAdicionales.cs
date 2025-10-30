@@ -1,6 +1,6 @@
 ﻿using LAUCHA.application.DTOs.AdicionalDTOs;
 using LAUCHA.application.interfaces;
-using LAUCHA.domain.entities;
+using LAUCHA.domain.entities.Contrato;
 using LAUCHA.domain.interfaces.IRepositories;
 
 namespace LAUCHA.application.UseCase.ConsultarAdicionales

@@ -29,7 +29,7 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo2
             string numeroCuenta = payload.Cuenta.NumeroCuenta;
             PeriodoDTO periodo = payload.periodoliquidar;
 
-            var remuneraciones =   await this.ObtenerRemuneracionesExistentes(numeroCuenta, periodo);
+            var remuneraciones = await this.ObtenerRemuneracionesExistentes(numeroCuenta, periodo);
             payload.remuneracionesLiquidacion = remuneraciones ?? new List<Remuneracion>();
 
             var descuentos = await this.ObtenerDescuentosPreexistentes(numeroCuenta, periodo);

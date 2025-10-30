@@ -1,9 +1,4 @@
 ﻿using LAUCHA.application.DTOs.DiasEspecialesDTOs.VacacionesDTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.application.interfaces.V2.IDiasEspecialesServices
 {

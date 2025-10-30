@@ -20,7 +20,7 @@
 
         public decimal MontoCuota()
         {
-            if(CantidadCuotasFaltantes == 0)
+            if (CantidadCuotasFaltantes == 0)
             {
                 return (Monto - MontoPagado);
             }

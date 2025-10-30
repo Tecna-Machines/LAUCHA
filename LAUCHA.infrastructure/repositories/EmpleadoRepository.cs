@@ -1,5 +1,5 @@
 ﻿using LAUCHA.application.Exceptios;
-using LAUCHA.domain.entities;
+using LAUCHA.domain.Entities;
 using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.infrastructure.persistence;
 using Microsoft.EntityFrameworkCore;

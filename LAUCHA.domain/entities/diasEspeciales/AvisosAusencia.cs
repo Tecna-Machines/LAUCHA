@@ -1,4 +1,6 @@
-﻿namespace LAUCHA.domain.entities.diasEspeciales
+﻿using LAUCHA.domain.Entities;
+
+namespace LAUCHA.domain.entities.diasEspeciales
 {
     public class AvisosAusencia
     {

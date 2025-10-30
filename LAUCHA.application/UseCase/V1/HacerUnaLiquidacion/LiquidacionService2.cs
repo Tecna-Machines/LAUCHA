@@ -24,7 +24,7 @@ namespace LAUCHA.application.UseCase.V1.HacerUnaLiquidacion
         {
             LiquidacionPayload payload = new();
 
-            payload.Inicializar(dni,periodo,esSimulacion);
+            payload.Inicializar(dni, periodo, esSimulacion);
 
             await this.ProcesarLiquidacion(payload);
 

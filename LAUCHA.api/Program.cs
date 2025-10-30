@@ -5,7 +5,6 @@ using LAUCHA.application.interfaces.V2.Liquidacion;
 using LAUCHA.application.UseCase.AgregarCuenta;
 using LAUCHA.application.UseCase.AgregarEmpleadoNuevo;
 using LAUCHA.application.UseCase.AgregarUnAdicional;
-using LAUCHA.application.UseCase.ConsularModalidades;
 using LAUCHA.application.UseCase.ConsultarAdicionales;
 using LAUCHA.application.UseCase.ConsultarContratoDeTrabajo;
 using LAUCHA.application.UseCase.ConsultarEmpleado;
@@ -44,6 +43,9 @@ using LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo7;
 using LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo8;
 using LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo9;
 using LAUCHA.domain.entities;
+using LAUCHA.domain.entities.Contrato;
+using LAUCHA.domain.Entities;
+using LAUCHA.domain.Entities.Acuerdos;
 using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.domain.interfaces.IServices;
 using LAUCHA.domain.interfaces.IUnitsOfWork;
@@ -91,8 +93,8 @@ if (builder.Environment.IsDevelopment())
     connectionString = builder.Configuration["ConnectionStrings:Test"];
 }
 
-builder.Services.AddDbContext<LiquidacionesDbContext>(options => 
-                                                     options.UseMySql(connectionString,ServerVersion.AutoDetect(connectionString)));
+builder.Services.AddDbContext<LiquidacionesDbContext>(options =>
+                                                     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 //dependecy injection
 builder.Services.AddScoped<ICrearEmpleadoService, AgregarEmpleadoNuevoService>();
@@ -100,11 +102,9 @@ builder.Services.AddScoped<IUnitOfWorkEmpleado, UnitOfWorkEmpleado>();
 builder.Services.AddScoped<IGenericRepository<Empleado>, EmpleadoRepository>();
 builder.Services.AddScoped<IGenericRepository<Cuenta>, CuentaRepository>();
 
-builder.Services.AddScoped<IGenericRepository<ModalidadPorContrato>, ModalidadPorContratoRepository>();
 builder.Services.AddScoped<IGenericRepository<Adicional>, AdicionalRepository>();
 builder.Services.AddScoped<IGenericRepository<AcuerdoBlanco>, AcuerdoBlancoRepository>();
-builder.Services.AddScoped<IGenericRepository<Contrato>, ContratosRepository>();
-builder.Services.AddScoped<IGenericRepository<Modalidad>, ModalidadRepository>();
+builder.Services.AddScoped<IGenericRepository<Acuerdo>, ContratosRepository>();
 builder.Services.AddScoped<IUnitOfWorkContrato, UnitOfWorkContrato>();
 builder.Services.AddScoped<ICrearAdicionalService, CrearAdicionalService>();
 builder.Services.AddScoped<IConsultarAdicionalesService, ConsultarAdicionales>();
@@ -130,8 +130,6 @@ builder.Services.AddScoped<ICrearRemuneracionService, CrearRemuneracionNuevaServ
 builder.Services.AddScoped<IConsultarRemuneracionService, ConsultarRemuneracionesService>();
 builder.Services.AddScoped<IRemuneracionRepository, RemuneracionRepository>();
 
-builder.Services.AddScoped<IGenericRepository<Modalidad>, ModalidadRepository>();
-builder.Services.AddScoped<IConsultarModalidadesService, ConsultarModalidadesService>();
 
 builder.Services.AddScoped<IGenericRepository<Descuento>, DescuentoRepository>();
 builder.Services.AddScoped<IGenericRepository<Concepto>, ConceptoRepository>();
@@ -238,7 +236,7 @@ builder.Services.AddScoped<IMenuesService>(sp =>
 
 
 //Marcas
-string? databaseMarcas =  builder.Configuration["MarcasService:databasePath"];
+string? databaseMarcas = builder.Configuration["MarcasService:databasePath"];
 
 
 builder.Services.AddDbContext<MarcasDbContext>(options => options.UseMySQL(databaseMarcas));

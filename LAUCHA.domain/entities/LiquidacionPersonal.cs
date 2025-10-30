@@ -1,4 +1,6 @@
-﻿namespace LAUCHA.domain.entities
+﻿using LAUCHA.domain.Entities.Acuerdos;
+
+namespace LAUCHA.domain.entities
 {
     public class LiquidacionPersonal
     {
@@ -13,7 +15,7 @@
         public DateTime InicioPeriodo { get; set; }
         public DateTime FinPeriodo { get; set; }
         public string CodigoContrato { get; set; } = null!;
-        public Contrato Contrato { get; set; } = null!;
+        public Acuerdo Contrato { get; set; } = null!;
         public ICollection<PagoLiquidacion> PagosLiquidacion { get; set; } = null!;
         public IList<RemuneracionPorLiquidacionPersonal> RemuneracionPorLiquidacionPersonales { get; set; } = null!;
         public IList<RetencionPorLiquidacionPersonal> RetencionPorLiquidacionPersonales { get; set; } = null!;

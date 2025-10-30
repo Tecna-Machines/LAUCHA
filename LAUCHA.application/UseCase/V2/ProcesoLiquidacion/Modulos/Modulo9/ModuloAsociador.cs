@@ -32,7 +32,7 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo9
                 this.guardarCambios();
             }
 
-            var resultado = this.GenerarResultado(payload,liquidacion);
+            var resultado = this.GenerarResultado(payload, liquidacion);
             payload.SetResultado(resultado);
 
         }
@@ -146,7 +146,7 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo9
         }
 
 
-        private LiquidacionDTO GenerarResultado(LiquidacionPayload payload,LiquidacionPersonal liquidacion)
+        private LiquidacionDTO GenerarResultado(LiquidacionPayload payload, LiquidacionPersonal liquidacion)
         {
             LiquidacionMapper mappper = new();
             EmpleadoMapper empMapper = new();
@@ -154,7 +154,7 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo9
             var empleado = empMapper.GenerarEmpleado(payload.Empleado);
 
 
-            var liquidacionDto=  mappper.GenerarLiquidacionDTO(liquidacion: liquidacion,
+            var liquidacionDto = mappper.GenerarLiquidacionDTO(liquidacion: liquidacion,
                                                   remuneraciones: payload.remuneracionesLiquidacion,
                                                   retenciones: payload.retencionesLiquidacion,
                                                   descuentos: payload.descuentosLiquidacion,

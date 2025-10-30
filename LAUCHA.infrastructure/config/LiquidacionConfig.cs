@@ -15,7 +15,7 @@ namespace LAUCHA.infrastructure.config
                     .HasForeignKey(liqPersonal => liqPersonal.CodigoLiquidacionGeneral);
 
             builder.HasOne(liqPersonal => liqPersonal.Contrato)
-                   .WithMany(contrato => contrato.Liquidaciones)
+                   .WithMany()
                    .HasForeignKey(liqPersonal => liqPersonal.CodigoContrato);
         }
     }

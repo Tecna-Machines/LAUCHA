@@ -5,6 +5,7 @@ using LAUCHA.application.DTOs.NoRemuneracionDTOs;
 using LAUCHA.application.DTOs.RemuneracionDTOs;
 using LAUCHA.application.DTOs.RetencionDTOs;
 using LAUCHA.domain.entities;
+using LAUCHA.domain.Entities;
 
 namespace LAUCHA.application.Mappers
 {

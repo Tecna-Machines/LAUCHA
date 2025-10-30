@@ -1,6 +1,4 @@
-﻿using System.Text.RegularExpressions;
-
-namespace LAUCHA.domain.interfaces.IServices
+﻿namespace LAUCHA.domain.interfaces.IServices
 {
     public class HorasPeriodo
     {
@@ -40,7 +38,7 @@ namespace LAUCHA.domain.interfaces.IServices
     }
 
 
-        public interface IMarcasService
+    public interface IMarcasService
     {
         HorasPeriodo ConsularHorasPeriodo(string dni, DateTime desde, DateTime hasta);
         List<Marca> ConsultarMarcasPeriodo(string dni, DateTime desde, DateTime hasta);

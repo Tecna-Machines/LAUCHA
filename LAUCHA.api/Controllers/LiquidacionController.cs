@@ -1,7 +1,5 @@
 ﻿using LAUCHA.application.DTOs.LiquidacionDTOs;
 using LAUCHA.application.DTOs.PaginaDTOs;
-using LAUCHA.application.DTOs.SystemaDTO;
-using LAUCHA.application.Exceptios;
 using LAUCHA.application.interfaces;
 using LAUCHA.application.interfaces.V2.Liquidacion;
 using LAUCHA.domain.interfaces.IRepositories;
@@ -45,7 +43,7 @@ namespace LAUCHA.api.Controllers
         public async Task<IActionResult> LiquidarEmpleado(string dni, DateTime desde, DateTime hasta)
         {
             var result = await _liquidacionService.HacerUnaLiquidacion(dni,
-                                                                new PeriodoDTO { Inicio = desde,Fin = hasta},
+                                                                new PeriodoDTO { Inicio = desde, Fin = hasta },
                                                                 false);
 
             return new JsonResult(result) { StatusCode = 201 };
@@ -107,7 +105,7 @@ namespace LAUCHA.api.Controllers
         public IActionResult ProbarLiquidacion(string dni, DateTime desde, DateTime hasta)
         {
             var result = _liquidacionService.HacerUnaLiquidacion(dni,
-                                                                 new PeriodoDTO { Inicio = desde,Fin = hasta},
+                                                                 new PeriodoDTO { Inicio = desde, Fin = hasta },
                                                                  true);
 
             return new JsonResult(result.Result) { StatusCode = 200 };

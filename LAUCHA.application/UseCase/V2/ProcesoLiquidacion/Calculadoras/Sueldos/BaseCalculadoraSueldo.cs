@@ -54,7 +54,7 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Calculadoras.Sueldos
 
         public abstract List<Remuneracion> CalcularSueldoBruto(DateTime desde, DateTime hasta, ContratoDTO contrato, CuentaDTO cuenta);
         public abstract List<Retencion> CalcularRetencionesSueldo(decimal montoBrutoBlanco, CuentaDTO cuenta);
-        public  List<Retencion> CalcularRetencionesSueldo(DateTime desde,DateTime hasta,decimal montoBrutoBlanco,CuentaDTO cuenta)
+        public List<Retencion> CalcularRetencionesSueldo(DateTime desde, DateTime hasta, decimal montoBrutoBlanco, CuentaDTO cuenta)
         {
             {
 

@@ -2,6 +2,7 @@
 using LAUCHA.application.interfaces;
 using LAUCHA.application.Mappers;
 using LAUCHA.domain.entities;
+using LAUCHA.domain.Entities;
 using LAUCHA.domain.interfaces.IUnitsOfWork;
 
 namespace LAUCHA.application.UseCase.AgregarEmpleadoNuevo
@@ -21,7 +22,7 @@ namespace LAUCHA.application.UseCase.AgregarEmpleadoNuevo
 
         public DTOs.EmpleadoDTO.EmpleadoDTO CargarNuevoEmpleado(CrearEmpleadoDTO nuevoEmpleado)
         {
-            domain.entities.Empleado empleado = _empleadoMapper.GenerarEmpleado(nuevoEmpleado);
+            Empleado empleado = _empleadoMapper.GenerarEmpleado(nuevoEmpleado);
             empleado = _unitOfWork.EmpleadoRepository.Insert(empleado);
 
             DateTime fechaActual = DateTime.Now;

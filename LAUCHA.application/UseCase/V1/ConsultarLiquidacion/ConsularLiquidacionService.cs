@@ -3,6 +3,7 @@ using LAUCHA.application.DTOs.PaginaDTOs;
 using LAUCHA.application.interfaces;
 using LAUCHA.application.Mappers;
 using LAUCHA.domain.entities;
+using LAUCHA.domain.Entities;
 using LAUCHA.domain.interfaces.IRepositories;
 
 namespace LAUCHA.application.UseCase.ConsultarLiquidacion

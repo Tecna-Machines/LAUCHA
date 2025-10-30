@@ -23,9 +23,9 @@ namespace LAUCHA.infrastructure.Services.Menues
         {
             string? token = await ObtenerJwtToken();
 
-            if(token == null)
-            { 
-                throw new ArgumentNullException(); 
+            if (token == null)
+            {
+                throw new ArgumentNullException();
             }
 
 

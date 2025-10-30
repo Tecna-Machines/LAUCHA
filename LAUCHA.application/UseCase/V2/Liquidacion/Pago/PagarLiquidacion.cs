@@ -5,7 +5,7 @@ using LAUCHA.domain.interfaces.IRepositories;
 
 namespace LAUCHA.application.UseCase.V2.Liquidacion.Pago
 {
-    public class PagarLiquidacion  : IPagarLiquidacionService
+    public class PagarLiquidacion : IPagarLiquidacionService
     {
         private readonly IGenericRepository<PagoLiquidacion> _pagoRepository;
 
