@@ -12,14 +12,14 @@ namespace LAUCHA.application.UseCase.ConsultarContratoDeTrabajo
     {
         private readonly IGenericRepository<Empleado> _EmpleadoRepository;
         private readonly IGenericRepository<Acuerdo> _ContratoRepository;
-        private readonly IContratoRepository _ContratoRepositoryEspecifico;
+        private readonly IAcuerdoRepository _ContratoRepositoryEspecifico;
         private readonly IGenericRepository<AcuerdoBlanco> _AcuerdoBlancoRepository;
         private ContratoMapper _ContratoMapper;
 
         public ConsultarContratoTrabajoService(IGenericRepository<Empleado> empleadoRepository,
                                                IGenericRepository<Acuerdo> contratoRepository,
                                                IGenericRepository<AcuerdoBlanco> acuerdoBlancoRepository,
-                                               IContratoRepository contratoRepositoryEspecifico)
+                                               IAcuerdoRepository contratoRepositoryEspecifico)
         {
             _EmpleadoRepository = empleadoRepository;
             _ContratoRepository = contratoRepository;
@@ -45,7 +45,7 @@ namespace LAUCHA.application.UseCase.ConsultarContratoDeTrabajo
 
         public ContratoDTO ObtenerContratoDeEmpleado(string dniEmpleado)
         {
-            Acuerdo? contratoActual = _ContratoRepositoryEspecifico.ObtenerContratoDeEmpleado(dniEmpleado);
+            Acuerdo? contratoActual = _ContratoRepositoryEspecifico.GetActual(dniEmpleado);
 
             if (contratoActual == null) { throw new ArgumentNullException(); }
 
@@ -54,7 +54,7 @@ namespace LAUCHA.application.UseCase.ConsultarContratoDeTrabajo
 
         public List<ResumenContratoDTO> ObtenerTodosLosContratosDeEmpleado(string dniEmpleado)
         {
-            List<Acuerdo> contratosOriginales = _ContratoRepositoryEspecifico.ObtenerContratosDeEmpleado(dniEmpleado);
+            List<Acuerdo> contratosOriginales = _ContratoRepositoryEspecifico.GetHistorial(dniEmpleado);
             List<ResumenContratoDTO> contratosResumidos = new List<ResumenContratoDTO>();
 
             foreach (var contratoOriginal in contratosOriginales)

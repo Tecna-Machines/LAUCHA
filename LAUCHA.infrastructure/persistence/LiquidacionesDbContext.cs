@@ -17,7 +17,7 @@ namespace LAUCHA.infrastructure.persistence
 
         public DbSet<Adicional> Adicionales { get; set; }
         public DbSet<Concepto> Conceptos { get; set; }
-        public DbSet<Acuerdo> Contratos { get; set; }
+        public DbSet<Acuerdo> Acuerdos { get; set; }
         public DbSet<Credito> Creditos { get; set; }
         public DbSet<PagoCredito> PagosCreditos { get; set; }
         public DbSet<Cuenta> Cuentas { get; set; }

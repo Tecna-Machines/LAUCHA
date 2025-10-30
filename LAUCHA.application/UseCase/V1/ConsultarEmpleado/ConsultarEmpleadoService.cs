@@ -11,14 +11,14 @@ namespace LAUCHA.application.UseCase.ConsultarEmpleado
     {
         private readonly IGenericRepository<Empleado> _EmpleadoRepository;
         private readonly ICuentaRepository _CuentaRepository;
-        private readonly IContratoRepository _ContratoRepository;
+        private readonly IAcuerdoRepository _ContratoRepository;
         private readonly EmpleadoMapper _EmpleadoMapper;
         private readonly ILogsApp log;
 
         public ConsultarEmpleadoService(IGenericRepository<Empleado> empleadoRepository,
                                         ICuentaRepository cuentaRepository,
                                         ILogsApp log,
-                                        IContratoRepository contratoRepository)
+                                        IAcuerdoRepository contratoRepository)
         {
             _EmpleadoRepository = empleadoRepository;
             _CuentaRepository = cuentaRepository;
@@ -56,7 +56,7 @@ namespace LAUCHA.application.UseCase.ConsultarEmpleado
 
                 try
                 {
-                    contrato = _ContratoRepository.ObtenerContratoDeEmpleado(empleado.Dni);
+                    contrato = _ContratoRepository.GetActual(empleado.Dni);
                 }
                 catch (NullReferenceException)
                 {

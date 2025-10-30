@@ -114,7 +114,7 @@ builder.Services.AddScoped<ICrearContratoService, CrearContratoService>();
 builder.Services.AddScoped<ICuentaRepository, CuentaRepository>();
 builder.Services.AddScoped<IConsultarEmpleadoService, ConsultarEmpleadoService>();
 
-builder.Services.AddScoped<IContratoRepository, ContratosRepository>();
+builder.Services.AddScoped<IAcuerdoRepository, ContratosRepository>();
 
 builder.Services.AddScoped<IGenericRepository<RetencionFija>, RetencionFijaRepository>();
 builder.Services.AddScoped<ICrearRetencionesFijasService, CrearRetencionesFijasService>();

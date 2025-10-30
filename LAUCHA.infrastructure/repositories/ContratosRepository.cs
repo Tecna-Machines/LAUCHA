@@ -1,10 +1,11 @@
 ﻿using LAUCHA.domain.Entities.Acuerdos;
 using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.infrastructure.persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace LAUCHA.infrastructure.repositories
 {
-    public class ContratosRepository : IGenericRepository<Acuerdo>, IContratoRepository
+    public class ContratosRepository :  IAcuerdoRepository
     {
         private readonly LiquidacionesDbContext _context;
 
@@ -13,50 +14,24 @@ namespace LAUCHA.infrastructure.repositories
             _context = context;
         }
 
-        public List<Acuerdo> ObtenerContratosDeEmpleado(string dniEmpleado)
+        public async Task<Acuerdo?> GetActual(string dni)
         {
-            return _context.Contratos.Where(c => c.DniEmpleado == dniEmpleado).ToList();
+            return await _context.Acuerdos.OrderByDescending(ac => ac.Fecha)
+                                    .Include(ac => ac.Adicionales)
+                                    .FirstOrDefaultAsync(ac => ac.DniEmpleado == dni);
         }
 
-        public Acuerdo Delete(string id)
+        public async Task<ICollection<Acuerdo>> GetHistorial(string dni)
         {
-            // TODO: checar si es necesario
-            throw new NotImplementedException();
+            return await _context.Acuerdos
+                                   .Where(ac => ac.DniEmpleado == dni)
+                                   .ToListAsync();
         }
 
-        public IList<Acuerdo> GetAll()
+        public async Task Insert(Acuerdo acuerdo)
         {
-            return _context.Contratos.ToList();
-
+            await _context.Acuerdos.AddAsync(acuerdo);
+            await _context.SaveChangesAsync();
         }
-
-        public Acuerdo GetById(string codigoContrato)
-        {
-            Acuerdo? contratoEncontrado = _context.Contratos.Find(codigoContrato);
-            return contratoEncontrado != null ? contratoEncontrado : throw new NullReferenceException();
-        }
-
-        public Acuerdo Insert(Acuerdo contratoNuevo)
-        {
-            _context.Add(contratoNuevo);
-            return contratoNuevo;
-        }
-
-        public Acuerdo ObtenerContratoDeEmpleado(string dniEmpleado)
-        {
-            Acuerdo? ultimoContratoEmpleado = _context.Contratos.Where(c => c.DniEmpleado == dniEmpleado)
-                                               .OrderByDescending(c => c.Fecha).FirstOrDefault();
-
-            return ultimoContratoEmpleado;
-        }
-
-        public Acuerdo Update(Acuerdo entity)
-        {
-            // TODO: quizas no sea necesario
-            throw new NotImplementedException();
-        }
-
-        public int Save() => _context.SaveChanges();
-
     }
 }
