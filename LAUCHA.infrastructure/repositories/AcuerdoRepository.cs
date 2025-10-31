@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LAUCHA.infrastructure.repositories
 {
-    public class ContratosRepository :  IAcuerdoRepository
+    internal class AcuerdoRepository : IAcuerdoRepository
     {
         private readonly LiquidacionesDbContext _context;
 
-        public ContratosRepository(LiquidacionesDbContext context)
+        public AcuerdoRepository(LiquidacionesDbContext context)
         {
             _context = context;
         }

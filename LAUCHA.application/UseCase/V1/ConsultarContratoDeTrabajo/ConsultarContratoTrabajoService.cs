@@ -11,13 +11,13 @@ namespace LAUCHA.application.UseCase.ConsultarContratoDeTrabajo
     public class ConsultarContratoTrabajoService : IConsultarContratoTrabajoService
     {
         private readonly IGenericRepository<Empleado> _EmpleadoRepository;
-        private readonly IGenericRepository<Acuerdo> _ContratoRepository;
+        private readonly IAcuerdoRepository _ContratoRepository;
         private readonly IAcuerdoRepository _ContratoRepositoryEspecifico;
         private readonly IGenericRepository<AcuerdoBlanco> _AcuerdoBlancoRepository;
         private ContratoMapper _ContratoMapper;
 
         public ConsultarContratoTrabajoService(IGenericRepository<Empleado> empleadoRepository,
-                                               IGenericRepository<Acuerdo> contratoRepository,
+                                               IAcuerdoRepository contratoRepository,
                                                IGenericRepository<AcuerdoBlanco> acuerdoBlancoRepository,
                                                IAcuerdoRepository contratoRepositoryEspecifico)
         {
@@ -30,7 +30,7 @@ namespace LAUCHA.application.UseCase.ConsultarContratoDeTrabajo
 
         public ContratoDTO ConsultarContrato(string codigoContrato)
         {
-            Acuerdo contrato = _ContratoRepository.GetById(codigoContrato);
+            Acuerdo contrato = new(); /*_ContratoRepository.GetById(codigoContrato);*/
 
             if (contrato == null) { throw new NullReferenceException(); }
 
@@ -45,7 +45,7 @@ namespace LAUCHA.application.UseCase.ConsultarContratoDeTrabajo
 
         public ContratoDTO ObtenerContratoDeEmpleado(string dniEmpleado)
         {
-            Acuerdo? contratoActual = _ContratoRepositoryEspecifico.GetActual(dniEmpleado);
+            Acuerdo? contratoActual = new();/* _ContratoRepositoryEspecifico.GetActual(dniEmpleado);*/
 
             if (contratoActual == null) { throw new ArgumentNullException(); }
 
@@ -54,7 +54,7 @@ namespace LAUCHA.application.UseCase.ConsultarContratoDeTrabajo
 
         public List<ResumenContratoDTO> ObtenerTodosLosContratosDeEmpleado(string dniEmpleado)
         {
-            List<Acuerdo> contratosOriginales = _ContratoRepositoryEspecifico.GetHistorial(dniEmpleado);
+            List<Acuerdo> contratosOriginales = new(); /*_ContratoRepositoryEspecifico.GetHistorial(dniEmpleado);*/
             List<ResumenContratoDTO> contratosResumidos = new List<ResumenContratoDTO>();
 
             foreach (var contratoOriginal in contratosOriginales)
@@ -71,6 +71,8 @@ namespace LAUCHA.application.UseCase.ConsultarContratoDeTrabajo
             }
 
             return contratosResumidos;
+
+            throw new NotImplementedException();
         }
     }
 }

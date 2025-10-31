@@ -8,9 +8,9 @@ namespace LAUCHA.application.Features.Acuerdos.CrearAcuerdo
         {
             RuleFor(x => x.Dni).NotEmpty();
             RuleFor(x => x.TipoSueldo).NotEmpty();
-            RuleFor(x => x.ValorBlanco > 0);
-            RuleFor(x => x.Sueldo > 0);
-            RuleFor(x => x.Sueldo > 0);
+            RuleFor(x => x.ValorBlanco).GreaterThan(0);
+            RuleFor(x => x.Sueldo).GreaterThan(0);
+
         }
     }
 }

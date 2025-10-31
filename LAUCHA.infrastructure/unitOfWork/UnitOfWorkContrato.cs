@@ -7,13 +7,13 @@ namespace LAUCHA.infrastructure.unitOfWork
 {
     public class UnitOfWorkContrato : IUnitOfWorkContrato, IDisposable
     {
-        public IGenericRepository<Acuerdo> ContratoRepository { get; }
+        public IAcuerdoRepository ContratoRepository { get; }
         public IGenericRepository<AcuerdoBlanco> AcuerdoBlancoRepository { get; }
         private readonly LiquidacionesDbContext _context;
 
 
         public UnitOfWorkContrato(LiquidacionesDbContext context,
-                                  IGenericRepository<Acuerdo> contratoRepository,
+                                  IAcuerdoRepository contratoRepository,
                                   IGenericRepository<AcuerdoBlanco> acuerdoBlancoRepository)
         {
             ContratoRepository = contratoRepository;

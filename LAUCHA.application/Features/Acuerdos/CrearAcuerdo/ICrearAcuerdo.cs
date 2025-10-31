@@ -2,7 +2,7 @@
 
 namespace LAUCHA.application.Features.Acuerdos.CrearAcuerdo
 {
-    internal interface ICrearAcuerdo
+    public interface ICrearAcuerdo
     {
         Task<Result<CrearAcuerdoResponse>> Crear(CrearAcuerdoRequest req);
     }

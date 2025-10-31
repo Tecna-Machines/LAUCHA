@@ -1,3 +1,4 @@
+using LAUCHA.application;
 using LAUCHA.application.interfaces;
 using LAUCHA.application.interfaces.V2.Credito;
 using LAUCHA.application.interfaces.V2.IDiasEspecialesServices;
@@ -49,6 +50,7 @@ using LAUCHA.domain.Entities.Acuerdos;
 using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.domain.interfaces.IServices;
 using LAUCHA.domain.interfaces.IUnitsOfWork;
+using LAUCHA.infrastructure;
 using LAUCHA.infrastructure.persistence;
 using LAUCHA.infrastructure.repositories;
 using LAUCHA.infrastructure.Services.Logs;
@@ -97,6 +99,10 @@ builder.Services.AddDbContext<LiquidacionesDbContext>(options =>
                                                      options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 //dependecy injection
+//NEW 2025
+builder.Services.AddInfrastructureServices();
+builder.Services.AddAplicationServices();
+
 builder.Services.AddScoped<ICrearEmpleadoService, AgregarEmpleadoNuevoService>();
 builder.Services.AddScoped<IUnitOfWorkEmpleado, UnitOfWorkEmpleado>();
 builder.Services.AddScoped<IGenericRepository<Empleado>, EmpleadoRepository>();
@@ -104,7 +110,6 @@ builder.Services.AddScoped<IGenericRepository<Cuenta>, CuentaRepository>();
 
 builder.Services.AddScoped<IGenericRepository<Adicional>, AdicionalRepository>();
 builder.Services.AddScoped<IGenericRepository<AcuerdoBlanco>, AcuerdoBlancoRepository>();
-builder.Services.AddScoped<IGenericRepository<Acuerdo>, ContratosRepository>();
 builder.Services.AddScoped<IUnitOfWorkContrato, UnitOfWorkContrato>();
 builder.Services.AddScoped<ICrearAdicionalService, CrearAdicionalService>();
 builder.Services.AddScoped<IConsultarAdicionalesService, ConsultarAdicionales>();
@@ -114,7 +119,6 @@ builder.Services.AddScoped<ICrearContratoService, CrearContratoService>();
 builder.Services.AddScoped<ICuentaRepository, CuentaRepository>();
 builder.Services.AddScoped<IConsultarEmpleadoService, ConsultarEmpleadoService>();
 
-builder.Services.AddScoped<IAcuerdoRepository, ContratosRepository>();
 
 builder.Services.AddScoped<IGenericRepository<RetencionFija>, RetencionFijaRepository>();
 builder.Services.AddScoped<ICrearRetencionesFijasService, CrearRetencionesFijasService>();
@@ -210,6 +214,7 @@ builder.Services.AddScoped<IModuloLiquidador, ModuloAsociador>();               
 builder.Services.AddScoped<ILiquidacionService, LiquidacionService2>();
 builder.Services.AddScoped<IPagarLiquidacionService, PagarLiquidacion>();
 builder.Services.AddScoped<IGenericRepository<PagoLiquidacion>, PagoLiquidacionRepository>();
+
 
 builder.Services.AddHttpClient();
 

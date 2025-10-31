@@ -55,7 +55,8 @@ namespace LAUCHA.application.UseCase.ContratosDeTrabajo
 
             log.LogInformation("se agrego el contrato n: {num}", contrato.Codigo);
 
-            return _unitOfWork.ContratoRepository.Insert(contrato);
+            //return _unitOfWork.ContratoRepository.Insert(contrato);
+            throw new NotImplementedException();
         }
 
         private void AgregarAcuerdoBlanco(CrearContratoDTO nuevoContrato, string codigoContrato)

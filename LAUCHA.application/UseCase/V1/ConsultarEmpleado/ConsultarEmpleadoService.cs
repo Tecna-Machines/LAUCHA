@@ -56,7 +56,7 @@ namespace LAUCHA.application.UseCase.ConsultarEmpleado
 
                 try
                 {
-                    contrato = _ContratoRepository.GetActual(empleado.Dni);
+                    contrato = new();/*  _ContratoRepository.GetActual(empleado.Dni);*/
                 }
                 catch (NullReferenceException)
                 {
