@@ -1,4 +1,4 @@
-﻿using LAUCHA.domain.Entities;
+﻿using LAUCHA.domain.Entities.Empleados;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -9,6 +9,7 @@ namespace LAUCHA.infrastructure.config
         public void Configure(EntityTypeBuilder<Empleado> builder)
         {
             builder.HasKey(empleado => empleado.Dni);
+
         }
     }
 }

@@ -1,9 +1,11 @@
-﻿using LAUCHA.application.DTOs.ContratoDTOs;
+﻿using LAUCHA.application.Common.Extensions;
+using LAUCHA.application.DTOs.ContratoDTOs;
 using LAUCHA.application.DTOs.DiasEspecialesDTOs.AusenciasDTO;
 using LAUCHA.application.DTOs.DiasEspecialesDTOs.HabilitacionHsExtraDTO;
 using LAUCHA.application.DTOs.DiasEspecialesDTOs.VacacionesDTO;
 using LAUCHA.application.DTOs.EmpleadoDTO;
 using LAUCHA.application.DTOs.SystemaDTO;
+using LAUCHA.application.Features.Empleados.GetEmpleados;
 using LAUCHA.application.interfaces;
 using LAUCHA.application.interfaces.V2.Credito;
 using LAUCHA.application.interfaces.V2.IDiasEspecialesServices;
@@ -22,14 +24,15 @@ namespace LAUCHA.api.Controllers
         private readonly ICrearConsultarAusencias _ausenciasService;
         private readonly ICrearConsultarHsExtraHabilitadas _hsExtraService;
         private readonly IGetCreditosByDni _getCreditosEmp;
-
+        private readonly IGetEmpleados _getEmpleados;
         public EmpleadoController(ICrearEmpleadoService crearEmpleadoService,
                                   IConsultarEmpleadoService consultarEmpleadoService,
                                   IConsultarContratoTrabajoService consultarContratoTrabajoService,
                                   ICrearConsultarVacacionesService vacacionesService,
                                   ICrearConsultarAusencias ausenciasService,
                                   ICrearConsultarHsExtraHabilitadas hsExtraService,
-                                  IGetCreditosByDni getCreditosEmp)
+                                  IGetCreditosByDni getCreditosEmp,
+                                  IGetEmpleados getEmpleados)
         {
             _crearEmpleadoService = crearEmpleadoService;
             _consultarEmpleadoService = consultarEmpleadoService;
@@ -38,6 +41,7 @@ namespace LAUCHA.api.Controllers
             _ausenciasService = ausenciasService;
             _hsExtraService = hsExtraService;
             _getCreditosEmp = getCreditosEmp;
+            _getEmpleados = getEmpleados;
         }
 
         [HttpPost]
@@ -58,11 +62,12 @@ namespace LAUCHA.api.Controllers
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(List<EmpleadoDTO>), 200)]
-        public IActionResult ObtenerTodosLosEmpleados()
+        public async Task<IResult> ConsultarEmpleados()
         {
-            var result = _consultarEmpleadoService.ConsultarTodosLosEmpleados();
-            return new JsonResult(result) { StatusCode = 200 };
+            var result = await _getEmpleados.GetEmpleados();
+            return result.Math(
+                onSucces: () => Results.Ok(result.Value),
+                onFailure: error => Results.BadRequest(error));
         }
 
 

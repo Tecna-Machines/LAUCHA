@@ -1,4 +1,4 @@
-﻿using LAUCHA.domain.Entities;
+﻿using LAUCHA.domain.Entities.Empleados;
 
 namespace LAUCHA.domain.entities.diasEspeciales
 {

@@ -1,4 +1,5 @@
 ﻿using LAUCHA.domain.Entities.Acuerdos;
+using LAUCHA.domain.Entities.Empleados;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -9,13 +10,20 @@ namespace LAUCHA.infrastructure.config
         public void Configure(EntityTypeBuilder<Acuerdo> builder)
         {
             builder.ToTable("Acuerdos");
-            builder.HasKey(contrato => contrato.Codigo);
+            builder.HasKey(a => a.Codigo);
 
-            builder.HasOne(contrato => contrato.Empleado)
-                .WithMany(empleado => empleado.Contratos)
-                .HasForeignKey(contrato => contrato.DniEmpleado);
+            builder.Property(a => a.DniEmpleado)
+                    .HasColumnName("DniEmpleado")
+                    .IsRequired();
 
-            builder.HasMany(ct => ct.Adicionales)
+            builder.HasOne(a => a.Empleado)
+                .WithMany(e => e.Contratos)
+                .HasForeignKey(a => a.DniEmpleado)
+                .HasPrincipalKey(e => e.Dni)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasConstraintName("FK_Acuerdos_Empleados_DniEmpleado");
+
+            builder.HasMany(a => a.Adicionales)
                     .WithOne()
                     .HasForeignKey(ad => ad.CodigoContrato);
 

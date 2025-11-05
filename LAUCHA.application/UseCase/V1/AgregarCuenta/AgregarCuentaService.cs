@@ -2,7 +2,7 @@
 using LAUCHA.application.interfaces;
 using LAUCHA.application.Mappers;
 using LAUCHA.domain.entities;
-using LAUCHA.domain.Entities;
+using LAUCHA.domain.Entities.Empleados;
 using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.domain.interfaces.IUnitsOfWork;
 

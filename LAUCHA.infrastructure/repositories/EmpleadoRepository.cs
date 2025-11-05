@@ -1,12 +1,11 @@
-﻿using LAUCHA.application.Exceptios;
-using LAUCHA.domain.Entities;
+﻿using LAUCHA.domain.Entities.Empleados;
 using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.infrastructure.persistence;
 using Microsoft.EntityFrameworkCore;
 
 namespace LAUCHA.infrastructure.repositories
 {
-    public class EmpleadoRepository : IGenericRepository<Empleado>
+    public class EmpleadoRepository : IEmpleadoRepository
     {
         private readonly LiquidacionesDbContext _context;
 
@@ -14,46 +13,69 @@ namespace LAUCHA.infrastructure.repositories
         {
             _context = context;
         }
+        public void Insert(Empleado emp)
+        {
+            _context.Add(emp);
+            _context.SaveChanges();
+        }
 
+        public Task<Empleado> Change(Empleado emp)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<Empleado>> FindByNameOrSurname(string name)
+        {
+            return await _context.Empleados
+                        .AsNoTracking()
+                        .Where(emp =>
+                                EF.Functions.Like(emp.Nombre.ToLower(), $"%{name.ToLower()}%") ||
+                                EF.Functions.Like(emp.Apellido.ToLower(), $"%{name.ToLower()}%"))
+                        .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Empleado>> GetAll()
+        {
+            return await _context.Empleados.Include(e => e.Cuenta).ToListAsync();
+        }
+
+        public async Task<Empleado?> GetByDni(string dni)
+        {
+            return await _context.Empleados.FindAsync(dni);
+        }
+
+    }
+
+    public class Borrame : IGenericRepository<Empleado>
+    {
         public Empleado Delete(string id)
         {
-            Empleado? empleadoEncontrado = _context.Empleados.Find(id);
-
-            if (empleadoEncontrado == null) { throw new NullReferenceException(); }
-
-            _context.Remove(empleadoEncontrado);
-            return empleadoEncontrado;
+            throw new NotImplementedException();
         }
 
         public IList<Empleado> GetAll()
         {
-            return _context.Empleados.ToList();
+            throw new NotImplementedException();
         }
 
         public Empleado GetById(string id)
         {
-            Empleado? empleadoEncontrado = _context.Empleados
-                                          .Include(e => e.Cuenta)
-                                          .Where(e => e.Dni.Equals(id))
-                                          .First();
-
-            return empleadoEncontrado != null ?
-                   empleadoEncontrado : throw new ServicioException("no se encontro al empleado", "menu service");
-        }
-
-        public Empleado Insert(Empleado nuevoEmpleado)
-        {
-            _context.Add(nuevoEmpleado);
-            return nuevoEmpleado;
-        }
-
-        public Empleado Update(Empleado empleadoCambiar)
-        {
-            // TODO: implementar metodo
             throw new NotImplementedException();
         }
 
-        public int Save() => _context.SaveChanges();
+        public Empleado Insert(Empleado entity)
+        {
+            throw new NotImplementedException();
+        }
 
+        public int Save()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Empleado Update(Empleado entity)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

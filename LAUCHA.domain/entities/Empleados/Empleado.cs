@@ -2,7 +2,7 @@
 using LAUCHA.domain.entities.diasEspeciales;
 using LAUCHA.domain.Entities.Acuerdos;
 
-namespace LAUCHA.domain.Entities
+namespace LAUCHA.domain.Entities.Empleados
 {
     public class Empleado
     {

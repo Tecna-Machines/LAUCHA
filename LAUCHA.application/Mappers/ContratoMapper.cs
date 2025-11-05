@@ -3,8 +3,8 @@ using LAUCHA.application.DTOs.AdicionalDTOs;
 using LAUCHA.application.DTOs.ContratoDTOs;
 using LAUCHA.application.DTOs.ModalidadDTOs;
 using LAUCHA.domain.entities.Contrato;
-using LAUCHA.domain.Entities;
 using LAUCHA.domain.Entities.Acuerdos;
+using LAUCHA.domain.Entities.Empleados;
 
 namespace LAUCHA.application.Mappers
 {

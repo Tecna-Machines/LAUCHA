@@ -1,7 +1,7 @@
 ﻿using LAUCHA.application.DTOs.CreditoDTOs;
 using LAUCHA.application.interfaces.V2.Credito;
 using LAUCHA.application.Mappers;
-using LAUCHA.domain.Entities;
+using LAUCHA.domain.Entities.Empleados;
 using LAUCHA.domain.interfaces.IRepositories;
 
 namespace LAUCHA.application.UseCase.V2.Credito.GetByEmpleadoId

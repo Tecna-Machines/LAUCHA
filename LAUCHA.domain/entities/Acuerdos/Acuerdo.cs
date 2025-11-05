@@ -1,4 +1,5 @@
 ﻿using LAUCHA.domain.entities.Contrato;
+using LAUCHA.domain.Entities.Empleados;
 
 namespace LAUCHA.domain.Entities.Acuerdos
 {
@@ -17,6 +18,7 @@ namespace LAUCHA.domain.Entities.Acuerdos
         public string? Notas { get; set; }
         public string DniEmpleado { get; set; } = null!;
         public Empleado Empleado { get; set; } = null!;
+
         public TipoSueldo TipoSueldo { get; set; }
         public ICollection<Adicional> Adicionales { get; set; } = null!;
 

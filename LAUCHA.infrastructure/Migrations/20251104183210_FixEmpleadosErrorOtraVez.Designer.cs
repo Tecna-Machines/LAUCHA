@@ -3,6 +3,7 @@ using System;
 using LAUCHA.infrastructure.persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LAUCHA.infrastructure.Migrations
 {
     [DbContext(typeof(LiquidacionesDbContext))]
-    partial class LiquidacionesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251104183210_FixEmpleadosErrorOtraVez")]
+    partial class FixEmpleadosErrorOtraVez
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,6 +31,9 @@ namespace LAUCHA.infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(255)")
                         .HasColumnName("DniEmpleado");
+
+                    b.Property<string>("EmpleadoDni")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTime>("Fecha")
                         .HasColumnType("datetime(6)");
@@ -50,6 +56,8 @@ namespace LAUCHA.infrastructure.Migrations
                     b.HasKey("Codigo");
 
                     b.HasIndex("DniEmpleado");
+
+                    b.HasIndex("EmpleadoDni");
 
                     b.ToTable("Acuerdos", (string)null);
                 });
@@ -709,14 +717,16 @@ namespace LAUCHA.infrastructure.Migrations
 
             modelBuilder.Entity("LAUCHA.domain.Entities.Acuerdos.Acuerdo", b =>
                 {
-                    b.HasOne("LAUCHA.domain.Entities.Empleados.Empleado", "Empleado")
-                        .WithMany("Contratos")
+                    b.HasOne("LAUCHA.domain.Entities.Empleados.Empleado", null)
+                        .WithMany()
                         .HasForeignKey("DniEmpleado")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("FK_Acuerdos_Empleados_DniEmpleado");
 
-                    b.Navigation("Empleado");
+                    b.HasOne("LAUCHA.domain.Entities.Empleados.Empleado", null)
+                        .WithMany("Contratos")
+                        .HasForeignKey("EmpleadoDni");
                 });
 
             modelBuilder.Entity("LAUCHA.domain.Entities.Acuerdos.AcuerdoBlanco", b =>

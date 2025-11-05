@@ -1,7 +1,7 @@
 ﻿using LAUCHA.application.DTOs.CuentaDTOs;
 using LAUCHA.application.DTOs.RetencionesFijasDTOs;
 using LAUCHA.domain.entities;
-using LAUCHA.domain.Entities;
+using LAUCHA.domain.Entities.Empleados;
 
 namespace LAUCHA.application.Mappers
 {

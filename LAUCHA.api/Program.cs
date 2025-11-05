@@ -45,8 +45,8 @@ using LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo8;
 using LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo9;
 using LAUCHA.domain.entities;
 using LAUCHA.domain.entities.Contrato;
-using LAUCHA.domain.Entities;
 using LAUCHA.domain.Entities.Acuerdos;
+using LAUCHA.domain.Entities.Empleados;
 using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.domain.interfaces.IServices;
 using LAUCHA.domain.interfaces.IUnitsOfWork;
@@ -105,7 +105,7 @@ builder.Services.AddAplicationServices();
 
 builder.Services.AddScoped<ICrearEmpleadoService, AgregarEmpleadoNuevoService>();
 builder.Services.AddScoped<IUnitOfWorkEmpleado, UnitOfWorkEmpleado>();
-builder.Services.AddScoped<IGenericRepository<Empleado>, EmpleadoRepository>();
+builder.Services.AddScoped<IGenericRepository<Empleado>, Borrame>();
 builder.Services.AddScoped<IGenericRepository<Cuenta>, CuentaRepository>();
 
 builder.Services.AddScoped<IGenericRepository<Adicional>, AdicionalRepository>();

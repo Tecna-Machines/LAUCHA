@@ -2,8 +2,8 @@
 using LAUCHA.application.interfaces;
 using LAUCHA.application.Mappers;
 using LAUCHA.domain.entities.Contrato;
-using LAUCHA.domain.Entities;
 using LAUCHA.domain.Entities.Acuerdos;
+using LAUCHA.domain.Entities.Empleados;
 using LAUCHA.domain.interfaces.IRepositories;
 
 namespace LAUCHA.application.UseCase.ConsultarContratoDeTrabajo

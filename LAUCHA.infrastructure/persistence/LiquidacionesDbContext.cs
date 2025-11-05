@@ -1,8 +1,8 @@
 ﻿using LAUCHA.domain.entities;
 using LAUCHA.domain.entities.Contrato;
 using LAUCHA.domain.entities.diasEspeciales;
-using LAUCHA.domain.Entities;
 using LAUCHA.domain.Entities.Acuerdos;
+using LAUCHA.domain.Entities.Empleados;
 using LAUCHA.infrastructure.config;
 using LAUCHA.infrastructure.Data;
 using Microsoft.EntityFrameworkCore;

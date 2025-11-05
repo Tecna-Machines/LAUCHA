@@ -17,7 +17,6 @@ namespace LAUCHA.api.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(ConceptoDTO), 201)]
         public async Task<IResult> CrearAcuerdo(CrearAcuerdoRequest req)
         {
             var result = await _crearAcuerdo.Crear(req);
@@ -26,5 +25,6 @@ namespace LAUCHA.api.Controllers
                 onSucces: () => Results.Ok(result.Value),
                 onFailure: error => Results.BadRequest(error));
         }
+
     }
 }
