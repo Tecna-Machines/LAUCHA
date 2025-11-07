@@ -5,11 +5,13 @@ using LAUCHA.application.DTOs.DiasEspecialesDTOs.HabilitacionHsExtraDTO;
 using LAUCHA.application.DTOs.DiasEspecialesDTOs.VacacionesDTO;
 using LAUCHA.application.DTOs.EmpleadoDTO;
 using LAUCHA.application.DTOs.SystemaDTO;
+using LAUCHA.application.Features.Empleados.CrearEmpleado;
 using LAUCHA.application.Features.Empleados.GetEmpleados;
 using LAUCHA.application.interfaces;
 using LAUCHA.application.interfaces.V2.Credito;
 using LAUCHA.application.interfaces.V2.IDiasEspecialesServices;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace LAUCHA.api.Controllers
 {
@@ -17,7 +19,6 @@ namespace LAUCHA.api.Controllers
     [ApiController]
     public class EmpleadoController : ControllerBase
     {
-        private readonly ICrearEmpleadoService _crearEmpleadoService;
         private readonly IConsultarEmpleadoService _consultarEmpleadoService;
         private readonly IConsultarContratoTrabajoService _consultarContratoTrabajoService;
         private readonly ICrearConsultarVacacionesService _vacacionesService;
@@ -25,16 +26,16 @@ namespace LAUCHA.api.Controllers
         private readonly ICrearConsultarHsExtraHabilitadas _hsExtraService;
         private readonly IGetCreditosByDni _getCreditosEmp;
         private readonly IGetEmpleados _getEmpleados;
-        public EmpleadoController(ICrearEmpleadoService crearEmpleadoService,
-                                  IConsultarEmpleadoService consultarEmpleadoService,
+        private readonly ICrearEmpleado _crearEmpleados;
+        public EmpleadoController(IConsultarEmpleadoService consultarEmpleadoService,
                                   IConsultarContratoTrabajoService consultarContratoTrabajoService,
                                   ICrearConsultarVacacionesService vacacionesService,
                                   ICrearConsultarAusencias ausenciasService,
                                   ICrearConsultarHsExtraHabilitadas hsExtraService,
                                   IGetCreditosByDni getCreditosEmp,
-                                  IGetEmpleados getEmpleados)
+                                  IGetEmpleados getEmpleados,
+                                  ICrearEmpleado crearEmpleados)
         {
-            _crearEmpleadoService = crearEmpleadoService;
             _consultarEmpleadoService = consultarEmpleadoService;
             _consultarContratoTrabajoService = consultarContratoTrabajoService;
             _vacacionesService = vacacionesService;
@@ -42,23 +43,18 @@ namespace LAUCHA.api.Controllers
             _hsExtraService = hsExtraService;
             _getCreditosEmp = getCreditosEmp;
             _getEmpleados = getEmpleados;
+            _crearEmpleados = crearEmpleados;
         }
 
         [HttpPost]
         [ProducesResponseType(typeof(EmpleadoDTO), 201)]
-        public IActionResult CrearNuevoEmpleado(CrearEmpleadoDTO nuevoEmpleado)
+        public async Task<IResult> CargarNuevo(CrearEmpleadoRequest req)
         {
-            try
-            {
-                var empleado = _crearEmpleadoService.CargarNuevoEmpleado(nuevoEmpleado);
-                return new JsonResult(empleado) { StatusCode = 201 };
-            }
-            catch (Exception)
-            {
-                var mensaje = new RespuestaSystema { Mensaje = "ocurrio un problema", StatusCode = 500 };
-                return new JsonResult(mensaje) { StatusCode = mensaje.StatusCode };
-            }
+            var result = await _crearEmpleados.Crear(req);
 
+            return result.Math(
+                onSucces: () => Results.Created($"empleado/{result.Value.Dni}",result.Value),
+                onFailure: error => Results.BadRequest(error));
         }
 
         [HttpGet]
@@ -79,7 +75,7 @@ namespace LAUCHA.api.Controllers
             return new JsonResult(result) { StatusCode = 200 };
         }
 
-        [HttpGet("{dni}/contrato")]
+        [HttpGet("{dni}/acuerdos")]
         [ProducesResponseType(typeof(ContratoDTO), 200)]
         public IActionResult ObtenerContratoEmpleado(string dni)
         {
@@ -94,54 +90,6 @@ namespace LAUCHA.api.Controllers
             return new JsonResult(result) { StatusCode = 200 };
         }
 
-        [HttpPost("vacaciones")]
-        public IActionResult CrearVacaciones(CrearVacacionesDTO vacaciones)
-        {
-            var result = _vacacionesService.crearNuevaVacacion(vacaciones);
-            return new JsonResult(result) { StatusCode = 201 };
-        }
-
-        [HttpGet("{dni}/vacaciones")]
-        public IActionResult ConsultarVacacionesEmpleado(string dni, int? anio)
-        {
-            var result = _vacacionesService.obtenerVacacionesEmpleado(dni, anio);
-            return new JsonResult(result) { StatusCode = 200 };
-        }
-
-        [HttpPost("ausencia")]
-        public IActionResult AgregarAusencia(CrearAusenciaDTO ausencia)
-        {
-            var result = _ausenciasService.crearAusencia(ausencia);
-            return new JsonResult(result) { StatusCode = 201 };
-        }
-
-        [HttpGet("{dni}/ausencias")]
-        public IActionResult ConsultarAusencias(string dni, int? anio)
-        {
-            var result = _ausenciasService.obtenerAusenciasEmpleado(dni, anio);
-            return new JsonResult(result) { StatusCode = 200 };
-        }
-
-        [HttpGet("{dni}/creditos")]
-        public IActionResult ConsultarCreditos(string dni)
-        {
-            var result = _getCreditosEmp.ObtenerCreditosDeUnEmpleado(dni);
-            return new JsonResult(result) { StatusCode = 200 };
-        }
-
-        [HttpPost("habilitar-hs-extra")]
-        public IActionResult AgregarPermisoHsExtra(CrearHabilitacionHsExtraDTO hsExtra)
-        {
-            var result = _hsExtraService.crearPermisoHsExtra(hsExtra);
-            return new JsonResult(result) { StatusCode = 201 };
-        }
-
-        [HttpGet("{dni}/habilitar-hs-extra")]
-        public IActionResult ConsultarHsExtraHabilitadas(string dni, DateTime inicioPeriodo, DateTime finPeriodo)
-        {
-            var result = _hsExtraService.verPermisoHsExtraPeriodoEmpleado(dni, inicioPeriodo, finPeriodo);
-            return new JsonResult(result) { StatusCode = 200 };
-        }
 
 
     }

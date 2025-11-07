@@ -6,7 +6,7 @@
                                       string Nombre,
                                       string Apellido,
                                       string Cuenta,
-                                      string Acuerdo,
+                                      string AcuerdoId,
                                       int TipoSueldo);
 
 

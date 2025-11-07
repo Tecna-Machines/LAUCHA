@@ -2,7 +2,7 @@
 {
     public interface IEmpleadoRepository
     {
-        void Insert(Empleado emp);
+        Task Insert(Empleado emp);
         Task<Empleado?> GetByDni(string dni);
         Task<IEnumerable<Empleado>> GetAll();
         Task<IEnumerable<Empleado>> FindByNameOrSurname(string name);

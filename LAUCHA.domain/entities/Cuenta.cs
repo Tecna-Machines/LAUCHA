@@ -15,6 +15,5 @@ namespace LAUCHA.domain.entities
         public ICollection<Retencion> Retenciones { get; set; } = null!;
         public ICollection<NoRemuneracion> NoRemuneraciones { get; set; } = null!;
         public ICollection<Remuneracion> Remuneraciones { get; set; } = null!;
-
     }
 }

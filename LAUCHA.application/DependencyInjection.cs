@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using LAUCHA.application.Features.Acuerdos.CrearAcuerdo;
+using LAUCHA.application.Features.Empleados.CrearEmpleado;
 using LAUCHA.application.Features.Empleados.GetEmpleados;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -24,7 +25,9 @@ namespace LAUCHA.application
 
         private static IServiceCollection AddEmpleadosFeature(this IServiceCollection services)
         {
+            services.AddScoped<IValidator<CrearEmpleadoRequest>, CrearEmpleadoValidator>();
             services.AddScoped<IGetEmpleados, GetEmpleadosHandler>();
+            services.AddScoped<IFabricaEmpleado, CrearEmpleadoHandler>();
             return services;
         }
     }

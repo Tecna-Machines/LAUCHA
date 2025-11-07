@@ -13,10 +13,10 @@ namespace LAUCHA.infrastructure.repositories
         {
             _context = context;
         }
-        public void Insert(Empleado emp)
+        public async Task Insert(Empleado emp)
         {
-            _context.Add(emp);
-            _context.SaveChanges();
+            await _context.AddAsync(emp);
+            await _context.SaveChangesAsync();
         }
 
         public Task<Empleado> Change(Empleado emp)

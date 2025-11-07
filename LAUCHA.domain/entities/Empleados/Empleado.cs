@@ -25,6 +25,7 @@ namespace LAUCHA.domain.Entities.Empleados
         public ICollection<AvisosAusencia> Ausencias { get; set; } = null!;
         public ICollection<HabilitacionHorasExtra> HabilitacionesHorasExtra { get; set; } = null!;
         public ICollection<PeriodoVacaciones> PeriodosVacaciones { get; set; } = null!;
+
     }
 
 }
