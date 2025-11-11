@@ -15,5 +15,15 @@ namespace LAUCHA.domain.entities
         public ICollection<Retencion> Retenciones { get; set; } = null!;
         public ICollection<NoRemuneracion> NoRemuneraciones { get; set; } = null!;
         public ICollection<Remuneracion> Remuneraciones { get; set; } = null!;
+
+        private bool EstaActiva() => estadoCuenta;
+        public Cuenta() { }
+        public Cuenta(Empleado empleado)
+        {
+            NumeroCuenta = $"{empleado.Dni}:00";
+            DniEmpleado = empleado.Dni;
+            estadoCuenta = true;
+            FechaCreacion = DateTime.Now;
+        }
     }
 }

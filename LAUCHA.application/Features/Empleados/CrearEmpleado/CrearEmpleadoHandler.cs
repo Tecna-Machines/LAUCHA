@@ -28,7 +28,7 @@ namespace LAUCHA.application.Features.Empleados.CrearEmpleado
             if(validacion.IsFailure)
                 return Result.Failure<CrearEmpleadoResponse>(validacion.Error);
 
-            var emp = await _fabricaEmpleados.Crear(req);
+            var emp =  _fabricaEmpleados.Crear(req);
 
             try
             {

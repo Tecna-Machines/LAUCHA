@@ -4,14 +4,12 @@ using LAUCHA.application.interfaces.V2.Credito;
 using LAUCHA.application.interfaces.V2.IDiasEspecialesServices;
 using LAUCHA.application.interfaces.V2.Liquidacion;
 using LAUCHA.application.UseCase.AgregarCuenta;
-using LAUCHA.application.UseCase.AgregarEmpleadoNuevo;
 using LAUCHA.application.UseCase.AgregarUnAdicional;
 using LAUCHA.application.UseCase.ConsultarAdicionales;
 using LAUCHA.application.UseCase.ConsultarContratoDeTrabajo;
 using LAUCHA.application.UseCase.ConsultarEmpleado;
 using LAUCHA.application.UseCase.ConsultarLiquidacion;
 using LAUCHA.application.UseCase.ConsultarRemuneraciones;
-using LAUCHA.application.UseCase.ContratosDeTrabajo;
 using LAUCHA.application.UseCase.CrearRemuneracionNueva;
 using LAUCHA.application.UseCase.CrearRetencionesFijas;
 using LAUCHA.application.UseCase.DiasEspeciales.CrearConsultarAusencias;
@@ -103,7 +101,6 @@ builder.Services.AddDbContext<LiquidacionesDbContext>(options =>
 builder.Services.AddInfrastructureServices();
 builder.Services.AddAplicationServices();
 
-builder.Services.AddScoped<ICrearEmpleadoService, AgregarEmpleadoNuevoService>();
 builder.Services.AddScoped<IUnitOfWorkEmpleado, UnitOfWorkEmpleado>();
 builder.Services.AddScoped<IGenericRepository<Empleado>, Borrame>();
 builder.Services.AddScoped<IGenericRepository<Cuenta>, CuentaRepository>();
@@ -114,7 +111,6 @@ builder.Services.AddScoped<IUnitOfWorkContrato, UnitOfWorkContrato>();
 builder.Services.AddScoped<ICrearAdicionalService, CrearAdicionalService>();
 builder.Services.AddScoped<IConsultarAdicionalesService, ConsultarAdicionales>();
 builder.Services.AddScoped<IConsultarContratoTrabajoService, ConsultarContratoTrabajoService>();
-builder.Services.AddScoped<ICrearContratoService, CrearContratoService>();
 
 builder.Services.AddScoped<ICuentaRepository, CuentaRepository>();
 builder.Services.AddScoped<IConsultarEmpleadoService, ConsultarEmpleadoService>();

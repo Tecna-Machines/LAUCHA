@@ -27,7 +27,8 @@ namespace LAUCHA.application
         {
             services.AddScoped<IValidator<CrearEmpleadoRequest>, CrearEmpleadoValidator>();
             services.AddScoped<IGetEmpleados, GetEmpleadosHandler>();
-            services.AddScoped<IFabricaEmpleado, CrearEmpleadoHandler>();
+            services.AddScoped<ICrearEmpleado, CrearEmpleadoHandler>();
+            services.AddScoped<IFabricaEmpleado, FabricaEmpleado>();
             return services;
         }
     }

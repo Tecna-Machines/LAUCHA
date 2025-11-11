@@ -1,17 +1,10 @@
 ﻿using LAUCHA.application.Common.Extensions;
 using LAUCHA.application.DTOs.ContratoDTOs;
-using LAUCHA.application.DTOs.DiasEspecialesDTOs.AusenciasDTO;
-using LAUCHA.application.DTOs.DiasEspecialesDTOs.HabilitacionHsExtraDTO;
-using LAUCHA.application.DTOs.DiasEspecialesDTOs.VacacionesDTO;
 using LAUCHA.application.DTOs.EmpleadoDTO;
-using LAUCHA.application.DTOs.SystemaDTO;
 using LAUCHA.application.Features.Empleados.CrearEmpleado;
 using LAUCHA.application.Features.Empleados.GetEmpleados;
 using LAUCHA.application.interfaces;
-using LAUCHA.application.interfaces.V2.Credito;
-using LAUCHA.application.interfaces.V2.IDiasEspecialesServices;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace LAUCHA.api.Controllers
 {
@@ -21,27 +14,15 @@ namespace LAUCHA.api.Controllers
     {
         private readonly IConsultarEmpleadoService _consultarEmpleadoService;
         private readonly IConsultarContratoTrabajoService _consultarContratoTrabajoService;
-        private readonly ICrearConsultarVacacionesService _vacacionesService;
-        private readonly ICrearConsultarAusencias _ausenciasService;
-        private readonly ICrearConsultarHsExtraHabilitadas _hsExtraService;
-        private readonly IGetCreditosByDni _getCreditosEmp;
         private readonly IGetEmpleados _getEmpleados;
         private readonly ICrearEmpleado _crearEmpleados;
         public EmpleadoController(IConsultarEmpleadoService consultarEmpleadoService,
                                   IConsultarContratoTrabajoService consultarContratoTrabajoService,
-                                  ICrearConsultarVacacionesService vacacionesService,
-                                  ICrearConsultarAusencias ausenciasService,
-                                  ICrearConsultarHsExtraHabilitadas hsExtraService,
-                                  IGetCreditosByDni getCreditosEmp,
                                   IGetEmpleados getEmpleados,
                                   ICrearEmpleado crearEmpleados)
         {
             _consultarEmpleadoService = consultarEmpleadoService;
             _consultarContratoTrabajoService = consultarContratoTrabajoService;
-            _vacacionesService = vacacionesService;
-            _ausenciasService = ausenciasService;
-            _hsExtraService = hsExtraService;
-            _getCreditosEmp = getCreditosEmp;
             _getEmpleados = getEmpleados;
             _crearEmpleados = crearEmpleados;
         }
@@ -53,7 +34,7 @@ namespace LAUCHA.api.Controllers
             var result = await _crearEmpleados.Crear(req);
 
             return result.Math(
-                onSucces: () => Results.Created($"empleado/{result.Value.Dni}",result.Value),
+                onSucces: () => Results.Created($"empleado/{result.Value.Dni}", result.Value),
                 onFailure: error => Results.BadRequest(error));
         }
 
