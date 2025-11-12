@@ -1,5 +1,7 @@
 ﻿using FluentValidation;
 using LAUCHA.application.Features.Acuerdos.CrearAcuerdo;
+using LAUCHA.application.Features.Acuerdos.GetAcuerdoById;
+using LAUCHA.application.Features.Acuerdos.GetAcuerdosEmpleado;
 using LAUCHA.application.Features.Empleados.CrearEmpleado;
 using LAUCHA.application.Features.Empleados.GetEmpleados;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,6 +22,9 @@ namespace LAUCHA.application
         {
             services.AddScoped<IValidator<CrearAcuerdoRequest>, CrearAcuerdoValidator>();
             services.AddScoped<ICrearAcuerdo, CrearAcuerdoHandler>();
+            services.AddScoped<IGetAcuerdoById, GetAcuerdoById>();
+            services.AddScoped<IGetAcuerdosEmpleado,GetAcuerdosEmpleadoHandler>();
+
             return services;
         }
 
@@ -29,6 +34,7 @@ namespace LAUCHA.application
             services.AddScoped<IGetEmpleados, GetEmpleadosHandler>();
             services.AddScoped<ICrearEmpleado, CrearEmpleadoHandler>();
             services.AddScoped<IFabricaEmpleado, FabricaEmpleado>();
+
             return services;
         }
     }

@@ -51,7 +51,8 @@ namespace LAUCHA.application.Features.Acuerdos.CrearAcuerdo
             Acuerdo acuerdo = Acuerdo.Crear(req.Dni,
                                             req.Sueldo,
                                             req.ValorBlanco,
-                                            req.ValorHora);
+                                            req.ValorHora,
+                                            MapTipoSueldo(req.TipoSueldo));
 
             acuerdo.AgregarNota(req.Notas);
 
@@ -74,6 +75,16 @@ namespace LAUCHA.application.Features.Acuerdos.CrearAcuerdo
                 numeroAdicional++;
             }
             return acuerdo;
+        }
+
+        private TipoSueldo MapTipoSueldo(int tipo)
+        {
+            if (tipo == 10) return TipoSueldo.Mensual;
+            if (tipo == 12) return TipoSueldo.MensualFijoMasExtra;
+            if (tipo == 20) return TipoSueldo.QuincenalHora;
+            if (tipo == 22) return TipoSueldo.QuincenalFijo;
+
+            throw new InvalidOperationException("tipo sueldo invalido");
         }
 
 

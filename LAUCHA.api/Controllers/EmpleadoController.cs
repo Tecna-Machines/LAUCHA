@@ -1,6 +1,7 @@
 ﻿using LAUCHA.application.Common.Extensions;
 using LAUCHA.application.DTOs.ContratoDTOs;
 using LAUCHA.application.DTOs.EmpleadoDTO;
+using LAUCHA.application.Features.Acuerdos.GetAcuerdosEmpleado;
 using LAUCHA.application.Features.Empleados.CrearEmpleado;
 using LAUCHA.application.Features.Empleados.GetEmpleados;
 using LAUCHA.application.interfaces;
@@ -12,19 +13,16 @@ namespace LAUCHA.api.Controllers
     [ApiController]
     public class EmpleadoController : ControllerBase
     {
-        private readonly IConsultarEmpleadoService _consultarEmpleadoService;
-        private readonly IConsultarContratoTrabajoService _consultarContratoTrabajoService;
         private readonly IGetEmpleados _getEmpleados;
         private readonly ICrearEmpleado _crearEmpleados;
-        public EmpleadoController(IConsultarEmpleadoService consultarEmpleadoService,
-                                  IConsultarContratoTrabajoService consultarContratoTrabajoService,
-                                  IGetEmpleados getEmpleados,
-                                  ICrearEmpleado crearEmpleados)
+        private readonly IGetAcuerdosEmpleado _acuerdos;
+        public EmpleadoController(IGetEmpleados getEmpleados,
+                                  ICrearEmpleado crearEmpleados,
+                                  IGetAcuerdosEmpleado acuerdos)
         {
-            _consultarEmpleadoService = consultarEmpleadoService;
-            _consultarContratoTrabajoService = consultarContratoTrabajoService;
             _getEmpleados = getEmpleados;
             _crearEmpleados = crearEmpleados;
+            _acuerdos = acuerdos;
         }
 
         [HttpPost]
@@ -33,7 +31,7 @@ namespace LAUCHA.api.Controllers
         {
             var result = await _crearEmpleados.Crear(req);
 
-            return result.Math(
+            return result.Match(
                 onSucces: () => Results.Created($"empleado/{result.Value.Dni}", result.Value),
                 onFailure: error => Results.BadRequest(error));
         }
@@ -42,7 +40,7 @@ namespace LAUCHA.api.Controllers
         public async Task<IResult> ConsultarEmpleados()
         {
             var result = await _getEmpleados.GetEmpleados();
-            return result.Math(
+            return result.Match(
                 onSucces: () => Results.Ok(result.Value),
                 onFailure: error => Results.BadRequest(error));
         }
@@ -52,25 +50,18 @@ namespace LAUCHA.api.Controllers
         [ProducesResponseType(typeof(EmpleadoDTO), 200)]
         public IActionResult ObtenerEmpleado(string dni)
         {
-            var result = _consultarEmpleadoService.ConsultarUnEmpleado(dni);
-            return new JsonResult(result) { StatusCode = 200 };
+            throw new NotImplementedException("falta.implementar");
         }
 
         [HttpGet("{dni}/acuerdos")]
         [ProducesResponseType(typeof(ContratoDTO), 200)]
-        public IActionResult ObtenerContratoEmpleado(string dni)
+        public async Task<IResult> GetHistorialAcuerdos(string dni)
         {
-            var result = _consultarContratoTrabajoService.ObtenerContratoDeEmpleado(dni);
-            return new JsonResult(result) { StatusCode = 200 };
+            var result = await _acuerdos.GetAcuerdosEmpleado(new GetAcuerdosEmpleadoRequest(dni));
+            return result.Match(
+                onSucces: () => Results.Ok(result.Value),
+                onFailure: error => Results.BadRequest(error));
         }
-
-        [HttpGet("{dni}/contratos")]
-        public IActionResult ObtenerLosContratosDeUnEmpleado(string dni)
-        {
-            var result = _consultarContratoTrabajoService.ObtenerTodosLosContratosDeEmpleado(dni);
-            return new JsonResult(result) { StatusCode = 200 };
-        }
-
 
 
     }

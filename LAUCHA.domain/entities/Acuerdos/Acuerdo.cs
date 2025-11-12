@@ -26,7 +26,8 @@ namespace LAUCHA.domain.Entities.Acuerdos
         public static Acuerdo Crear(string dni,
                                     decimal sueldo,
                                     decimal valorBlanco,
-                                    decimal valorHora)
+                                    decimal valorHora,
+                                    TipoSueldo tipoSueldo)
         {
             return new Acuerdo
             {
@@ -36,6 +37,7 @@ namespace LAUCHA.domain.Entities.Acuerdos
                 Fecha = DateTime.Now,
                 ValorBlanco = valorBlanco,
                 ValorHora = valorHora,
+                TipoSueldo = tipoSueldo,
                 Adicionales = new List<Adicional>()
             };
         }

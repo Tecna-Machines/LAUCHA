@@ -25,6 +25,7 @@ namespace LAUCHA.infrastructure.repositories
         {
             return await _context.Acuerdos
                                    .Where(ac => ac.DniEmpleado == dni)
+                                   .OrderByDescending(ac => ac.Fecha)
                                    .ToListAsync();
         }
 
@@ -32,6 +33,14 @@ namespace LAUCHA.infrastructure.repositories
         {
             await _context.Acuerdos.AddAsync(acuerdo);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<Acuerdo?> GetById(string id)
+        {
+            return await _context.Acuerdos
+                         .Include(ac => ac.Empleado)
+                         .Include(ac => ac.Adicionales)
+                         .FirstOrDefaultAsync(ac => ac.Codigo == id);
         }
     }
 }
