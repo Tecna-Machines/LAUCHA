@@ -1,4 +1,5 @@
 ﻿using LAUCHA.domain.entities;
+using LAUCHA.domain.Entities.Liquidacion;
 using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.domain.interfaces.IUnitsOfWork;
 using LAUCHA.infrastructure.persistence;
@@ -11,7 +12,7 @@ namespace LAUCHA.infrastructure.unitOfWork
         public IGenericRepository<NoRemuneracion> NORemuneracionRepository { get; }
         public IGenericRepository<Remuneracion> RemuneracionRepository { get; }
         public IGenericRepository<Descuento> DescuentoRepository { get; }
-        public IGenericRepository<LiquidacionPersonal> LiquidacionRepository { get; }
+        public IGenericRepository<Liquidacion> LiquidacionRepository { get; }
         public IGenericRepository<RemuneracionPorLiquidacionPersonal> RemuneracionLiquidacion { get; }
         public IGenericRepository<RetencionPorLiquidacionPersonal> RetencionLiquidacion { get; }
         public IGenericRepository<DescuentoPorLiquidacionPersonal> DescuentoLiquidacion { get; }
@@ -26,7 +27,7 @@ namespace LAUCHA.infrastructure.unitOfWork
                                      IGenericRepository<RemuneracionPorLiquidacionPersonal> remuneracionLiquidacion,
                                      IGenericRepository<RetencionPorLiquidacionPersonal> retencionLiquidacion,
                                      IGenericRepository<DescuentoPorLiquidacionPersonal> descuentoLiquidacion,
-                                     IGenericRepository<LiquidacionPersonal> liquidacionRepository,
+                                     IGenericRepository<Liquidacion> liquidacionRepository,
                                      IGenericRepository<NoRemuneracionPorLiquidacionPersonal> noRemuneracionLiquidacion,
                                      IGenericRepository<NoRemuneracion> nORemuneracionRepository,
                                      IGenericRepository<Descuento> descuentoRepository)

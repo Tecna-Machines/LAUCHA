@@ -1,4 +1,6 @@
-﻿namespace LAUCHA.domain.entities
+﻿using LAUCHA.domain.Entities.Liquidacion;
+
+namespace LAUCHA.domain.entities
 {
     public class LiquidacionGeneral
     {
@@ -8,6 +10,6 @@
         public decimal TotalDescuentos { get; set; }
         public DateTime InicioPeriodo { get; set; }
         public DateTime FinPeriodo { get; set; }
-        public ICollection<LiquidacionPersonal> LiquidacionesPersonales { get; set; } = null!;
+        public ICollection<Liquidacion> LiquidacionesPersonales { get; set; } = null!;
     }
 }

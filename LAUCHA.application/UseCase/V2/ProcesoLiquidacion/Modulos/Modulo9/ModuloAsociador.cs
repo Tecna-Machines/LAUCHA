@@ -20,7 +20,7 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo9
         public async Task EjecutarRutina(LiquidacionPayload payload)
         {
             var liquidacion = this.InicializarLiquidacion(payload);
-            string codigo = liquidacion.CodigoLiquidacion;
+            string codigo = liquidacion.Codigo;
 
             if (!payload.esSimulacion)
             {
@@ -37,9 +37,9 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo9
 
         }
 
-        private LiquidacionPersonal InicializarLiquidacion(LiquidacionPayload payload)
+        private domain.Entities.Liquidacion.Liquidacion InicializarLiquidacion(LiquidacionPayload payload)
         {
-            LiquidacionPersonal liquidacion = new();
+            domain.Entities.Liquidacion.Liquidacion liquidacion = new();
 
             DateTime fechaInicio = payload.periodoliquidar.Inicio;
 
@@ -52,8 +52,8 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo9
                 fechaInicio = new DateTime(payload.periodoliquidar.Inicio.Year, payload.periodoliquidar.Inicio.Month, 1);
             }
 
-            liquidacion.CodigoLiquidacion = this.CrearCodigoLiquidacion(payload.Empleado.Dni);
-            liquidacion.CodigoContrato = payload.Contrato.Codigo;
+            liquidacion.Codigo = this.CrearCodigoLiquidacion(payload.Empleado.Dni);
+            liquidacion.CodigoAcuerdo = payload.Contrato.Codigo;
             liquidacion.Concepto = $"liquidacion ,{payload.Empleado.Nombre} {payload.Empleado.Apellido}";
             liquidacion.InicioPeriodo = fechaInicio;
             liquidacion.FinPeriodo = payload.periodoliquidar.Fin;
@@ -146,7 +146,7 @@ namespace LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo9
         }
 
 
-        private LiquidacionDTO GenerarResultado(LiquidacionPayload payload, LiquidacionPersonal liquidacion)
+        private LiquidacionDTO GenerarResultado(LiquidacionPayload payload, domain.Entities.Liquidacion.Liquidacion liquidacion)
         {
             LiquidacionMapper mappper = new();
             EmpleadoMapper empMapper = new();

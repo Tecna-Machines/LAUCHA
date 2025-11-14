@@ -1,4 +1,5 @@
 ﻿using LAUCHA.domain.entities;
+using LAUCHA.domain.Entities.Liquidacion;
 using LAUCHA.domain.interfaces.IRepositories;
 
 namespace LAUCHA.domain.interfaces.IUnitsOfWork
@@ -15,7 +16,7 @@ namespace LAUCHA.domain.interfaces.IUnitsOfWork
         IGenericRepository<DescuentoPorLiquidacionPersonal> DescuentoLiquidacion { get; }
         IGenericRepository<NoRemuneracionPorLiquidacionPersonal> NoRemuneracionLiquidacion { get; }
 
-        IGenericRepository<LiquidacionPersonal> LiquidacionRepository { get; }
+        IGenericRepository<Liquidacion> LiquidacionRepository { get; }
         int Save();
     }
 }

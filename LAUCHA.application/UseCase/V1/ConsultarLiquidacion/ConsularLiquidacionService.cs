@@ -4,6 +4,7 @@ using LAUCHA.application.interfaces;
 using LAUCHA.application.Mappers;
 using LAUCHA.domain.entities;
 using LAUCHA.domain.Entities.Empleados;
+using LAUCHA.domain.Entities.Liquidacion;
 using LAUCHA.domain.interfaces.IRepositories;
 
 namespace LAUCHA.application.UseCase.ConsultarLiquidacion
@@ -12,14 +13,14 @@ namespace LAUCHA.application.UseCase.ConsultarLiquidacion
     {
         private readonly LiquidacionMapper _MapperLiquidacion;
         private readonly IItemsLiquidacionRepository _ItemsLiquidacionRepository;
-        private readonly IGenericRepository<LiquidacionPersonal> _LiquidacionRepository;
+        private readonly IGenericRepository<Liquidacion> _LiquidacionRepository;
         private readonly IGenericRepository<Cuenta> _CuentaRepository;
         private readonly IGenericRepository<Empleado> _EmpleadoRepository;
         private readonly ILiquidacionRepository _LiquidacionRepositoyEspecifico;
         private readonly IConsultarContratoTrabajoService _ConsultarContratoService;
         private readonly ILogsApp log;
 
-        public ConsularLiquidacionService(IGenericRepository<LiquidacionPersonal> liquidacionRepository,
+        public ConsularLiquidacionService(IGenericRepository<Liquidacion> liquidacionRepository,
                                           IItemsLiquidacionRepository itemsLiquidacionRepository,
                                           IGenericRepository<Cuenta> cuentaRepository,
                                           IGenericRepository<Empleado> empleadoRepository,
@@ -41,7 +42,7 @@ namespace LAUCHA.application.UseCase.ConsultarLiquidacion
         {
             log.LogInformation("se esta consultando por la liquidacion: {cod}", codigoLiquidacion);
 
-            LiquidacionPersonal liquidacion = _LiquidacionRepository.GetById(codigoLiquidacion);
+            Liquidacion liquidacion = _LiquidacionRepository.GetById(codigoLiquidacion);
 
             List<Retencion> retenciones = _ItemsLiquidacionRepository.ObtenerRetencionesLiquidacion(codigoLiquidacion);
             List<Remuneracion> remuneraciones = _ItemsLiquidacionRepository.ObtenerRemuneracionesLiquidacion(codigoLiquidacion);
@@ -55,7 +56,7 @@ namespace LAUCHA.application.UseCase.ConsultarLiquidacion
             Cuenta cuenta = _CuentaRepository.GetById(numeroCuenta);
             Empleado empleado = _EmpleadoRepository.GetById(cuenta.DniEmpleado);
 
-            var contrato = _ConsultarContratoService.ConsultarContrato(liquidacion.CodigoContrato);
+            var contrato = _ConsultarContratoService.ConsultarContrato(liquidacion.CodigoAcuerdo);
 
             return _MapperLiquidacion.GenerarLiquidacionDTO(liquidacion, remuneraciones, retenciones, descuentos, noRemuneraciones, pagos, empleado, contrato);
         }
@@ -64,19 +65,19 @@ namespace LAUCHA.application.UseCase.ConsultarLiquidacion
         {
             log.LogInformation("se esta consultando por varias liquidaciones");
 
-            PaginaRegistro<LiquidacionPersonal> pagina = await _LiquidacionRepositoyEspecifico
+            PaginaRegistro<Liquidacion> pagina = await _LiquidacionRepositoyEspecifico
                                                                .ConseguirLiquidacionesFiltradas(filtros, indice, cantidadRegistros);
 
             List<LiquidacionResumenDTO> liquidacionesResumenDTOs = new();
-            List<LiquidacionPersonal> liquidaciones = pagina.Registros;
+            List<Liquidacion> liquidaciones = pagina.Registros;
 
             foreach (var liq in liquidaciones)
             {
-                log.LogInformation("Devoliendo la liquidacion N: {n}", liq.CodigoLiquidacion);
+                log.LogInformation("Devoliendo la liquidacion N: {n}", liq.Codigo);
 
                 var liquidacionDTO = new LiquidacionResumenDTO
                 {
-                    Codigo = liq.CodigoLiquidacion,
+                    Codigo = liq.Codigo,
                     TotalDescuentos = liq.TotalDescuentos,
                     TotalNoRemunerativo = liq.TotalNoRemunerativo,
                     Fecha = liq.FechaLiquidacion,

@@ -1,0 +1,342 @@
+openapi: 3.0.3
+info:
+  title: API de Liquidaciones
+  version: 1.0.0
+  description: API para gestión de liquidaciones y sus ítems.
+
+servers:
+  - url: https://api.tu-dominio.com
+    description: Servidor de producción
+  - url: http://localhost:5000
+    description: Servidor local de desarrollo
+
+paths:
+  /api/v1/liquidaciones:
+    post:
+      summary: Crear una nueva liquidación
+      operationId: crearLiquidacion
+      tags:
+        - Liquidaciones
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CrearLiquidacionRequest'
+      responses:
+        '201':
+          description: Liquidación creada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CrearLiquidacionResponse'
+        '400':
+          description: Datos inválidos
+
+  /api/v1/liquidaciones/{codigo}:
+    get:
+      summary: Obtener una liquidación por código
+      operationId: obtenerLiquidacion
+      tags:
+        - Liquidaciones
+      parameters:
+        - name: codigo
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Liquidación encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Liquidacion'
+        '404':
+          description: Liquidación no encontrada
+    patch:
+      summary: Actualizar estado de la liquidación (ej. SELLADA)
+      operationId: actualizarEstadoLiquidacion
+      tags:
+        - Liquidaciones
+      parameters:
+        - name: codigo
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActualizarEstadoLiquidacionRequest'
+      responses:
+        '200':
+          description: Estado actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Liquidacion'
+        '400':
+          description: Estado inválido
+        '404':
+          description: Liquidación no encontrada
+        '409':
+          description: No se puede cambiar el estado (por reglas de negocio)
+
+  /api/v1/liquidaciones/{codigo}/items:
+    post:
+      summary: Agregar un ítem manual a la liquidación
+      operationId: agregarItemLiquidacion
+      tags:
+        - Items
+      parameters:
+        - name: codigo
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CrearItemLiquidacionRequest'
+      responses:
+        '201':
+          description: Ítem creado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemLiquidacion'
+        '400':
+          description: Datos inválidos
+        '404':
+          description: Liquidación no encontrada
+        '409':
+          description: No se puede modificar una liquidación sellada
+
+  /api/v1/liquidaciones/{codigo}/items/{nroItem}:
+    patch:
+      summary: Actualizar el estado de un ítem (ej. ANULADO)
+      operationId: actualizarEstadoItemLiquidacion
+      tags:
+        - Items
+      parameters:
+        - name: codigo
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: nroItem
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActualizarEstadoItemLiquidacionRequest'
+      responses:
+        '200':
+          description: Ítem actualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemLiquidacion'
+        '404':
+          description: Liquidación o ítem no encontrado
+        '409':
+          description: No se puede modificar una liquidación sellada
+
+  /api/v1/liquidaciones/{codigo}/retenciones:
+    put:
+      summary: Generar o recalcular retenciones automáticas de la liquidación
+      description: >
+        Recalcula los ítems de retenciones automáticas (jubilación, sindicato, etc.)
+        en base al acuerdo asociado al empleado. Reemplaza el subconjunto de ítems
+        automáticos manteniendo los ítems manuales.
+      operationId: recalcularRetenciones
+      tags:
+        - Liquidaciones
+      parameters:
+        - name: codigo
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Retenciones recalculadas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Liquidacion'
+        '404':
+          description: Liquidación no encontrada
+        '409':
+          description: No se pueden recalcular retenciones en una liquidación sellada
+
+components:
+  schemas:
+    EstadoLiquidacion:
+      type: string
+      enum:
+        - PENDIENTE
+        - SELLADA
+
+    EstadoItemLiquidacion:
+      type: string
+      enum:
+        - ACEPTADO
+        - ANULADO
+
+    Liquidacion:
+      type: object
+      properties:
+        codigo:
+          type: string
+        dniEmpleado:
+          type: string
+        anio:
+          type: string
+          description: Año en formato YYYY
+          example: "2025"
+        mes:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 12
+        quincena:
+          type: integer
+          format: int32
+          minimum: 1
+          maximum: 2
+        fechaCreacion:
+          type: string
+          format: date-time
+        fechaSello:
+          type: string
+          format: date-time
+          nullable: true
+        estado:
+          $ref: '#/components/schemas/EstadoLiquidacion'
+        codigoAcuerdo:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemLiquidacion'
+      required:
+        - codigo
+        - dniEmpleado
+        - anio
+        - mes
+        - quincena
+        - fechaCreacion
+        - estado
+        - codigoAcuerdo
+        - items
+
+    ItemLiquidacion:
+      type: object
+      properties:
+        codigoLiquidacion:
+          type: string
+        nroItem:
+          type: integer
+          format: int32
+        concepto:
+          type: string
+        monto:
+          type: number
+          format: decimal
+        esIncremento:
+          type: boolean
+          description: true suma, false resta
+        estado:
+          $ref: '#/components/schemas/EstadoItemLiquidacion'
+        esEnBlanco:
+          type: boolean
+        fecha:
+          type: string
+          format: date-time
+        esAutomatico:
+          type: boolean
+          description: true si fue generado por el cálculo de retenciones
+      required:
+        - codigoLiquidacion
+        - nroItem
+        - concepto
+        - monto
+        - esIncremento
+        - estado
+        - esEnBlanco
+        - fecha
+
+    CrearLiquidacionRequest:
+      type: object
+      properties:
+        dniEmpleado:
+          type: string
+        anio:
+          type: string
+          example: "2025"
+        mes:
+          type: integer
+          minimum: 1
+          maximum: 12
+        quincena:
+          type: integer
+          minimum: 1
+          maximum: 2
+      required:
+        - dniEmpleado
+        - anio
+        - mes
+        - quincena
+
+    CrearLiquidacionResponse:
+      type: object
+      properties:
+        codigo:
+          type: string
+      required:
+        - codigo
+
+    CrearItemLiquidacionRequest:
+      type: object
+      properties:
+        concepto:
+          type: string
+        monto:
+          type: number
+          format: decimal
+        esIncremento:
+          type: boolean
+        esEnBlanco:
+          type: boolean
+      required:
+        - concepto
+        - monto
+        - esIncremento
+        - esEnBlanco
+
+    ActualizarEstadoItemLiquidacionRequest:
+      type: object
+      properties:
+        estado:
+          $ref: '#/components/schemas/EstadoItemLiquidacion'
+      required:
+        - estado
+
+    ActualizarEstadoLiquidacionRequest:
+      type: object
+      properties:
+        estado:
+          $ref: '#/components/schemas/EstadoLiquidacion'
+      required:
+        - estado

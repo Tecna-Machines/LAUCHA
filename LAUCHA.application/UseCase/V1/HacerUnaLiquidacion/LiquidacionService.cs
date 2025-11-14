@@ -8,6 +8,7 @@ using LAUCHA.application.interfaces;
 using LAUCHA.application.Mappers;
 using LAUCHA.domain.entities;
 using LAUCHA.domain.Entities.Empleados;
+using LAUCHA.domain.Entities.Liquidacion;
 using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.domain.interfaces.IUnitsOfWork;
 
@@ -217,14 +218,14 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
 
             log.LogInformation("el codigo de liquidacion sera: {cl}", codigoNuevaLiquidacion);
 
-            LiquidacionPersonal nuevaLiquidacion = new()
+            Liquidacion nuevaLiquidacion = new()
             {
-                CodigoLiquidacion = codigoNuevaLiquidacion,
+                Codigo = codigoNuevaLiquidacion,
                 Concepto = $"liquidacion de sueldo {this._Cuenta!.Empleado}",
                 InicioPeriodo = _InicioPeriodo,
                 FinPeriodo = _FinPeriodo,
                 FechaLiquidacion = fechaActual,
-                CodigoContrato = this._Contrato!.Codigo
+                CodigoAcuerdo = this._Contrato!.Codigo
             };
 
             //insertar liquidacion
@@ -245,7 +246,7 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
             {
                 var remuLiquidacion = new RemuneracionPorLiquidacionPersonal
                 {
-                    CodigoLiquidacionPersonal = nuevaLiquidacion.CodigoLiquidacion,
+                    CodigoLiquidacionPersonal = nuevaLiquidacion.Codigo,
                     CodigoRemuneracion = remu.CodigoRemuneracion
                 };
 
@@ -263,7 +264,7 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
             {
                 var retenLiquidacion = new RetencionPorLiquidacionPersonal
                 {
-                    CodigoLiquidacionPersonal = nuevaLiquidacion.CodigoLiquidacion,
+                    CodigoLiquidacionPersonal = nuevaLiquidacion.Codigo,
                     CodigoRetencion = reten.CodigoRetencion
                 };
 
@@ -281,7 +282,7 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
             {
                 var desLiquidacion = new DescuentoPorLiquidacionPersonal
                 {
-                    CodigoLiquidacionPersonal = nuevaLiquidacion.CodigoLiquidacion,
+                    CodigoLiquidacionPersonal = nuevaLiquidacion.Codigo,
                     CodigoDescuento = desc.CodigoDescuento
                 };
 
@@ -299,7 +300,7 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
             {
                 var noRemuLiquidacions = new NoRemuneracionPorLiquidacionPersonal
                 {
-                    CodigoLiquidacionPersonal = nuevaLiquidacion.CodigoLiquidacion,
+                    CodigoLiquidacionPersonal = nuevaLiquidacion.Codigo,
                     CodigoNoRemuneracion = noRemu.CodigoNoRemuneracion
                 };
 
@@ -332,9 +333,9 @@ namespace LAUCHA.application.UseCase.HacerUnaLiquidacion
 
             Empleado empleado = this._Empleado ?? throw new NullReferenceException();
 
-            var contrato = _ConsultarContrato.ConsultarContrato(nuevaLiquidacion.CodigoContrato);
+            var contrato = _ConsultarContrato.ConsultarContrato(nuevaLiquidacion.CodigoAcuerdo);
 
-            log.LogInformation("FIN de liquidacion, liquidacion condigo: {c}", nuevaLiquidacion.CodigoLiquidacion);
+            log.LogInformation("FIN de liquidacion, liquidacion condigo: {c}", nuevaLiquidacion.Codigo);
 
             return _MapperLiquidacion.GenerarLiquidacionDTO(nuevaLiquidacion, remuneraciones,
                                                             retenciones, descuentos, noRemuneraciones, pagos, empleado, contrato);

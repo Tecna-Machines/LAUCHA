@@ -29,7 +29,7 @@ namespace LAUCHA.api.Controllers
                 onFailure: error => Results.BadRequest(error));
         }
 
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         public async Task<IResult> GetAcuerdo(string id)
         {
             var result = await _getAcuerdo.GetAcuerdo(new GetAcuerdoByIdResquest(id));

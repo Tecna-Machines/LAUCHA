@@ -45,6 +45,7 @@ using LAUCHA.domain.entities;
 using LAUCHA.domain.entities.Contrato;
 using LAUCHA.domain.Entities.Acuerdos;
 using LAUCHA.domain.Entities.Empleados;
+using LAUCHA.domain.Entities.Liquidacion;
 using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.domain.interfaces.IServices;
 using LAUCHA.domain.interfaces.IUnitsOfWork;
@@ -148,7 +149,7 @@ builder.Services.AddScoped<IUnitOfWorkLiquidacion, UnitOfWorkLiquidacion>();
 builder.Services.AddScoped<IGenericRepository<RemuneracionPorLiquidacionPersonal>, RemuneracionPorLiquidacionRepository>();
 builder.Services.AddScoped<IGenericRepository<RetencionPorLiquidacionPersonal>, RetencionPorLiquidacionRepository>();
 builder.Services.AddScoped<IGenericRepository<DescuentoPorLiquidacionPersonal>, DescuentosPorLiquidacionesRepository>();
-builder.Services.AddScoped<IGenericRepository<LiquidacionPersonal>, LiquidacionPersonalRepository>();
+builder.Services.AddScoped<IGenericRepository<Liquidacion>, LiquidacionPersonalRepository>();
 
 builder.Services.AddScoped<IItemsLiquidacionRepository, ITemsLiquidacionRepository>();
 builder.Services.AddScoped<IConsultarLiquidacionService, ConsularLiquidacionService>();

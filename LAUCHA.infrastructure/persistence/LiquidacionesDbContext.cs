@@ -3,6 +3,7 @@ using LAUCHA.domain.entities.Contrato;
 using LAUCHA.domain.entities.diasEspeciales;
 using LAUCHA.domain.Entities.Acuerdos;
 using LAUCHA.domain.Entities.Empleados;
+using LAUCHA.domain.Entities.Liquidacion;
 using LAUCHA.infrastructure.config;
 using LAUCHA.infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -26,7 +27,7 @@ namespace LAUCHA.infrastructure.persistence
         public DbSet<Empleado> Empleados { get; set; }
         public DbSet<HistorialRetencionFija> HistorialRetencionesFijas { get; set; }
         public DbSet<LiquidacionGeneral> LiquidacionesGenerales { get; set; }
-        public DbSet<LiquidacionPersonal> LiquidacionesPersonales { get; set; }
+        public DbSet<Liquidacion> LiquidacionesPersonales { get; set; }
         public DbSet<PagoLiquidacion> PagosLiquidaciones { get; set; }
         public DbSet<Remuneracion> Remuneraciones { get; set; }
         public DbSet<RemuneracionPorLiquidacionPersonal> RemuneracionesPorLiquidaciones { get; set; }

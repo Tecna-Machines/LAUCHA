@@ -6,6 +6,7 @@ using LAUCHA.application.DTOs.RemuneracionDTOs;
 using LAUCHA.application.DTOs.RetencionDTOs;
 using LAUCHA.domain.entities;
 using LAUCHA.domain.Entities.Empleados;
+using LAUCHA.domain.Entities.Liquidacion;
 
 namespace LAUCHA.application.Mappers
 {
@@ -15,7 +16,7 @@ namespace LAUCHA.application.Mappers
         private readonly RetencionMapper _RetencionMapper = new();
         private readonly DescuentoMapper _DescuentoMapper = new();
         private readonly NoRemuneracionMapper _NoRemuneracionMapper = new();
-        public LiquidacionDTO GenerarLiquidacionDTO(LiquidacionPersonal liquidacion,
+        public LiquidacionDTO GenerarLiquidacionDTO(Liquidacion liquidacion,
                                                     List<Remuneracion> remuneraciones,
                                                     List<Retencion> retenciones,
                                                     List<Descuento> descuentos,
@@ -87,7 +88,7 @@ namespace LAUCHA.application.Mappers
             }
             return new LiquidacionDTO
             {
-                Codigo = liquidacion.CodigoLiquidacion,
+                Codigo = liquidacion.Codigo,
                 Empleado = $"{empleado.Nombre} {empleado.Apellido}",
                 Dni = empleado.Dni,
                 Concepto = liquidacion.Concepto,

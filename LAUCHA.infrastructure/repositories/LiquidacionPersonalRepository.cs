@@ -1,4 +1,5 @@
 ﻿using LAUCHA.domain.entities;
+using LAUCHA.domain.Entities.Liquidacion;
 using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.infrastructure.pagination;
 using LAUCHA.infrastructure.persistence;
@@ -6,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LAUCHA.infrastructure.repositories
 {
-    public class LiquidacionPersonalRepository : IGenericRepository<LiquidacionPersonal>, ILiquidacionRepository
+    public class LiquidacionPersonalRepository : IGenericRepository<Liquidacion>, ILiquidacionRepository
     {
         private readonly LiquidacionesDbContext _context;
 
@@ -15,7 +16,7 @@ namespace LAUCHA.infrastructure.repositories
             _context = context;
         }
 
-        public async Task<PaginaRegistro<LiquidacionPersonal>> ConseguirLiquidacionesFiltradas(FiltroLiquidacion filtros, int indice, int cantidadRegistros)
+        public async Task<PaginaRegistro<Liquidacion>> ConseguirLiquidacionesFiltradas(FiltroLiquidacion filtros, int indice, int cantidadRegistros)
         {
             var liquidacionesPersonales = from r in _context.LiquidacionesPersonales select r;
 
@@ -23,7 +24,7 @@ namespace LAUCHA.infrastructure.repositories
             {
                 string dniEmpleado = filtros.DniEmp;
                 liquidacionesPersonales = liquidacionesPersonales
-                                .Where(l => l.CodigoLiquidacion.Contains(dniEmpleado));
+                                .Where(l => l.Codigo.Contains(dniEmpleado));
 
             }
 
@@ -52,10 +53,10 @@ namespace LAUCHA.infrastructure.repositories
                 liquidacionesPersonales = liquidacionesPersonales.OrderByDescending(l => l.TotalRemuneraciones);
             }
 
-            var pagina = await PaginationGeneric<LiquidacionPersonal>
+            var pagina = await PaginationGeneric<Liquidacion>
                       .CrearPaginacion(liquidacionesPersonales.AsNoTracking(), indice, cantidadRegistros);
 
-            return new PaginaRegistro<LiquidacionPersonal>
+            return new PaginaRegistro<Liquidacion>
             {
                 indicePagina = pagina.IndicePagina,
                 totalRegistros = pagina.TotalRegistros,
@@ -64,24 +65,24 @@ namespace LAUCHA.infrastructure.repositories
             };
         }
 
-        public LiquidacionPersonal Delete(string id)
+        public Liquidacion Delete(string id)
         {
             //TODO: revisar implementacion de liquidacion repository
             throw new NotImplementedException();
         }
 
-        public IList<LiquidacionPersonal> GetAll()
+        public IList<Liquidacion> GetAll()
         {
             return _context.LiquidacionesPersonales.ToList();
         }
 
-        public LiquidacionPersonal GetById(string codigoLiquidacion)
+        public Liquidacion GetById(string codigoLiquidacion)
         {
             var found = _context.LiquidacionesPersonales.Find(codigoLiquidacion);
             return found != null ? found : throw new NullReferenceException();
         }
 
-        public LiquidacionPersonal Insert(LiquidacionPersonal nuevaLiquidacion)
+        public Liquidacion Insert(Liquidacion nuevaLiquidacion)
         {
             _context.Add(nuevaLiquidacion);
             return nuevaLiquidacion;
@@ -90,7 +91,7 @@ namespace LAUCHA.infrastructure.repositories
         public int Save()
         => _context.SaveChanges();
 
-        public LiquidacionPersonal Update(LiquidacionPersonal liquidacion)
+        public Liquidacion Update(Liquidacion liquidacion)
         {
             var origin = _context.LiquidacionesGenerales.FirstOrDefault(l => l.CodigoLiquidacionGeneral == liquidacion.CodigoLiquidacionGeneral);
 

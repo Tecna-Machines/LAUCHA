@@ -1,10 +1,11 @@
 ﻿using LAUCHA.domain.entities;
+using LAUCHA.domain.Entities.Liquidacion;
 
 namespace LAUCHA.domain.interfaces.IRepositories
 {
     public interface ILiquidacionRepository
     {
-        Task<PaginaRegistro<LiquidacionPersonal>> ConseguirLiquidacionesFiltradas(FiltroLiquidacion filtros, int indice, int cantidadRegistros);
+        Task<PaginaRegistro<Liquidacion>> ConseguirLiquidacionesFiltradas(FiltroLiquidacion filtros, int indice, int cantidadRegistros);
     }
 
     public class FiltroLiquidacion
