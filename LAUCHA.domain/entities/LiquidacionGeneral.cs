@@ -1,4 +1,4 @@
-﻿using LAUCHA.domain.Entities.Liquidacion;
+﻿using LAUCHA.domain.Entities.Liquidaciones;
 
 namespace LAUCHA.domain.entities
 {

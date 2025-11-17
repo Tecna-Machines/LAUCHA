@@ -1,5 +1,5 @@
 ﻿using LAUCHA.domain.entities;
-using LAUCHA.domain.Entities.Liquidacion;
+using LAUCHA.domain.Entities.Liquidaciones;
 using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.domain.interfaces.IUnitsOfWork;
 using LAUCHA.infrastructure.persistence;

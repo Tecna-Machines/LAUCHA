@@ -4,7 +4,6 @@ using LAUCHA.application.DTOs.EmpleadoDTO;
 using LAUCHA.application.Features.Acuerdos.GetAcuerdosEmpleado;
 using LAUCHA.application.Features.Empleados.CrearEmpleado;
 using LAUCHA.application.Features.Empleados.GetEmpleados;
-using LAUCHA.application.interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LAUCHA.api.Controllers

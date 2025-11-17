@@ -3,7 +3,7 @@ using LAUCHA.domain.entities.Contrato;
 using LAUCHA.domain.entities.diasEspeciales;
 using LAUCHA.domain.Entities.Acuerdos;
 using LAUCHA.domain.Entities.Empleados;
-using LAUCHA.domain.Entities.Liquidacion;
+using LAUCHA.domain.Entities.Liquidaciones;
 using LAUCHA.infrastructure.config;
 using LAUCHA.infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
@@ -69,6 +69,7 @@ namespace LAUCHA.infrastructure.persistence
             modelBuilder.ApplyConfiguration(new RetencionesFijasPorCuentaConfig());
             modelBuilder.ApplyConfiguration(new RetencionesPorLiquidacionConfig());
             modelBuilder.ApplyConfiguration(new RetencionFijaConfig());
+            modelBuilder.ApplyConfiguration(new ItemLiquidacionConfig());
 
             //agregar datos de prueba
             // TODO: son datos solo para pruebas 

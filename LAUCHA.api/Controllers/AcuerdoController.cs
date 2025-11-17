@@ -1,5 +1,4 @@
 ﻿using LAUCHA.application.Common.Extensions;
-using LAUCHA.application.DTOs.ConceptoDTOs;
 using LAUCHA.application.Features.Acuerdos.CrearAcuerdo;
 using LAUCHA.application.Features.Acuerdos.GetAcuerdoById;
 using Microsoft.AspNetCore.Mvc;

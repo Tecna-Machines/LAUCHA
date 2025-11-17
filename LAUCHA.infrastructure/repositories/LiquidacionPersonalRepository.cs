@@ -1,13 +1,11 @@
 ﻿using LAUCHA.domain.entities;
-using LAUCHA.domain.Entities.Liquidacion;
+using LAUCHA.domain.Entities.Liquidaciones;
 using LAUCHA.domain.interfaces.IRepositories;
-using LAUCHA.infrastructure.pagination;
 using LAUCHA.infrastructure.persistence;
-using Microsoft.EntityFrameworkCore;
 
 namespace LAUCHA.infrastructure.repositories
 {
-    public class LiquidacionPersonalRepository : IGenericRepository<Liquidacion>, ILiquidacionRepository
+    public class LiquidacionPersonalRepository : IGenericRepository<Liquidacion>, ILiquidacionRepositoryOLD
     {
         private readonly LiquidacionesDbContext _context;
 
@@ -53,16 +51,18 @@ namespace LAUCHA.infrastructure.repositories
                 liquidacionesPersonales = liquidacionesPersonales.OrderByDescending(l => l.TotalRemuneraciones);
             }
 
-            var pagina = await PaginationGeneric<Liquidacion>
-                      .CrearPaginacion(liquidacionesPersonales.AsNoTracking(), indice, cantidadRegistros);
+            //var pagina = await PaginationGeneric<Liquidacion>
+            //          .CrearPaginacion(liquidacionesPersonales.AsNoTracking(), indice, cantidadRegistros);
 
-            return new PaginaRegistro<Liquidacion>
-            {
-                indicePagina = pagina.IndicePagina,
-                totalRegistros = pagina.TotalRegistros,
-                totalPaginas = pagina.TotalPaginas,
-                Registros = pagina
-            };
+            //return new PaginaRegistro<Liquidacion>
+            //{
+            //    indicePagina = pagina.IndicePagina,
+            //    totalRegistros = pagina.TotalRegistros,
+            //    totalPaginas = pagina.TotalPaginas,
+            //    Registros = pagina
+            //};
+
+            throw new NotImplementedException();
         }
 
         public Liquidacion Delete(string id)

@@ -7,5 +7,5 @@
         QuincenalHora = 20,
         QuincenalFijo = 22,
     }
- 
+
 }

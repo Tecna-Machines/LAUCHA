@@ -6,9 +6,7 @@ using LAUCHA.application.interfaces.V2.Liquidacion;
 using LAUCHA.application.UseCase.AgregarCuenta;
 using LAUCHA.application.UseCase.AgregarUnAdicional;
 using LAUCHA.application.UseCase.ConsultarAdicionales;
-using LAUCHA.application.UseCase.ConsultarContratoDeTrabajo;
 using LAUCHA.application.UseCase.ConsultarEmpleado;
-using LAUCHA.application.UseCase.ConsultarLiquidacion;
 using LAUCHA.application.UseCase.ConsultarRemuneraciones;
 using LAUCHA.application.UseCase.CrearRemuneracionNueva;
 using LAUCHA.application.UseCase.CrearRetencionesFijas;
@@ -16,7 +14,6 @@ using LAUCHA.application.UseCase.DiasEspeciales.CrearConsultarAusencias;
 using LAUCHA.application.UseCase.DiasEspeciales.CrearConsultarFeriados;
 using LAUCHA.application.UseCase.DiasEspeciales.CrearConsultarHsExtraHabilitadas;
 using LAUCHA.application.UseCase.GenerarRecibo;
-using LAUCHA.application.UseCase.HacerUnaLiquidacion;
 using LAUCHA.application.UseCase.ModificarRetencionFija;
 using LAUCHA.application.UseCase.OperacionesDescuento;
 using LAUCHA.application.UseCase.OperarCredito;
@@ -25,27 +22,14 @@ using LAUCHA.application.UseCase.OperarRetenciones;
 using LAUCHA.application.UseCase.V1.ConsultarRetencionesFijas;
 using LAUCHA.application.UseCase.V1.CrearCredito;
 using LAUCHA.application.UseCase.V1.DiasEspeciales.CrearConsultarVacaciones;
-using LAUCHA.application.UseCase.V1.HacerUnaLiquidacion;
 using LAUCHA.application.UseCase.V1.OperarConceptos;
 using LAUCHA.application.UseCase.V2.Credito.GetByEmpleadoId;
 using LAUCHA.application.UseCase.V2.Liquidacion.Pago;
-using LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Calculadoras.Antiguedad;
-using LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Calculadoras.Sueldos;
-using LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Interfaces;
-using LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo1;
-using LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo2;
-using LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo3;
-using LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo4;
-using LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo5;
-using LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo6;
-using LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo7;
-using LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo8;
-using LAUCHA.application.UseCase.V2.ProcesoLiquidacion.Modulos.Modulo9;
 using LAUCHA.domain.entities;
 using LAUCHA.domain.entities.Contrato;
 using LAUCHA.domain.Entities.Acuerdos;
 using LAUCHA.domain.Entities.Empleados;
-using LAUCHA.domain.Entities.Liquidacion;
+using LAUCHA.domain.Entities.Liquidaciones;
 using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.domain.interfaces.IServices;
 using LAUCHA.domain.interfaces.IUnitsOfWork;
@@ -111,7 +95,6 @@ builder.Services.AddScoped<IGenericRepository<AcuerdoBlanco>, AcuerdoBlancoRepos
 builder.Services.AddScoped<IUnitOfWorkContrato, UnitOfWorkContrato>();
 builder.Services.AddScoped<ICrearAdicionalService, CrearAdicionalService>();
 builder.Services.AddScoped<IConsultarAdicionalesService, ConsultarAdicionales>();
-builder.Services.AddScoped<IConsultarContratoTrabajoService, ConsultarContratoTrabajoService>();
 
 builder.Services.AddScoped<ICuentaRepository, CuentaRepository>();
 builder.Services.AddScoped<IConsultarEmpleadoService, ConsultarEmpleadoService>();
@@ -142,7 +125,6 @@ builder.Services.AddScoped<IOperarRetencionService, OperarRetencionesService>();
 builder.Services.AddScoped<IRetencionRepository, RetencionRepository>();
 builder.Services.AddScoped<IDescuentoRepository, DescuentoRepository>();
 
-builder.Services.AddScoped<IFabricaCalculadoraSueldo, FabricaCalculadoraSueldo>();
 //builder.Services.AddScoped<ILiquidacionService, CrearLiquidacionService>();
 builder.Services.AddScoped<IUnitOfWorkLiquidacion, UnitOfWorkLiquidacion>();
 
@@ -152,7 +134,6 @@ builder.Services.AddScoped<IGenericRepository<DescuentoPorLiquidacionPersonal>, 
 builder.Services.AddScoped<IGenericRepository<Liquidacion>, LiquidacionPersonalRepository>();
 
 builder.Services.AddScoped<IItemsLiquidacionRepository, ITemsLiquidacionRepository>();
-builder.Services.AddScoped<IConsultarLiquidacionService, ConsularLiquidacionService>();
 
 builder.Services.AddScoped<IGeneradorRecibos, GeneradorRecibosLiquidacion>();
 
@@ -168,13 +149,10 @@ builder.Services.AddScoped<IGenericRepository<Credito>, CreditoRepository>();
 builder.Services.AddScoped<ICreadorCreditos, CreadorCreditoService>();
 builder.Services.AddScoped<IGetCreditosByDni, GetCreditosByDni>();
 
-builder.Services.AddScoped<ILiquidacionRepository, LiquidacionPersonalRepository>();
+builder.Services.AddScoped<ILiquidacionRepositoryOLD, LiquidacionPersonalRepository>();
 
-builder.Services.AddScoped<ICalculadoraAntiguedad, CalculadoraAntiguedad>();
 
 builder.Services.AddScoped<ICreditoRepository, CreditoRepository>();
-builder.Services.AddScoped<ICalculadoraCredito, CalculadoraCredito>();
-builder.Services.AddScoped<IRecuperarItemsParaLiquidacion, AsociarItemsLiquidacion>();
 builder.Services.AddScoped<ICreditoService, OperarCreditosService>();
 builder.Services.AddScoped<IGenericRepository<PagoCredito>, PagoCreditoRepository>();
 builder.Services.AddScoped<ICreditoRepositoryTotal, CreditoRepository>();
@@ -197,18 +175,6 @@ builder.Services.AddScoped<IHabilitacionHorasExtraRepository, HabilitacionHorasE
 builder.Services.AddScoped<ICrearConsultarHsExtraHabilitadas, ConsultarCrearPermisoHsExtra>();
 
 
-//modulos de liquidacion
-builder.Services.AddScoped<IModuloLiquidador, ModuloRecuperadorEmpleado>();                  // 1
-builder.Services.AddScoped<IModuloLiquidador, ModuloRecuperadorItemsExistentes>();           // 2
-builder.Services.AddScoped<IModuloLiquidador, ModuloCalculadorSueldoBase>();                 // 3
-builder.Services.AddScoped<IModuloLiquidador, ModuloCalculadorSueldoHsExtra>();              // 4
-builder.Services.AddScoped<IModuloLiquidador, ModuloCalculadorAntiguedad>();                 // 5
-builder.Services.AddScoped<IModuloLiquidador, ModuloCalculadorDeRetenciones>();              // 6
-builder.Services.AddScoped<IModuloLiquidador, ModuloCalculadorGastosComida>();               // 7
-builder.Services.AddScoped<IModuloLiquidador, ModuloCalculadorDeCreditos>();                 // 8
-builder.Services.AddScoped<IModuloLiquidador, ModuloAsociador>();                            // 9
-
-builder.Services.AddScoped<ILiquidacionService, LiquidacionService2>();
 builder.Services.AddScoped<IPagarLiquidacionService, PagarLiquidacion>();
 builder.Services.AddScoped<IGenericRepository<PagoLiquidacion>, PagoLiquidacionRepository>();
 

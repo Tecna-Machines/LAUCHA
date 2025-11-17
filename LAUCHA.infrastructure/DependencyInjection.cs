@@ -1,6 +1,8 @@
-﻿using LAUCHA.domain.Entities.Empleados;
-using LAUCHA.domain.interfaces.IRepositories;
+﻿using LAUCHA.domain.Entities.Acuerdos;
+using LAUCHA.domain.Entities.Empleados;
+using LAUCHA.domain.Entities.Liquidaciones;
 using LAUCHA.infrastructure.repositories;
+using LAUCHA.infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LAUCHA.infrastructure
@@ -10,7 +12,9 @@ namespace LAUCHA.infrastructure
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
         {
             services.AddScoped<IAcuerdoRepository, AcuerdoRepository>();
-            services.AddScoped<IEmpleadoRepository,EmpleadoRepository>();
+            services.AddScoped<IEmpleadoRepository, EmpleadoRepository>();
+
+            services.AddScoped<ILiquidacionRepository, LiquidacionRepository>();
             return services;
         }
     }

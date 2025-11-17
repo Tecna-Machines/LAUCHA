@@ -4,7 +4,6 @@ using LAUCHA.application.interfaces;
 using LAUCHA.application.Mappers;
 using LAUCHA.domain.entities;
 using LAUCHA.domain.Entities.Empleados;
-using LAUCHA.domain.Entities.Liquidacion;
 using LAUCHA.domain.interfaces.IRepositories;
 
 namespace LAUCHA.application.UseCase.ConsultarLiquidacion
@@ -16,7 +15,7 @@ namespace LAUCHA.application.UseCase.ConsultarLiquidacion
         private readonly IGenericRepository<Liquidacion> _LiquidacionRepository;
         private readonly IGenericRepository<Cuenta> _CuentaRepository;
         private readonly IGenericRepository<Empleado> _EmpleadoRepository;
-        private readonly ILiquidacionRepository _LiquidacionRepositoyEspecifico;
+        private readonly ILiquidacionRepositoryOLD _LiquidacionRepositoyEspecifico;
         private readonly IConsultarContratoTrabajoService _ConsultarContratoService;
         private readonly ILogsApp log;
 
@@ -24,7 +23,7 @@ namespace LAUCHA.application.UseCase.ConsultarLiquidacion
                                           IItemsLiquidacionRepository itemsLiquidacionRepository,
                                           IGenericRepository<Cuenta> cuentaRepository,
                                           IGenericRepository<Empleado> empleadoRepository,
-                                          ILiquidacionRepository liquidacionRepositoyEspecifico,
+                                          ILiquidacionRepositoryOLD liquidacionRepositoyEspecifico,
                                           IConsultarContratoTrabajoService consultarContratoService,
                                           ILogsApp log)
         {
@@ -78,8 +77,8 @@ namespace LAUCHA.application.UseCase.ConsultarLiquidacion
                 var liquidacionDTO = new LiquidacionResumenDTO
                 {
                     Codigo = liq.Codigo,
-                    TotalDescuentos = liq.TotalDescuentos,
-                    TotalNoRemunerativo = liq.TotalNoRemunerativo,
+                    TotalDescuentos = -50,
+                    TotalNoRemunerativo = -0,
                     Fecha = liq.FechaLiquidacion,
                     Concepto = liq.Concepto,
                     Periodo = new PeriodoDTO
@@ -88,7 +87,7 @@ namespace LAUCHA.application.UseCase.ConsultarLiquidacion
                         Fin = liq.FinPeriodo
                     },
                     TotalRemuneraciones = liq.TotalRemuneraciones,
-                    TotalRetenciones = liq.TotalRetenciones
+                    TotalRetenciones = -50
                 };
 
                 liquidacionesResumenDTOs.Add(liquidacionDTO);

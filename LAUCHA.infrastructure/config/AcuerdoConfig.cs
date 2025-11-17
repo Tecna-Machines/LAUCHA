@@ -1,5 +1,4 @@
 ﻿using LAUCHA.domain.Entities.Acuerdos;
-using LAUCHA.domain.Entities.Empleados;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

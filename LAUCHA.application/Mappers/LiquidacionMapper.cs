@@ -6,7 +6,6 @@ using LAUCHA.application.DTOs.RemuneracionDTOs;
 using LAUCHA.application.DTOs.RetencionDTOs;
 using LAUCHA.domain.entities;
 using LAUCHA.domain.Entities.Empleados;
-using LAUCHA.domain.Entities.Liquidacion;
 
 namespace LAUCHA.application.Mappers
 {

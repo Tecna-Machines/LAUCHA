@@ -1,4 +1,4 @@
-﻿using LAUCHA.domain.Entities.Liquidacion;
+﻿using LAUCHA.domain.Entities.Liquidaciones;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -14,7 +14,7 @@ namespace LAUCHA.infrastructure.config
                     .WithMany(liqGeneral => liqGeneral.LiquidacionesPersonales)
                     .HasForeignKey(liqPersonal => liqPersonal.CodigoLiquidacionGeneral);
 
-            builder.HasOne(liqPersonal => liqPersonal.Contrato)
+            builder.HasOne(liqPersonal => liqPersonal.Acuerdo)
                    .WithMany()
                    .HasForeignKey(liqPersonal => liqPersonal.CodigoAcuerdo);
         }

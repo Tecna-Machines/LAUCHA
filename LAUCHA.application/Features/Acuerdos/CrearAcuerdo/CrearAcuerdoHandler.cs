@@ -4,7 +4,6 @@ using LAUCHA.application.Common.Extensions;
 using LAUCHA.application.Common.ResultResponse;
 using LAUCHA.domain.entities.Contrato;
 using LAUCHA.domain.Entities.Acuerdos;
-using LAUCHA.domain.interfaces.IRepositories;
 
 namespace LAUCHA.application.Features.Acuerdos.CrearAcuerdo
 {

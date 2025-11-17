@@ -2,7 +2,6 @@
 using LAUCHA.application.Mappers;
 using LAUCHA.domain.Entities.Acuerdos;
 using LAUCHA.domain.Entities.Empleados;
-using LAUCHA.domain.interfaces.IRepositories;
 
 namespace LAUCHA.application.Features.Acuerdos.GetAcuerdosEmpleado
 {

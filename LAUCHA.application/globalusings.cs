@@ -1,0 +1,1 @@
+﻿global using LAUCHA.domain.Entities.Liquidaciones;

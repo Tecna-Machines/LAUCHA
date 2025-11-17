@@ -24,11 +24,11 @@ namespace LAUCHA.application.Features.Empleados.CrearEmpleado
         public async Task<Result<CrearEmpleadoResponse>> Crear(CrearEmpleadoRequest req)
         {
             var validacion = ValidarEmpleado(req);
-            
-            if(validacion.IsFailure)
+
+            if (validacion.IsFailure)
                 return Result.Failure<CrearEmpleadoResponse>(validacion.Error);
 
-            var emp =  _fabricaEmpleados.Crear(req);
+            var emp = _fabricaEmpleados.Crear(req);
 
             try
             {
