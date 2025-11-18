@@ -3,23 +3,19 @@ using LAUCHA.application.interfaces;
 using LAUCHA.application.interfaces.V2.Credito;
 using LAUCHA.application.interfaces.V2.IDiasEspecialesServices;
 using LAUCHA.application.interfaces.V2.Liquidacion;
-using LAUCHA.application.UseCase.AgregarCuenta;
 using LAUCHA.application.UseCase.AgregarUnAdicional;
 using LAUCHA.application.UseCase.ConsultarAdicionales;
 using LAUCHA.application.UseCase.ConsultarEmpleado;
 using LAUCHA.application.UseCase.ConsultarRemuneraciones;
 using LAUCHA.application.UseCase.CrearRemuneracionNueva;
-using LAUCHA.application.UseCase.CrearRetencionesFijas;
 using LAUCHA.application.UseCase.DiasEspeciales.CrearConsultarAusencias;
 using LAUCHA.application.UseCase.DiasEspeciales.CrearConsultarFeriados;
 using LAUCHA.application.UseCase.DiasEspeciales.CrearConsultarHsExtraHabilitadas;
 using LAUCHA.application.UseCase.GenerarRecibo;
-using LAUCHA.application.UseCase.ModificarRetencionFija;
 using LAUCHA.application.UseCase.OperacionesDescuento;
 using LAUCHA.application.UseCase.OperarCredito;
 using LAUCHA.application.UseCase.OperarNoRemuneraciones;
 using LAUCHA.application.UseCase.OperarRetenciones;
-using LAUCHA.application.UseCase.V1.ConsultarRetencionesFijas;
 using LAUCHA.application.UseCase.V1.CrearCredito;
 using LAUCHA.application.UseCase.V1.DiasEspeciales.CrearConsultarVacaciones;
 using LAUCHA.application.UseCase.V1.OperarConceptos;
@@ -78,8 +74,7 @@ if (builder.Environment.IsDevelopment())
     connectionString = builder.Configuration["ConnectionStrings:Test"];
 }
 
-builder.Services.AddDbContext<LiquidacionesDbContext>(options =>
-                                                     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+builder.Services.AddDbContext<LiquidacionesDbContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 //dependecy injection
 //NEW 2025
@@ -100,14 +95,6 @@ builder.Services.AddScoped<ICuentaRepository, CuentaRepository>();
 builder.Services.AddScoped<IConsultarEmpleadoService, ConsultarEmpleadoService>();
 
 
-builder.Services.AddScoped<IGenericRepository<RetencionFija>, RetencionFijaRepository>();
-builder.Services.AddScoped<ICrearRetencionesFijasService, CrearRetencionesFijasService>();
-builder.Services.AddScoped<IConsultarRetencionesFijasService, ConsultarRetencionesFijasService>();
-
-builder.Services.AddScoped<IRetencionFijaPorCuentaRepository, RetencionFijaPorCuentaRepository>();
-builder.Services.AddScoped<IUnitOfWorkRetencionFijaCuenta, UnitOfWorkRetencionFijaCuenta>();
-builder.Services.AddScoped<IGenericRepository<RetencionFijaPorCuenta>, RetencionFijaPorCuentaRepository>();
-builder.Services.AddScoped<IAgregarCuentaService, AgregarCuentaService>();
 
 builder.Services.AddScoped<IGenericRepository<Remuneracion>, RemuneracionRepository>();
 builder.Services.AddScoped<ICrearRemuneracionService, CrearRemuneracionNuevaService>();
@@ -119,7 +106,7 @@ builder.Services.AddScoped<IGenericRepository<Descuento>, DescuentoRepository>()
 builder.Services.AddScoped<IGenericRepository<Concepto>, ConceptoRepository>();
 builder.Services.AddScoped<IOperarDescuentosService, OperarDescuentosService>();
 
-builder.Services.AddScoped<IGenericRepository<Retencion>, RetencionRepository>();
+builder.Services.AddScoped<IGenericRepository<RetencionOLD>, RetencionRepository>();
 builder.Services.AddScoped<IOperarRetencionService, OperarRetencionesService>();
 
 builder.Services.AddScoped<IRetencionRepository, RetencionRepository>();
@@ -158,8 +145,6 @@ builder.Services.AddScoped<IGenericRepository<PagoCredito>, PagoCreditoRepositor
 builder.Services.AddScoped<ICreditoRepositoryTotal, CreditoRepository>();
 builder.Services.AddScoped<IDescuentoRepositoryTotal, DescuentoRepository>();
 
-builder.Services.AddScoped<IGenericRepository<HistorialRetencionFija>, HistorialRetencionFijaRepository>();
-builder.Services.AddScoped<IModificarRetencionFijaService, ModificarRetencionFijaService>();
 
 //dias especiales
 builder.Services.AddScoped<IDiasFeriadosRepository, DiaFeriadoRepository>();

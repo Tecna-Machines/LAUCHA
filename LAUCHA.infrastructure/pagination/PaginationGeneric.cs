@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace LAUCHA.infrastructure.pagination
+﻿namespace LAUCHA.infrastructure.pagination
 {
     internal class PaginationGeneric<T> : List<T>
     {

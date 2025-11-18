@@ -6,7 +6,6 @@ using LAUCHA.domain.Entities.Empleados;
 using LAUCHA.domain.Entities.Liquidaciones;
 using LAUCHA.infrastructure.config;
 using LAUCHA.infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
 
 namespace LAUCHA.infrastructure.persistence
 {
@@ -25,7 +24,6 @@ namespace LAUCHA.infrastructure.persistence
         public DbSet<Descuento> Descuentos { get; set; }
         public DbSet<DescuentoPorLiquidacionPersonal> DescuentosPorLiquidaciones { get; set; }
         public DbSet<Empleado> Empleados { get; set; }
-        public DbSet<HistorialRetencionFija> HistorialRetencionesFijas { get; set; }
         public DbSet<LiquidacionGeneral> LiquidacionesGenerales { get; set; }
         public DbSet<Liquidacion> LiquidacionesPersonales { get; set; }
         public DbSet<PagoLiquidacion> PagosLiquidaciones { get; set; }
@@ -33,9 +31,7 @@ namespace LAUCHA.infrastructure.persistence
         public DbSet<RemuneracionPorLiquidacionPersonal> RemuneracionesPorLiquidaciones { get; set; }
         public DbSet<NoRemuneracion> NoRemuneraciones { get; set; }
         public DbSet<NoRemuneracionPorLiquidacionPersonal> NoRemuneracionesPorLiquidaciones { get; set; }
-        public DbSet<Retencion> Retenciones { get; set; }
-        public DbSet<RetencionFija> RetencionesFijas { get; set; }
-        public DbSet<RetencionFijaPorCuenta> RetencionesFijasPorCuentas { get; set; }
+        public DbSet<RetencionOLD> Retenciones { get; set; }
         public DbSet<RetencionPorLiquidacionPersonal> RetencionesPorLiquidaciones { get; set; }
 
         //DbSet de dias especiales
@@ -56,7 +52,6 @@ namespace LAUCHA.infrastructure.persistence
             modelBuilder.ApplyConfiguration(new DescuentoConfig());
             modelBuilder.ApplyConfiguration(new DescuentoPorLiquidacionConfig());
             modelBuilder.ApplyConfiguration(new EmpleadoConfig());
-            modelBuilder.ApplyConfiguration(new HistorialRetencionFijaConfig());
             modelBuilder.ApplyConfiguration(new LiquidacionConfig());
             modelBuilder.ApplyConfiguration(new LiquidacionGeneralConfig());
             modelBuilder.ApplyConfiguration(new NoRemuneracionConfig());
@@ -66,7 +61,6 @@ namespace LAUCHA.infrastructure.persistence
             modelBuilder.ApplyConfiguration(new RemuneracionConfig());
             modelBuilder.ApplyConfiguration(new RemuneracionPorLiquidacionConfig());
             modelBuilder.ApplyConfiguration(new RetencionConfig());
-            modelBuilder.ApplyConfiguration(new RetencionesFijasPorCuentaConfig());
             modelBuilder.ApplyConfiguration(new RetencionesPorLiquidacionConfig());
             modelBuilder.ApplyConfiguration(new RetencionFijaConfig());
             modelBuilder.ApplyConfiguration(new ItemLiquidacionConfig());

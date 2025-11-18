@@ -3,8 +3,8 @@ using LAUCHA.application.Common.Errors;
 using LAUCHA.application.Common.Extensions;
 using LAUCHA.application.Common.ResultResponse;
 using LAUCHA.application.Features.Empleados;
+using LAUCHA.domain.Entities.Acuerdos;
 using LAUCHA.domain.Entities.Empleados;
-using LAUCHA.domain.Entities.Liquidaciones;
 
 namespace LAUCHA.application.Features.Liquidaciones.CrearLiquidacion
 {
@@ -12,16 +12,19 @@ namespace LAUCHA.application.Features.Liquidaciones.CrearLiquidacion
     {
         private readonly IEmpleadoRepository _empleados;
         private readonly ILiquidacionRepository _liquidaciones;
+        private readonly IAcuerdoRepository _acuerdos;
         private readonly IValidator<CrearLiquidacionRequest> _validator;
 
 
         public CrearLiquidacionHandler(IEmpleadoRepository empleados,
                                        ILiquidacionRepository liquidaciones,
-                                       IValidator<CrearLiquidacionRequest> validator)
+                                       IValidator<CrearLiquidacionRequest> validator,
+                                       IAcuerdoRepository acuerdos)
         {
             _empleados = empleados;
             _liquidaciones = liquidaciones;
             _validator = validator;
+            _acuerdos = acuerdos;
         }
 
         public async Task<Result<CrearLiquidacionResponse>> Crear(CrearLiquidacionRequest req)
@@ -37,6 +40,7 @@ namespace LAUCHA.application.Features.Liquidaciones.CrearLiquidacion
                 return Result.Failure<CrearLiquidacionResponse>(EmpleadoErrors.Obtener);
 
             var empleado = empleadoResult.Value;
+            var acuerdo = await _acuerdos.GetActual(empleado.Dni);
 
             var liquidacion = Liquidacion.IniciarLiquidacion(
                     empleado,
@@ -44,6 +48,9 @@ namespace LAUCHA.application.Features.Liquidaciones.CrearLiquidacion
                     req.Mes,
                     req.Quincena
                 );
+
+            if (acuerdo is not null)
+                liquidacion.SetAcuerdo(acuerdo);
 
             var existe = await ExisteLiquidacion(liquidacion.Codigo);
             if (existe)

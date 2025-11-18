@@ -1,6 +1,6 @@
 ﻿namespace LAUCHA.domain.entities
 {
-    public class Retencion
+    public class RetencionOLD
     {
         public string CodigoRetencion { get; set; } = null!;
         public string Descripcion { get; set; } = null!;

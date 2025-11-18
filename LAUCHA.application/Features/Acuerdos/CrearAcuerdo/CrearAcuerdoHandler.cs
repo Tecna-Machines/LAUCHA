@@ -2,6 +2,7 @@
 using LAUCHA.application.Common.Errors;
 using LAUCHA.application.Common.Extensions;
 using LAUCHA.application.Common.ResultResponse;
+using LAUCHA.application.Mappers;
 using LAUCHA.domain.entities.Contrato;
 using LAUCHA.domain.Entities.Acuerdos;
 
@@ -51,7 +52,7 @@ namespace LAUCHA.application.Features.Acuerdos.CrearAcuerdo
                                             req.Sueldo,
                                             req.ValorBlanco,
                                             req.ValorHora,
-                                            MapTipoSueldo(req.TipoSueldo));
+                                            TipoSueldoMapper.ToTipoSueldo(req.TipoSueldo));
 
             acuerdo.AgregarNota(req.Notas);
 
@@ -75,17 +76,6 @@ namespace LAUCHA.application.Features.Acuerdos.CrearAcuerdo
             }
             return acuerdo;
         }
-
-        private TipoSueldo MapTipoSueldo(int tipo)
-        {
-            if (tipo == 10) return TipoSueldo.Mensual;
-            if (tipo == 12) return TipoSueldo.MensualFijoMasExtra;
-            if (tipo == 20) return TipoSueldo.QuincenalHora;
-            if (tipo == 22) return TipoSueldo.QuincenalFijo;
-
-            throw new InvalidOperationException("tipo sueldo invalido");
-        }
-
 
 
     }

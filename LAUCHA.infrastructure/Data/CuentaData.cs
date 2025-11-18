@@ -1,6 +1,4 @@
 ﻿using LAUCHA.domain.entities;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace LAUCHA.infrastructure.Data
 {
@@ -13,21 +11,21 @@ namespace LAUCHA.infrastructure.Data
                     {
                         DniEmpleado = "11584752",
                         FechaCreacion = DateTime.Now,
-                        estadoCuenta = true,
+                        EstadoCuenta = true,
                         NumeroCuenta = "1158475225"
                     },
                     new Cuenta
                     {
                         DniEmpleado = "13584780",
                         FechaCreacion = DateTime.Now,
-                        estadoCuenta = true,
+                        EstadoCuenta = true,
                         NumeroCuenta = "1358478025"
                     },
                     new Cuenta
                     {
                         DniEmpleado = "14784252",
                         FechaCreacion = DateTime.Now,
-                        estadoCuenta = true,
+                        EstadoCuenta = true,
                         NumeroCuenta = "1478425225"
                     }
 

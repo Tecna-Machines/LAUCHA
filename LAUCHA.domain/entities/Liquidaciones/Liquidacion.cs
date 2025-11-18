@@ -38,13 +38,17 @@ namespace LAUCHA.domain.Entities.Liquidaciones
         {
             if (Estado != EstadoLiquidacion.SELLADA)
             {
-                item.AsociarLiquidacion(this);
+                item.CodigoLiquidacion = Codigo;
+                item.NroItem = Items.Count;
                 Items.Add(item);
             }
         }
 
         public IEnumerable<ItemLiquidacion> GetItems() => Items.ToImmutableList();
 
+        /// <summary>
+        /// sellara una liquidacion lo que impide modificarla
+        /// </summary>
         public void Sellar()
         {
             if (Estado == EstadoLiquidacion.PENDIENTE)
@@ -68,6 +72,13 @@ namespace LAUCHA.domain.Entities.Liquidaciones
            => GetItemsRemunerativoBlanco().Sum(it => it.Monto);
 
         public bool EsPrimeraQuincena() => Quincena == 2 ? true : false;
+        public bool EstaSellada() => Estado == EstadoLiquidacion.SELLADA ? true : false;
+
+        public void SetAcuerdo(Acuerdo acuerdo)
+        {
+            Acuerdo = acuerdo;
+            CodigoAcuerdo = acuerdo.Codigo;
+        }
 
         //TODO: esto se deberia poder borrar
         public decimal TotalRemuneraciones { get; set; }

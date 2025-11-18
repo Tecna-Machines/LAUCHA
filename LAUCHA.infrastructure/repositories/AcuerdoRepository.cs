@@ -1,6 +1,5 @@
 ﻿using LAUCHA.domain.Entities.Acuerdos;
 using LAUCHA.infrastructure.persistence;
-using Microsoft.EntityFrameworkCore;
 
 namespace LAUCHA.infrastructure.repositories
 {

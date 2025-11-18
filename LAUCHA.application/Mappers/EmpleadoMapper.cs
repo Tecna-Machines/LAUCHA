@@ -30,7 +30,7 @@ namespace LAUCHA.application.Mappers
                 FechaIngreso = empleado.FechaIngreso,
                 NumeroCuenta = cuenta.NumeroCuenta,
                 FechaCreacion = cuenta.FechaCreacion,
-                EstadoCuenta = cuenta.estadoCuenta
+                EstadoCuenta = cuenta.EstadoCuenta
             };
         }
 
@@ -56,7 +56,7 @@ namespace LAUCHA.application.Mappers
                 FechaIngreso = empleado.FechaIngreso,
                 NumeroCuenta = cuenta.NumeroCuenta,
                 FechaCreacion = cuenta.FechaCreacion,
-                EstadoCuenta = cuenta.estadoCuenta,
+                EstadoCuenta = cuenta.EstadoCuenta,
                 ContratoResumen = contratoDTO
             };
         }

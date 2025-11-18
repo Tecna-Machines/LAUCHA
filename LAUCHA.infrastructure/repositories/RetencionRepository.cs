@@ -2,11 +2,10 @@
 using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.infrastructure.pagination;
 using LAUCHA.infrastructure.persistence;
-using Microsoft.EntityFrameworkCore;
 
 namespace LAUCHA.infrastructure.repositories
 {
-    public class RetencionRepository : IGenericRepository<Retencion>, IRetencionRepository
+    public class RetencionRepository : IGenericRepository<RetencionOLD>, IRetencionRepository
     {
         private readonly LiquidacionesDbContext _context;
 
@@ -15,36 +14,36 @@ namespace LAUCHA.infrastructure.repositories
             _context = context;
         }
 
-        public Retencion Delete(string codigoRetencion)
+        public RetencionOLD Delete(string codigoRetencion)
         {
             throw new NotImplementedException();
         }
 
-        public IList<Retencion> GetAll()
+        public IList<RetencionOLD> GetAll()
         {
             return _context.Retenciones.ToList();
         }
 
-        public Retencion GetById(string codigoRetencion)
+        public RetencionOLD GetById(string codigoRetencion)
         {
-            Retencion? encontrada = _context.Retenciones.Find(codigoRetencion);
+            RetencionOLD? encontrada = _context.Retenciones.Find(codigoRetencion);
             return encontrada != null ? encontrada : throw new NullReferenceException();
         }
 
-        public Retencion Insert(Retencion nuevaRetencion)
+        public RetencionOLD Insert(RetencionOLD nuevaRetencion)
         {
             _context.Add(nuevaRetencion);
             return nuevaRetencion;
         }
 
-        public Retencion Update(Retencion entity)
+        public RetencionOLD Update(RetencionOLD entity)
         {
             // TODO: quizas no sea necesario
             throw new NotImplementedException();
         }
         public int Save() => _context.SaveChanges();
 
-        public async Task<PaginaRegistro<Retencion>> ObtenerRetencionesFiltradas(string? numeroCuenta,
+        public async Task<PaginaRegistro<RetencionOLD>> ObtenerRetencionesFiltradas(string? numeroCuenta,
                                                                  DateTime? desde,
                                                                  DateTime? hasta,
                                                                  string? orden,
@@ -79,9 +78,9 @@ namespace LAUCHA.infrastructure.repositories
                 retenciones = retenciones.OrderByDescending(r => r.Fecha);
             }
 
-            var pagina = await PaginationGeneric<Retencion>.CrearPaginacion(retenciones.AsNoTracking(), numeroPagina, cantidadRegistros);
+            var pagina = await PaginationGeneric<RetencionOLD>.CrearPaginacion(retenciones.AsNoTracking(), numeroPagina, cantidadRegistros);
 
-            return new PaginaRegistro<Retencion>
+            return new PaginaRegistro<RetencionOLD>
             {
                 indicePagina = pagina.IndicePagina,
                 totalPaginas = pagina.TotalPaginas,
@@ -91,9 +90,9 @@ namespace LAUCHA.infrastructure.repositories
 
         }
 
-        public List<Retencion> ObtenerRetencionesDeLiquidacion(string codigoLiquidacion)
+        public List<RetencionOLD> ObtenerRetencionesDeLiquidacion(string codigoLiquidacion)
         {
-            List<Retencion> retenciones = new();
+            List<RetencionOLD> retenciones = new();
             var retencionesRecuperadas = _context.RetencionesPorLiquidaciones
                                         .Where(rl => rl.CodigoLiquidacionPersonal == codigoLiquidacion);
 

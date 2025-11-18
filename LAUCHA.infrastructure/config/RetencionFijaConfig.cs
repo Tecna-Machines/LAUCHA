@@ -1,14 +1,12 @@
-﻿using LAUCHA.domain.entities;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using LAUCHA.domain.Entities.RetencionesCatalogo;
 
 namespace LAUCHA.infrastructure.config
 {
-    internal class RetencionFijaConfig : IEntityTypeConfiguration<RetencionFija>
+    internal class RetencionFijaConfig : IEntityTypeConfiguration<RetencionCatalogo>
     {
-        public void Configure(EntityTypeBuilder<RetencionFija> builder)
+        public void Configure(EntityTypeBuilder<RetencionCatalogo> builder)
         {
-            builder.HasKey(retencionFija => retencionFija.CodigoRetencionFija);
+            builder.HasKey(retencionFija => retencionFija.Codigo);
 
         }
     }

@@ -1,6 +1,4 @@
 ﻿using LAUCHA.domain.Entities.Liquidaciones;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace LAUCHA.infrastructure.config
 {

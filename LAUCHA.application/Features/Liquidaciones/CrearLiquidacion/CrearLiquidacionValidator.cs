@@ -6,8 +6,8 @@ namespace LAUCHA.application.Features.Liquidaciones.CrearLiquidacion
     {
         public CrearLiquidacionValidator()
         {
-            RuleFor(cl => cl.Quincena).ExclusiveBetween(1, 2);
-            RuleFor(cl => cl.Anio).LessThan(DateTime.Now.Year);
+            RuleFor(cl => cl.Quincena).InclusiveBetween(1, 2);
+            RuleFor(cl => cl.Anio).LessThan(DateTime.Now.Year+1);
             RuleFor(cl => cl.Dni).NotEmpty();
         }
     }

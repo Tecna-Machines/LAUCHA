@@ -1,5 +1,7 @@
 ﻿using LAUCHA.domain.entities.Contrato;
 using LAUCHA.domain.Entities.Empleados;
+using LAUCHA.domain.Entities.RetencionesCatalogo;
+using System.Collections.Immutable;
 
 namespace LAUCHA.domain.Entities.Acuerdos
 {
@@ -21,7 +23,7 @@ namespace LAUCHA.domain.Entities.Acuerdos
 
         public TipoSueldo TipoSueldo { get; set; }
         public ICollection<Adicional> Adicionales { get; set; } = null!;
-
+        public ICollection<RetencionAcuerdo> Retenciones { get; set; } = null!;
 
         public static Acuerdo Crear(string dni,
                                     decimal sueldo,
@@ -38,7 +40,8 @@ namespace LAUCHA.domain.Entities.Acuerdos
                 ValorBlanco = valorBlanco,
                 ValorHora = valorHora,
                 TipoSueldo = tipoSueldo,
-                Adicionales = new List<Adicional>()
+                Adicionales = new List<Adicional>(),
+                Retenciones = new List<RetencionAcuerdo>()
             };
         }
 
@@ -54,6 +57,14 @@ namespace LAUCHA.domain.Entities.Acuerdos
         {
             this.Notas = nota;
         }
+
+        public void AgregarRetencion(RetencionCatalogo retencion)
+        {
+            Retenciones.Add(RetencionAcuerdo.Generar(retencion, this));
+        }
+
+        public IEnumerable<RetencionAcuerdo> GetRetenciones() => Retenciones.ToImmutableList();
+        public IEnumerable<Adicional> GetAdicionales() => Adicionales.ToImmutableList();
 
 
     }

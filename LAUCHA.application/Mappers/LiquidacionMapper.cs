@@ -17,7 +17,7 @@ namespace LAUCHA.application.Mappers
         private readonly NoRemuneracionMapper _NoRemuneracionMapper = new();
         public LiquidacionDTO GenerarLiquidacionDTO(Liquidacion liquidacion,
                                                     List<Remuneracion> remuneraciones,
-                                                    List<Retencion> retenciones,
+                                                    List<RetencionOLD> retenciones,
                                                     List<Descuento> descuentos,
                                                     List<NoRemuneracion> noRemuneraciones,
                                                     List<PagoLiquidacion> pagos,

@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace LAUCHA.infrastructure.Services.Marcas.Persistence
+﻿namespace LAUCHA.infrastructure.Services.Marcas.Persistence
 {
     public class MarcaMySQL
     {

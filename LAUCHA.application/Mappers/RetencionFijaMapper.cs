@@ -1,31 +1,31 @@
 ﻿using LAUCHA.application.DTOs.RetencionesFijasDTOs;
-using LAUCHA.domain.entities;
+using LAUCHA.domain.Entities.RetencionesCatalogo;
 
 namespace LAUCHA.application.Mappers
 {
     internal class RetencionFijaMapper
     {
-        public RetencionFija GenerarRetencionFija(RetencionFijaDTO retencionFijaDTO)
+        public RetencionCatalogo GenerarRetencionFija(RetencionFijaDTO retencionFijaDTO)
         {
-            return new RetencionFija
+            return new RetencionCatalogo
             {
-                CodigoRetencionFija = retencionFijaDTO.Codigo,
+                Codigo = retencionFijaDTO.Codigo,
                 Concepto = retencionFijaDTO.Concepto,
                 EsPorcentual = retencionFijaDTO.EsPorcentual,
                 Unidades = retencionFijaDTO.Unidades,
-                EsQuincenal = retencionFijaDTO.EsQuincenal
+                PrimeraQuincena = retencionFijaDTO.EsQuincenal
             };
         }
 
-        public RetencionFijaDTO GenerarRetencionFijaDTO(RetencionFija retencionFija)
+        public RetencionFijaDTO GenerarRetencionFijaDTO(RetencionCatalogo retencionFija)
         {
             return new RetencionFijaDTO
             {
-                Codigo = retencionFija.CodigoRetencionFija,
+                Codigo = retencionFija.Codigo,
                 Concepto = retencionFija.Concepto,
                 EsPorcentual = retencionFija.EsPorcentual,
                 Unidades = retencionFija.Unidades,
-                EsQuincenal = retencionFija.EsQuincenal
+                EsQuincenal = retencionFija.PrimeraQuincena
             };
         }
     }

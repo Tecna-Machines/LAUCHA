@@ -11,20 +11,17 @@ namespace LAUCHA.application.UseCase.ConsultarEmpleado
     {
         private readonly IGenericRepository<Empleado> _EmpleadoRepository;
         private readonly ICuentaRepository _CuentaRepository;
-        private readonly IAcuerdoRepository _ContratoRepository;
         private readonly EmpleadoMapper _EmpleadoMapper;
         private readonly ILogsApp log;
 
         public ConsultarEmpleadoService(IGenericRepository<Empleado> empleadoRepository,
                                         ICuentaRepository cuentaRepository,
-                                        ILogsApp log,
-                                        IAcuerdoRepository contratoRepository)
+                                        ILogsApp log)
         {
             _EmpleadoRepository = empleadoRepository;
             _CuentaRepository = cuentaRepository;
             _EmpleadoMapper = new EmpleadoMapper();
             this.log = log;
-            _ContratoRepository = contratoRepository;
         }
 
         public DTOs.EmpleadoDTO.EmpleadoDTO ConsultarUnEmpleado(string dniEmpleado)

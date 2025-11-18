@@ -9,11 +9,11 @@ namespace LAUCHA.application.UseCase.OperarRetenciones
 {
     public class OperarRetencionesService : IOperarRetencionService
     {
-        private readonly IGenericRepository<Retencion> _RetencionRepository;
+        private readonly IGenericRepository<RetencionOLD> _RetencionRepository;
         private readonly IRetencionRepository _RetencionRepositoryEspecifo;
         private readonly RetencionMapper _RetencionMapper;
         private readonly ILogsApp log;
-        public OperarRetencionesService(IGenericRepository<Retencion> retencionRepository,
+        public OperarRetencionesService(IGenericRepository<RetencionOLD> retencionRepository,
                                         IRetencionRepository retencionRepositoryEspecifo,
                                         ILogsApp log)
         {
@@ -28,7 +28,7 @@ namespace LAUCHA.application.UseCase.OperarRetenciones
             log.LogInformation("generando nueva retencion, cuenta:{c}, desc: {descp} , monto: {mont}",
                                nuevaRetencionDTO.NumeroCuenta, nuevaRetencionDTO.Descripcion, nuevaRetencionDTO.Monto);
 
-            Retencion nuevaRetencion = _RetencionMapper.GenerarRetencion(nuevaRetencionDTO);
+            RetencionOLD nuevaRetencion = _RetencionMapper.GenerarRetencion(nuevaRetencionDTO);
 
             nuevaRetencion = _RetencionRepository.Insert(nuevaRetencion);
             _RetencionRepository.Save();
@@ -39,7 +39,7 @@ namespace LAUCHA.application.UseCase.OperarRetenciones
 
         public RetencionDTO ConsultarRetencion(string codigoRetencion)
         {
-            Retencion retenionEncontrada = _RetencionRepository.GetById(codigoRetencion);
+            RetencionOLD retenionEncontrada = _RetencionRepository.GetById(codigoRetencion);
 
             return _RetencionMapper.GenerarRetencionDTO(retenionEncontrada);
         }
@@ -55,7 +55,7 @@ namespace LAUCHA.application.UseCase.OperarRetenciones
 
             log.LogInformation("consultando las retenciones de la cuenta: {c}", numeroCuenta ?? "no cuenta");
 
-            PaginaRegistro<Retencion> pagina = await _RetencionRepositoryEspecifo.ObtenerRetencionesFiltradas(numeroCuenta,
+            PaginaRegistro<RetencionOLD> pagina = await _RetencionRepositoryEspecifo.ObtenerRetencionesFiltradas(numeroCuenta,
                                                                                                               desde,
                                                                                                               hasta,
                                                                                                               orden,
@@ -63,7 +63,7 @@ namespace LAUCHA.application.UseCase.OperarRetenciones
                                                                                                               indexPagina,
                                                                                                               cantidadRegistros);
             List<RetencionDTO> retencionesDTO = new();
-            List<Retencion> retencionePagina = pagina.Registros;
+            List<RetencionOLD> retencionePagina = pagina.Registros;
 
             foreach (var retencion in retencionePagina)
             {

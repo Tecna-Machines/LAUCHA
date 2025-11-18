@@ -4,7 +4,7 @@ namespace LAUCHA.domain.interfaces.IRepositories
 {
     public interface IRetencionRepository
     {
-        Task<PaginaRegistro<Retencion>> ObtenerRetencionesFiltradas(string? numeroCuenta,
+        Task<PaginaRegistro<RetencionOLD>> ObtenerRetencionesFiltradas(string? numeroCuenta,
                                                           DateTime? desde,
                                                           DateTime? hasta,
                                                           string? orden,
@@ -12,6 +12,6 @@ namespace LAUCHA.domain.interfaces.IRepositories
                                                           int numeroPagina,
                                                           int cantidadRegistros);
 
-        List<Retencion> ObtenerRetencionesDeLiquidacion(string codigoLiquidacion);
+        List<RetencionOLD> ObtenerRetencionesDeLiquidacion(string codigoLiquidacion);
     }
 }

@@ -123,6 +123,9 @@ namespace LAUCHA.infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<bool>("EsAutomatico")
+                        .HasColumnType("tinyint(1)");
+
                     b.Property<bool>("EsEnBlanco")
                         .HasColumnType("tinyint(1)");
 

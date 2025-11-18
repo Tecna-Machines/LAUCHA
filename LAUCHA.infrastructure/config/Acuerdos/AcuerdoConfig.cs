@@ -1,8 +1,6 @@
 ﻿using LAUCHA.domain.Entities.Acuerdos;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace LAUCHA.infrastructure.config
+namespace LAUCHA.infrastructure.config.Acuerdos
 {
     internal class AcuerdoConfig : IEntityTypeConfiguration<Acuerdo>
     {

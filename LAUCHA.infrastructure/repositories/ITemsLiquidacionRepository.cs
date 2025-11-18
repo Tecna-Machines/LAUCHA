@@ -55,13 +55,13 @@ namespace LAUCHA.infrastructure.repositories
             return remuneracionesLiquidacion;
         }
 
-        public List<Retencion> ObtenerRetencionesLiquidacion(string codigoLiquidacion)
+        public List<RetencionOLD> ObtenerRetencionesLiquidacion(string codigoLiquidacion)
         {
             var listaRetencionesPorLiquidacion = _context.RetencionesPorLiquidaciones
                                                 .Where(rt => rt.CodigoLiquidacionPersonal == codigoLiquidacion)
                                                 .ToList();
 
-            List<Retencion> retencionesLiquidacion = new();
+            List<RetencionOLD> retencionesLiquidacion = new();
 
             foreach (var reten in listaRetencionesPorLiquidacion)
             {

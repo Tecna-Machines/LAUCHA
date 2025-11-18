@@ -1,6 +1,4 @@
 ﻿using LAUCHA.domain.entities.Contrato;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace LAUCHA.infrastructure.Data
 {

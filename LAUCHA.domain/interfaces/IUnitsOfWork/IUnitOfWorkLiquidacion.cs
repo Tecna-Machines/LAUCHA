@@ -9,7 +9,7 @@ namespace LAUCHA.domain.interfaces.IUnitsOfWork
         IGenericRepository<Remuneracion> RemuneracionRepository { get; }
         IGenericRepository<NoRemuneracion> NORemuneracionRepository { get; }
         IGenericRepository<Descuento> DescuentoRepository { get; }
-        IGenericRepository<Retencion> RetencionRepository { get; }
+        IGenericRepository<RetencionOLD> RetencionRepository { get; }
 
         IGenericRepository<RemuneracionPorLiquidacionPersonal> RemuneracionLiquidacion { get; }
         IGenericRepository<RetencionPorLiquidacionPersonal> RetencionLiquidacion { get; }

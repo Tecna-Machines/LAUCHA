@@ -1,12 +1,10 @@
 ﻿using LAUCHA.domain.entities;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace LAUCHA.infrastructure.config
 {
-    internal class RetencionConfig : IEntityTypeConfiguration<Retencion>
+    internal class RetencionConfig : IEntityTypeConfiguration<RetencionOLD>
     {
-        public void Configure(EntityTypeBuilder<Retencion> builder)
+        public void Configure(EntityTypeBuilder<RetencionOLD> builder)
         {
             builder.HasKey(retencion => retencion.CodigoRetencion);
 

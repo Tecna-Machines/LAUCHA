@@ -9,6 +9,12 @@
         public DateTime Fecha { get; set; }
         public bool EsEnBlanco { get; set; }
         public bool EsIncremento { get; set; }
+
+        /// <summary>
+        /// si el item es generado por la aplicacion queda marcada
+        /// si lo hace un usuario esta propiedad queda en false
+        /// </summary>
+        public bool EsAutomatico { get; set; }
         public EstadoItemLiquidacion Estado { get; set; }
         public TipoItemLiquidacion Tipo { get; set; }
 
@@ -40,7 +46,7 @@
             };
         }
 
-        public static ItemLiquidacion CrearNoRemunerativo(string concepto, decimal monto)
+        public static ItemLiquidacion CrearItemNoRemunerativo(string concepto, decimal monto)
         {
             return new ItemLiquidacion
             {
@@ -81,14 +87,14 @@
                 Tipo = TipoItemLiquidacion.Descuento
             };
         }
-
-        public void AsociarLiquidacion(Liquidacion liq)
-        {
-            CodigoLiquidacion = liq.Codigo;
-        }
         public void Anular()
         {
             Estado = EstadoItemLiquidacion.ANULADO;
+        }
+
+        public void MarcarComoAutomatico()
+        {
+            EsAutomatico = true;
         }
     }
 }

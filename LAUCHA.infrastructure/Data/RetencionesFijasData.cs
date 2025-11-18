@@ -1,52 +1,50 @@
-﻿using LAUCHA.domain.entities;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using LAUCHA.domain.Entities.RetencionesCatalogo;
 
 namespace LAUCHA.infrastructure.Data
 {
-    internal class RetencionesFijasData : IEntityTypeConfiguration<RetencionFija>
+    internal class RetencionesFijasData : IEntityTypeConfiguration<RetencionCatalogo>
     {
-        public void Configure(EntityTypeBuilder<RetencionFija> builder)
+        public void Configure(EntityTypeBuilder<RetencionCatalogo> builder)
         {
             builder.HasData(
-                    new RetencionFija
+                    new RetencionCatalogo
                     {
-                        CodigoRetencionFija = "0900",
+                        Codigo = "0900",
                         Concepto = "Jubilacion",
                         EsPorcentual = true,
-                        EsQuincenal = false,
+                        PrimeraQuincena = false,
                         Unidades = 11
                     },
-                    new RetencionFija
+                    new RetencionCatalogo
                     {
-                        CodigoRetencionFija = "0905",
+                        Codigo = "0905",
                         Concepto = "Ley 19032",
                         EsPorcentual = true,
-                        EsQuincenal = false,
+                        PrimeraQuincena = false,
                         Unidades = 3
                     },
-                    new RetencionFija
+                    new RetencionCatalogo
                     {
-                        CodigoRetencionFija = "0940",
+                        Codigo = "0940",
                         Concepto = "Seguro y Sepelio",
                         EsPorcentual = false,
-                        EsQuincenal = true,
+                        PrimeraQuincena = true,
                         Unidades = 2300
                     },
-                    new RetencionFija
+                    new RetencionCatalogo
                     {
-                        CodigoRetencionFija = "0910",
+                        Codigo = "0910",
                         Concepto = "Obra Social",
                         EsPorcentual = true,
-                        EsQuincenal = false,
+                        PrimeraQuincena = false,
                         Unidades = 3
                     },
-                    new RetencionFija
+                    new RetencionCatalogo
                     {
-                        CodigoRetencionFija = "0920",
+                        Codigo = "0920",
                         Concepto = "Aporte Sindical Obligatorio",
                         EsPorcentual = true,
-                        EsQuincenal = false,
+                        PrimeraQuincena = false,
                         Unidades = Convert.ToDecimal(2.5)
                     }
                 );

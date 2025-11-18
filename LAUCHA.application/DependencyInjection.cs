@@ -4,6 +4,8 @@ using LAUCHA.application.Features.Acuerdos.GetAcuerdoById;
 using LAUCHA.application.Features.Acuerdos.GetAcuerdosEmpleado;
 using LAUCHA.application.Features.Empleados.CrearEmpleado;
 using LAUCHA.application.Features.Empleados.GetEmpleados;
+using LAUCHA.application.Features.Liquidaciones.AnularItem;
+using LAUCHA.application.Features.Liquidaciones.CrearItem;
 using LAUCHA.application.Features.Liquidaciones.CrearLiquidacion;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,6 +19,8 @@ namespace LAUCHA.application
             AddAcuerdosFeature(services);
             AddEmpleadosFeature(services);
             AddLiquidacionFeatures(services);
+            AddItemsFeatures(services);
+
             return services;
         }
 
@@ -44,6 +48,16 @@ namespace LAUCHA.application
         {
             services.AddScoped<IValidator<CrearLiquidacionRequest>, CrearLiquidacionValidator>();
             services.AddScoped<ICrearLiquidacion, CrearLiquidacionHandler>();
+
+            return services;
+        }
+
+        private static IServiceCollection AddItemsFeatures(this IServiceCollection services)
+        {
+            services.AddScoped<IFabricaItem, FabricaItem>();
+            services.AddScoped<ICrearItem, CrearItemHandler>();
+
+            services.AddScoped<IAnularItem, AnularItemHandler>();
 
             return services;
         }

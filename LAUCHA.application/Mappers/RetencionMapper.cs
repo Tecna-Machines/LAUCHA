@@ -5,11 +5,11 @@ namespace LAUCHA.application.Mappers
 {
     internal class RetencionMapper
     {
-        public Retencion GenerarRetencion(CrearRetencionDTO retencionDTO)
+        public RetencionOLD GenerarRetencion(CrearRetencionDTO retencionDTO)
         {
             DateTime fechaActual = DateTime.Now;
 
-            return new Retencion
+            return new RetencionOLD
             {
                 CodigoRetencion = $"RET:{retencionDTO.NumeroCuenta}{fechaActual.Year}{fechaActual.Hour}{fechaActual.Second}",
                 Descripcion = retencionDTO.Descripcion,
@@ -19,7 +19,7 @@ namespace LAUCHA.application.Mappers
             };
         }
 
-        public RetencionDTO GenerarRetencionDTO(Retencion retencion)
+        public RetencionDTO GenerarRetencionDTO(RetencionOLD retencion)
         {
             return new RetencionDTO
             {
