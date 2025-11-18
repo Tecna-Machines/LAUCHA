@@ -5,7 +5,7 @@ using LAUCHA.infrastructure.persistence;
 
 namespace LAUCHA.infrastructure.repositories
 {
-    public class RetencionRepository : IGenericRepository<RetencionOLD>, IRetencionRepository
+    public class RetencionRepository : IGenericRepository<RetencionOLD>, IRetencionCatalogoRepositoryOLD
     {
         private readonly LiquidacionesDbContext _context;
 

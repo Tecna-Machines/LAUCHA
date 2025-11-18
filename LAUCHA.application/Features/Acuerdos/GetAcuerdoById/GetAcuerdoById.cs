@@ -35,7 +35,8 @@ namespace LAUCHA.application.Features.Acuerdos.GetAcuerdoById
             Notas: a.Notas ?? string.Empty,
             TipoSueldo: Map(a.TipoSueldo),
             Empleado: new(a.Empleado.Dni, $"{a.Empleado.Nombre} {a.Empleado.Apellido}"),
-            Adicionales: a.Adicionales.Select(Map).ToList()
+            Adicionales: a.Adicionales.Select(Map).ToList(),
+            Retenciones: a.Retenciones.Select(Map).ToList()
         );
 
         private static AdicionalAcuerdoResponse Map(Adicional x) =>
@@ -43,5 +44,9 @@ namespace LAUCHA.application.Features.Acuerdos.GetAcuerdoById
 
         private static TipoSueldoResponse Map(TipoSueldo t) =>
             new(TipoSueldoMapper.ToInt(t).ToString(), TipoSueldoMapper.ToString(t));
+
+        private static RetencionResponse Map(RetencionAcuerdo r)=>
+         new(r.CodigoRetencion, r.Concepto, r.EsPorcentual, r.PrimeraQuincena, r.Unidades);
+        
     }
 }

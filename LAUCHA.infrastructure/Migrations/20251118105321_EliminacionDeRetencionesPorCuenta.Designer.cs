@@ -3,6 +3,7 @@ using System;
 using LAUCHA.infrastructure.persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LAUCHA.infrastructure.Migrations
 {
     [DbContext(typeof(LiquidacionesDbContext))]
-    partial class LiquidacionesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251118105321_EliminacionDeRetencionesPorCuenta")]
+    partial class EliminacionDeRetencionesPorCuenta
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -92,6 +95,9 @@ namespace LAUCHA.infrastructure.Migrations
                     b.Property<string>("CodigoAcuerdo")
                         .HasColumnType("varchar(255)");
 
+                    b.Property<string>("AcuerdoCodigo")
+                        .HasColumnType("varchar(255)");
+
                     b.Property<string>("Concepto")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -107,7 +113,7 @@ namespace LAUCHA.infrastructure.Migrations
 
                     b.HasKey("CodigoRetencion", "CodigoAcuerdo");
 
-                    b.HasIndex("CodigoAcuerdo");
+                    b.HasIndex("AcuerdoCodigo");
 
                     b.ToTable("RetencionAcuerdo");
                 });
@@ -236,7 +242,7 @@ namespace LAUCHA.infrastructure.Migrations
                     b.ToTable("LiquidacionesPersonales");
                 });
 
-            modelBuilder.Entity("LAUCHA.domain.Entities.RetencionesCatalogo.CatalogoRetencion", b =>
+            modelBuilder.Entity("LAUCHA.domain.Entities.RetencionesCatalogo.RetencionCatalogo", b =>
                 {
                     b.Property<string>("Codigo")
                         .HasColumnType("varchar(255)");
@@ -256,7 +262,7 @@ namespace LAUCHA.infrastructure.Migrations
 
                     b.HasKey("Codigo");
 
-                    b.ToTable("CatalogoRetenciones");
+                    b.ToTable("RetencionCatalogo");
 
                     b.HasData(
                         new
@@ -321,7 +327,7 @@ namespace LAUCHA.infrastructure.Migrations
                     b.Property<string>("Codigo")
                         .HasColumnType("varchar(255)");
 
-                    b.Property<string>("CodigoAcuerdo")
+                    b.Property<string>("CodigoContrato")
                         .IsRequired()
                         .HasColumnType("varchar(255)");
 
@@ -343,7 +349,7 @@ namespace LAUCHA.infrastructure.Migrations
 
                     b.HasKey("Codigo");
 
-                    b.HasIndex("CodigoAcuerdo");
+                    b.HasIndex("CodigoContrato");
 
                     b.ToTable("Adicionales");
                 });
@@ -772,15 +778,7 @@ namespace LAUCHA.infrastructure.Migrations
                 {
                     b.HasOne("LAUCHA.domain.Entities.Acuerdos.Acuerdo", null)
                         .WithMany("Retenciones")
-                        .HasForeignKey("CodigoAcuerdo")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("LAUCHA.domain.Entities.RetencionesCatalogo.CatalogoRetencion", null)
-                        .WithMany()
-                        .HasForeignKey("CodigoRetencion")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("AcuerdoCodigo");
                 });
 
             modelBuilder.Entity("LAUCHA.domain.Entities.Liquidaciones.ItemLiquidacion", b =>
@@ -813,7 +811,7 @@ namespace LAUCHA.infrastructure.Migrations
                 {
                     b.HasOne("LAUCHA.domain.Entities.Acuerdos.Acuerdo", null)
                         .WithMany("Adicionales")
-                        .HasForeignKey("CodigoAcuerdo")
+                        .HasForeignKey("CodigoContrato")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

@@ -2,7 +2,7 @@
 
 namespace LAUCHA.domain.interfaces.IRepositories
 {
-    public interface IRetencionRepository
+    public interface IRetencionCatalogoRepositoryOLD
     {
         Task<PaginaRegistro<RetencionOLD>> ObtenerRetencionesFiltradas(string? numeroCuenta,
                                                           DateTime? desde,

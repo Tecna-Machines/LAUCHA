@@ -22,7 +22,11 @@ namespace LAUCHA.infrastructure.config.Acuerdos
 
             builder.HasMany(a => a.Adicionales)
                     .WithOne()
-                    .HasForeignKey(ad => ad.CodigoContrato);
+                    .HasForeignKey(ad => ad.CodigoAcuerdo);
+
+            builder.HasMany(a => a.Retenciones)
+                    .WithOne()
+                    .HasForeignKey(ra => ra.CodigoAcuerdo);
 
             builder.Property(a => a.Sueldo).HasColumnType("decimal(18,2)");
             builder.Property(a => a.ValorHora).HasColumnType("decimal(18,2)");

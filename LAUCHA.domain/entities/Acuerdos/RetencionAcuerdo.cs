@@ -4,7 +4,7 @@ namespace LAUCHA.domain.Entities.Acuerdos
 {
     public class RetencionAcuerdo
     {
-        public string Codigo { get; set; } = string.Empty;
+        public string CodigoRetencion { get; set; } = string.Empty;
         public string Concepto { get; set; } = null!;
         public decimal Unidades { get; set; }
         public bool EsPorcentual { get; set; }
@@ -12,11 +12,11 @@ namespace LAUCHA.domain.Entities.Acuerdos
 
         public string CodigoAcuerdo { get; set; } = string.Empty;
 
-        public static RetencionAcuerdo Generar(RetencionCatalogo catalogo, Acuerdo acuerdo)
+        public static RetencionAcuerdo Generar(CatalogoRetencion catalogo, Acuerdo acuerdo)
         {
             return new RetencionAcuerdo
             {
-                Codigo = catalogo.Codigo,
+                CodigoRetencion = catalogo.Codigo,
                 Concepto = catalogo.Concepto,
                 EsPorcentual = catalogo.EsPorcentual,
                 Unidades = catalogo.Unidades,

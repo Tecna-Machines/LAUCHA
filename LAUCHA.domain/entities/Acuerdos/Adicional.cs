@@ -8,7 +8,7 @@
         public bool EsPorcentual { get; set; }
         public bool EsEnBlanco { get; set; }
         public DateTime FechaCreacion { get; set; }
-        public string CodigoContrato { get; set; } = null!;
+        public string CodigoAcuerdo { get; set; } = null!;
 
     }
 }

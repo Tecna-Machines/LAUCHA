@@ -2,12 +2,12 @@
 
 namespace LAUCHA.infrastructure.Data
 {
-    internal class RetencionesFijasData : IEntityTypeConfiguration<RetencionCatalogo>
+    internal class RetencionesFijasData : IEntityTypeConfiguration<CatalogoRetencion>
     {
-        public void Configure(EntityTypeBuilder<RetencionCatalogo> builder)
+        public void Configure(EntityTypeBuilder<CatalogoRetencion> builder)
         {
             builder.HasData(
-                    new RetencionCatalogo
+                    new CatalogoRetencion
                     {
                         Codigo = "0900",
                         Concepto = "Jubilacion",
@@ -15,7 +15,7 @@ namespace LAUCHA.infrastructure.Data
                         PrimeraQuincena = false,
                         Unidades = 11
                     },
-                    new RetencionCatalogo
+                    new CatalogoRetencion
                     {
                         Codigo = "0905",
                         Concepto = "Ley 19032",
@@ -23,7 +23,7 @@ namespace LAUCHA.infrastructure.Data
                         PrimeraQuincena = false,
                         Unidades = 3
                     },
-                    new RetencionCatalogo
+                    new CatalogoRetencion
                     {
                         Codigo = "0940",
                         Concepto = "Seguro y Sepelio",
@@ -31,7 +31,7 @@ namespace LAUCHA.infrastructure.Data
                         PrimeraQuincena = true,
                         Unidades = 2300
                     },
-                    new RetencionCatalogo
+                    new CatalogoRetencion
                     {
                         Codigo = "0910",
                         Concepto = "Obra Social",
@@ -39,7 +39,7 @@ namespace LAUCHA.infrastructure.Data
                         PrimeraQuincena = false,
                         Unidades = 3
                     },
-                    new RetencionCatalogo
+                    new CatalogoRetencion
                     {
                         Codigo = "0920",
                         Concepto = "Aporte Sindical Obligatorio",

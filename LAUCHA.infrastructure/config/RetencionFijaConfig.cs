@@ -2,9 +2,9 @@
 
 namespace LAUCHA.infrastructure.config
 {
-    internal class RetencionFijaConfig : IEntityTypeConfiguration<RetencionCatalogo>
+    internal class RetencionFijaConfig : IEntityTypeConfiguration<CatalogoRetencion>
     {
-        public void Configure(EntityTypeBuilder<RetencionCatalogo> builder)
+        public void Configure(EntityTypeBuilder<CatalogoRetencion> builder)
         {
             builder.HasKey(retencionFija => retencionFija.Codigo);
 

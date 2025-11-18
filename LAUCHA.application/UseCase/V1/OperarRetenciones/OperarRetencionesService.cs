@@ -10,11 +10,11 @@ namespace LAUCHA.application.UseCase.OperarRetenciones
     public class OperarRetencionesService : IOperarRetencionService
     {
         private readonly IGenericRepository<RetencionOLD> _RetencionRepository;
-        private readonly IRetencionRepository _RetencionRepositoryEspecifo;
+        private readonly IRetencionCatalogoRepositoryOLD _RetencionRepositoryEspecifo;
         private readonly RetencionMapper _RetencionMapper;
         private readonly ILogsApp log;
         public OperarRetencionesService(IGenericRepository<RetencionOLD> retencionRepository,
-                                        IRetencionRepository retencionRepositoryEspecifo,
+                                        IRetencionCatalogoRepositoryOLD retencionRepositoryEspecifo,
                                         ILogsApp log)
         {
             _RetencionRepository = retencionRepository;

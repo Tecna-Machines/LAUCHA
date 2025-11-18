@@ -47,7 +47,7 @@ namespace LAUCHA.domain.Entities.Acuerdos
 
         public void AgregarAdicional(Adicional adicional)
         {
-            if (adicional.CodigoContrato != Codigo)
+            if (adicional.CodigoAcuerdo != Codigo)
                 throw new ArgumentException("codigo de acuerdo no valido");
 
             this.Adicionales.Add(adicional);
@@ -58,7 +58,7 @@ namespace LAUCHA.domain.Entities.Acuerdos
             this.Notas = nota;
         }
 
-        public void AgregarRetencion(RetencionCatalogo retencion)
+        public void AgregarRetencion(CatalogoRetencion retencion)
         {
             Retenciones.Add(RetencionAcuerdo.Generar(retencion, this));
         }

@@ -16,6 +16,7 @@ namespace LAUCHA.infrastructure.repositories
         {
             return await _context.Acuerdos.OrderByDescending(ac => ac.Fecha)
                                     .Include(ac => ac.Adicionales)
+                                    .Include(ac => ac.Retenciones)
                                     .FirstOrDefaultAsync(ac => ac.DniEmpleado == dni);
         }
 
@@ -38,6 +39,7 @@ namespace LAUCHA.infrastructure.repositories
             return await _context.Acuerdos
                          .Include(ac => ac.Empleado)
                          .Include(ac => ac.Adicionales)
+                         .Include(ac => ac.Retenciones)
                          .FirstOrDefaultAsync(ac => ac.Codigo == id);
         }
     }

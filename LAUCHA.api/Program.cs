@@ -109,7 +109,7 @@ builder.Services.AddScoped<IOperarDescuentosService, OperarDescuentosService>();
 builder.Services.AddScoped<IGenericRepository<RetencionOLD>, RetencionRepository>();
 builder.Services.AddScoped<IOperarRetencionService, OperarRetencionesService>();
 
-builder.Services.AddScoped<IRetencionRepository, RetencionRepository>();
+builder.Services.AddScoped<IRetencionCatalogoRepositoryOLD, RetencionRepository>();
 builder.Services.AddScoped<IDescuentoRepository, DescuentoRepository>();
 
 //builder.Services.AddScoped<ILiquidacionService, CrearLiquidacionService>();

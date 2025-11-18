@@ -3,6 +3,7 @@ using System;
 using LAUCHA.infrastructure.persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LAUCHA.infrastructure.Migrations
 {
     [DbContext(typeof(LiquidacionesDbContext))]
-    partial class LiquidacionesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251118113419_ConfigRetencionCatalogoAcuerdoFk")]
+    partial class ConfigRetencionCatalogoAcuerdoFk
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -236,7 +239,7 @@ namespace LAUCHA.infrastructure.Migrations
                     b.ToTable("LiquidacionesPersonales");
                 });
 
-            modelBuilder.Entity("LAUCHA.domain.Entities.RetencionesCatalogo.CatalogoRetencion", b =>
+            modelBuilder.Entity("LAUCHA.domain.Entities.RetencionesCatalogo.RetencionCatalogo", b =>
                 {
                     b.Property<string>("Codigo")
                         .HasColumnType("varchar(255)");
@@ -256,7 +259,7 @@ namespace LAUCHA.infrastructure.Migrations
 
                     b.HasKey("Codigo");
 
-                    b.ToTable("CatalogoRetenciones");
+                    b.ToTable("RetencionCatalogo");
 
                     b.HasData(
                         new
@@ -776,7 +779,7 @@ namespace LAUCHA.infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LAUCHA.domain.Entities.RetencionesCatalogo.CatalogoRetencion", null)
+                    b.HasOne("LAUCHA.domain.Entities.RetencionesCatalogo.RetencionCatalogo", null)
                         .WithMany()
                         .HasForeignKey("CodigoRetencion")
                         .OnDelete(DeleteBehavior.Restrict)

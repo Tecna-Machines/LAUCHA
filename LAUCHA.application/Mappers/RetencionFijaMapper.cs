@@ -5,9 +5,9 @@ namespace LAUCHA.application.Mappers
 {
     internal class RetencionFijaMapper
     {
-        public RetencionCatalogo GenerarRetencionFija(RetencionFijaDTO retencionFijaDTO)
+        public CatalogoRetencion GenerarRetencionFija(RetencionFijaDTO retencionFijaDTO)
         {
-            return new RetencionCatalogo
+            return new CatalogoRetencion
             {
                 Codigo = retencionFijaDTO.Codigo,
                 Concepto = retencionFijaDTO.Concepto,
@@ -17,7 +17,7 @@ namespace LAUCHA.application.Mappers
             };
         }
 
-        public RetencionFijaDTO GenerarRetencionFijaDTO(RetencionCatalogo retencionFija)
+        public RetencionFijaDTO GenerarRetencionFijaDTO(CatalogoRetencion retencionFija)
         {
             return new RetencionFijaDTO
             {

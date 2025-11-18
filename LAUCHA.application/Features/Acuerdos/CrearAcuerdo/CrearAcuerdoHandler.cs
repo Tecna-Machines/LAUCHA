@@ -5,18 +5,24 @@ using LAUCHA.application.Common.ResultResponse;
 using LAUCHA.application.Mappers;
 using LAUCHA.domain.entities.Contrato;
 using LAUCHA.domain.Entities.Acuerdos;
+using LAUCHA.domain.Entities.RetencionesCatalogo;
+
 
 namespace LAUCHA.application.Features.Acuerdos.CrearAcuerdo
 {
     internal class CrearAcuerdoHandler : ICrearAcuerdo
     {
         private readonly IAcuerdoRepository _acuerdos;
+        private readonly ICatalogoRetencionRepository _retenciones;
         private readonly IValidator<CrearAcuerdoRequest> _validator;
 
-        public CrearAcuerdoHandler(IAcuerdoRepository acuerdos, IValidator<CrearAcuerdoRequest> validator)
+        public CrearAcuerdoHandler(IAcuerdoRepository acuerdos,
+                                   IValidator<CrearAcuerdoRequest> validator,
+                                   ICatalogoRetencionRepository retenciones)
         {
             _acuerdos = acuerdos;
             _validator = validator;
+            _retenciones = retenciones;
         }
 
         public async Task<Result<CrearAcuerdoResponse>> Crear(CrearAcuerdoRequest req)
@@ -26,7 +32,7 @@ namespace LAUCHA.application.Features.Acuerdos.CrearAcuerdo
             if (validacion.IsFailure)
                 return Result.Failure<CrearAcuerdoResponse>(validacion.Error);
 
-            var acuerdo = CrearAcuerdo(req);
+            var acuerdo = await CrearAcuerdo(req);
 
             await _acuerdos.Insert(acuerdo);
 
@@ -46,7 +52,7 @@ namespace LAUCHA.application.Features.Acuerdos.CrearAcuerdo
             return Result.Success(); ;
         }
 
-        private Acuerdo CrearAcuerdo(CrearAcuerdoRequest req)
+        private async Task<Acuerdo> CrearAcuerdo(CrearAcuerdoRequest req)
         {
             Acuerdo acuerdo = Acuerdo.Crear(req.Dni,
                                             req.Sueldo,
@@ -56,6 +62,14 @@ namespace LAUCHA.application.Features.Acuerdos.CrearAcuerdo
 
             acuerdo.AgregarNota(req.Notas);
 
+            AgregarAdicionales(acuerdo, req);
+            await AgregarRetenciones(acuerdo, req);
+
+            return acuerdo;
+        }
+
+        private void AgregarAdicionales(Acuerdo acuerdo, CrearAcuerdoRequest req)
+        {
             int numeroAdicional = 0;
 
             foreach (var adicional in req.Adicionales)
@@ -63,7 +77,7 @@ namespace LAUCHA.application.Features.Acuerdos.CrearAcuerdo
                 var adi = new Adicional
                 {
                     Codigo = $"{acuerdo.Codigo}:{numeroAdicional}",
-                    CodigoContrato = acuerdo.Codigo,
+                    CodigoAcuerdo = acuerdo.Codigo,
                     Concepto = adicional.Concepto,
                     FechaCreacion = DateTime.Now,
                     EsEnBlanco = adicional.EsEnBlanco,
@@ -74,7 +88,19 @@ namespace LAUCHA.application.Features.Acuerdos.CrearAcuerdo
                 acuerdo.AgregarAdicional(adi);
                 numeroAdicional++;
             }
-            return acuerdo;
+        }
+
+        private async Task AgregarRetenciones(Acuerdo acuerdo, CrearAcuerdoRequest req)
+        {
+            foreach (var codigoRetencion in req.Retenciones)
+            {
+                var retencion = await _retenciones.GetRetencion(codigoRetencion);
+
+                if (retencion is null)
+                    throw new ArgumentException("retencion.inexistente");
+
+                acuerdo.AgregarRetencion(retencion);
+            }
         }
 
 
