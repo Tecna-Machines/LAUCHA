@@ -10,6 +10,7 @@
     {
         Remunerativo,
         Descuento,
-        NoRemunerativo
+        NoRemunerativo,
+        Retencion
     }
 }

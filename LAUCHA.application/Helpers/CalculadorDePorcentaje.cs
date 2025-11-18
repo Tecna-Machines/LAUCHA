@@ -1,14 +1,14 @@
 ﻿namespace LAUCHA.application.Helpers
 {
-    internal class CalculadorDePorcentaje
+    internal static class CalculadorDePorcentaje
     {
-        public decimal CalcularPorcentajeDeMonto(decimal porcentaje, decimal montoTotal)
+        public static decimal CalcularPorcentajeDeMonto(decimal porcentaje, decimal montoTotal)
         {
             decimal unPorCiento = montoTotal / 100;
             return unPorCiento * porcentaje;
         }
 
-        public decimal AumentarSegunPorcentaje(decimal porcentajeIncrementar, decimal montoOriginal)
+        public static decimal AumentarSegunPorcentaje(decimal porcentajeIncrementar, decimal montoOriginal)
         {
             // Calcular el incremento
             decimal incremento = montoOriginal * (porcentajeIncrementar / 100);
@@ -19,7 +19,7 @@
             return nuevoMonto;
         }
 
-        public decimal CalcularPorcentajeSiEstaHabilitado(bool esPorcentual, decimal unidades, decimal montoTotal)
+        public static decimal CalcularPorcentajeSiEstaHabilitado(bool esPorcentual, decimal unidades, decimal montoTotal)
         {
             if (esPorcentual)
             {

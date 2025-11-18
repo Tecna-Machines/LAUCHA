@@ -26,6 +26,21 @@ namespace LAUCHA.domain.Entities.Empleados
         public ICollection<HabilitacionHorasExtra> HabilitacionesHorasExtra { get; set; } = null!;
         public ICollection<PeriodoVacaciones> PeriodosVacaciones { get; set; } = null!;
 
+        public int GetAntiguedad()
+        {
+            var hoy = DateTime.Today;
+
+            int anios = hoy.Year - FechaIngreso.Year;
+
+            if (hoy.Month < FechaIngreso.Month ||
+                (hoy.Month == FechaIngreso.Month && hoy.Day < FechaIngreso.Day))
+            {
+                anios--;
+            }
+
+            return Math.Max(anios, 0);
+        }
+
     }
 
 }

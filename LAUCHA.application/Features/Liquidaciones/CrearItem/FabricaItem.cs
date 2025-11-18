@@ -18,13 +18,13 @@ namespace LAUCHA.application.Features.Liquidaciones.CrearItem
             switch (TipoItemLiquidacionMapper.ToTipoItem(req.Tipo))
             {
                 case (TipoItemLiquidacion.Remunerativo):
-                    return ItemLiquidacion.CrearItemRemunerativo(req.Concepto, req.Monto);
+                    return ItemLiquidacion.CrearRemunerativo(req.Concepto, req.Monto);
 
                 case (TipoItemLiquidacion.NoRemunerativo):
-                    return ItemLiquidacion.CrearItemNoRemunerativo(req.Concepto, req.Monto);
+                    return ItemLiquidacion.CrearNoRemunerativo(req.Concepto, req.Monto);
 
-                case (TipoItemLiquidacion.Descuento):
-                    return ItemLiquidacion.CrearDescuento(req.Concepto, req.Monto);
+                case (TipoItemLiquidacion.Retencion):
+                    return ItemLiquidacion.CrearRetencion(req.Concepto, req.Monto);
 
                 default:
                     throw new InvalidCastException("invalid.tipo");
@@ -37,7 +37,7 @@ namespace LAUCHA.application.Features.Liquidaciones.CrearItem
             switch (TipoItemLiquidacionMapper.ToTipoItem(req.Tipo))
             {
                 case (TipoItemLiquidacion.Remunerativo):
-                    return ItemLiquidacion.CrearRemuneracionEnNegro(req.Concepto, req.Monto);
+                    return ItemLiquidacion.CrearRemunerativoEnNegro(req.Concepto, req.Monto);
 
                 case TipoItemLiquidacion.NoRemunerativo:
                     throw new InvalidCastException("No se permiten items no remunerativos en negro.");

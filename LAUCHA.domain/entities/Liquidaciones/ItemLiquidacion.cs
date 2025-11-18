@@ -18,7 +18,7 @@
         public EstadoItemLiquidacion Estado { get; set; }
         public TipoItemLiquidacion Tipo { get; set; }
 
-        public static ItemLiquidacion CrearItemRemunerativo(string concepto, decimal monto)
+        public static ItemLiquidacion CrearRemunerativo(string concepto, decimal monto)
         {
             return new ItemLiquidacion
             {
@@ -32,7 +32,7 @@
             };
         }
 
-        public static ItemLiquidacion CrearDescuento(string concepto, decimal monto)
+        public static ItemLiquidacion CrearRetencion(string concepto, decimal monto)
         {
             return new ItemLiquidacion
             {
@@ -42,11 +42,11 @@
                 EsIncremento = false,
                 Fecha = DateTime.Now,
                 Estado = EstadoItemLiquidacion.ACEPTADO,
-                Tipo = TipoItemLiquidacion.Descuento
+                Tipo = TipoItemLiquidacion.Retencion
             };
         }
 
-        public static ItemLiquidacion CrearItemNoRemunerativo(string concepto, decimal monto)
+        public static ItemLiquidacion CrearNoRemunerativo(string concepto, decimal monto)
         {
             return new ItemLiquidacion
             {
@@ -60,7 +60,7 @@
             };
         }
 
-        public static ItemLiquidacion CrearRemuneracionEnNegro(string concepto, decimal monto)
+        public static ItemLiquidacion CrearRemunerativoEnNegro(string concepto, decimal monto)
         {
             return new ItemLiquidacion
             {

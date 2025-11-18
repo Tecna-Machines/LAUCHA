@@ -20,6 +20,9 @@ namespace LAUCHA.domain.Entities.Liquidaciones
         public EstadoLiquidacion Estado { get; set; }
         public ICollection<ItemLiquidacion> Items { get; set; } = null!;
 
+        /// <summary>
+        /// crea una liquidacion sin items
+        /// </summary>
         public static Liquidacion IniciarLiquidacion(Empleado emp, int anio, int mes, int quincena)
         {
             return new Liquidacion
@@ -34,6 +37,7 @@ namespace LAUCHA.domain.Entities.Liquidaciones
                 Items = new List<ItemLiquidacion>()
             };
         }
+
         public void AgregarItem(ItemLiquidacion item)
         {
             if (Estado != EstadoLiquidacion.SELLADA)
@@ -68,16 +72,39 @@ namespace LAUCHA.domain.Entities.Liquidaciones
                     && it.EsEnBlanco);
         }
 
-        public decimal CalcularSubTotalRemunerativoBlanco()
-           => GetItemsRemunerativoBlanco().Sum(it => it.Monto);
+        public decimal CalcularTotalRemunerativoBlanco()
+           => GetItemsRemunerativoBlanco()
+              .Where(it => it.Estado != EstadoItemLiquidacion.ANULADO)
+              .Sum(it => it.Monto);
 
         public bool EsPrimeraQuincena() => Quincena == 2 ? true : false;
+
         public bool EstaSellada() => Estado == EstadoLiquidacion.SELLADA ? true : false;
 
         public void SetAcuerdo(Acuerdo acuerdo)
         {
             Acuerdo = acuerdo;
             CodigoAcuerdo = acuerdo.Codigo;
+        }
+
+        /// <summary>
+        /// reemplaza los items automaticos viejos por unos nuevos
+        /// </summary>
+        /// <param name="nuevosItems"></param>
+        public void AplicarCalculosAutomaticos(IEnumerable<ItemLiquidacion> nuevosItems)
+        {
+            var itemsAutomaticos = Items
+                                   .Where(it => it.EsAutomatico)
+                                   .ToList();
+
+            foreach (var it in itemsAutomaticos)
+                        Items.Remove(it);
+
+            foreach (var nuevoItem in nuevosItems)
+            {
+                nuevoItem.EsAutomatico = true;
+                AgregarItem(nuevoItem);
+            }
         }
 
         //TODO: esto se deberia poder borrar
