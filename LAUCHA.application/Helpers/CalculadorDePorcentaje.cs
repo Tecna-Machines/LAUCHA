@@ -2,7 +2,7 @@
 {
     internal static class CalculadorDePorcentaje
     {
-        public static decimal CalcularPorcentajeDeMonto(decimal porcentaje, decimal montoTotal)
+        public static decimal GetMontoSegunPorcentaje(decimal porcentaje, decimal montoTotal)
         {
             decimal unPorCiento = montoTotal / 100;
             return unPorCiento * porcentaje;

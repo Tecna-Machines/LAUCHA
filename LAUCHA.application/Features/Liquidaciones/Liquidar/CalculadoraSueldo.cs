@@ -2,18 +2,18 @@
 
 namespace LAUCHA.application.Features.Liquidaciones.Liquidar
 {
-    internal class CalculadoraSueldo : ICalculadoraDeSueldos
+    internal static class CalculadoraSueldoBlanco 
     {
 
 
-        public ICollection<ItemLiquidacion> CalcularItemsSueldo(Liquidacion liq, Acuerdo acu)
+        public static ItemLiquidacion Calcular(Liquidacion liq, Acuerdo acu)
         {
             var result = (acu.TipoSueldo) switch
             {
-                TipoSueldo.Mensual => CalcularMensual(liq, acu),
-                TipoSueldo.MensualFijoMasExtra => CalcularMensual(liq, acu),
-                TipoSueldo.QuincenalFijo => CalcularQuincenal(liq, acu),
-                TipoSueldo.QuincenalHora => CalcularQuincenal(liq, acu),
+                TipoSueldo.Mensual => CalcularMensualBlanco(liq, acu),
+                TipoSueldo.MensualFijoMasExtra => CalcularMensualBlanco(liq, acu),
+                TipoSueldo.QuincenalFijo => CalcularQuincenalBlanco(liq, acu),
+                TipoSueldo.QuincenalHora => CalcularQuincenalBlanco(liq, acu),
 
                 _ => throw new ArgumentOutOfRangeException("sueldo.invalido")
             };
@@ -21,23 +21,19 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
             return result;
         }
 
-        public ICollection<ItemLiquidacion> CalcularMensual(Liquidacion liq, Acuerdo acu)
+        public static ItemLiquidacion CalcularMensualBlanco(Liquidacion liq, Acuerdo acu)
         {
             var sueldoEnBlanco = ItemLiquidacion
                                 .CrearRemunerativo("sueldo mensual", acu.ValorBlanco);
 
-            var sueldoEnNegro = ItemLiquidacion
-                                .CrearRemunerativoEnNegro("sueldo mensual", acu.Sueldo);
-
-            return new List<ItemLiquidacion> { sueldoEnBlanco, sueldoEnNegro };
+            return sueldoEnBlanco;
         }
 
-        public ICollection<ItemLiquidacion> CalcularQuincenal(Liquidacion liq, Acuerdo acu)
+        public static ItemLiquidacion CalcularQuincenalBlanco(Liquidacion liq, Acuerdo acu)
         {
-            var sueldoEnBlanco = ItemLiquidacion.CrearRemunerativo("sueldo mensual", acu.ValorBlanco / 2);
-            var sueldoEnNegro = ItemLiquidacion.CrearRemunerativoEnNegro("sueldo mensual", acu.Sueldo / 2);
-
-            return new List<ItemLiquidacion> { sueldoEnBlanco, sueldoEnNegro };
+            return ItemLiquidacion.CrearRemunerativo("sueldo quincena", acu.ValorBlanco / 2);
         }
+
+
     }
 }

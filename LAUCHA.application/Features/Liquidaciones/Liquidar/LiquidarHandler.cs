@@ -38,7 +38,7 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
 
             _liquidacionDeHaberes.Liquidar(liquidacion, acuerdo);
 
-            liquidacion.Sellar();
+            //liquidacion.Sellar();
 
             await _liquidaciones.Update(liquidacion);
 

@@ -53,8 +53,6 @@ namespace LAUCHA.application
             services.AddScoped<ICrearLiquidacion, CrearLiquidacionHandler>();
 
             //liquidar
-            services.AddScoped<ICalculadoraDeSueldos, CalculadoraSueldo>();
-            services.AddScoped<ICalculadoraRetenciones, CalculadoraRetenciones>();
             services.AddScoped<ILiquidacionDeHaberes, LiquidacionDeHaberes>();
 
             services.AddScoped<ILiquidar, LiquidarHandler>();

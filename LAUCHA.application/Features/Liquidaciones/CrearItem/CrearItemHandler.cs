@@ -28,6 +28,8 @@ namespace LAUCHA.application.Features.Liquidaciones.CrearItem
 
             liquidacion.AgregarItem(item);
 
+            item.NroItem += 100;
+
             await _liquidaciones.Update(liquidacion);
 
             return Result.Success(MapToItemResponse(item));

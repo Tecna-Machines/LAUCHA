@@ -98,11 +98,13 @@ namespace LAUCHA.domain.Entities.Liquidaciones
                                    .ToList();
 
             foreach (var it in itemsAutomaticos)
-                        Items.Remove(it);
+            {
+                Items.Remove(it);
+            }
 
             foreach (var nuevoItem in nuevosItems)
             {
-                nuevoItem.EsAutomatico = true;
+                nuevoItem.MarcarComoAutomatico();
                 AgregarItem(nuevoItem);
             }
         }

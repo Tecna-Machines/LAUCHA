@@ -4,7 +4,7 @@ using LAUCHA.domain.Entities.Acuerdos;
 namespace LAUCHA.application.Features.Liquidaciones.Liquidar
 {
     internal class CalculadoraRetenciones : ICalculadoraRetenciones
-    {
+    {  
         public ICollection<ItemLiquidacion> CalcularItemsRetenciones(Liquidacion liq, Acuerdo acu)
         {
             if (acu.TipoSueldo == TipoSueldo.QuincenalFijo || acu.TipoSueldo == TipoSueldo.QuincenalHora)
@@ -66,7 +66,7 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
             }
             else
             {
-                monto = CalculadorDePorcentaje.CalcularPorcentajeDeMonto(ret.Unidades, totalRemunerativo);
+                monto = CalculadorDePorcentaje.GetMontoSegunPorcentaje(ret.Unidades, totalRemunerativo);
             }
 
             return ItemLiquidacion.CrearRetencion(ret.Concepto, monto);

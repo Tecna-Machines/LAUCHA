@@ -1,4 +1,5 @@
-﻿using LAUCHA.domain.Entities.Acuerdos;
+﻿using LAUCHA.application.Helpers;
+using LAUCHA.domain.Entities.Acuerdos;
 
 namespace LAUCHA.application.Features.Liquidaciones.Liquidar
 {
@@ -8,17 +9,15 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
         private Acuerdo _acuerdo;
         private IList<ItemLiquidacion> _items;
 
-        private readonly ICalculadoraDeSueldos _calculadoraSueldo;
-        private readonly ICalculadoraRetenciones _calculadoraRetenciones;
 
-        public LiquidacionDeHaberes(ICalculadoraDeSueldos calculadoraSueldo, ICalculadoraRetenciones calculadoraRetenciones)
+        private decimal _montoBaseRetenciones;
+        private decimal _montoBaseAntiguedad;
+        public LiquidacionDeHaberes()
         {
-            _calculadoraSueldo = calculadoraSueldo;
             _items = new List<ItemLiquidacion>();
 
             _liquidacion = new();
             _acuerdo = new();
-            _calculadoraRetenciones = calculadoraRetenciones;
         }
 
         public void Liquidar(Liquidacion liquidacion, Acuerdo acuerdo)
@@ -26,6 +25,7 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
             if (liquidacion.CodigoAcuerdo != acuerdo.Codigo)
                 throw new InvalidOperationException("acuerdo.no.valido");
 
+            _montoBaseRetenciones = 0;
             _liquidacion = liquidacion;
             _acuerdo = acuerdo;
 
@@ -37,39 +37,81 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
             _liquidacion.AplicarCalculosAutomaticos(_items);
         }
 
-
-        private void CalcularSueldo()
+        public void CalcularSueldo()
         {
-            var itemsSueldo = _calculadoraSueldo
-                                .CalcularItemsSueldo(_liquidacion, _acuerdo);
+            var itemSueldoBlanco = CalculadoraSueldoBlanco.Calcular(_liquidacion, _acuerdo);
 
-            foreach (var item in itemsSueldo)
+            _montoBaseRetenciones += itemSueldoBlanco.Monto;
+
+            _montoBaseAntiguedad = itemSueldoBlanco.Monto;
+
+            var itemSueldoNegro = CalculadoraSueldoNegro.Calcular(_liquidacion, _acuerdo);
+
+            var itemsExistentes = _liquidacion.GetItems().Where(it => it.Tipo == TipoItemLiquidacion.Remunerativo && it.EsAutomatico == false);
+
+            foreach (var item in itemsExistentes)
             {
-                _items.Add(item);
+                _montoBaseRetenciones += item.Monto;
             }
+
+            _items.Add(itemSueldoBlanco);
+            _items.Add(itemSueldoNegro);
         }
 
         private void CalcularAntiguedad()
         {
-            int anios = _acuerdo.Empleado.GetAntiguedad();
+            decimal anios = _acuerdo.Empleado.GetAntiguedad();
 
-            decimal totalRemunerativo = _liquidacion.CalcularTotalRemunerativoBlanco();
-            decimal valorAntiguedad = (anios / 100) * totalRemunerativo;
+            decimal valorAntiguedad = (anios * _montoBaseAntiguedad) / 100m;
 
             var itemAntiguedad = ItemLiquidacion.CrearRemunerativo("antiguedad", valorAntiguedad);
 
+            _montoBaseRetenciones += valorAntiguedad;
+
             _items.Add(itemAntiguedad);
+
         }
 
-        private void CalcularRetenciones()
+        public void CalcularRetenciones()
         {
-            var itemsRetenciones = _calculadoraRetenciones.CalcularItemsRetenciones(_liquidacion, _acuerdo);
+            var retenciones = GetRetencionesParaLiquidar();
 
-            foreach (var item in itemsRetenciones)
+            foreach (var retencion in retenciones)
             {
-                _items.Add(item);
+                decimal monto;
+
+                if(retencion.EsPorcentual)
+                {
+                    monto = CalculadorDePorcentaje.GetMontoSegunPorcentaje(retencion.Unidades,_montoBaseRetenciones);
+                }else
+                {
+                    monto = retencion.Unidades;
+                }
+
+                var retencionesNueva = ItemLiquidacion.CrearRetencion(retencion.Concepto, monto);
+
+                _items.Add(retencionesNueva);
             }
+
         }
+
+        private IEnumerable<RetencionAcuerdo> GetRetencionesParaLiquidar()
+        {
+            if(_acuerdo.TipoSueldo == TipoSueldo.QuincenalFijo || _acuerdo.TipoSueldo == TipoSueldo.QuincenalHora)
+            {
+                if(_liquidacion.EsPrimeraQuincena())
+                {
+                    return _acuerdo.GetRetencionesPrimeraQuincena();
+                }
+
+                return _acuerdo.GetRetencionesSegundaQuincena();
+            }
+
+            return _acuerdo.GetRetenciones();
+        }
+
+
+
 
     }
 }
