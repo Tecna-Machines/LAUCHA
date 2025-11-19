@@ -19,7 +19,7 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
         {
             List<ItemLiquidacion> ItemsRetenciones = new();
 
-            decimal montoRemunerativo = liq.CalcularTotalRemunerativoBlanco();
+            decimal montoRemunerativo = liq.CalcularNetoBlanco();
             IEnumerable<RetencionAcuerdo> retencionesAcuerdo;
 
             if (liq.EsPrimeraQuincena())
@@ -44,7 +44,7 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
         {
             List<ItemLiquidacion> ItemsRetenciones = new();
 
-            decimal montoRemunerativo = liq.CalcularTotalRemunerativoBlanco();
+            decimal montoRemunerativo = liq.CalcularNetoBlanco();
             IEnumerable<RetencionAcuerdo> retencionesAcuerdo = acu.GetRetenciones();
 
             foreach (var retencion in retencionesAcuerdo)

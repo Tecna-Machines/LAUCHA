@@ -31,6 +31,7 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
 
 
             CalcularSueldo();
+            CalcularAdicionales();
             CalcularAntiguedad();
             CalcularRetenciones();
 
@@ -56,6 +57,19 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
 
             _items.Add(itemSueldoBlanco);
             _items.Add(itemSueldoNegro);
+        }
+
+        public void CalcularAdicionales()
+        {
+            var adicionales = _acuerdo.GetAdicionales();
+
+            foreach (var adi in adicionales)
+            {
+                var item = ItemLiquidacion.CrearRemunerativoEnNegro(adi.Concepto, adi.Monto);
+
+                _items.Add(item);
+            }
+
         }
 
         private void CalcularAntiguedad()

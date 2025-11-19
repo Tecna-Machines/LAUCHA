@@ -8,6 +8,7 @@ using LAUCHA.application.Features.Empleados.GetEmpleados;
 using LAUCHA.application.Features.Liquidaciones.AnularItem;
 using LAUCHA.application.Features.Liquidaciones.CrearItem;
 using LAUCHA.application.Features.Liquidaciones.CrearLiquidacion;
+using LAUCHA.application.Features.Liquidaciones.GetLiquidacionById;
 using LAUCHA.application.Features.Liquidaciones.Liquidar;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -56,6 +57,7 @@ namespace LAUCHA.application
             services.AddScoped<ILiquidacionDeHaberes, LiquidacionDeHaberes>();
 
             services.AddScoped<ILiquidar, LiquidarHandler>();
+            services.AddScoped<IGetLiquidacionById, GetLiquidacionByIdHandler>();
 
             return services;
         }

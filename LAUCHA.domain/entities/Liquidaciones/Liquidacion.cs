@@ -72,10 +72,44 @@ namespace LAUCHA.domain.Entities.Liquidaciones
                     && it.EsEnBlanco);
         }
 
-        public decimal CalcularTotalRemunerativoBlanco()
-           => GetItemsRemunerativoBlanco()
-              .Where(it => it.Estado != EstadoItemLiquidacion.ANULADO)
-              .Sum(it => it.Monto);
+        public IEnumerable<ItemLiquidacion> GetItemsRetenciones()
+        => Items.Where(it => it.Tipo == TipoItemLiquidacion.Retencion && it.EsEnBlanco);
+
+        public IEnumerable<ItemLiquidacion> GetItemsEnNegro()
+            => Items.Where(it =>  !it.EsEnBlanco);
+
+
+        public decimal CalcularNetoBlanco()
+        {
+            var montoBlanco =   GetItemsRemunerativoBlanco()
+                                .Where(it => it.Estado != EstadoItemLiquidacion.ANULADO)
+                                .Sum(it => it.Monto);
+
+            var montoRetenciones = GetItemsRetenciones()
+                                   .Where(it => it.Estado != EstadoItemLiquidacion.ANULADO)
+                                   .Sum(it => it.Monto);
+
+            return montoBlanco - montoRetenciones;
+        }
+
+        //TODO: refactorizar esta garcha
+        public decimal CalcularNetoNegro()
+        {
+            decimal plataQueEntraEnNegro = GetItemsEnNegro().Where(it => it.EsIncremento && it.Estado != EstadoItemLiquidacion.ANULADO).Sum(it => it.Monto);
+            decimal plataQueSaleEnNegro = GetItemsEnNegro().Where(it => !it.EsIncremento && it.Estado != EstadoItemLiquidacion.ANULADO).Sum(it => it.Monto);
+
+            decimal retenciones = GetItemsRetenciones()
+                                   .Where(it => it.Estado != EstadoItemLiquidacion.ANULADO)
+                                   .Sum(it => it.Monto);
+
+            decimal netoEnBlanco = CalcularNetoBlanco();
+
+            plataQueSaleEnNegro += retenciones;
+            plataQueSaleEnNegro += netoEnBlanco;
+            
+
+            return (plataQueEntraEnNegro - plataQueSaleEnNegro);
+        }
 
         public bool EsPrimeraQuincena() => Quincena == 2 ? true : false;
 
