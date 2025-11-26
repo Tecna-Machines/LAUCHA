@@ -12,6 +12,8 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
 
         private decimal _montoBaseRetenciones;
         private decimal _montoBaseAntiguedad;
+
+        private decimal _netoEnBlanco;
         public LiquidacionDeHaberes()
         {
             _items = new List<ItemLiquidacion>();
@@ -42,17 +44,21 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
         {
             var itemSueldoBlanco = CalculadoraSueldoBlanco.Calcular(_liquidacion, _acuerdo);
 
+            _netoEnBlanco += itemSueldoBlanco.Monto;
             _montoBaseRetenciones += itemSueldoBlanco.Monto;
 
             _montoBaseAntiguedad = itemSueldoBlanco.Monto;
 
             var itemSueldoNegro = CalculadoraSueldoNegro.Calcular(_liquidacion, _acuerdo);
 
-            var itemsExistentes = _liquidacion.GetItems().Where(it => it.Tipo == TipoItemLiquidacion.Remunerativo && it.EsAutomatico == false);
+            var itemsExistentesEnBlanco = _liquidacion.GetItems()
+                                                        .Where(it => it.Tipo == TipoItemLiquidacion.Remunerativo 
+                                                        && it.EsAutomatico == false && it.EsEnBlanco);
 
-            foreach (var item in itemsExistentes)
+            foreach (var item in itemsExistentesEnBlanco)
             {
                 _montoBaseRetenciones += item.Monto;
+                _netoEnBlanco += item.Monto;
             }
 
             _items.Add(itemSueldoBlanco);
@@ -79,15 +85,16 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
             decimal valorAntiguedad = (anios * _montoBaseAntiguedad) / 100m;
 
             var itemAntiguedad = ItemLiquidacion.CrearRemunerativo("antiguedad", valorAntiguedad);
-
-            _montoBaseRetenciones += valorAntiguedad;
-
             _items.Add(itemAntiguedad);
 
+            _montoBaseRetenciones += valorAntiguedad;
+            _netoEnBlanco += valorAntiguedad;
         }
 
         public void CalcularRetenciones()
         {
+            decimal sumaRetenciones = 0;
+
             var retenciones = GetRetencionesParaLiquidar();
 
             foreach (var retencion in retenciones)
@@ -104,9 +111,17 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
 
                 var retencionesNueva = ItemLiquidacion.CrearRetencion(retencion.Concepto, monto);
 
+                sumaRetenciones += monto;
+
                 _items.Add(retencionesNueva);
             }
 
+            var retencionItemNegro = ItemLiquidacion.CrearDescuentoEnNegro("retencion blanco", sumaRetenciones);
+
+            var itemNetoBlanco = ItemLiquidacion.CrearDescuentoEnNegro("deposito",_netoEnBlanco-sumaRetenciones);
+
+            _items.Add(itemNetoBlanco);
+            _items.Add(retencionItemNegro);
         }
 
         private IEnumerable<RetencionAcuerdo> GetRetencionesParaLiquidar()

@@ -78,12 +78,15 @@ namespace LAUCHA.domain.Entities.Liquidaciones
         public IEnumerable<ItemLiquidacion> GetItemsEnNegro()
             => Items.Where(it =>  !it.EsEnBlanco);
 
-
+        //TODO: otra garcha para refactorizar
         public decimal CalcularNetoBlanco()
         {
             var montoBlanco =   GetItemsRemunerativoBlanco()
                                 .Where(it => it.Estado != EstadoItemLiquidacion.ANULADO)
                                 .Sum(it => it.Monto);
+
+            montoBlanco += this.Items.Where(it => it.Tipo == TipoItemLiquidacion.NoRemunerativo &&
+             it.Estado != EstadoItemLiquidacion.ANULADO).Sum(it => it.Monto);
 
             var montoRetenciones = GetItemsRetenciones()
                                    .Where(it => it.Estado != EstadoItemLiquidacion.ANULADO)
@@ -97,16 +100,6 @@ namespace LAUCHA.domain.Entities.Liquidaciones
         {
             decimal plataQueEntraEnNegro = GetItemsEnNegro().Where(it => it.EsIncremento && it.Estado != EstadoItemLiquidacion.ANULADO).Sum(it => it.Monto);
             decimal plataQueSaleEnNegro = GetItemsEnNegro().Where(it => !it.EsIncremento && it.Estado != EstadoItemLiquidacion.ANULADO).Sum(it => it.Monto);
-
-            decimal retenciones = GetItemsRetenciones()
-                                   .Where(it => it.Estado != EstadoItemLiquidacion.ANULADO)
-                                   .Sum(it => it.Monto);
-
-            decimal netoEnBlanco = CalcularNetoBlanco();
-
-            plataQueSaleEnNegro += retenciones;
-            plataQueSaleEnNegro += netoEnBlanco;
-            
 
             return (plataQueEntraEnNegro - plataQueSaleEnNegro);
         }
