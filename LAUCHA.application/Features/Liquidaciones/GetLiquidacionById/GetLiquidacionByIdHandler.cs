@@ -42,6 +42,8 @@ namespace LAUCHA.application.Features.Liquidaciones.GetLiquidacionById
             return new GetLiquidacionByIdResponse(
                 liq.Codigo,
                 liq.FechaCreacion,
+                liq.FechaSello,
+                liq.EstaSellada(),
                 liq.Concepto,
                 MapQuincena(liq),
                 MapEmpleado(empleado!),
@@ -55,7 +57,7 @@ namespace LAUCHA.application.Features.Liquidaciones.GetLiquidacionById
             => new(liq.Anio, liq.Mes, liq.Quincena);
 
         private static EmpleadoLiquidacion MapEmpleado(Empleado emp)
-            => new(emp.Dni, emp.Nombre, emp.Apellido, emp.FechaIngreso);
+            => new(emp.Dni, emp.Nombre, emp.Apellido,emp.FechaAlta,emp.FechaIngreso);
 
         private MontosPagar GenerarMontos(Liquidacion liq)
         => new(liq.CalcularNetoBlanco(),liq.CalcularNetoNegro());
