@@ -41,6 +41,8 @@ namespace LAUCHA.domain.Entities.Empleados
             return Math.Max(anios, 0);
         }
 
+        public string GetFullName() => $"{Nombre} {Apellido}";
+
     }
 
 }

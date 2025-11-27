@@ -33,5 +33,12 @@ namespace LAUCHA.infrastructure.Repositories
             await _db.SaveChangesAsync();
             return liq;
         }
+
+        public async Task<IEnumerable<Liquidacion>> GetByQuincena(int quincena,int mes,int anio)
+        {
+            return await _db.LiquidacionesPersonales
+                         .Where(l => l.Quincena == quincena && l.Anio == anio && l.Mes == mes)
+                         .ToListAsync();
+        }
     }
 }

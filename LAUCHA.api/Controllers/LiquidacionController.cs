@@ -1,6 +1,7 @@
 ﻿using LAUCHA.application.Common.Extensions;
 using LAUCHA.application.Features.Liquidaciones.CrearLiquidacion;
 using LAUCHA.application.Features.Liquidaciones.GetLiquidacionById;
+using LAUCHA.application.Features.Liquidaciones.GetLiquidaciones;
 using LAUCHA.application.Features.Liquidaciones.Liquidar;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,12 +14,17 @@ namespace LAUCHA.api.Controllers
         private readonly ICrearLiquidacion _crearLiquidacion;
         private readonly ILiquidar _procesarLiquidacion;
         private readonly IGetLiquidacionById _getLiquidacion;
+        private readonly IGetLiquidaciones _getLiquidaciones;
 
-        public LiquidacionController(ICrearLiquidacion crearLiquidacion, ILiquidar procesarLiquidacion, IGetLiquidacionById getLiquidacion)
+        public LiquidacionController(ICrearLiquidacion crearLiquidacion,
+                                     ILiquidar procesarLiquidacion,
+                                     IGetLiquidacionById getLiquidacion,
+                                     IGetLiquidaciones getLiquidaciones)
         {
             _crearLiquidacion = crearLiquidacion;
             _procesarLiquidacion = procesarLiquidacion;
             _getLiquidacion = getLiquidacion;
+            _getLiquidaciones = getLiquidaciones;
         }
 
         [HttpPost]
@@ -53,6 +59,17 @@ namespace LAUCHA.api.Controllers
                 onSucces: () => Results.Ok(result.Value),
                 onFailure: error => Results.Conflict(error)
             );
+        }
+
+        [HttpGet()]
+        public async Task<IResult> GetByQuincena(int? quincena,int? anio,int? mes)
+        {
+            var hoy = DateTime.Now;
+            var result = await _getLiquidaciones.Get(new GetLiquidacionesRequest(quincena ?? 1,mes ?? hoy.Month,anio ?? hoy.Year));
+
+            return result.Match(
+                onSucces: () => Results.Ok(result.Value),
+                onFailure: error => Results.BadRequest(error));
         }
 
     }

@@ -9,6 +9,7 @@ using LAUCHA.application.Features.Liquidaciones.AnularItem;
 using LAUCHA.application.Features.Liquidaciones.CrearItem;
 using LAUCHA.application.Features.Liquidaciones.CrearLiquidacion;
 using LAUCHA.application.Features.Liquidaciones.GetLiquidacionById;
+using LAUCHA.application.Features.Liquidaciones.GetLiquidaciones;
 using LAUCHA.application.Features.Liquidaciones.Liquidar;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -52,7 +53,7 @@ namespace LAUCHA.application
         {
             services.AddScoped<IValidator<CrearLiquidacionRequest>, CrearLiquidacionValidator>();
             services.AddScoped<ICrearLiquidacion, CrearLiquidacionHandler>();
-
+            services.AddScoped<IGetLiquidaciones,GetLiquidacionesHandler>();
             //liquidar
             services.AddScoped<ILiquidacionDeHaberes, LiquidacionDeHaberes>();
 
