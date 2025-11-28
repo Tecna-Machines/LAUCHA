@@ -1,6 +1,4 @@
-﻿using LAUCHA.application.Common.ResultResponse;
-
-namespace LAUCHA.application.Features.Acuerdos.GetAcuerdoById
+﻿namespace LAUCHA.application.Features.Acuerdos.GetAcuerdoById
 {
     public interface IGetAcuerdoById
     {

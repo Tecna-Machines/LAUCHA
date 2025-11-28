@@ -1,7 +1,4 @@
-﻿using LAUCHA.application.Common.ResultResponse;
-using LAUCHA.domain.Entities.RetencionesCatalogo;
-
-namespace LAUCHA.application.Features.CatalogoRetenciones.GetCatalogo
+﻿namespace LAUCHA.application.Features.CatalogoRetenciones.GetCatalogo
 {
     internal class GetCatalogoHandler : IGetCatalogo
     {

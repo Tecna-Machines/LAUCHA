@@ -1,6 +1,4 @@
-﻿using LAUCHA.domain.Entities.Acuerdos;
-
-namespace LAUCHA.application.Mappers
+﻿namespace LAUCHA.application.Mappers
 {
     internal static class TipoSueldoMapper
     {

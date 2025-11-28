@@ -1,6 +1,4 @@
-﻿using LAUCHA.application.Common.ResultResponse;
-
-namespace LAUCHA.application.Features.Empleados.CrearEmpleado
+﻿namespace LAUCHA.application.Features.Empleados.CrearEmpleado
 {
     public interface ICrearEmpleado
     {

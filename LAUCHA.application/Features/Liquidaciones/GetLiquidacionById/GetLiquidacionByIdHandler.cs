@@ -1,7 +1,5 @@
-﻿using LAUCHA.application.Common.ResultResponse;
-using LAUCHA.application.Features.Acuerdos.GetAcuerdoById;
+﻿using LAUCHA.application.Features.Acuerdos.GetAcuerdoById;
 using LAUCHA.application.Mappers;
-using LAUCHA.domain.Entities.Empleados;
 
 namespace LAUCHA.application.Features.Liquidaciones.GetLiquidacionById
 {
@@ -66,7 +64,7 @@ namespace LAUCHA.application.Features.Liquidaciones.GetLiquidacionById
         {
             List<ItemLiquidacionByIdResponse> ItemsResponse = new();
 
-            foreach (var item in liq.GetItems())
+            foreach (var item in liq.GetAllItems())
             {
                 var res = new ItemLiquidacionByIdResponse(item.Concepto,
                                                           item.Monto,

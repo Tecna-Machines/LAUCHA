@@ -3,6 +3,7 @@ using LAUCHA.application.Features.Liquidaciones.CrearLiquidacion;
 using LAUCHA.application.Features.Liquidaciones.GetLiquidacionById;
 using LAUCHA.application.Features.Liquidaciones.GetLiquidaciones;
 using LAUCHA.application.Features.Liquidaciones.Liquidar;
+using LAUCHA.application.Features.Liquidaciones.SellarLiquidacion;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LAUCHA.api.Controllers
@@ -15,16 +16,19 @@ namespace LAUCHA.api.Controllers
         private readonly ILiquidar _procesarLiquidacion;
         private readonly IGetLiquidacionById _getLiquidacion;
         private readonly IGetLiquidaciones _getLiquidaciones;
+        private readonly ISellarLiquidacion _sellarLiquidacion;
 
         public LiquidacionController(ICrearLiquidacion crearLiquidacion,
                                      ILiquidar procesarLiquidacion,
                                      IGetLiquidacionById getLiquidacion,
-                                     IGetLiquidaciones getLiquidaciones)
+                                     IGetLiquidaciones getLiquidaciones,
+                                     ISellarLiquidacion sellarLiquidacion)
         {
             _crearLiquidacion = crearLiquidacion;
             _procesarLiquidacion = procesarLiquidacion;
             _getLiquidacion = getLiquidacion;
             _getLiquidaciones = getLiquidaciones;
+            _sellarLiquidacion = sellarLiquidacion;
         }
 
         [HttpPost]
@@ -70,6 +74,16 @@ namespace LAUCHA.api.Controllers
             return result.Match(
                 onSucces: () => Results.Ok(result.Value),
                 onFailure: error => Results.BadRequest(error));
+        }
+
+        [HttpPut("{id}/sellar")]
+        public async Task<IResult> Sellar(string id)
+        {
+            var result = await _sellarLiquidacion.Sellar(id);
+
+            return result.Match(
+                onSucces: () => Results.Ok(result.Value),
+                onFailure: error => Results.Conflict(error));
         }
 
     }

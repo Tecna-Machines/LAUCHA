@@ -13,6 +13,7 @@ namespace LAUCHA.domain.Entities.Liquidaciones
         public int Mes { get; set; }
         public int Quincena { get; set; }
         public string CodigoAcuerdo { get; set; } = null!;
+        public string Concepto { get; set; } = null!;
         public Acuerdo Acuerdo { get; set; } = null!;
         public DateTime FechaCreacion { get; set; }
         public DateTime FechaSello { get; set; }
@@ -48,7 +49,7 @@ namespace LAUCHA.domain.Entities.Liquidaciones
             }
         }
 
-        public IEnumerable<ItemLiquidacion> GetItems() => Items.ToImmutableList();
+        public IEnumerable<ItemLiquidacion> GetAllItems() => Items.ToImmutableList();
 
         /// <summary>
         /// sellara una liquidacion lo que impide modificarla
@@ -65,41 +66,45 @@ namespace LAUCHA.domain.Entities.Liquidaciones
         private static string GenerarCodigo(string dni, int anio, int mes, int quincena)
             => $"{anio}:{mes}:{quincena}:{dni}";
 
-        private IEnumerable<ItemLiquidacion> GetItemsRemunerativoBlanco()
+        private IEnumerable<ItemLiquidacion> GetItemsRemunerativoBlancoAceptados()
         {
-            return GetItems()
+            return GetAllItems()
+                   .Where(it => it.Estado != EstadoItemLiquidacion.ANULADO)
                    .Where(it => it.Tipo == TipoItemLiquidacion.Remunerativo
                     && it.EsEnBlanco);
         }
 
-        public IEnumerable<ItemLiquidacion> GetItemsRetenciones()
-        => Items.Where(it => it.Tipo == TipoItemLiquidacion.Retencion && it.EsEnBlanco);
+        public IEnumerable<ItemLiquidacion> GetItemsRetencionesAceptadas()
+        => Items.Where(it => it.Tipo == TipoItemLiquidacion.Retencion && it.EsEnBlanco)
+                .Where(it => it.Estado != EstadoItemLiquidacion.ANULADO);
 
-        public IEnumerable<ItemLiquidacion> GetItemsEnNegro()
-            => Items.Where(it => !it.EsEnBlanco);
+        public IEnumerable<ItemLiquidacion> GetItemsEnNegroAceptados()
+            => Items.Where(it => !it.EsEnBlanco && it.Estado != EstadoItemLiquidacion.ANULADO);
 
         //TODO: otra garcha para refactorizar
         public decimal CalcularNetoBlanco()
         {
-            var montoBlanco = GetItemsRemunerativoBlanco()
-                                .Where(it => it.Estado != EstadoItemLiquidacion.ANULADO)
-                                .Sum(it => it.Monto);
+            var montoBlanco = GetItemsRemunerativoBlancoAceptados()
+                                               .Sum(it => it.Monto);
 
             montoBlanco += this.Items.Where(it => it.Tipo == TipoItemLiquidacion.NoRemunerativo &&
              it.Estado != EstadoItemLiquidacion.ANULADO).Sum(it => it.Monto);
 
-            var montoRetenciones = GetItemsRetenciones()
-                                   .Where(it => it.Estado != EstadoItemLiquidacion.ANULADO)
-                                   .Sum(it => it.Monto);
+            var montoRetenciones = GetItemsRetencionesAceptadas()
+                                             .Sum(it => it.Monto);
 
             return montoBlanco - montoRetenciones;
         }
 
-        //TODO: refactorizar esta garcha
         public decimal CalcularNetoNegro()
         {
-            decimal plataQueEntraEnNegro = GetItemsEnNegro().Where(it => it.EsIncremento && it.Estado != EstadoItemLiquidacion.ANULADO).Sum(it => it.Monto);
-            decimal plataQueSaleEnNegro = GetItemsEnNegro().Where(it => !it.EsIncremento && it.Estado != EstadoItemLiquidacion.ANULADO).Sum(it => it.Monto);
+            decimal plataQueEntraEnNegro = GetItemsEnNegroAceptados()
+                                                             .Where(it => it.EsIncremento)
+                                                             .Sum(it => it.Monto);
+
+            decimal plataQueSaleEnNegro = GetItemsEnNegroAceptados()
+                                                            .Where(it => !it.EsIncremento)
+                                                            .Sum(it => it.Monto);
 
             return (plataQueEntraEnNegro - plataQueSaleEnNegro);
         }
@@ -120,6 +125,9 @@ namespace LAUCHA.domain.Entities.Liquidaciones
         /// <param name="nuevosItems"></param>
         public void AplicarCalculosAutomaticos(IEnumerable<ItemLiquidacion> nuevosItems)
         {
+            if (EstaSellada())
+                    return;
+
             var itemsAutomaticos = Items
                                    .Where(it => it.EsAutomatico)
                                    .ToList();
@@ -137,11 +145,7 @@ namespace LAUCHA.domain.Entities.Liquidaciones
         }
 
         //TODO: esto se deberia poder borrar
-        public decimal TotalRemuneraciones { get; set; }
-        public string Concepto { get; set; } = null!;
         public DateTime FechaLiquidacion { get; set; }
-        public DateTime InicioPeriodo { get; set; }
-        public DateTime FinPeriodo { get; set; }
         public ICollection<PagoLiquidacion> PagosLiquidacion { get; set; } = null!;
         public IList<RemuneracionPorLiquidacionPersonal> RemuneracionPorLiquidacionPersonales { get; set; } = null!;
         public IList<RetencionPorLiquidacionPersonal> RetencionPorLiquidacionPersonales { get; set; } = null!;

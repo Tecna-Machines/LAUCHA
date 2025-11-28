@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace LAUCHA.application.Features.Acuerdos.CrearAcuerdo
+﻿namespace LAUCHA.application.Features.Acuerdos.CrearAcuerdo
 {
     internal class CrearAcuerdoValidator : AbstractValidator<CrearAcuerdoRequest>
     {

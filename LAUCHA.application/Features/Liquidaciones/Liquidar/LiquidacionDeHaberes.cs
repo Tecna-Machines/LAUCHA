@@ -1,7 +1,4 @@
-﻿using LAUCHA.application.Helpers;
-using LAUCHA.domain.Entities.Acuerdos;
-
-namespace LAUCHA.application.Features.Liquidaciones.Liquidar
+﻿namespace LAUCHA.application.Features.Liquidaciones.Liquidar
 {
     internal class LiquidacionDeHaberes : ILiquidacionDeHaberes
     {
@@ -51,7 +48,7 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
 
             var itemSueldoNegro = CalculadoraSueldoNegro.Calcular(_liquidacion, _acuerdo);
 
-            var itemsExistentesEnBlanco = _liquidacion.GetItems()
+            var itemsExistentesEnBlanco = _liquidacion.GetAllItems()
                                                         .Where(it => it.Tipo == TipoItemLiquidacion.Remunerativo
                                                         && it.EsAutomatico == false && it.EsEnBlanco);
 

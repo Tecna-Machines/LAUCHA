@@ -1,5 +1,4 @@
 ﻿using LAUCHA.domain.entities;
-using LAUCHA.domain.Entities.Empleados;
 
 namespace LAUCHA.application.Features.Empleados.CrearEmpleado
 {

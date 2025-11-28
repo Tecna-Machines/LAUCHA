@@ -1,10 +1,4 @@
-﻿using FluentValidation;
-using LAUCHA.application.Common.Errors;
-using LAUCHA.application.Common.Extensions;
-using LAUCHA.application.Common.ResultResponse;
-using LAUCHA.domain.Entities.Empleados;
-
-namespace LAUCHA.application.Features.Empleados.CrearEmpleado
+﻿namespace LAUCHA.application.Features.Empleados.CrearEmpleado
 {
     internal class CrearEmpleadoHandler : ICrearEmpleado
     {

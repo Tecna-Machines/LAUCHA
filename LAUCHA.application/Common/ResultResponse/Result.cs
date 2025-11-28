@@ -1,6 +1,4 @@
-﻿using LAUCHA.application.Common.Errors;
-
-namespace LAUCHA.application.Common.ResultResponse
+﻿namespace LAUCHA.application.Common.ResultResponse
 {
     public class Result
     {

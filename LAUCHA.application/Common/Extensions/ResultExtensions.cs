@@ -1,7 +1,4 @@
-﻿using LAUCHA.application.Common.Errors;
-using LAUCHA.application.Common.ResultResponse;
-
-namespace LAUCHA.application.Common.Extensions
+﻿namespace LAUCHA.application.Common.Extensions
 {
     public static class ResultExtensions
     {

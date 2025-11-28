@@ -1,6 +1,4 @@
-﻿using LAUCHA.application.Common.ResultResponse;
-
-namespace LAUCHA.application.Features.Acuerdos.CrearAcuerdo
+﻿namespace LAUCHA.application.Features.Acuerdos.CrearAcuerdo
 {
     public interface ICrearAcuerdo
     {

@@ -1,6 +1,4 @@
-﻿using LAUCHA.application.Common.Errors;
-
-namespace LAUCHA.application.Features.Acuerdos
+﻿namespace LAUCHA.application.Features.Acuerdos
 {
     public static class AcuerdosErrors
     {

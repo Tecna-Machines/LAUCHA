@@ -1,5 +1,4 @@
 ﻿using LAUCHA.application.DTOs.RemuneracionDTOs;
-using LAUCHA.application.Helpers;
 using LAUCHA.domain.entities;
 
 namespace LAUCHA.application.Mappers

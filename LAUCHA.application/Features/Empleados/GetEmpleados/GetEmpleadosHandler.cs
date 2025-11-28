@@ -1,8 +1,4 @@
-﻿using LAUCHA.application.Common.ResultResponse;
-using LAUCHA.domain.Entities.Acuerdos;
-using LAUCHA.domain.Entities.Empleados;
-
-namespace LAUCHA.application.Features.Empleados.GetEmpleados
+﻿namespace LAUCHA.application.Features.Empleados.GetEmpleados
 {
     internal class GetEmpleadosHandler : IGetEmpleados
     {

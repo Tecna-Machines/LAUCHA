@@ -1,6 +1,4 @@
-﻿using LAUCHA.application.Common.ResultResponse;
-using LAUCHA.application.Features.Acuerdos;
-using LAUCHA.domain.Entities.Acuerdos;
+﻿using LAUCHA.application.Features.Acuerdos;
 
 namespace LAUCHA.application.Features.Liquidaciones.Liquidar
 {
@@ -25,6 +23,9 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
 
             if (liquidacion is null)
                 return Result.Failure<LiquidarResponse>(LiquidacionErrors.NoExistente);
+
+            if (liquidacion.EstaSellada())
+                return Result.Failure<LiquidarResponse>(LiquidacionErrors.Sellada);
 
             var acuerdo = await _acuerdos.GetById(liquidacion.CodigoAcuerdo);
 

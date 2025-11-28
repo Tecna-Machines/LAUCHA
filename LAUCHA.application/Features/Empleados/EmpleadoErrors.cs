@@ -1,6 +1,4 @@
-﻿using LAUCHA.application.Common.Errors;
-
-namespace LAUCHA.application.Features.Empleados
+﻿namespace LAUCHA.application.Features.Empleados
 {
     public static class EmpleadoErrors
     {

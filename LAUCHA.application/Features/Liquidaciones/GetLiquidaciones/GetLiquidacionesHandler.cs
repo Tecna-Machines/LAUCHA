@@ -1,7 +1,4 @@
-﻿using LAUCHA.application.Common.ResultResponse;
-using LAUCHA.domain.Entities.Empleados;
-
-namespace LAUCHA.application.Features.Liquidaciones.GetLiquidaciones
+﻿namespace LAUCHA.application.Features.Liquidaciones.GetLiquidaciones
 {
     internal class GetLiquidacionesHandler : IGetLiquidaciones
     {

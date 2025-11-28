@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using LAUCHA.application.Features.Acuerdos.CrearAcuerdo;
+﻿using LAUCHA.application.Features.Acuerdos.CrearAcuerdo;
 using LAUCHA.application.Features.Acuerdos.GetAcuerdoById;
 using LAUCHA.application.Features.Acuerdos.GetAcuerdosEmpleado;
 using LAUCHA.application.Features.CatalogoRetenciones.GetCatalogo;
@@ -11,6 +10,7 @@ using LAUCHA.application.Features.Liquidaciones.CrearLiquidacion;
 using LAUCHA.application.Features.Liquidaciones.GetLiquidacionById;
 using LAUCHA.application.Features.Liquidaciones.GetLiquidaciones;
 using LAUCHA.application.Features.Liquidaciones.Liquidar;
+using LAUCHA.application.Features.Liquidaciones.SellarLiquidacion;
 using Microsoft.Extensions.DependencyInjection;
 
 
@@ -59,6 +59,8 @@ namespace LAUCHA.application
 
             services.AddScoped<ILiquidar, LiquidarHandler>();
             services.AddScoped<IGetLiquidacionById, GetLiquidacionByIdHandler>();
+
+            services.AddScoped<ISellarLiquidacion,SellarLiquidacionHandler>();
 
             return services;
         }

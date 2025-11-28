@@ -1,7 +1,5 @@
-﻿using LAUCHA.application.Common.ResultResponse;
-using LAUCHA.application.Mappers;
+﻿using LAUCHA.application.Mappers;
 using LAUCHA.domain.entities.Contrato;
-using LAUCHA.domain.Entities.Acuerdos;
 
 namespace LAUCHA.application.Features.Acuerdos.GetAcuerdoById
 {

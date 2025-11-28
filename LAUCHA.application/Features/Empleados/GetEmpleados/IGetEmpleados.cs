@@ -1,6 +1,4 @@
-﻿using LAUCHA.application.Common.ResultResponse;
-
-namespace LAUCHA.application.Features.Empleados.GetEmpleados
+﻿namespace LAUCHA.application.Features.Empleados.GetEmpleados
 {
     public interface IGetEmpleados
     {

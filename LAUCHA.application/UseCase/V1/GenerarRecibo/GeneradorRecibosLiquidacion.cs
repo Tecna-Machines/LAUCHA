@@ -4,7 +4,6 @@ using iText.Kernel.Pdf;
 using iText.Layout.Element;
 using iText.Layout.Properties;
 using LAUCHA.application.DTOs.LiquidacionDTOs;
-using LAUCHA.application.Helpers;
 using LAUCHA.application.interfaces;
 using LAUCHA.domain.interfaces.IServices;
 

@@ -1,6 +1,4 @@
-﻿using LAUCHA.application.Common.ResultResponse;
-
-namespace LAUCHA.application.Features.Liquidaciones.AnularItem
+﻿namespace LAUCHA.application.Features.Liquidaciones.AnularItem
 {
     internal class AnularItemHandler : IAnularItem
     {
@@ -41,7 +39,7 @@ namespace LAUCHA.application.Features.Liquidaciones.AnularItem
 
         private ItemLiquidacion? GetItemFromLiquidacion(Liquidacion liquidacion, int nroItem)
         {
-            return liquidacion.GetItems().First(it => it.NroItem == nroItem);
+            return liquidacion.GetAllItems().First(it => it.NroItem == nroItem);
         }
     }
 }

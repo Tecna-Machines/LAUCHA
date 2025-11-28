@@ -1,6 +1,4 @@
-﻿using LAUCHA.application.Common.Errors;
-
-namespace LAUCHA.application.Features.Liquidaciones
+﻿namespace LAUCHA.application.Features.Liquidaciones
 {
     public static class LiquidacionErrors
     {

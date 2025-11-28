@@ -1,6 +1,4 @@
-﻿using LAUCHA.application.Common.ResultResponse;
-
-namespace LAUCHA.application.Features.Liquidaciones.GetLiquidacionById
+﻿namespace LAUCHA.application.Features.Liquidaciones.GetLiquidacionById
 {
     public interface IGetLiquidacionById
     {

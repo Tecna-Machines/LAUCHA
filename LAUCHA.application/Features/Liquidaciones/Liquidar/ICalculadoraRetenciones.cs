@@ -1,6 +1,4 @@
-﻿using LAUCHA.domain.Entities.Acuerdos;
-
-namespace LAUCHA.application.Features.Liquidaciones.Liquidar
+﻿namespace LAUCHA.application.Features.Liquidaciones.Liquidar
 {
     public interface ICalculadoraRetenciones
     {

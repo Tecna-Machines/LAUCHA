@@ -1,11 +1,5 @@
-﻿using FluentValidation;
-using LAUCHA.application.Common.Errors;
-using LAUCHA.application.Common.Extensions;
-using LAUCHA.application.Common.ResultResponse;
-using LAUCHA.application.Mappers;
+﻿using LAUCHA.application.Mappers;
 using LAUCHA.domain.entities.Contrato;
-using LAUCHA.domain.Entities.Acuerdos;
-using LAUCHA.domain.Entities.RetencionesCatalogo;
 
 
 namespace LAUCHA.application.Features.Acuerdos.CrearAcuerdo

@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace LAUCHA.application.Features.Liquidaciones.CrearLiquidacion
+﻿namespace LAUCHA.application.Features.Liquidaciones.CrearLiquidacion
 {
     internal class CrearLiquidacionValidator : AbstractValidator<CrearLiquidacionRequest>
     {

@@ -3,7 +3,6 @@ using iText.Kernel.Geom;
 using iText.Layout.Element;
 using iText.Layout.Properties;
 using LAUCHA.application.DTOs.LiquidacionDTOs;
-using LAUCHA.application.Helpers;
 
 
 namespace LAUCHA.application.UseCase.GenerarRecibo

@@ -1,6 +1,4 @@
-﻿using LAUCHA.application.Common.ResultResponse;
-
-namespace LAUCHA.application.Common.Errors
+﻿namespace LAUCHA.application.Common.Errors
 {
     public sealed record Error(string? Descripcion = "error")
     {

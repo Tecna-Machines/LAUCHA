@@ -31,25 +31,12 @@ namespace LAUCHA.infrastructure.repositories
                 liquidacionesPersonales = liquidacionesPersonales.Where(l => l.FechaLiquidacion.Date == filtros.FechaLiquidacion.Value.Date);
             }
 
-            if (filtros.InicioPeriodo != null)
-            {
-                liquidacionesPersonales = liquidacionesPersonales.Where(l => l.InicioPeriodo.Date > filtros.InicioPeriodo.Value.Date);
-            }
-
-            if (filtros.FinPeriodo != null)
-            {
-                liquidacionesPersonales = liquidacionesPersonales.Where(l => l.FinPeriodo.Date < filtros.FinPeriodo.Value.Date);
-            }
-
             if (filtros.CodigoLiquidacionGeneral != null)
             {
                 liquidacionesPersonales = liquidacionesPersonales.Where(l => l.CodigoLiquidacionGeneral == filtros.CodigoLiquidacionGeneral);
             }
 
-            if (filtros.Orden)
-            {
-                liquidacionesPersonales = liquidacionesPersonales.OrderByDescending(l => l.TotalRemuneraciones);
-            }
+ 
 
             //var pagina = await PaginationGeneric<Liquidacion>
             //          .CrearPaginacion(liquidacionesPersonales.AsNoTracking(), indice, cantidadRegistros);

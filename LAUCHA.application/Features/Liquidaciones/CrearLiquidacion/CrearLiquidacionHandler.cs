@@ -1,10 +1,4 @@
-﻿using FluentValidation;
-using LAUCHA.application.Common.Errors;
-using LAUCHA.application.Common.Extensions;
-using LAUCHA.application.Common.ResultResponse;
-using LAUCHA.application.Features.Empleados;
-using LAUCHA.domain.Entities.Acuerdos;
-using LAUCHA.domain.Entities.Empleados;
+﻿using LAUCHA.application.Features.Empleados;
 
 namespace LAUCHA.application.Features.Liquidaciones.CrearLiquidacion
 {

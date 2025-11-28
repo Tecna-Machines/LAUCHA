@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace LAUCHA.application.Features.Empleados.CrearEmpleado
+﻿namespace LAUCHA.application.Features.Empleados.CrearEmpleado
 {
     internal class CrearEmpleadoValidator : AbstractValidator<CrearEmpleadoRequest>
     {

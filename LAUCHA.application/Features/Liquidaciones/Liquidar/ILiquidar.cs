@@ -1,6 +1,4 @@
-﻿using LAUCHA.application.Common.ResultResponse;
-
-namespace LAUCHA.application.Features.Liquidaciones.Liquidar
+﻿namespace LAUCHA.application.Features.Liquidaciones.Liquidar
 {
     public interface ILiquidar
     {
