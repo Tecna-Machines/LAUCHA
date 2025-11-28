@@ -52,7 +52,7 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
             var itemSueldoNegro = CalculadoraSueldoNegro.Calcular(_liquidacion, _acuerdo);
 
             var itemsExistentesEnBlanco = _liquidacion.GetItems()
-                                                        .Where(it => it.Tipo == TipoItemLiquidacion.Remunerativo 
+                                                        .Where(it => it.Tipo == TipoItemLiquidacion.Remunerativo
                                                         && it.EsAutomatico == false && it.EsEnBlanco);
 
             foreach (var item in itemsExistentesEnBlanco)
@@ -101,10 +101,11 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
             {
                 decimal monto;
 
-                if(retencion.EsPorcentual)
+                if (retencion.EsPorcentual)
                 {
-                    monto = CalculadorDePorcentaje.GetMontoSegunPorcentaje(retencion.Unidades,_montoBaseRetenciones);
-                }else
+                    monto = CalculadorDePorcentaje.GetMontoSegunPorcentaje(retencion.Unidades, _montoBaseRetenciones);
+                }
+                else
                 {
                     monto = retencion.Unidades;
                 }
@@ -118,7 +119,7 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
 
             var retencionItemNegro = ItemLiquidacion.CrearDescuentoEnNegro("retencion blanco", sumaRetenciones);
 
-            var itemNetoBlanco = ItemLiquidacion.CrearDescuentoEnNegro("deposito",_netoEnBlanco-sumaRetenciones);
+            var itemNetoBlanco = ItemLiquidacion.CrearDescuentoEnNegro("deposito", _netoEnBlanco - sumaRetenciones);
 
             _items.Add(itemNetoBlanco);
             _items.Add(retencionItemNegro);
@@ -126,9 +127,9 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
 
         private IEnumerable<RetencionAcuerdo> GetRetencionesParaLiquidar()
         {
-            if(_acuerdo.TipoSueldo == TipoSueldo.QuincenalFijo || _acuerdo.TipoSueldo == TipoSueldo.QuincenalHora)
+            if (_acuerdo.TipoSueldo == TipoSueldo.QuincenalFijo || _acuerdo.TipoSueldo == TipoSueldo.QuincenalHora)
             {
-                if(_liquidacion.EsPrimeraQuincena())
+                if (_liquidacion.EsPrimeraQuincena())
                 {
                     return _acuerdo.GetRetencionesPrimeraQuincena();
                 }

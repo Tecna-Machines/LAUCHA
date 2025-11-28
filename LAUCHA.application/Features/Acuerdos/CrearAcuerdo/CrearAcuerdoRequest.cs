@@ -6,7 +6,7 @@
                                              decimal ValorHora,
                                              int TipoSueldo,
                                              string Notas,
-                                             string [] Retenciones,
+                                             string[] Retenciones,
                                              ICollection<AdicionalesRequest> Adicionales);
 
 

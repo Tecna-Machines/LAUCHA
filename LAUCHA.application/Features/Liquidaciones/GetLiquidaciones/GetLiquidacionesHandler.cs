@@ -16,7 +16,7 @@ namespace LAUCHA.application.Features.Liquidaciones.GetLiquidaciones
 
         public async Task<Result<GetLiquidacionesResponse>> Get(GetLiquidacionesRequest req)
         {
-            var liquidaciones = await _liquidaciones.GetByQuincena(req.Quincena,req.Mes, req.Anio);
+            var liquidaciones = await _liquidaciones.GetByQuincena(req.Quincena, req.Mes, req.Anio);
 
             var liquidacionesMap = await MapLiquidaciones(liquidaciones);
 

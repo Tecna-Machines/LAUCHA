@@ -45,8 +45,8 @@ namespace LAUCHA.application.Features.Acuerdos.GetAcuerdoById
         private static TipoSueldoResponse Map(TipoSueldo t) =>
             new(TipoSueldoMapper.ToInt(t).ToString(), TipoSueldoMapper.ToString(t));
 
-        private static RetencionResponse Map(RetencionAcuerdo r)=>
+        private static RetencionResponse Map(RetencionAcuerdo r) =>
          new(r.CodigoRetencion, r.Concepto, r.EsPorcentual, r.PrimeraQuincena, r.Unidades);
-        
+
     }
 }

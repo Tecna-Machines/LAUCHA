@@ -1,11 +1,6 @@
 ﻿using LAUCHA.application.Common.ResultResponse;
 using LAUCHA.application.Features.Acuerdos;
 using LAUCHA.domain.Entities.Acuerdos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.application.Features.Liquidaciones.Liquidar
 {
@@ -33,7 +28,7 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
 
             var acuerdo = await _acuerdos.GetById(liquidacion.CodigoAcuerdo);
 
-            if(acuerdo is null)
+            if (acuerdo is null)
                 return Result.Failure<LiquidarResponse>(AcuerdosErrors.NoEncontrado);
 
             _liquidacionDeHaberes.Liquidar(liquidacion, acuerdo);
@@ -42,7 +37,7 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
 
             await _liquidaciones.Update(liquidacion);
 
-            return Result.Success(new LiquidarResponse(liquidacion.Codigo,liquidacion.Items.Count));
+            return Result.Success(new LiquidarResponse(liquidacion.Codigo, liquidacion.Items.Count));
         }
     }
 }

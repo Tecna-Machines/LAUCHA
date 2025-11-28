@@ -1,9 +1,4 @@
 ﻿using LAUCHA.domain.Entities.Acuerdos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LAUCHA.application.Features.Liquidaciones.Liquidar
 {
@@ -26,7 +21,7 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
 
         private static ItemLiquidacion CalcularQuincenalNegro(Liquidacion liq, Acuerdo acu)
         {
-            return ItemLiquidacion.CrearRemunerativoEnNegro("sueldo mensual", acu.Sueldo/2);
+            return ItemLiquidacion.CrearRemunerativoEnNegro("sueldo mensual", acu.Sueldo / 2);
         }
 
         private static ItemLiquidacion CalcularMensualNegro(Liquidacion liq, Acuerdo acu)

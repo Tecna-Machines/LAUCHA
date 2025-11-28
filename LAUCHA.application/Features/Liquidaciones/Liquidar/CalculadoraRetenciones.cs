@@ -4,7 +4,7 @@ using LAUCHA.domain.Entities.Acuerdos;
 namespace LAUCHA.application.Features.Liquidaciones.Liquidar
 {
     internal class CalculadoraRetenciones : ICalculadoraRetenciones
-    {  
+    {
         public ICollection<ItemLiquidacion> CalcularItemsRetenciones(Liquidacion liq, Acuerdo acu)
         {
             if (acu.TipoSueldo == TipoSueldo.QuincenalFijo || acu.TipoSueldo == TipoSueldo.QuincenalHora)

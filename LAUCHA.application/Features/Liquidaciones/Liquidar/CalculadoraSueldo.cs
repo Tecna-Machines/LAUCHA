@@ -2,7 +2,7 @@
 
 namespace LAUCHA.application.Features.Liquidaciones.Liquidar
 {
-    internal static class CalculadoraSueldoBlanco 
+    internal static class CalculadoraSueldoBlanco
     {
 
 

@@ -1,6 +1,6 @@
 ﻿namespace LAUCHA.application.Features.Liquidaciones.GetLiquidaciones
 {
-    public sealed record GetLiquidacionesRequest(int Quincena,int Mes,int Anio);
+    public sealed record GetLiquidacionesRequest(int Quincena, int Mes, int Anio);
     public sealed record GetLiquidacionesResponse(int Total, IEnumerable<LiquidacionResumenResponse> Liquidaciones);
     public sealed record LiquidacionResumenResponse(string Codigo,
                                                     string Concepto,

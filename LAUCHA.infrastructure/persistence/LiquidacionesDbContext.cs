@@ -50,7 +50,7 @@ namespace LAUCHA.infrastructure.persistence
             modelBuilder.ApplyConfiguration(new AcuerdoConfig());
 
             modelBuilder.ApplyConfiguration(new CatalogoRetencionConfig());
-            
+
             modelBuilder.ApplyConfiguration(new AcuerdoBlancoConfig());
             modelBuilder.ApplyConfiguration(new AdicionalConfig());
             modelBuilder.ApplyConfiguration(new ConceptoConfig());

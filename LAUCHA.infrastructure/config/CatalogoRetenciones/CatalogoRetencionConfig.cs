@@ -11,10 +11,10 @@ namespace LAUCHA.infrastructure.config.RetencionesCatalogo
             builder.HasKey(rc => rc.Codigo);
 
             builder
-           .HasMany<RetencionAcuerdo>()                   
-           .WithOne()                                    
-           .HasForeignKey(ra => ra.CodigoRetencion)       
-           .HasPrincipalKey(rc => rc.Codigo)              
+           .HasMany<RetencionAcuerdo>()
+           .WithOne()
+           .HasForeignKey(ra => ra.CodigoRetencion)
+           .HasPrincipalKey(rc => rc.Codigo)
            .OnDelete(DeleteBehavior.Restrict);
 
         }

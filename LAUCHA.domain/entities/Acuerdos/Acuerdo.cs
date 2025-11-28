@@ -65,7 +65,7 @@ namespace LAUCHA.domain.Entities.Acuerdos
 
         public IEnumerable<RetencionAcuerdo> GetRetenciones() => Retenciones.ToImmutableList();
 
-        public IEnumerable<RetencionAcuerdo> GetRetencionesPrimeraQuincena() 
+        public IEnumerable<RetencionAcuerdo> GetRetencionesPrimeraQuincena()
             => Retenciones.Where(r => r.PrimeraQuincena == true)
                .ToImmutableList();
         public IEnumerable<RetencionAcuerdo> GetRetencionesSegundaQuincena()

@@ -76,12 +76,12 @@ namespace LAUCHA.domain.Entities.Liquidaciones
         => Items.Where(it => it.Tipo == TipoItemLiquidacion.Retencion && it.EsEnBlanco);
 
         public IEnumerable<ItemLiquidacion> GetItemsEnNegro()
-            => Items.Where(it =>  !it.EsEnBlanco);
+            => Items.Where(it => !it.EsEnBlanco);
 
         //TODO: otra garcha para refactorizar
         public decimal CalcularNetoBlanco()
         {
-            var montoBlanco =   GetItemsRemunerativoBlanco()
+            var montoBlanco = GetItemsRemunerativoBlanco()
                                 .Where(it => it.Estado != EstadoItemLiquidacion.ANULADO)
                                 .Sum(it => it.Monto);
 

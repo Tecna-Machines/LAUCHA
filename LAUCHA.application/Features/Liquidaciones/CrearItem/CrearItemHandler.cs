@@ -44,6 +44,6 @@ namespace LAUCHA.application.Features.Liquidaciones.CrearItem
             Tipo: TipoItemLiquidacionMapper.ToInt(item.Tipo),
             Fecha: item.Fecha
             );
-        
+
     }
 }

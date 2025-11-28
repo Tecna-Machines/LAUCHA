@@ -1,26 +1,15 @@
 using LAUCHA.application;
 using LAUCHA.application.interfaces;
-using LAUCHA.application.interfaces.V2.Credito;
 using LAUCHA.application.interfaces.V2.IDiasEspecialesServices;
-using LAUCHA.application.interfaces.V2.Liquidacion;
-using LAUCHA.application.UseCase.AgregarUnAdicional;
-using LAUCHA.application.UseCase.ConsultarAdicionales;
-using LAUCHA.application.UseCase.ConsultarEmpleado;
-using LAUCHA.application.UseCase.ConsultarRemuneraciones;
-using LAUCHA.application.UseCase.CrearRemuneracionNueva;
 using LAUCHA.application.UseCase.DiasEspeciales.CrearConsultarAusencias;
 using LAUCHA.application.UseCase.DiasEspeciales.CrearConsultarFeriados;
 using LAUCHA.application.UseCase.DiasEspeciales.CrearConsultarHsExtraHabilitadas;
 using LAUCHA.application.UseCase.GenerarRecibo;
 using LAUCHA.application.UseCase.OperacionesDescuento;
 using LAUCHA.application.UseCase.OperarCredito;
-using LAUCHA.application.UseCase.OperarNoRemuneraciones;
-using LAUCHA.application.UseCase.OperarRetenciones;
 using LAUCHA.application.UseCase.V1.CrearCredito;
 using LAUCHA.application.UseCase.V1.DiasEspeciales.CrearConsultarVacaciones;
 using LAUCHA.application.UseCase.V1.OperarConceptos;
-using LAUCHA.application.UseCase.V2.Credito.GetByEmpleadoId;
-using LAUCHA.application.UseCase.V2.Liquidacion.Pago;
 using LAUCHA.domain.entities;
 using LAUCHA.domain.entities.Contrato;
 using LAUCHA.domain.Entities.Acuerdos;
@@ -51,6 +40,19 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 //custom
+string banner = @" $$$$$$\  $$\   $$\ $$$$$$$$\ $$$$$$$\        $$\       $$$$$$\  
+$$  __$$\ $$ | $$  |$$  _____|$$  __$$\       $$ |     $$  __$$\ 
+$$ /  $$ |$$ |$$  / $$ |      $$ |  $$ |      $$ |     $$ /  $$ |
+$$$$$$$$ |$$$$$  /  $$$$$\    $$$$$$$  |      $$ |     $$ |  $$ |
+$$  __$$ |$$  $$<   $$  __|   $$  __$$<       $$ |     $$ |  $$ |
+$$ |  $$ |$$ |\$$\  $$ |      $$ |  $$ |      $$ |     $$ $$\$$ |
+$$ |  $$ |$$ | \$$\ $$$$$$$$\ $$ |  $$ |      $$$$$$$$\\$$$$$$ / 
+\__|  \__|\__|  \__|\________|\__|  \__|      \________|\___$$$\ 
+                                                            \___|
+                                                                 
+                                                                 ";
+
+Console.WriteLine(banner + "\n");
 
 //Logs
 string logPath = builder.Configuration["Appsettings:logPath"];
@@ -88,17 +90,12 @@ builder.Services.AddScoped<IGenericRepository<Cuenta>, CuentaRepository>();
 builder.Services.AddScoped<IGenericRepository<Adicional>, AdicionalRepository>();
 builder.Services.AddScoped<IGenericRepository<AcuerdoBlanco>, AcuerdoBlancoRepository>();
 builder.Services.AddScoped<IUnitOfWorkContrato, UnitOfWorkContrato>();
-builder.Services.AddScoped<ICrearAdicionalService, CrearAdicionalService>();
-builder.Services.AddScoped<IConsultarAdicionalesService, ConsultarAdicionales>();
 
 builder.Services.AddScoped<ICuentaRepository, CuentaRepository>();
-builder.Services.AddScoped<IConsultarEmpleadoService, ConsultarEmpleadoService>();
 
 
 
 builder.Services.AddScoped<IGenericRepository<Remuneracion>, RemuneracionRepository>();
-builder.Services.AddScoped<ICrearRemuneracionService, CrearRemuneracionNuevaService>();
-builder.Services.AddScoped<IConsultarRemuneracionService, ConsultarRemuneracionesService>();
 builder.Services.AddScoped<IRemuneracionRepository, RemuneracionRepository>();
 
 
@@ -107,7 +104,6 @@ builder.Services.AddScoped<IGenericRepository<Concepto>, ConceptoRepository>();
 builder.Services.AddScoped<IOperarDescuentosService, OperarDescuentosService>();
 
 builder.Services.AddScoped<IGenericRepository<RetencionOLD>, RetencionRepository>();
-builder.Services.AddScoped<IOperarRetencionService, OperarRetencionesService>();
 
 builder.Services.AddScoped<IRetencionCatalogoRepositoryOLD, RetencionRepository>();
 builder.Services.AddScoped<IDescuentoRepository, DescuentoRepository>();
@@ -126,7 +122,6 @@ builder.Services.AddScoped<IGeneradorRecibos, GeneradorRecibosLiquidacion>();
 
 builder.Services.AddScoped<IGenericRepository<NoRemuneracion>, NoRemuneracionRepository>();
 builder.Services.AddScoped<INoRemuneracionRepository, NoRemuneracionRepository>();
-builder.Services.AddScoped<IOperarNoRemuneracionesService, OperarNoRemuneraciones>();
 builder.Services.AddScoped<IGenericRepository<NoRemuneracionPorLiquidacionPersonal>, NoRemuneracionPorLiquidacionRepository>();
 
 builder.Services.AddScoped<IGenericRepository<Concepto>, ConceptoRepository>();
@@ -134,7 +129,6 @@ builder.Services.AddScoped<IOperarConceptosService, OperarConceptos>();
 
 builder.Services.AddScoped<IGenericRepository<Credito>, CreditoRepository>();
 builder.Services.AddScoped<ICreadorCreditos, CreadorCreditoService>();
-builder.Services.AddScoped<IGetCreditosByDni, GetCreditosByDni>();
 
 builder.Services.AddScoped<ILiquidacionRepositoryOLD, LiquidacionPersonalRepository>();
 
@@ -160,7 +154,6 @@ builder.Services.AddScoped<IHabilitacionHorasExtraRepository, HabilitacionHorasE
 builder.Services.AddScoped<ICrearConsultarHsExtraHabilitadas, ConsultarCrearPermisoHsExtra>();
 
 
-builder.Services.AddScoped<IPagarLiquidacionService, PagarLiquidacion>();
 builder.Services.AddScoped<IGenericRepository<PagoLiquidacion>, PagoLiquidacionRepository>();
 
 
@@ -231,6 +224,7 @@ logger.LogInformation("preparando inicio de aplicacion");
 var builderConnectionString = new MySqlConnectionStringBuilder(connectionString);
 string host = builderConnectionString.Server;
 
+
 logger.LogInformation("iniciando prueba de conexion con base de datos...");
 
 try
@@ -250,6 +244,8 @@ catch (Exception ex)
 {
     logger.LogError(ex, "se genero una excepcion al conectar con el host: {Host}", host);
 }
+
+
 
 logger.LogInformation("todo parece ir bien c: ");
 logger.LogInformation("app run...");

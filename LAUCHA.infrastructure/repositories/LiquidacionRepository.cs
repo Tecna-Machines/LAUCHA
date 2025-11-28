@@ -34,7 +34,7 @@ namespace LAUCHA.infrastructure.Repositories
             return liq;
         }
 
-        public async Task<IEnumerable<Liquidacion>> GetByQuincena(int quincena,int mes,int anio)
+        public async Task<IEnumerable<Liquidacion>> GetByQuincena(int quincena, int mes, int anio)
         {
             return await _db.LiquidacionesPersonales
                          .Where(l => l.Quincena == quincena && l.Anio == anio && l.Mes == mes)

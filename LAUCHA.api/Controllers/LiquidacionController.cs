@@ -41,7 +41,7 @@ namespace LAUCHA.api.Controllers
         [HttpPut("{id}/liquidar")]
         public async Task<IResult> Liquidar(string id)
         {
- 
+
             var result = await _procesarLiquidacion.Liquidar(new LiquidarRequest(id));
 
             return result.Match(
@@ -62,10 +62,10 @@ namespace LAUCHA.api.Controllers
         }
 
         [HttpGet()]
-        public async Task<IResult> GetByQuincena(int? quincena,int? anio,int? mes)
+        public async Task<IResult> GetByQuincena(int? quincena, int? anio, int? mes)
         {
             var hoy = DateTime.Now;
-            var result = await _getLiquidaciones.Get(new GetLiquidacionesRequest(quincena ?? 1,mes ?? hoy.Month,anio ?? hoy.Year));
+            var result = await _getLiquidaciones.Get(new GetLiquidacionesRequest(quincena ?? 1, mes ?? hoy.Month, anio ?? hoy.Year));
 
             return result.Match(
                 onSucces: () => Results.Ok(result.Value),
