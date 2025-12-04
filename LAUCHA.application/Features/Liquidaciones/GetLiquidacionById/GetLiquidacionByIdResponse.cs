@@ -22,6 +22,8 @@ namespace LAUCHA.application.Features.Liquidaciones.GetLiquidacionById
 
     public sealed record MontosPagar(decimal EnBlanco, decimal EnNegro);
     public sealed record ItemLiquidacionByIdResponse(string Concepto,
+                                                     int Nro,
+                                                     int Estado,
                                                      decimal Monto,
                                                      DateTime Fecha,
                                                      bool EsEnBlanco,

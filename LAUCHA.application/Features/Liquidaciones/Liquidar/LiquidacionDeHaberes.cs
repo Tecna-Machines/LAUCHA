@@ -50,7 +50,7 @@
 
             var itemsExistentesEnBlanco = _liquidacion.GetAllItems()
                                                         .Where(it => it.Tipo == TipoItemLiquidacion.Remunerativo
-                                                        && it.EsAutomatico == false && it.EsEnBlanco);
+                                                        && it.EsAutomatico == false && it.EsEnBlanco && it.Estado != EstadoItemLiquidacion.ANULADO);
 
             foreach (var item in itemsExistentesEnBlanco)
             {

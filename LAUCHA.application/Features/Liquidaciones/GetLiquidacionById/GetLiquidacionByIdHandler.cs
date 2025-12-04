@@ -67,6 +67,8 @@ namespace LAUCHA.application.Features.Liquidaciones.GetLiquidacionById
             foreach (var item in liq.GetAllItems())
             {
                 var res = new ItemLiquidacionByIdResponse(item.Concepto,
+                                                          item.NroItem,
+                                                          (int)item.Estado,
                                                           item.Monto,
                                                           item.Fecha,
                                                           item.EsEnBlanco,
