@@ -36,7 +36,7 @@ namespace LAUCHA.infrastructure.repositories
                 liquidacionesPersonales = liquidacionesPersonales.Where(l => l.CodigoLiquidacionGeneral == filtros.CodigoLiquidacionGeneral);
             }
 
- 
+
 
             //var pagina = await PaginationGeneric<Liquidacion>
             //          .CrearPaginacion(liquidacionesPersonales.AsNoTracking(), indice, cantidadRegistros);

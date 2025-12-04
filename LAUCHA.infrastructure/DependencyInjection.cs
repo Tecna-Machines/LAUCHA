@@ -1,9 +1,11 @@
-﻿using LAUCHA.domain.Entities.Acuerdos;
+﻿using LAUCHA.application.Features.Liquidaciones.GetRecibo;
+using LAUCHA.domain.Entities.Acuerdos;
 using LAUCHA.domain.Entities.Empleados;
 using LAUCHA.domain.Entities.Liquidaciones;
 using LAUCHA.domain.Entities.RetencionesCatalogo;
 using LAUCHA.infrastructure.repositories;
 using LAUCHA.infrastructure.Repositories;
+using LAUCHA.infrastructure.Services.Recibos;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LAUCHA.infrastructure
@@ -17,6 +19,9 @@ namespace LAUCHA.infrastructure
             services.AddScoped<ICatalogoRetencionRepository, CatalogoRetencionesRepository>();
 
             services.AddScoped<ILiquidacionRepository, LiquidacionRepository>();
+
+            //pdf
+            services.AddScoped<IReciboRenderer, PdfReciboRenderer>();
             return services;
         }
     }

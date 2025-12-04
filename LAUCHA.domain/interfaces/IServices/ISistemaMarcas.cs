@@ -1,14 +1,21 @@
 ﻿namespace LAUCHA.domain.interfaces.IServices
 {
-    public class HorasPeriodo
+    public interface ISistemaMarcas
     {
-        public decimal HorasTotales { get; set; }
-        public decimal HorasHabiles { get; set; }
-        public decimal HorasExtraTotales { get; set; }
-        public decimal HorasDoble { get; set; }
+        HorasPeriodo GetHorasPeriodo(string dni, DateTime desde, DateTime hasta);
+        List<MarcaDb> GetDesdePeriodo(string dni, DateTime desde, DateTime hasta);
+        List<MarcaResponse> GetDesdePeriodoVista(string dni, DateTime desde, DateTime hasta);
     }
 
-    public class Marca
+    public class HorasPeriodo
+    {
+        public decimal Totales { get; set; }
+        public decimal Habiles { get; set; }
+        public decimal Extra { get; set; }
+        public decimal Doble { get; set; }
+    }
+
+    public class MarcaDb
     {
         public string IdPersonal { get; set; }
         public string NombreCompleto { get; set; } = null!;
@@ -22,7 +29,7 @@
 
     }
 
-    public class MarcaVista
+    public sealed class MarcaResponse
     {
         public string IdPersonal { get; set; } = null!;
         public string NombreCompleto { get; set; } = null!;
@@ -38,10 +45,4 @@
     }
 
 
-    public interface IMarcasService
-    {
-        HorasPeriodo ConsularHorasPeriodo(string dni, DateTime desde, DateTime hasta);
-        List<Marca> ConsultarMarcasPeriodo(string dni, DateTime desde, DateTime hasta);
-        List<MarcaVista> ConsultarMarcasPeriodoVista(string dni, DateTime desde, DateTime hasta);
-    }
 }

@@ -4,7 +4,6 @@ using LAUCHA.application.interfaces.V2.IDiasEspecialesServices;
 using LAUCHA.application.UseCase.DiasEspeciales.CrearConsultarAusencias;
 using LAUCHA.application.UseCase.DiasEspeciales.CrearConsultarFeriados;
 using LAUCHA.application.UseCase.DiasEspeciales.CrearConsultarHsExtraHabilitadas;
-using LAUCHA.application.UseCase.GenerarRecibo;
 using LAUCHA.application.UseCase.OperacionesDescuento;
 using LAUCHA.application.UseCase.OperarCredito;
 using LAUCHA.application.UseCase.V1.CrearCredito;
@@ -118,7 +117,6 @@ builder.Services.AddScoped<IGenericRepository<Liquidacion>, LiquidacionPersonalR
 
 builder.Services.AddScoped<IItemsLiquidacionRepository, ITemsLiquidacionRepository>();
 
-builder.Services.AddScoped<IGeneradorRecibos, GeneradorRecibosLiquidacion>();
 
 builder.Services.AddScoped<IGenericRepository<NoRemuneracion>, NoRemuneracionRepository>();
 builder.Services.AddScoped<INoRemuneracionRepository, NoRemuneracionRepository>();
@@ -188,7 +186,7 @@ string? databaseMarcas = builder.Configuration["MarcasService:databasePath"];
 builder.Services.AddDbContext<MarcasDbContext>(options => options.UseMySQL(databaseMarcas));
 
 builder.Services.AddScoped<IMarcasDb, MarcasDb>();
-builder.Services.AddScoped<IMarcasService, MarcasServiceAccess>();
+builder.Services.AddScoped<ISistemaMarcas, MarcasServiceAccess>();
 
 //CORS deshabilitar
 builder.Services.AddCors(options =>

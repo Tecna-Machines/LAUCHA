@@ -2,7 +2,7 @@
 using LAUCHA.infrastructure.Services.Marcas.Interface;
 namespace LAUCHA.infrastructure.Services.Marcas
 {
-    public class MarcasServiceAccess : IMarcasService
+    public class MarcasServiceAccess : ISistemaMarcas
     {
         private readonly IMarcasDb marcasDatabase;
         private readonly CalculadoraHs _calculadoraHs;
@@ -15,9 +15,9 @@ namespace LAUCHA.infrastructure.Services.Marcas
 
 
 
-        public HorasPeriodo ConsularHorasPeriodo(string dni, DateTime desde, DateTime hasta)
+        public HorasPeriodo GetHorasPeriodo(string dni, DateTime desde, DateTime hasta)
         {
-            List<domain.interfaces.IServices.Marca> marcas = marcasDatabase.GetUserMarcas(dni, desde, hasta);
+            List<domain.interfaces.IServices.MarcaDb> marcas = marcasDatabase.GetUserMarcas(dni, desde, hasta);
 
             decimal hsTotalesTrabajadas = (decimal)_calculadoraHs.calcularHs(marcas);
             decimal hsFinde = (decimal)_calculadoraHs.calcularHsFindeSemana(marcas);
@@ -27,27 +27,27 @@ namespace LAUCHA.infrastructure.Services.Marcas
 
             return new HorasPeriodo
             {
-                HorasTotales = hsTotalesTrabajadas,
-                HorasHabiles = hsNormales,
-                HorasExtraTotales = hsExtraHabiles + hsFinde,
-                HorasDoble = hsExtraFindeDoble
+                Totales = hsTotalesTrabajadas,
+                Habiles = hsNormales,
+                Extra = hsExtraHabiles + hsFinde,
+                Doble = hsExtraFindeDoble
             };
         }
 
-        public List<domain.interfaces.IServices.Marca> ConsultarMarcasPeriodo(string dni, DateTime desde, DateTime hasta)
+        public List<domain.interfaces.IServices.MarcaDb> GetDesdePeriodo(string dni, DateTime desde, DateTime hasta)
         {
             return marcasDatabase.GetUserMarcas(dni, desde, hasta);
         }
 
-        public List<MarcaVista> ConsultarMarcasPeriodoVista(string dni, DateTime desde, DateTime hasta)
+        public List<MarcaResponse> GetDesdePeriodoVista(string dni, DateTime desde, DateTime hasta)
         {
             //utilice este metodo para visualizar marcas de una forma mas clara y detallada
             var marcasOriginales = marcasDatabase.GetUserMarcas(dni, desde, hasta);
-            List<MarcaVista> marcasVista = new();
+            List<MarcaResponse> marcasVista = new();
 
             foreach (var marc in marcasOriginales)
             {
-                List<Marca> marca = new() { marc };
+                List<MarcaDb> marca = new() { marc };
 
                 decimal hsTotalesTrabajadas = (decimal)_calculadoraHs.calcularHs(marca);
                 decimal hsFinde = (decimal)_calculadoraHs.calcularHsFindeSemana(marca);
@@ -55,7 +55,7 @@ namespace LAUCHA.infrastructure.Services.Marcas
                 decimal hsExtraFindeDoble = (decimal)_calculadoraHs.calcularHsExtraDobleFinde(marca);
                 decimal hsNormales = hsTotalesTrabajadas - hsExtraFindeDoble - hsFinde - hsExtraHabiles;
 
-                var aux = new MarcaVista
+                var aux = new MarcaResponse
                 {
                     IdPersonal = marc.IdPersonal,
                     Egreso = marc.Egreso,

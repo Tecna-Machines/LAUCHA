@@ -2,6 +2,7 @@
 using LAUCHA.application.Features.Liquidaciones.CrearLiquidacion;
 using LAUCHA.application.Features.Liquidaciones.GetLiquidacionById;
 using LAUCHA.application.Features.Liquidaciones.GetLiquidaciones;
+using LAUCHA.application.Features.Liquidaciones.GetRecibo;
 using LAUCHA.application.Features.Liquidaciones.Liquidar;
 using LAUCHA.application.Features.Liquidaciones.SellarLiquidacion;
 using Microsoft.AspNetCore.Mvc;
@@ -17,18 +18,20 @@ namespace LAUCHA.api.Controllers
         private readonly IGetLiquidacionById _getLiquidacion;
         private readonly IGetLiquidaciones _getLiquidaciones;
         private readonly ISellarLiquidacion _sellarLiquidacion;
-
+        private readonly IGetRecibo _recibos;
         public LiquidacionController(ICrearLiquidacion crearLiquidacion,
                                      ILiquidar procesarLiquidacion,
                                      IGetLiquidacionById getLiquidacion,
                                      IGetLiquidaciones getLiquidaciones,
-                                     ISellarLiquidacion sellarLiquidacion)
+                                     ISellarLiquidacion sellarLiquidacion,
+                                     IGetRecibo recibos)
         {
             _crearLiquidacion = crearLiquidacion;
             _procesarLiquidacion = procesarLiquidacion;
             _getLiquidacion = getLiquidacion;
             _getLiquidaciones = getLiquidaciones;
             _sellarLiquidacion = sellarLiquidacion;
+            _recibos = recibos;
         }
 
         [HttpPost]
@@ -84,6 +87,23 @@ namespace LAUCHA.api.Controllers
             return result.Match(
                 onSucces: () => Results.Ok(result.Value),
                 onFailure: error => Results.Conflict(error));
+        }
+
+        [HttpGet("{id}/recibo")]
+        public async Task<IActionResult> GetRecibo(string id)
+        {
+            var result = await _recibos.Get(new GetReciboLiquidacionRequest(id));
+
+            if (result.IsFailure)
+                return Problem(result.Error.Descripcion);
+
+            var r = result.Value;
+
+            return File(
+                fileContents: r.Content,            
+                contentType: r.ContentType,         
+                fileDownloadName: r.FileName        
+            );
         }
 
     }

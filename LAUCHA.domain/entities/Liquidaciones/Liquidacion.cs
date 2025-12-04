@@ -126,7 +126,7 @@ namespace LAUCHA.domain.Entities.Liquidaciones
         public void AplicarCalculosAutomaticos(IEnumerable<ItemLiquidacion> nuevosItems)
         {
             if (EstaSellada())
-                    return;
+                return;
 
             var itemsAutomaticos = Items
                                    .Where(it => it.EsAutomatico)

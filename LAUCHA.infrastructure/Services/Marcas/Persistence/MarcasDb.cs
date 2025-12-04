@@ -12,7 +12,7 @@ namespace LAUCHA.infrastructure.Services.Marcas.Persistence
             _context = context;
         }
 
-        public List<Marca> GetUserMarcas(string dni, DateTime fechaInicio, DateTime fechaFin)
+        public List<MarcaDb> GetUserMarcas(string dni, DateTime fechaInicio, DateTime fechaFin)
         {
             var marcasMySQL = _context.Marcas.Where(m => m.IdPersonal == dni)
                                              .Where(m => m.Egreso != null)
@@ -21,11 +21,11 @@ namespace LAUCHA.infrastructure.Services.Marcas.Persistence
                                              .ToList();
 
 
-            var marcas = new List<Marca>();
+            var marcas = new List<MarcaDb>();
 
             marcasMySQL.ForEach(my =>
             {
-                var aux = new Marca
+                var aux = new MarcaDb
                 {
                     IdPersonal = my.IdPersonal,
                     Egreso = my.Egreso ?? DateTime.MinValue,
@@ -44,7 +44,7 @@ namespace LAUCHA.infrastructure.Services.Marcas.Persistence
         }
 
 
-        public List<Marca> GetMarcas(DateTime fechaInicio, DateTime fechaFin)
+        public List<MarcaDb> GetMarcas(DateTime fechaInicio, DateTime fechaFin)
         {
             var l = _context.Marcas.Where(m => m.Ingreso >= fechaInicio && m.Ingreso <= fechaFin).ToList();
             return null;

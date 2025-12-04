@@ -8,12 +8,12 @@ namespace LAUCHA.infrastructure.Services.Marcas
         {
             return date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday;
         }
-        public double calcularHs(List<Marca> marcas)
+        public double calcularHs(List<MarcaDb> marcas)
         {
             return marcas.Sum(m => m.HsTrabajadas);
         }
 
-        public double calculaHsExtrasDiasHabiles(List<Marca> marcas)
+        public double calculaHsExtrasDiasHabiles(List<MarcaDb> marcas)
         {
             double hsExtra = 0;
             double hsJornada = 9;
@@ -33,7 +33,7 @@ namespace LAUCHA.infrastructure.Services.Marcas
             return hsExtra;
         }
 
-        public double calcularHsExtraDobleFinde(List<Marca> marcas)
+        public double calcularHsExtraDobleFinde(List<MarcaDb> marcas)
         {
             double hs = 0;
             double hsJornadaReducida = 6;
@@ -51,7 +51,7 @@ namespace LAUCHA.infrastructure.Services.Marcas
             return hs;
         }
 
-        public double calcularHsFindeSemana(List<Marca> marcas)
+        public double calcularHsFindeSemana(List<MarcaDb> marcas)
         {
             double hsFinde = 0;
             double hsJornardaReducida = 6;

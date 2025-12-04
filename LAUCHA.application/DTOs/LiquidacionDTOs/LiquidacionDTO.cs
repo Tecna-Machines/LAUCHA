@@ -18,6 +18,6 @@ namespace LAUCHA.application.DTOs.LiquidacionDTOs
         public decimal TotalPagarBanco { set; get; }
         public decimal TotalPagarEfectivo { get; set; }
         public List<PagoDTO> Pagos { get; set; } = null!;
-        public List<MarcaVista> Marcas { get; set; } = null!;
+        public List<MarcaResponse> Marcas { get; set; } = null!;
     }
 }
