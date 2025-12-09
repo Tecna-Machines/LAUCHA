@@ -1,13 +1,25 @@
 ﻿using iText.Kernel.Geom;
 using iText.Kernel.Pdf;
+using iText.Layout;
+using iText.Layout.Element;
 using LAUCHA.application.Features.Liquidaciones.GetLiquidacionById;
 using LAUCHA.application.Features.Liquidaciones.GetRecibo;
+using System.IO;
 
 namespace LAUCHA.infrastructure.Services.Recibos
 {
     internal class PdfReciboRenderer : IReciboRenderer
     {
+        private GetLiquidacionByIdResponse? _liquidacion;
+        private Document? _document;
         public byte[] Render(GetLiquidacionByIdResponse liq)
+        {
+            _liquidacion = liq;
+
+            return CrearRecibo();        
+        }
+
+        private byte[] CrearRecibo()
         {
             using (MemoryStream stream = new MemoryStream())
             {
@@ -16,14 +28,46 @@ namespace LAUCHA.infrastructure.Services.Recibos
                     using (PdfDocument pdf = new PdfDocument(writer))
                     {
                         PageSize ps = pdf.GetDefaultPageSize();
-                        iText.Layout.Document document = new iText.Layout.Document(pdf, ps);
-                        document.SetFontSize(10);
 
+                        using (Document document = new iText.Layout.Document(pdf, ps))
+                        {
+                            _document = document;
+                            _document.SetFontSize(10);
+
+                            AgregarHeader();
+                            AgregarDetalleEnBlanco();
+                            AgregarDetalleEnNegro();
+                            AgregarDetalleMontoNeto();
+
+                        }
                     }
-                }
-
+                } 
                 return stream.ToArray();
             }
+        }
+
+ 
+
+        private void AgregarHeader()
+        {
+            HeaderPdf.AgregarHeader(_document!, _liquidacion!);
+        }
+
+        private void AgregarDetalleEnBlanco()
+        {
+            DetalleRecibo.AgregarDetalleEnBlanco(_document!, _liquidacion!);
+            _document!.Add(new Paragraph("").SetHeight(10f)); 
+        }
+
+        private void AgregarDetalleEnNegro()
+        {
+            DetalleRecibo.AgregarDetalleEnNegro(_document!, _liquidacion!);
+        }
+
+        private void AgregarDetalleMontoNeto()
+        {
+            _document!.Add(new Paragraph("").SetHeight(10f));
+            DetalleRecibo.AgregarDetallePagar(_document!, _liquidacion!);
         }
 
 
