@@ -1,4 +1,5 @@
 ﻿using LAUCHA.application.Features.Liquidaciones.GetRecibo;
+using LAUCHA.application.Features.Liquidaciones.GetRecibos;
 using LAUCHA.domain.Entities.Acuerdos;
 using LAUCHA.domain.Entities.Empleados;
 using LAUCHA.domain.Entities.Liquidaciones;
@@ -22,6 +23,7 @@ namespace LAUCHA.infrastructure
 
             //pdf
             services.AddScoped<IReciboRenderer, PdfReciboRenderer>();
+            services.AddScoped<IReciboMultipleRenderer, PdfReciboMultipleRenderer>();
             return services;
         }
     }

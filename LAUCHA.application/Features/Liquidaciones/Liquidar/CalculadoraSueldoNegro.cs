@@ -19,7 +19,7 @@
 
         private static ItemLiquidacion CalcularQuincenalNegro(Liquidacion liq, Acuerdo acu)
         {
-            return ItemLiquidacion.CrearRemunerativoEnNegro("sueldo mensual", acu.Sueldo / 2);
+            return ItemLiquidacion.CrearRemunerativoEnNegro("sueldo quincenal", acu.Sueldo / 2);
         }
 
         private static ItemLiquidacion CalcularMensualNegro(Liquidacion liq, Acuerdo acu)

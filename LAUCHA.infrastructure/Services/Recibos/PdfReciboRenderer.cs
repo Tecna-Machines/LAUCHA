@@ -4,7 +4,6 @@ using iText.Layout;
 using iText.Layout.Element;
 using LAUCHA.application.Features.Liquidaciones.GetLiquidacionById;
 using LAUCHA.application.Features.Liquidaciones.GetRecibo;
-using System.IO;
 
 namespace LAUCHA.infrastructure.Services.Recibos
 {
@@ -16,7 +15,7 @@ namespace LAUCHA.infrastructure.Services.Recibos
         {
             _liquidacion = liq;
 
-            return CrearRecibo();        
+            return CrearRecibo();
         }
 
         private byte[] CrearRecibo()
@@ -41,12 +40,12 @@ namespace LAUCHA.infrastructure.Services.Recibos
 
                         }
                     }
-                } 
+                }
                 return stream.ToArray();
             }
         }
 
- 
+
 
         private void AgregarHeader()
         {
@@ -56,7 +55,7 @@ namespace LAUCHA.infrastructure.Services.Recibos
         private void AgregarDetalleEnBlanco()
         {
             DetalleRecibo.AgregarDetalleEnBlanco(_document!, _liquidacion!);
-            _document!.Add(new Paragraph("").SetHeight(10f)); 
+            _document!.Add(new Paragraph("").SetHeight(10f));
         }
 
         private void AgregarDetalleEnNegro()

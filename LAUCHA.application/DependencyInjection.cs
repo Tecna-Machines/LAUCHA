@@ -10,6 +10,7 @@ using LAUCHA.application.Features.Liquidaciones.CrearLiquidacion;
 using LAUCHA.application.Features.Liquidaciones.GetLiquidacionById;
 using LAUCHA.application.Features.Liquidaciones.GetLiquidaciones;
 using LAUCHA.application.Features.Liquidaciones.GetRecibo;
+using LAUCHA.application.Features.Liquidaciones.GetRecibos;
 using LAUCHA.application.Features.Liquidaciones.Liquidar;
 using LAUCHA.application.Features.Liquidaciones.SellarLiquidacion;
 using Microsoft.Extensions.DependencyInjection;
@@ -66,6 +67,7 @@ namespace LAUCHA.application
             services.AddScoped<IGetRecibo, GetReciboHandler>();
 
             services.AddScoped<IGetRecibo, GetReciboHandler>();
+            services.AddScoped<IGetRecibos, GetRecibosHandler>();
 
             return services;
         }
