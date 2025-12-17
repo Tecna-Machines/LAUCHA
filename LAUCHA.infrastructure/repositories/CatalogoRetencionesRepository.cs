@@ -1,5 +1,4 @@
-﻿using LAUCHA.domain.Entities.RetencionesCatalogo;
-using LAUCHA.infrastructure.persistence;
+﻿using LAUCHA.infrastructure.persistence;
 
 namespace LAUCHA.infrastructure.Repositories
 {

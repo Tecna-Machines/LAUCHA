@@ -1,5 +1,4 @@
-﻿using LAUCHA.domain.Entities.Acuerdos;
-using LAUCHA.infrastructure.persistence;
+﻿using LAUCHA.infrastructure.persistence;
 
 namespace LAUCHA.infrastructure.repositories
 {

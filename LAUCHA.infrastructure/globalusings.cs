@@ -1,2 +1,15 @@
-﻿global using Microsoft.EntityFrameworkCore;
+﻿global using LAUCHA.domain.entities;
+global using LAUCHA.domain.entities.Contrato;
+global using LAUCHA.domain.entities.diasEspeciales;
+global using LAUCHA.domain.Entities.Acuerdos;
+global using LAUCHA.domain.Entities.Creditos;
+global using LAUCHA.domain.Entities.Empleados;
+global using LAUCHA.domain.Entities.Liquidaciones;
+global using LAUCHA.domain.Entities.RetencionesCatalogo;
+global using LAUCHA.infrastructure.config;
+global using LAUCHA.infrastructure.config.Acuerdos;
+global using LAUCHA.infrastructure.config.Creditos;
+global using LAUCHA.infrastructure.config.RetencionesCatalogo;
+global using LAUCHA.infrastructure.Data;
+global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;

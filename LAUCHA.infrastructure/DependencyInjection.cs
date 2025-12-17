@@ -1,9 +1,5 @@
 ﻿using LAUCHA.application.Features.Liquidaciones.GetRecibo;
 using LAUCHA.application.Features.Liquidaciones.GetRecibos;
-using LAUCHA.domain.Entities.Acuerdos;
-using LAUCHA.domain.Entities.Empleados;
-using LAUCHA.domain.Entities.Liquidaciones;
-using LAUCHA.domain.Entities.RetencionesCatalogo;
 using LAUCHA.infrastructure.repositories;
 using LAUCHA.infrastructure.Repositories;
 using LAUCHA.infrastructure.Services.Recibos;

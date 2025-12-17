@@ -1,6 +1,4 @@
-﻿using LAUCHA.domain.Entities.Liquidaciones;
-
-namespace LAUCHA.infrastructure.config
+﻿namespace LAUCHA.infrastructure.config
 {
     internal class ItemLiquidacionConfig : IEntityTypeConfiguration<ItemLiquidacion>
     {

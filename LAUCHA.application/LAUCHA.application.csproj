@@ -14,8 +14,4 @@
     <ProjectReference Include="..\LAUCHA.domain\LAUCHA.domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\Creditos\CrearCredito\" />
-  </ItemGroup>
-
 </Project>

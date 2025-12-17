@@ -1,6 +1,4 @@
-﻿using LAUCHA.domain.entities;
-using LAUCHA.domain.Entities.Liquidaciones;
-using LAUCHA.domain.interfaces.IRepositories;
+﻿using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.infrastructure.persistence;
 
 namespace LAUCHA.infrastructure.repositories
@@ -16,7 +14,7 @@ namespace LAUCHA.infrastructure.repositories
 
         public async Task<PaginaRegistro<Liquidacion>> ConseguirLiquidacionesFiltradas(FiltroLiquidacion filtros, int indice, int cantidadRegistros)
         {
-            var liquidacionesPersonales = from r in _context.LiquidacionesPersonales select r;
+            var liquidacionesPersonales = from r in _context.Liquidaciones select r;
 
             if (filtros.DniEmp != null)
             {
@@ -60,12 +58,12 @@ namespace LAUCHA.infrastructure.repositories
 
         public IList<Liquidacion> GetAll()
         {
-            return _context.LiquidacionesPersonales.ToList();
+            return _context.Liquidaciones.ToList();
         }
 
         public Liquidacion GetById(string codigoLiquidacion)
         {
-            var found = _context.LiquidacionesPersonales.Find(codigoLiquidacion);
+            var found = _context.Liquidaciones.Find(codigoLiquidacion);
             return found != null ? found : throw new NullReferenceException();
         }
 

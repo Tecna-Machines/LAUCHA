@@ -5,7 +5,6 @@ using iText.Layout;
 using iText.Layout.Element;
 using iText.Layout.Properties;
 using LAUCHA.application.Features.Liquidaciones.GetLiquidacionById;
-using LAUCHA.domain.Entities.Liquidaciones;
 
 namespace LAUCHA.infrastructure.Services.Recibos
 {

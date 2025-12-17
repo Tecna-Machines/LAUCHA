@@ -1,6 +1,4 @@
-﻿using LAUCHA.domain.entities.diasEspeciales;
-
-namespace LAUCHA.infrastructure.config
+﻿namespace LAUCHA.infrastructure.config
 {
     internal class PeriodoVacacionesConfig : IEntityTypeConfiguration<PeriodoVacaciones>
     {

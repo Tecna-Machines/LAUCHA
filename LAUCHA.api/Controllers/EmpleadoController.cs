@@ -52,7 +52,6 @@ namespace LAUCHA.api.Controllers
         }
 
         [HttpGet("{dni}/acuerdos")]
-        [ProducesResponseType(typeof(ContratoDTO), 200)]
         public async Task<IResult> GetHistorialAcuerdos(string dni)
         {
             var result = await _acuerdos.GetAcuerdosEmpleado(new GetAcuerdosEmpleadoRequest(dni));

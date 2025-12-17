@@ -1,6 +1,4 @@
-﻿using LAUCHA.domain.entities.Contrato;
-
-namespace LAUCHA.infrastructure.Data
+﻿namespace LAUCHA.infrastructure.Data
 {
     internal class AdicionalData : IEntityTypeConfiguration<Adicional>
     {

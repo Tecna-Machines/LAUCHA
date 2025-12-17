@@ -1,6 +1,4 @@
-﻿using LAUCHA.domain.Entities.RetencionesCatalogo;
-
-namespace LAUCHA.infrastructure.config
+﻿namespace LAUCHA.infrastructure.config
 {
     internal class RetencionFijaConfig : IEntityTypeConfiguration<CatalogoRetencion>
     {

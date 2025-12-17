@@ -1,6 +1,4 @@
-﻿using LAUCHA.domain.entities;
-
-namespace LAUCHA.infrastructure.config
+﻿namespace LAUCHA.infrastructure.config
 {
     internal class RemuneracionConfig : IEntityTypeConfiguration<Remuneracion>
     {

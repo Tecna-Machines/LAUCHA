@@ -1,7 +1,4 @@
-﻿using LAUCHA.domain.Entities.Acuerdos;
-using LAUCHA.domain.Entities.RetencionesCatalogo;
-
-namespace LAUCHA.infrastructure.config.Acuerdos
+﻿namespace LAUCHA.infrastructure.config.Acuerdos
 {
     internal class RetencionAcuerdoConfig : IEntityTypeConfiguration<RetencionAcuerdo>
     {

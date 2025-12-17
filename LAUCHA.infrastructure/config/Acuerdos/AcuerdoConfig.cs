@@ -1,6 +1,4 @@
-﻿using LAUCHA.domain.Entities.Acuerdos;
-
-namespace LAUCHA.infrastructure.config.Acuerdos
+﻿namespace LAUCHA.infrastructure.config.Acuerdos
 {
     internal class AcuerdoConfig : IEntityTypeConfiguration<Acuerdo>
     {

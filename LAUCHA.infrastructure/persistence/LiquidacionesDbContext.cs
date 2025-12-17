@@ -1,15 +1,4 @@
-﻿using LAUCHA.domain.entities;
-using LAUCHA.domain.entities.Contrato;
-using LAUCHA.domain.entities.diasEspeciales;
-using LAUCHA.domain.Entities.Acuerdos;
-using LAUCHA.domain.Entities.Creditos;
-using LAUCHA.domain.Entities.Empleados;
-using LAUCHA.domain.Entities.Liquidaciones;
-using LAUCHA.domain.Entities.RetencionesCatalogo;
-using LAUCHA.infrastructure.config;
-using LAUCHA.infrastructure.config.Acuerdos;
-using LAUCHA.infrastructure.config.RetencionesCatalogo;
-using LAUCHA.infrastructure.Data;
+﻿using LAUCHA.infrastructure.config.Empleados;
 
 namespace LAUCHA.infrastructure.persistence
 {
@@ -23,14 +12,14 @@ namespace LAUCHA.infrastructure.persistence
         public DbSet<Adicional> Adicionales { get; set; }
         public DbSet<Concepto> Conceptos { get; set; }
         public DbSet<Acuerdo> Acuerdos { get; set; }
-        public DbSet<Credito> Creditos { get; set; }
+        public DbSet<RetencionAcuerdo> RetencionAcuerdo { get; set; }
         public DbSet<CatalogoRetencion> CatalogoRetenciones { get; set; }
-        public DbSet<PagoCredito> PagosCreditos { get; set; }
-        public DbSet<Cuenta> Cuentas { get; set; }
+        public DbSet<Credito> Creditos { get; set; }
+        public DbSet<CuotaCredito> Cuotas { get; set; }
         public DbSet<Descuento> Descuentos { get; set; }
         public DbSet<DescuentoPorLiquidacionPersonal> DescuentosPorLiquidaciones { get; set; }
         public DbSet<LiquidacionGeneral> LiquidacionesGenerales { get; set; }
-        public DbSet<Liquidacion> LiquidacionesPersonales { get; set; }
+        public DbSet<Liquidacion> Liquidaciones { get; set; }
         public DbSet<PagoLiquidacion> PagosLiquidaciones { get; set; }
         public DbSet<Remuneracion> Remuneraciones { get; set; }
         public DbSet<RemuneracionPorLiquidacionPersonal> RemuneracionesPorLiquidaciones { get; set; }
@@ -49,25 +38,27 @@ namespace LAUCHA.infrastructure.persistence
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new AcuerdoConfig());
-
             modelBuilder.ApplyConfiguration(new CatalogoRetencionConfig());
 
-            modelBuilder.ApplyConfiguration(new AcuerdoBlancoConfig());
+
             modelBuilder.ApplyConfiguration(new AdicionalConfig());
             modelBuilder.ApplyConfiguration(new ConceptoConfig());
             modelBuilder.ApplyConfiguration(new RetencionAcuerdoConfig());
+
             modelBuilder.ApplyConfiguration(new CreditoConfig());
+            modelBuilder.ApplyConfiguration(new CuotaCreditoConfig());
+
+            modelBuilder.ApplyConfiguration(new EmpleadoConfig());
             modelBuilder.ApplyConfiguration(new CuentaConfig());
+
             modelBuilder.ApplyConfiguration(new DescuentoConfig());
             modelBuilder.ApplyConfiguration(new DescuentoPorLiquidacionConfig());
-            modelBuilder.ApplyConfiguration(new EmpleadoConfig());
             modelBuilder.ApplyConfiguration(new LiquidacionConfig());
             modelBuilder.ApplyConfiguration(new LiquidacionGeneralConfig());
             modelBuilder.ApplyConfiguration(new NoRemuneracionConfig());
             modelBuilder.ApplyConfiguration(new RetencionConfig());
             modelBuilder.ApplyConfiguration(new NoRemuneracionPorLiquidacionConfig());
             modelBuilder.ApplyConfiguration(new PagoConfig());
-            modelBuilder.ApplyConfiguration(new PagoCreditoConfig());
             modelBuilder.ApplyConfiguration(new RemuneracionConfig());
             modelBuilder.ApplyConfiguration(new RemuneracionPorLiquidacionConfig());
             modelBuilder.ApplyConfiguration(new RetencionesPorLiquidacionConfig());

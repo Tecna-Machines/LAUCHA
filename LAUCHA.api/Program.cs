@@ -9,12 +9,10 @@ using LAUCHA.application.UseCase.V1.OperarConceptos;
 using LAUCHA.domain.entities;
 using LAUCHA.domain.entities.Contrato;
 using LAUCHA.domain.Entities.Acuerdos;
-using LAUCHA.domain.Entities.Creditos;
 using LAUCHA.domain.Entities.Empleados;
 using LAUCHA.domain.Entities.Liquidaciones;
 using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.domain.interfaces.IServices;
-using LAUCHA.domain.interfaces.IUnitsOfWork;
 using LAUCHA.infrastructure;
 using LAUCHA.infrastructure.persistence;
 using LAUCHA.infrastructure.repositories;
@@ -23,7 +21,6 @@ using LAUCHA.infrastructure.Services.Marcas;
 using LAUCHA.infrastructure.Services.Marcas.Interface;
 using LAUCHA.infrastructure.Services.Marcas.Persistence;
 using LAUCHA.infrastructure.Services.Menues;
-using LAUCHA.infrastructure.unitOfWork;
 using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
 
@@ -80,15 +77,11 @@ builder.Services.AddDbContext<LiquidacionesDbContext>(options => options.UseMySq
 builder.Services.AddInfrastructureServices();
 builder.Services.AddAplicationServices();
 
-builder.Services.AddScoped<IUnitOfWorkEmpleado, UnitOfWorkEmpleado>();
 builder.Services.AddScoped<IGenericRepository<Empleado>, Borrame>();
-builder.Services.AddScoped<IGenericRepository<Cuenta>, CuentaRepository>();
 
 builder.Services.AddScoped<IGenericRepository<Adicional>, AdicionalRepository>();
 builder.Services.AddScoped<IGenericRepository<AcuerdoBlanco>, AcuerdoBlancoRepository>();
-builder.Services.AddScoped<IUnitOfWorkContrato, UnitOfWorkContrato>();
 
-builder.Services.AddScoped<ICuentaRepository, CuentaRepository>();
 
 
 
@@ -103,7 +96,6 @@ builder.Services.AddScoped<IGenericRepository<RetencionOLD>, RetencionRepository
 builder.Services.AddScoped<IRetencionCatalogoRepositoryOLD, RetencionRepository>();
 
 //builder.Services.AddScoped<ILiquidacionService, CrearLiquidacionService>();
-builder.Services.AddScoped<IUnitOfWorkLiquidacion, UnitOfWorkLiquidacion>();
 
 builder.Services.AddScoped<IGenericRepository<RemuneracionPorLiquidacionPersonal>, RemuneracionPorLiquidacionRepository>();
 builder.Services.AddScoped<IGenericRepository<RetencionPorLiquidacionPersonal>, RetencionPorLiquidacionRepository>();
@@ -124,7 +116,6 @@ builder.Services.AddScoped<IOperarConceptosService, OperarConceptos>();
 builder.Services.AddScoped<ILiquidacionRepositoryOLD, LiquidacionPersonalRepository>();
 
 
-builder.Services.AddScoped<IGenericRepository<PagoCredito>, PagoCreditoRepository>();
 
 
 //dias especiales

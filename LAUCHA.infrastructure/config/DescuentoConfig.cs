@@ -1,6 +1,4 @@
-﻿using LAUCHA.domain.entities;
-
-namespace LAUCHA.infrastructure.config
+﻿namespace LAUCHA.infrastructure.config
 {
     internal class DescuentoConfig : IEntityTypeConfiguration<Descuento>
     {
@@ -15,10 +13,6 @@ namespace LAUCHA.infrastructure.config
             builder.HasOne(descuento => descuento.Cuenta)
                     .WithMany(cuenta => cuenta.Descuentos)
                     .HasForeignKey(descuento => descuento.NumeroCuenta);
-
-            builder.HasMany(descuento => descuento.PagosCreditos)
-                    .WithOne(pagoCredito => pagoCredito.Descuento)
-                    .HasForeignKey(pagoCredito => pagoCredito.CodigoDescuento);
         }
     }
 }

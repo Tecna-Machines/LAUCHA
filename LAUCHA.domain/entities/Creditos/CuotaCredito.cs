@@ -6,7 +6,7 @@
         public string CodigoCredito { get; set; } = string.Empty;
         public decimal Monto { get; set; }
         public DateTime Creacion { get; set; }
-        public DateTime FechaDebitada { get; set; }
+        public DateTime FechaPago { get; set; }
         public string Descripcion { get; set; } = string.Empty;
 
         public enum EstadoCuota
@@ -28,7 +28,7 @@
         public void Pagar()
         {
             Estado = EstadoCuota.PAGADA;
-            FechaDebitada = DateTime.Now;
+            FechaPago = DateTime.Now;
         }
     }
 }

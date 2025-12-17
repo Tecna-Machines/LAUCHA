@@ -1,5 +1,4 @@
-﻿using LAUCHA.domain.entities.Contrato;
-using LAUCHA.domain.interfaces.IRepositories;
+﻿using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.infrastructure.persistence;
 
 namespace LAUCHA.infrastructure.repositories
