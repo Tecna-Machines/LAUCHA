@@ -100,7 +100,7 @@ namespace LAUCHA.infrastructure.Services.Recibos
                 .Add(new Paragraph(montoRemuneracion))
                 .SetTextAlignment(alineacionMonto));
 
-            string montoDescuento = item.TipoItem == (int)TipoItemLiquidacion.Retencion ? "-"+item.Monto.ToString(formatoMonto) : string.Empty;
+            string montoDescuento = item.TipoItem == (int)TipoItemLiquidacion.Retencion ? "-" + item.Monto.ToString(formatoMonto) : string.Empty;
             detalleEnBlanco.AddCell(new Cell()
                 .Add(new Paragraph(montoDescuento))
                 .SetTextAlignment(alineacionMonto));
@@ -200,8 +200,8 @@ namespace LAUCHA.infrastructure.Services.Recibos
                 .Add(new Paragraph(montoRemuneracion))
                 .SetTextAlignment(alineacionMonto));
 
-  
-            string montoDescuento = item.TipoItem == (int)TipoItemLiquidacion.Descuento ? "-"+item.Monto.ToString(formatoMonto) : string.Empty;
+
+            string montoDescuento = item.TipoItem == (int)TipoItemLiquidacion.Descuento ? "-" + item.Monto.ToString(formatoMonto) : string.Empty;
             detalleEnNegro.AddCell(new Cell()
                 .Add(new Paragraph(montoDescuento))
                 .SetTextAlignment(alineacionMonto));

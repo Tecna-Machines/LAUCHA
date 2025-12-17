@@ -1,6 +1,4 @@
-﻿using LAUCHA.application.DTOs.CreditoDTOs;
-using LAUCHA.application.interfaces;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace LAUCHA.api.Controllers
 {

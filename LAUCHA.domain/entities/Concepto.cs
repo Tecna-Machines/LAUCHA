@@ -1,4 +1,6 @@
-﻿namespace LAUCHA.domain.entities
+﻿using LAUCHA.domain.Entities.Creditos;
+
+namespace LAUCHA.domain.entities
 {
     public class Concepto
     {

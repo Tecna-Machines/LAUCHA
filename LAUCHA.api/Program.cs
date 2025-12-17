@@ -4,14 +4,12 @@ using LAUCHA.application.interfaces.V2.IDiasEspecialesServices;
 using LAUCHA.application.UseCase.DiasEspeciales.CrearConsultarAusencias;
 using LAUCHA.application.UseCase.DiasEspeciales.CrearConsultarFeriados;
 using LAUCHA.application.UseCase.DiasEspeciales.CrearConsultarHsExtraHabilitadas;
-using LAUCHA.application.UseCase.OperacionesDescuento;
-using LAUCHA.application.UseCase.OperarCredito;
-using LAUCHA.application.UseCase.V1.CrearCredito;
 using LAUCHA.application.UseCase.V1.DiasEspeciales.CrearConsultarVacaciones;
 using LAUCHA.application.UseCase.V1.OperarConceptos;
 using LAUCHA.domain.entities;
 using LAUCHA.domain.entities.Contrato;
 using LAUCHA.domain.Entities.Acuerdos;
+using LAUCHA.domain.Entities.Creditos;
 using LAUCHA.domain.Entities.Empleados;
 using LAUCHA.domain.Entities.Liquidaciones;
 using LAUCHA.domain.interfaces.IRepositories;
@@ -98,14 +96,11 @@ builder.Services.AddScoped<IGenericRepository<Remuneracion>, RemuneracionReposit
 builder.Services.AddScoped<IRemuneracionRepository, RemuneracionRepository>();
 
 
-builder.Services.AddScoped<IGenericRepository<Descuento>, DescuentoRepository>();
 builder.Services.AddScoped<IGenericRepository<Concepto>, ConceptoRepository>();
-builder.Services.AddScoped<IOperarDescuentosService, OperarDescuentosService>();
 
 builder.Services.AddScoped<IGenericRepository<RetencionOLD>, RetencionRepository>();
 
 builder.Services.AddScoped<IRetencionCatalogoRepositoryOLD, RetencionRepository>();
-builder.Services.AddScoped<IDescuentoRepository, DescuentoRepository>();
 
 //builder.Services.AddScoped<ILiquidacionService, CrearLiquidacionService>();
 builder.Services.AddScoped<IUnitOfWorkLiquidacion, UnitOfWorkLiquidacion>();
@@ -125,17 +120,11 @@ builder.Services.AddScoped<IGenericRepository<NoRemuneracionPorLiquidacionPerson
 builder.Services.AddScoped<IGenericRepository<Concepto>, ConceptoRepository>();
 builder.Services.AddScoped<IOperarConceptosService, OperarConceptos>();
 
-builder.Services.AddScoped<IGenericRepository<Credito>, CreditoRepository>();
-builder.Services.AddScoped<ICreadorCreditos, CreadorCreditoService>();
 
 builder.Services.AddScoped<ILiquidacionRepositoryOLD, LiquidacionPersonalRepository>();
 
 
-builder.Services.AddScoped<ICreditoRepository, CreditoRepository>();
-builder.Services.AddScoped<ICreditoService, OperarCreditosService>();
 builder.Services.AddScoped<IGenericRepository<PagoCredito>, PagoCreditoRepository>();
-builder.Services.AddScoped<ICreditoRepositoryTotal, CreditoRepository>();
-builder.Services.AddScoped<IDescuentoRepositoryTotal, DescuentoRepository>();
 
 
 //dias especiales

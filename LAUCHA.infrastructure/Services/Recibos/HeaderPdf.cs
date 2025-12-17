@@ -27,18 +27,18 @@ namespace LAUCHA.infrastructure.Services.Recibos
                                         .SetTextAlignment(TextAlignment.LEFT)
                                         .SetFontSize(HeaderFontSize)
                                         .SetBorder(Border.NO_BORDER));
-            
+
             titleTable.AddCell(titleCell);
 
             Cell codeCell = new Cell().Add(new Paragraph($"CÓDIGO: {liquidacion.Codigo}")
                                       .SetTextAlignment(TextAlignment.RIGHT)
                                       .SetFontSize(DefaultFontSize)
                                       .SetBorder(Border.NO_BORDER));
-            
+
             titleTable.AddCell(codeCell);
 
             document.Add(titleTable);
-            
+
             document.Add(new LineSeparator(new SolidLine(1f))
                                            .SetMarginTop(5)
                                            .SetMarginBottom(5));

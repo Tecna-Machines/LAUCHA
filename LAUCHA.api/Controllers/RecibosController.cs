@@ -15,7 +15,7 @@ namespace LAUCHA.api.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetRecibos([FromQuery]GetRecibosRequest req)
+        public async Task<IActionResult> GetRecibos([FromQuery] GetRecibosRequest req)
         {
             var result = await _recibos.Get(req);
 

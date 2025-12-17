@@ -2,6 +2,7 @@
 using LAUCHA.domain.entities.Contrato;
 using LAUCHA.domain.entities.diasEspeciales;
 using LAUCHA.domain.Entities.Acuerdos;
+using LAUCHA.domain.Entities.Creditos;
 using LAUCHA.domain.Entities.Empleados;
 using LAUCHA.domain.Entities.Liquidaciones;
 using LAUCHA.domain.Entities.RetencionesCatalogo;

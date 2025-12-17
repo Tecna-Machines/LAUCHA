@@ -1,4 +1,5 @@
-﻿using LAUCHA.domain.Entities.Empleados;
+﻿using LAUCHA.domain.Entities.Creditos;
+using LAUCHA.domain.Entities.Empleados;
 
 namespace LAUCHA.domain.entities
 {

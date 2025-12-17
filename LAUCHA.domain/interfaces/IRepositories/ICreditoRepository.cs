@@ -1,4 +1,4 @@
-﻿using LAUCHA.domain.entities;
+﻿using LAUCHA.domain.Entities.Creditos;
 
 namespace LAUCHA.domain.interfaces.IRepositories
 {

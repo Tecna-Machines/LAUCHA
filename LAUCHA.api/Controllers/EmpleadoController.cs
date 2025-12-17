@@ -1,5 +1,4 @@
 ﻿using LAUCHA.application.Common.Extensions;
-using LAUCHA.application.DTOs.ContratoDTOs;
 using LAUCHA.application.DTOs.EmpleadoDTO;
 using LAUCHA.application.Features.Acuerdos.GetAcuerdosEmpleado;
 using LAUCHA.application.Features.Empleados.CrearEmpleado;

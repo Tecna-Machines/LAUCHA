@@ -1,4 +1,4 @@
-﻿using LAUCHA.domain.entities;
+﻿using LAUCHA.domain.Entities.Creditos;
 
 namespace LAUCHA.infrastructure.config
 {
@@ -6,7 +6,7 @@ namespace LAUCHA.infrastructure.config
     {
         public void Configure(EntityTypeBuilder<Credito> builder)
         {
-            builder.HasKey(credito => credito.CodigoCredito);
+            builder.HasKey(credito => credito.Codigo);
 
             builder.HasOne(credito => credito.Cuenta)
                 .WithMany(cuenta => cuenta.Creditos)

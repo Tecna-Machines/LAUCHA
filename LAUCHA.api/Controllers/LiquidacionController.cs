@@ -100,9 +100,9 @@ namespace LAUCHA.api.Controllers
             var r = result.Value;
 
             return File(
-                fileContents: r.Content,            
-                contentType: r.ContentType,         
-                fileDownloadName: r.FileName        
+                fileContents: r.Content,
+                contentType: r.ContentType,
+                fileDownloadName: r.FileName
             );
         }
 
