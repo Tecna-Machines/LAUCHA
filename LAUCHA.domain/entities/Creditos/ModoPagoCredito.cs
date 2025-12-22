@@ -9,7 +9,7 @@
         /// <summary>
         /// se descontara una cuota en cada quincena
         /// </summary>
-        POR_QUINCENA,
+        AMBAS_QUINCENAS,
 
 
         /// <summary>

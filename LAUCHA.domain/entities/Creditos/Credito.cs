@@ -30,14 +30,31 @@
 
             return credito;
         }
+
+        public ICollection<CuotaCredito> GetCuotasSinPagar()
+            => Cuotas
+               .Where(c => c.Estado == CuotaCredito.EstadoCuota.PENDIENTE)
+               .ToList();
+
         public void PagarCuota(int nro)
         {
+            if(SeTerminoDePagar())
+            {
+                this.Estado = EstadoCredito.COMPLETADO;
+                return;
+            }
+
             var cuota = Cuotas.First(c => c.Nro == nro);
 
             if (cuota is not null)
             {
                 cuota.Pagar();
             }
+        }
+
+        private bool SeTerminoDePagar()
+        {
+            return (Cuotas.All(c => c.Estado == CuotaCredito.EstadoCuota.PAGADA) && Cuotas.Any());
         }
 
         public decimal GetMondoPagado()
@@ -54,6 +71,14 @@
             }
 
             Cuotas.Add(cuota);
+        }
+
+        public void AgregarCuotas(IReadOnlyCollection<CuotaCredito> cuotas)
+        {
+            if(Cuotas.Count == 0)
+            {
+                Cuotas = (ICollection<CuotaCredito>)cuotas;
+            }
         }
 
 

@@ -25,10 +25,38 @@
         public int NroItem { get; set; }
         public string CodigoLiquidacion { get; set; } = string.Empty;
 
+        public static CuotaCredito Crear(int nro,decimal monto)
+        {
+            var cuota =  new CuotaCredito();
+
+            cuota.Nro = nro;
+            cuota.Creacion = DateTime.Now;
+            cuota.Estado = EstadoCuota.PENDIENTE;
+
+            return cuota;
+        }
+
+        public void SetQuincenaDebitar(int quincena,int mes,int anio)
+        {
+            QuincenaDebitar = quincena;
+            MesDebitar = mes;
+            AnioDebitar = anio;
+        }
+
+        public void SetDescripcion(string descripcion)
+        {
+            Descripcion = descripcion;
+        }
         public void Pagar()
         {
             Estado = EstadoCuota.PAGADA;
             FechaPago = DateTime.Now;
+        }
+
+        public void AsociarConItemLiquidacion(string codigoLiquidacion,int nroItem)
+        {
+            this.CodigoLiquidacion = codigoLiquidacion;
+            this.NroItem = nroItem;
         }
     }
 }
