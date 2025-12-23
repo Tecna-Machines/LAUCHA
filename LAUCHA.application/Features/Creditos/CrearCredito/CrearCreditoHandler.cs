@@ -5,13 +5,15 @@ namespace LAUCHA.application.Features.Creditos.CrearCredito
     internal class CrearCreditoHandler : ICrearCredito
     {
         private readonly IFabricaDeCuotas _fabricaCuotas;
+        private readonly ICreditoRepository _creditos;
 
-        public CrearCreditoHandler(IFabricaDeCuotas fabricaCuotas)
+        public CrearCreditoHandler(IFabricaDeCuotas fabricaCuotas, ICreditoRepository creditos)
         {
             _fabricaCuotas = fabricaCuotas;
+            _creditos = creditos;
         }
 
-        public Result<CrearCreditoResponse> Crear(CrearCreditoRequest req)
+        public async Task<Result<CrearCreditoResponse>> Crear(CrearCreditoRequest req)
         {
 
             var opciones = MapOpciones(req);
@@ -21,7 +23,10 @@ namespace LAUCHA.application.Features.Creditos.CrearCredito
 
             credito.AgregarCuotas(cuotas);
 
+            await _creditos.Insert(credito);
+
             var response = new CrearCreditoResponse(credito.Codigo,credito.Descripcion);
+
             return Result.Success(response);
         }
 

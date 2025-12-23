@@ -22,8 +22,8 @@
         public int AnioDebitar { get; set; }
 
         //referencia a que item de que liquidacion se asocia esta cuota
-        public int NroItem { get; set; }
-        public string CodigoLiquidacion { get; set; } = string.Empty;
+        public int? NroItem { get; set; }
+        public string? CodigoLiquidacion { get; set; } = string.Empty;
 
         public static CuotaCredito Crear(int nro,decimal monto)
         {
@@ -32,6 +32,7 @@
             cuota.Nro = nro;
             cuota.Creacion = DateTime.Now;
             cuota.Estado = EstadoCuota.PENDIENTE;
+            cuota.Monto = monto;
 
             return cuota;
         }

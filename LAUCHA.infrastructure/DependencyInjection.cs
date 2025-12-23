@@ -14,6 +14,7 @@ namespace LAUCHA.infrastructure
             services.AddScoped<IAcuerdoRepository, AcuerdoRepository>();
             services.AddScoped<IEmpleadoRepository, EmpleadoRepository>();
             services.AddScoped<ICatalogoRetencionRepository, CatalogoRetencionesRepository>();
+            services.AddScoped<ICreditoRepository, CreditoRepository>();
 
             services.AddScoped<ILiquidacionRepository, LiquidacionRepository>();
 

@@ -2,6 +2,7 @@
 using LAUCHA.application.Features.Acuerdos.GetAcuerdoById;
 using LAUCHA.application.Features.Acuerdos.GetAcuerdosEmpleado;
 using LAUCHA.application.Features.CatalogoRetenciones.GetCatalogo;
+using LAUCHA.application.Features.Creditos.CrearCredito;
 using LAUCHA.application.Features.Empleados.CrearEmpleado;
 using LAUCHA.application.Features.Empleados.GetEmpleados;
 using LAUCHA.application.Features.Liquidaciones.AnularItem;
@@ -27,7 +28,7 @@ namespace LAUCHA.application
             AddLiquidacionFeatures(services);
             AddItemsFeatures(services);
             AddCatalogoRetencionesFeatures(services);
-
+            AddCreditosFeatures(services);
             return services;
         }
 
@@ -85,6 +86,14 @@ namespace LAUCHA.application
         private static IServiceCollection AddCatalogoRetencionesFeatures(this IServiceCollection services)
         {
             services.AddScoped<IGetCatalogo, GetCatalogoHandler>();
+            return services;
+        }
+
+        public static IServiceCollection AddCreditosFeatures(this IServiceCollection services)
+        {
+            services.AddScoped<IFabricaDeCuotas, FabricaDeCuotas>();
+            services.AddScoped<ICrearCredito, CrearCreditoHandler>();
+
             return services;
         }
     }

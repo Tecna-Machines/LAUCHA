@@ -6,6 +6,6 @@
         Task<Empleado?> GetByDni(string dni);
         Task<IEnumerable<Empleado>> GetAll();
         Task<IEnumerable<Empleado>> FindByNameOrSurname(string name);
-        Task<Empleado> Change(Empleado emp);
+        Task<Empleado> Update(Empleado emp);
     }
 }

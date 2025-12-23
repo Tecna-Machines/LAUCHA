@@ -18,13 +18,14 @@
         {
             var credito = new Credito();
 
-            credito.Codigo = new Guid().ToString();
+            credito.Codigo = Guid.NewGuid().ToString();
             credito.DniEmpleado = op.Dni;
             credito.MontoPrestado = op.MontoPrestar;
             credito.MontoDevolver = op.MontoDevolver;
             credito.Descripcion = op.Descripcion;
             credito.Creacion = DateTime.Now;
             credito.Estado = EstadoCredito.INCOMPLETO;
+            credito.ModoPago = op.ModoPago;
             credito.CantidadCuotas = op.CantidadCuotas;
             credito.Cuotas = new List<CuotaCredito>();
 
@@ -75,10 +76,15 @@
 
         public void AgregarCuotas(IReadOnlyCollection<CuotaCredito> cuotas)
         {
-            if(Cuotas.Count == 0)
-            {
-                Cuotas = (ICollection<CuotaCredito>)cuotas;
-            }
+            if(Cuotas.Count != 0)
+                return;
+
+                foreach (var cuota in cuotas)
+                {
+                    cuota.CodigoCredito = this.Codigo;
+                    Cuotas.Add(cuota);
+                }
+            
         }
 
 

@@ -17,6 +17,7 @@
             builder.HasOne<ItemLiquidacion>()
              .WithMany()
              .HasForeignKey(cc => new { cc.CodigoLiquidacion, cc.NroItem })
+             .IsRequired(false)
              .OnDelete(DeleteBehavior.Restrict);
         }
     }

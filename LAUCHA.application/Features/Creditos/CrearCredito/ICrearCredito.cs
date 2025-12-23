@@ -2,6 +2,6 @@
 {
     public interface ICrearCredito
     {
-        Result<CrearCreditoResponse> Crear(CrearCreditoRequest req);
+        Task<Result<CrearCreditoResponse>> Crear(CrearCreditoRequest req);
     }
 }

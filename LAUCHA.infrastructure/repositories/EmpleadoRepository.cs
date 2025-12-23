@@ -17,7 +17,7 @@ namespace LAUCHA.infrastructure.repositories
             await _context.SaveChangesAsync();
         }
 
-        public Task<Empleado> Change(Empleado emp)
+        public Task<Empleado> Update(Empleado emp)
         {
             throw new NotImplementedException();
         }
