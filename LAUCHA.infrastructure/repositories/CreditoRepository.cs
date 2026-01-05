@@ -42,5 +42,29 @@ namespace LAUCHA.infrastructure.Repositories
 
             return credito;
         }
+
+        public async Task<IReadOnlyCollection<Credito>> Buscar(CreditoQuery query)
+        {
+            IQueryable<Credito> creditos = _context.Creditos.AsNoTracking();
+
+            if (!string.IsNullOrWhiteSpace(query.DniEmpleado))
+               creditos = creditos.Where(c => c.DniEmpleado == query.DniEmpleado);
+
+            if (query.MontoMin.HasValue)
+                creditos = creditos.Where(c => c.MontoPrestado >= query.MontoMin.Value);
+
+            if (query.MontoMax.HasValue)
+                creditos = creditos.Where(c => c.MontoPrestado <= query.MontoMax.Value);
+
+            if (query.CreacionDesde.HasValue)
+                creditos = creditos.Where(c => c.Creacion >= query.CreacionDesde.Value);
+
+            if (query.CreacionHasta.HasValue)
+                creditos = creditos.Where(c => c.Creacion <= query.CreacionHasta.Value);
+
+                creditos.OrderByDescending(c => c.Creacion);
+
+            return await creditos.ToListAsync();
+        }
     }
 }
