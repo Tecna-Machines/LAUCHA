@@ -2,11 +2,11 @@
 
 namespace LAUCHA.application.Features.Creditos.GetCreditos
 {
-    internal class GetCreditoHandler : IGetCreditos
+    internal class GetCreditosHandler : IGetCreditos
     {
         private readonly ICreditoRepository _creditos;
 
-        public GetCreditoHandler(ICreditoRepository creditos)
+        public GetCreditosHandler(ICreditoRepository creditos)
         {
             _creditos = creditos;
         }
@@ -44,7 +44,7 @@ namespace LAUCHA.application.Features.Creditos.GetCreditos
             if (!estado.HasValue) return null;
 
             if (!Enum.IsDefined(typeof(EstadoCredito), estado.Value))
-                throw new ArgumentException($"Estado inválido: {estado.Value}");
+                throw new ArgumentException($"Error.estado: {estado.Value}");
 
             return (EstadoCredito)estado.Value;
         }
