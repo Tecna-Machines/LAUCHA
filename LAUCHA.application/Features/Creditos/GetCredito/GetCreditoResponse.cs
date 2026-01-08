@@ -3,8 +3,11 @@
     public record GetCreditoResponse(string Codigo,
                                     string Descripcion,
                                     DateTime Creacion,
+                                    string ModoPago,
                                     string DniEmpleado,
                                     string NombreApellido,
+                                    decimal Prestado,
+                                    decimal Devolver,
                                     IEnumerable<CuotaResponse> Cuotas);
 
     public record CuotaResponse(string Nro,

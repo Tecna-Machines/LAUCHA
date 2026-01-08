@@ -53,6 +53,7 @@ namespace LAUCHA.application.Features.Creditos.GetCreditos
             new(c.Codigo,
                 c.DniEmpleado,
                 c.CantidadCuotas,
+                c.Descripcion,
                 c.MontoPrestado,
                 c.Estado.ToString());
     }

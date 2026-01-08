@@ -5,6 +5,7 @@
     public record GetCreditoResumen(string Codigo,
                                     string DniEmpleado,
                                     int Cuotas,
+                                    string Descripcion,
                                     decimal MontoPrestado,
                                     string Estado);
 }

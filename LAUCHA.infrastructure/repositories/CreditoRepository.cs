@@ -62,6 +62,9 @@ namespace LAUCHA.infrastructure.Repositories
             if (query.CreacionHasta.HasValue)
                 creditos = creditos.Where(c => c.Creacion <= query.CreacionHasta.Value);
 
+            if (query.Estado.HasValue)
+                creditos = creditos.Where(c => c.Estado == query.Estado.Value);
+
                 creditos.OrderByDescending(c => c.Creacion);
 
             return await creditos.ToListAsync();

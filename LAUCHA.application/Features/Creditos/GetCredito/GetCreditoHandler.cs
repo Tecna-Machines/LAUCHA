@@ -36,8 +36,11 @@ namespace LAUCHA.application.Features.Creditos.GetCredito
             return new GetCreditoResponse(credito.Codigo,
                                           credito.Descripcion,
                                           credito.Creacion,
+                                          credito.ModoPago.ToString(),
                                           credito.DniEmpleado,
-                                          empleado.Dni,
+                                          empleado.GetFullName(),
+                                          credito.MontoPrestado,
+                                          credito.MontoDevolver,
                                           cuotasResponse);
         }
 
