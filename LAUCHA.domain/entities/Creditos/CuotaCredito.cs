@@ -59,5 +59,36 @@
             this.CodigoLiquidacion = codigoLiquidacion;
             this.NroItem = nroItem;
         }
+
+        public void PosponerUnMes()
+        {
+            if (MesDebitar == 12)
+            {
+                MesDebitar = 1;
+                AnioDebitar++;
+            }
+            else
+            {
+                MesDebitar++;
+            }
+        }
+
+        public void PosponerUnaQuincena()
+        {
+            if (QuincenaDebitar == 1)
+            {
+                QuincenaDebitar = 2;
+            }
+            else if (QuincenaDebitar == 2)
+            {
+                QuincenaDebitar = 1;
+                PosponerUnMes();
+            }
+            else
+            {
+                throw new InvalidOperationException("QuincenaDebitar invalida");
+            }
+        }
+
     }
 }

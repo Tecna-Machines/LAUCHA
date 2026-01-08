@@ -84,9 +84,8 @@
                     cuota.CodigoCredito = this.Codigo;
                     Cuotas.Add(cuota);
                 }
-            
+        
         }
-
 
     }
 }
