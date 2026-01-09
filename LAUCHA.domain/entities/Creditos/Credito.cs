@@ -2,18 +2,19 @@
 {
     public class Credito
     {
-        public string Codigo { get; set; } = null!;
-        public decimal MontoPrestado { get; set; }
-        public decimal MontoDevolver { get; set; }
-        public string DniEmpleado { get; set; } = string.Empty;
-        public string Descripcion { get; set; } = string.Empty;
-        public DateTime Creacion { get; set; }
-        public ModoPagoCredito ModoPago { get; set; }
-        public EstadoCredito Estado { get; set; }
-        public DateTime FechaInicio { get; set; }
-        public int CantidadCuotas { get; set; }
-        public ICollection<CuotaCredito> Cuotas { get; set; } = null!;
+        public string Codigo { get; private set; } = null!;
+        public decimal MontoPrestado { get; private set; }
+        public decimal MontoDevolver { get; private set; }
+        public string DniEmpleado { get; private set; } = string.Empty;
+        public string Descripcion { get; private set; } = string.Empty;
+        public DateTime Creacion { get; private set; }
+        public ModoPagoCredito ModoPago { get; private set; }
+        public EstadoCredito Estado { get; private set; }
+        public DateTime FechaInicio { get; private set; }
+        public int CantidadCuotas { get; private set; }
+        public ICollection<CuotaCredito> Cuotas { get; private set; } = new List<CuotaCredito>();
 
+        protected Credito() { }
         public static Credito CrearSinCuotas(OpcionesCredito op)
         {
             var credito = new Credito();
@@ -85,6 +86,43 @@
                     Cuotas.Add(cuota);
                 }
         
+        }
+
+         public void PosponerAPartirDeLaCuota(int nroCuota)
+        {
+            var cuotasSinPagar = this.GetCuotasSinPagar();
+
+            var cuotasAPatear = cuotasSinPagar.Where(c => c.Nro >= nroCuota).
+                                            ToList();
+
+            if (ModoPago == ModoPagoCredito.AMBAS_QUINCENAS)
+            {
+                foreach (var cuota in cuotasAPatear)
+                {
+                    cuota.PosponerUnaQuincena();
+                }
+
+                return;
+            }
+
+
+            foreach (var cuota in cuotasAPatear)
+            {
+                cuota.PosponerUnMes();
+            }
+        }
+
+        public void ReemplazarCuotasPendientes(IEnumerable<CuotaCredito> nuevas)
+        {
+            var aQuitar = GetCuotasSinPagar().ToList();
+
+            foreach (var c in aQuitar) Cuotas.Remove(c);
+
+            foreach (var c in nuevas)
+            {
+                c.CodigoCredito = Codigo;
+                Cuotas.Add(c);
+            }
         }
 
     }

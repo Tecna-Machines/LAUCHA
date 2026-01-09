@@ -18,7 +18,7 @@ namespace LAUCHA.application.Features.Creditos.Cuotas.PosponerDebito
             if (credito is null)
                 return Result.Failure<PosponerCuotaResponse>(Error.Null);
 
-            PosponerCuota(credito, req.NroCuota);
+            credito.PosponerAPartirDeLaCuota(req.NroCuota);
 
             try
             {
@@ -32,28 +32,5 @@ namespace LAUCHA.application.Features.Creditos.Cuotas.PosponerDebito
             return Result.Success(new PosponerCuotaResponse());
         }
 
-        private void PosponerCuota(Credito credito,int NroCuota)
-        {
-            var cuotasSinPagar = credito.GetCuotasSinPagar();
-
-            cuotasSinPagar = cuotasSinPagar.Where(c => c.Nro >= NroCuota).
-                                            ToList();
-     
-           if(credito.ModoPago == ModoPagoCredito.AMBAS_QUINCENAS)
-            {
-                foreach (var cuota in cuotasSinPagar)
-                {
-                    cuota.PosponerUnaQuincena();
-                }
-
-                return;
-            }
-
-
-            foreach (var cuota in cuotasSinPagar)
-            {
-                cuota.PosponerUnMes();
-            }
-        }
     }
 }

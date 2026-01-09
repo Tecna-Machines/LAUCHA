@@ -12,7 +12,7 @@ namespace LAUCHA.application.Features.Creditos.CrearCredito
 
             var cuotas = new List<CuotaCredito>(credito.CantidadCuotas);
 
-            var actual = quincenaInicio;
+            CreditoQuincenaRequest actual = quincenaInicio;
 
             var montoBase = Math.Round(
                 credito.MontoDevolver / credito.CantidadCuotas,

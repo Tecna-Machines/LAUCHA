@@ -1,5 +1,6 @@
 ﻿using LAUCHA.application.Common.Extensions;
 using LAUCHA.application.Features.Creditos.CrearCredito;
+using LAUCHA.application.Features.Creditos.CrearPlanDePago;
 using LAUCHA.application.Features.Creditos.GetCredito;
 using LAUCHA.application.Features.Creditos.GetCreditos;
 using Microsoft.AspNetCore.Mvc;
@@ -13,14 +14,17 @@ namespace LAUCHA.api.Controllers
         private readonly ICrearCredito _crearCredito;
         private readonly IGetCredito _getCredito;
         private readonly IGetCreditos _getCreditos;
+        private readonly ICrearPlanDePago _planDePago;
 
         public CreditoController(ICrearCredito crearCredito,
                                  IGetCredito getCredito,
-                                 IGetCreditos getCreditos)
+                                 IGetCreditos getCreditos,
+                                 ICrearPlanDePago planDePago)
         {
             _crearCredito = crearCredito;
             _getCredito = getCredito;
             _getCreditos = getCreditos;
+            _planDePago = planDePago;
         }
 
         [HttpPost]
@@ -42,12 +46,21 @@ namespace LAUCHA.api.Controllers
         }
 
         [HttpGet]
-        public async Task<IResult> GetCreditos([FromQuery]FiltroCredito filtro)
+        public async Task<IResult> GetCreditos([FromQuery] FiltroCredito filtro)
         {
             var result = await _getCreditos.GetCreditos(filtro);
 
             return result.Match(onSucces: () => Results.Ok(result.Value),
                 onFailure: (error) => Results.NotFound(result.Value));
+        }
+
+        [HttpPost("{id}/plan-de-pago")]
+        public async Task<IResult> GenerarPlanDePagos(string id,[FromBody]CrearPlanDePagoRequest req)
+        {
+            var result = await _planDePago.Crear(id,req);
+
+            return result.Match(onSucces: () => Results.Ok(result.Value),
+               onFailure: (error) => Results.NotFound(result.Value));
         }
     }
 }

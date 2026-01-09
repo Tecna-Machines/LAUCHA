@@ -3,6 +3,7 @@ using LAUCHA.application.Features.Acuerdos.GetAcuerdoById;
 using LAUCHA.application.Features.Acuerdos.GetAcuerdosEmpleado;
 using LAUCHA.application.Features.CatalogoRetenciones.GetCatalogo;
 using LAUCHA.application.Features.Creditos.CrearCredito;
+using LAUCHA.application.Features.Creditos.CrearPlanDePago;
 using LAUCHA.application.Features.Creditos.Cuotas.PosponerDebito;
 using LAUCHA.application.Features.Creditos.GetCredito;
 using LAUCHA.application.Features.Creditos.GetCreditos;
@@ -101,6 +102,8 @@ namespace LAUCHA.application
             services.AddScoped<IGetCreditos, GetCreditosHandler>();
 
             services.AddScoped<IPosponerCuota,PosponerCuotaHandler>();
+
+            services.AddScoped<ICrearPlanDePago, CrearPlanDePagoHandler>();
             return services;
         }
     }
