@@ -2,30 +2,30 @@
 
 namespace LAUCHA.application.Features.Creditos.GetCredito
 {
-    internal class GetCreditoHandler : IGetCredito
+    internal class GetCreditoByIdHandler : IGetCredito
     {
         private readonly ICreditoRepository _creditos;
         private readonly IEmpleadoRepository _empleados;
 
-        public GetCreditoHandler(ICreditoRepository creditos, IEmpleadoRepository empleados)
+        public GetCreditoByIdHandler(ICreditoRepository creditos, IEmpleadoRepository empleados)
         {
             _creditos = creditos;
             _empleados = empleados;
         }
 
-        public async Task<Result<GetCreditoResponse>> Get(string codigo)
+        public async Task<Result<GetCreditoByIdResponse>> Get(string codigo)
         {
             var credito = await _creditos.GetById(codigo);
 
             if (credito is null)
-                return Result.Failure<GetCreditoResponse>(Error.Null);
+                return Result.Failure<GetCreditoByIdResponse>(Error.Null);
 
             var response = await MapCreditoResponse(credito);
 
             return Result.Success(response);
         }
 
-        private async Task<GetCreditoResponse> MapCreditoResponse(Credito credito)
+        private async Task<GetCreditoByIdResponse> MapCreditoResponse(Credito credito)
         {
            var empleado = await _empleados.GetByDni(credito.DniEmpleado);
            var cuotasResponse = credito.Cuotas.Select(MapCuota).ToList();
@@ -33,7 +33,7 @@ namespace LAUCHA.application.Features.Creditos.GetCredito
             if (empleado is null)
                 throw new ArgumentNullException("emplead.not.found");
 
-            return new GetCreditoResponse(credito.Codigo,
+            return new GetCreditoByIdResponse(credito.Codigo,
                                           credito.Descripcion,
                                           credito.Creacion,
                                           credito.ModoPago.ToString(),

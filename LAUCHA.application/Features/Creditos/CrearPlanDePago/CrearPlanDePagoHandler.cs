@@ -53,6 +53,8 @@ namespace LAUCHA.application.Features.Creditos.CrearPlanDePago
 
                 int nroConPlanDePago = ultimoNroPagado + nro;
                 var cuota = CuotaCredito.Crear(nroConPlanDePago,montoCuota);
+
+                cuota.AsignarCredito(credito);
                 cuota.SetDescripcion($"[PP]: {credito.Descripcion} , ({nro}/{cantidadCuotas})");
                 cuota.SetQuincenaDebitar(actual.Quincena, actual.Mes, actual.Anio);
                 cuotasPlanDePago.Add(cuota);

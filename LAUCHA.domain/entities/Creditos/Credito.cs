@@ -82,7 +82,7 @@
 
                 foreach (var cuota in cuotas)
                 {
-                    cuota.CodigoCredito = this.Codigo;
+                cuota.AsignarCredito(this);
                     Cuotas.Add(cuota);
                 }
         
@@ -120,7 +120,7 @@
 
             foreach (var c in nuevas)
             {
-                c.CodigoCredito = Codigo;
+                c.AsignarCredito(this);
                 Cuotas.Add(c);
             }
         }

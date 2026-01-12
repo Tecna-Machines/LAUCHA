@@ -62,7 +62,7 @@ namespace LAUCHA.application
             services.AddScoped<ICrearLiquidacion, CrearLiquidacionHandler>();
             services.AddScoped<IGetLiquidaciones, GetLiquidacionesHandler>();
             //liquidar
-            services.AddScoped<ILiquidacionDeHaberes, LiquidacionDeHaberes>();
+            services.AddScoped<ILiquidadorDeHaberes, Liquidador>();
 
             services.AddScoped<ILiquidar, LiquidarHandler>();
             services.AddScoped<IGetLiquidacionById, GetLiquidacionByIdHandler>();
@@ -98,7 +98,7 @@ namespace LAUCHA.application
             services.AddScoped<IFabricaDeCuotas, FabricaDeCuotas>();
             services.AddScoped<ICrearCredito, CrearCreditoHandler>();
 
-            services.AddScoped<IGetCredito,GetCreditoHandler>();
+            services.AddScoped<IGetCredito,GetCreditoByIdHandler>();
             services.AddScoped<IGetCreditos, GetCreditosHandler>();
 
             services.AddScoped<IPosponerCuota,PosponerCuotaHandler>();

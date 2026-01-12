@@ -1,11 +1,5 @@
 using LAUCHA.application;
 using LAUCHA.application.interfaces;
-using LAUCHA.application.interfaces.V2.IDiasEspecialesServices;
-using LAUCHA.application.UseCase.DiasEspeciales.CrearConsultarAusencias;
-using LAUCHA.application.UseCase.DiasEspeciales.CrearConsultarFeriados;
-using LAUCHA.application.UseCase.DiasEspeciales.CrearConsultarHsExtraHabilitadas;
-using LAUCHA.application.UseCase.V1.DiasEspeciales.CrearConsultarVacaciones;
-using LAUCHA.application.UseCase.V1.OperarConceptos;
 using LAUCHA.domain.entities;
 using LAUCHA.domain.entities.Contrato;
 using LAUCHA.domain.Entities.Acuerdos;
@@ -110,7 +104,6 @@ builder.Services.AddScoped<INoRemuneracionRepository, NoRemuneracionRepository>(
 builder.Services.AddScoped<IGenericRepository<NoRemuneracionPorLiquidacionPersonal>, NoRemuneracionPorLiquidacionRepository>();
 
 builder.Services.AddScoped<IGenericRepository<Concepto>, ConceptoRepository>();
-builder.Services.AddScoped<IOperarConceptosService, OperarConceptos>();
 
 
 builder.Services.AddScoped<ILiquidacionRepositoryOLD, LiquidacionPersonalRepository>();
@@ -120,16 +113,12 @@ builder.Services.AddScoped<ILiquidacionRepositoryOLD, LiquidacionPersonalReposit
 
 //dias especiales
 builder.Services.AddScoped<IDiasFeriadosRepository, DiaFeriadoRepository>();
-builder.Services.AddScoped<ICrearConsultarFeriados, CrearConsultarFeriado>();
 
 builder.Services.AddScoped<IAvisoAusenciaRepository, AvisoAuseciaRepository>();
-builder.Services.AddScoped<ICrearConsultarAusencias, CrearConsultarAusenciasService>();
 
 builder.Services.AddScoped<IPeriodoVacacionesRepository, PeriodoVacacionRepository>();
-builder.Services.AddScoped<ICrearConsultarVacacionesService, CrearConsultarVacacionesService>();
 
 builder.Services.AddScoped<IHabilitacionHorasExtraRepository, HabilitacionHorasExtraRepository>();
-builder.Services.AddScoped<ICrearConsultarHsExtraHabilitadas, ConsultarCrearPermisoHsExtra>();
 
 
 builder.Services.AddScoped<IGenericRepository<PagoLiquidacion>, PagoLiquidacionRepository>();

@@ -2,6 +2,6 @@
 {
     public interface IGetCredito
     {
-        Task<Result<GetCreditoResponse>> Get(string codigo);
+        Task<Result<GetCreditoByIdResponse>> Get(string codigo);
     }
 }

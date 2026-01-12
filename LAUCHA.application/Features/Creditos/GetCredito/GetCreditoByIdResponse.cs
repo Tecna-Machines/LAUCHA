@@ -1,6 +1,6 @@
 ﻿namespace LAUCHA.application.Features.Creditos.GetCredito
 {
-    public record GetCreditoResponse(string Codigo,
+    public record GetCreditoByIdResponse(string Codigo,
                                     string Descripcion,
                                     DateTime Creacion,
                                     string ModoPago,

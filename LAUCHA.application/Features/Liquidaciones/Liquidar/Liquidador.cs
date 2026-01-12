@@ -1,22 +1,23 @@
 ﻿namespace LAUCHA.application.Features.Liquidaciones.Liquidar
 {
-    internal class LiquidacionDeHaberes : ILiquidacionDeHaberes
+    internal class Liquidador : ILiquidadorDeHaberes
     {
         private Liquidacion _liquidacion;
         private Acuerdo _acuerdo;
         private IList<ItemLiquidacion> _items;
-
+        private CalculadoraDescuentos _calculadoraDescuentos;
 
         private decimal _montoBaseRetenciones;
         private decimal _montoBaseAntiguedad;
 
         private decimal _netoEnBlanco;
-        public LiquidacionDeHaberes()
+        public Liquidador(CalculadoraDescuentos calculadoraDescuentos)
         {
             _items = new List<ItemLiquidacion>();
 
             _liquidacion = new();
             _acuerdo = new();
+            _calculadoraDescuentos = calculadoraDescuentos;
         }
 
         public void Liquidar(Liquidacion liquidacion, Acuerdo acuerdo)
@@ -29,40 +30,41 @@
             _acuerdo = acuerdo;
 
 
-            CalcularSueldo();
-            CalcularAdicionales();
-            CalcularAntiguedad();
-            CalcularRetenciones();
+            AgregarSueldos();
+            AgregarAdicionales();
+            AgregarAntiguedad();
+            AgregarRetenciones();
+            DescontarCreditosYAdelantos();
 
-            _liquidacion.AplicarCalculosAutomaticos(_items);
+            _liquidacion.AplicarItemsAutomaticos(_items);
         }
 
-        public void CalcularSueldo()
+        public void AgregarSueldos()
         {
-            var itemSueldoBlanco = CalculadoraSueldoBlanco.Calcular(_liquidacion, _acuerdo);
+            var sueldoEnBlanco = CalculadoraSueldoBlanco.Calcular(_liquidacion, _acuerdo);
 
-            _netoEnBlanco += itemSueldoBlanco.Monto;
-            _montoBaseRetenciones += itemSueldoBlanco.Monto;
+            _montoBaseAntiguedad = sueldoEnBlanco.Monto;
+            _netoEnBlanco += sueldoEnBlanco.Monto;
+            _montoBaseRetenciones += sueldoEnBlanco.Monto;
 
-            _montoBaseAntiguedad = itemSueldoBlanco.Monto;
 
-            var itemSueldoNegro = CalculadoraSueldoNegro.Calcular(_liquidacion, _acuerdo);
+            var sueldoEnNegro = CalculadoraSueldoNegro.Calcular(_liquidacion, _acuerdo);
 
-            var itemsExistentesEnBlanco = _liquidacion.GetAllItems()
+            var itemsEnBlancoPreexistentes = _liquidacion.GetAllItems()
                                                         .Where(it => it.Tipo == TipoItemLiquidacion.Remunerativo
                                                         && it.EsAutomatico == false && it.EsEnBlanco && it.Estado != EstadoItemLiquidacion.ANULADO);
 
-            foreach (var item in itemsExistentesEnBlanco)
+            foreach (var item in itemsEnBlancoPreexistentes)
             {
                 _montoBaseRetenciones += item.Monto;
                 _netoEnBlanco += item.Monto;
             }
 
-            _items.Add(itemSueldoBlanco);
-            _items.Add(itemSueldoNegro);
+            _items.Add(sueldoEnBlanco);
+            _items.Add(sueldoEnNegro);
         }
 
-        public void CalcularAdicionales()
+        public void AgregarAdicionales()
         {
             var adicionales = _acuerdo.GetAdicionales();
 
@@ -75,7 +77,7 @@
 
         }
 
-        private void CalcularAntiguedad()
+        private void AgregarAntiguedad()
         {
             decimal anios = _acuerdo.Empleado.GetAntiguedad();
 
@@ -88,7 +90,7 @@
             _netoEnBlanco += valorAntiguedad;
         }
 
-        public void CalcularRetenciones()
+        public void AgregarRetenciones()
         {
             decimal sumaRetenciones = 0;
 
@@ -135,6 +137,16 @@
             }
 
             return _acuerdo.GetRetenciones();
+        }
+
+        private void DescontarCreditosYAdelantos()
+        {
+            var descuentos = _calculadoraDescuentos.GenerarItemsDescuentos(_liquidacion);
+
+            foreach (var desc in descuentos)
+            {
+                _items.Add(desc);
+            }
         }
 
 

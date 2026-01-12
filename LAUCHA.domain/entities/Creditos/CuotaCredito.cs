@@ -2,12 +2,12 @@
 {
     public class CuotaCredito
     {
-        public int Nro { get; set; }
-        public string CodigoCredito { get; set; } = string.Empty;
-        public decimal Monto { get; set; }
-        public DateTime Creacion { get; set; }
-        public DateTime FechaPago { get; set; }
-        public string Descripcion { get; set; } = string.Empty;
+        public int Nro { get; private set; }
+        public string CodigoCredito { get;private set; } = string.Empty;
+        public decimal Monto { get; private set; }
+        public DateTime Creacion { get; private set; }
+        public DateTime FechaPago { get; private set; }
+        public string Descripcion { get; private set; } = string.Empty;
 
         public enum EstadoCuota
         {
@@ -35,6 +35,11 @@
             cuota.Monto = monto;
 
             return cuota;
+        }
+
+        public void AsignarCredito(Credito credito)
+        {
+            CodigoCredito = credito.Codigo;
         }
 
         public void SetQuincenaDebitar(int quincena,int mes,int anio)
