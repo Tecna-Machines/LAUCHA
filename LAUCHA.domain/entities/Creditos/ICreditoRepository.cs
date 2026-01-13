@@ -20,5 +20,7 @@
 
         public DateTime? CreacionDesde { get; init; }
         public DateTime? CreacionHasta { get; init; }
+
+        public string? CodigoLiquidacion { get; set; }
     }
 }

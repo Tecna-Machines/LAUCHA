@@ -65,9 +65,12 @@ namespace LAUCHA.infrastructure.Repositories
             if (query.Estado.HasValue)
                 creditos = creditos.Where(c => c.Estado == query.Estado.Value);
 
+            if (!string.IsNullOrWhiteSpace(query.CodigoLiquidacion))
+                creditos = creditos.Where(c => c.CodigoLiquidacionAcreditacion == query.CodigoLiquidacion);
+
                 creditos.OrderByDescending(c => c.Creacion);
 
-            return await creditos.ToListAsync();
+            return await creditos.Include(c => c.Cuotas).ToListAsync();
         }
     }
 }

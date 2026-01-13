@@ -123,7 +123,7 @@ namespace LAUCHA.domain.Entities.Liquidaciones
         /// reemplaza los items automaticos viejos por unos nuevos
         /// </summary>
         /// <param name="nuevosItems"></param>
-        public void AplicarItemsAutomaticos(IEnumerable<ItemLiquidacion> nuevosItems)
+        public void ReemplazarItemsAutomaticos(IEnumerable<ItemLiquidacion> nuevosItems)
         {
             if (EstaSellada())
                 return;

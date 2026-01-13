@@ -4,11 +4,11 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
 {
     internal class LiquidarHandler : ILiquidar
     {
-        private readonly ILiquidadorDeHaberes _liquidador;
+        private readonly ILiquidador _liquidador;
         private readonly IAcuerdoRepository _acuerdos;
         private readonly ILiquidacionRepository _liquidaciones;
 
-        public LiquidarHandler(ILiquidadorDeHaberes liquidacionDeHaberes,
+        public LiquidarHandler(ILiquidador liquidacionDeHaberes,
                                ILiquidacionRepository liquidaciones,
                                IAcuerdoRepository acuerdos)
         {
@@ -32,7 +32,7 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
             if (acuerdo is null)
                 return Result.Failure<LiquidarResponse>(AcuerdosErrors.NoEncontrado);
 
-            _liquidador.Liquidar(liquidacion, acuerdo);
+            await _liquidador.Liquidar(liquidacion, acuerdo);
 
             //liquidacion.Sellar();
 

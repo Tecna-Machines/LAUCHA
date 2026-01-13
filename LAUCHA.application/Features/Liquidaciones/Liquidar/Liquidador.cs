@@ -1,26 +1,29 @@
 ﻿namespace LAUCHA.application.Features.Liquidaciones.Liquidar
 {
-    internal class Liquidador : ILiquidadorDeHaberes
+    internal class Liquidador : ILiquidador
     {
         private Liquidacion _liquidacion;
         private Acuerdo _acuerdo;
-        private IList<ItemLiquidacion> _items;
-        private CalculadoraDescuentos _calculadoraDescuentos;
+        private ICollection<ItemLiquidacion> _items;
+        private AcreditadorDeCreditos _acreditador;
+        private CobradorDeCuotas _cobradorCuotas;
 
         private decimal _montoBaseRetenciones;
         private decimal _montoBaseAntiguedad;
-
         private decimal _netoEnBlanco;
-        public Liquidador(CalculadoraDescuentos calculadoraDescuentos)
+
+
+        public Liquidador(AcreditadorDeCreditos calculadoraDescuentos, CobradorDeCuotas cobradorCuotas)
         {
             _items = new List<ItemLiquidacion>();
 
             _liquidacion = new();
             _acuerdo = new();
-            _calculadoraDescuentos = calculadoraDescuentos;
+            _acreditador = calculadoraDescuentos;
+            _cobradorCuotas = cobradorCuotas;
         }
 
-        public void Liquidar(Liquidacion liquidacion, Acuerdo acuerdo)
+        public async Task Liquidar(Liquidacion liquidacion, Acuerdo acuerdo)
         {
             if (liquidacion.CodigoAcuerdo != acuerdo.Codigo)
                 throw new InvalidOperationException("acuerdo.no.valido");
@@ -30,16 +33,18 @@
             _acuerdo = acuerdo;
 
 
-            AgregarSueldos();
-            AgregarAdicionales();
-            AgregarAntiguedad();
-            AgregarRetenciones();
-            DescontarCreditosYAdelantos();
+            AgregarItemsDeSueldos();
+            AgregarItemsDeAdicionales();
+            AgregarItemDeAntiguedad();
+            AgregarItemsDeRetenciones();
 
-            _liquidacion.AplicarItemsAutomaticos(_items);
+            await AgregarItemsDeCreditosYAdelantos();
+            await AgregarItemDescuentoDeCuotas();
+
+            _liquidacion.ReemplazarItemsAutomaticos(_items);
         }
 
-        public void AgregarSueldos()
+        public void AgregarItemsDeSueldos()
         {
             var sueldoEnBlanco = CalculadoraSueldoBlanco.Calcular(_liquidacion, _acuerdo);
 
@@ -64,7 +69,7 @@
             _items.Add(sueldoEnNegro);
         }
 
-        public void AgregarAdicionales()
+        public void AgregarItemsDeAdicionales()
         {
             var adicionales = _acuerdo.GetAdicionales();
 
@@ -77,20 +82,21 @@
 
         }
 
-        private void AgregarAntiguedad()
+        private void AgregarItemDeAntiguedad()
         {
             decimal anios = _acuerdo.Empleado.GetAntiguedad();
 
             decimal valorAntiguedad = (anios * _montoBaseAntiguedad) / 100m;
 
             var itemAntiguedad = ItemLiquidacion.CrearRemunerativo("antiguedad", valorAntiguedad);
+
             _items.Add(itemAntiguedad);
 
             _montoBaseRetenciones += valorAntiguedad;
             _netoEnBlanco += valorAntiguedad;
         }
 
-        public void AgregarRetenciones()
+        public void AgregarItemsDeRetenciones()
         {
             decimal sumaRetenciones = 0;
 
@@ -116,7 +122,7 @@
                 _items.Add(retencionesNueva);
             }
 
-            var retencionItemNegro = ItemLiquidacion.CrearDescuentoEnNegro("retencion blanco", sumaRetenciones);
+            var retencionItemNegro = ItemLiquidacion.CrearDescuentoEnNegro("retenciones en blanco", sumaRetenciones);
 
             var itemNetoBlanco = ItemLiquidacion.CrearDescuentoEnNegro("deposito", _netoEnBlanco - sumaRetenciones);
 
@@ -124,6 +130,7 @@
             _items.Add(retencionItemNegro);
         }
 
+        //TODO: es muy probable que esto no vaya aqui
         private IEnumerable<RetencionAcuerdo> GetRetencionesParaLiquidar()
         {
             if (_acuerdo.TipoSueldo == TipoSueldo.QuincenalFijo || _acuerdo.TipoSueldo == TipoSueldo.QuincenalHora)
@@ -139,13 +146,23 @@
             return _acuerdo.GetRetenciones();
         }
 
-        private void DescontarCreditosYAdelantos()
+        private async Task AgregarItemsDeCreditosYAdelantos()
         {
-            var descuentos = _calculadoraDescuentos.GenerarItemsDescuentos(_liquidacion);
+            var acreditaciones = await _acreditador.GenerarItemsDeAcreditacion(_liquidacion);
 
-            foreach (var desc in descuentos)
+            foreach (var item in acreditaciones)
             {
-                _items.Add(desc);
+                _items.Add(item);
+            }
+        }
+
+        private async Task AgregarItemDescuentoDeCuotas()
+        {
+            var itemsCuotas = await _cobradorCuotas.GenerarItemsDeCuota(_liquidacion);
+
+            foreach (var item in itemsCuotas)
+            {
+                _items.Add(item);
             }
         }
 

@@ -17,11 +17,17 @@
         /// aun quedan cuotas por pagar del 
         /// credito
         /// </summary>
-        INCOMPLETO,
+        PENDIENTE,
 
         /// <summary>
         /// la cuota no se descontara automaticamente en la proxima liquidacion
         /// </summary>
-        SUSPENDIDO
+        SUSPENDIDO,
+
+        /// <summary>
+        /// el credito fue creado pero aun no 
+        /// se acredito en la liquidacion
+        /// </summary>
+        SOLICITADO
     }
 }

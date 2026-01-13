@@ -47,7 +47,7 @@ namespace LAUCHA.application.Features.Creditos.GetCredito
         private static CuotaResponse MapCuota(CuotaCredito c)
         {
 
-            PagoCuota? pago = new PagoCuota(c.FechaPago,c.CodigoLiquidacion ?? "",c.NroItem ?? -1);
+            PagoCuota? pago = new PagoCuota(c.FechaPago,c.CodigoLiquidacion ?? "",0);
 
             if (c.CodigoLiquidacion is null)
                     pago = null;

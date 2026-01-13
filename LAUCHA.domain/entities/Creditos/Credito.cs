@@ -1,4 +1,6 @@
-﻿namespace LAUCHA.domain.Entities.Creditos
+﻿using LAUCHA.domain.Entities.Liquidaciones;
+
+namespace LAUCHA.domain.Entities.Creditos
 {
     public class Credito
     {
@@ -7,6 +9,7 @@
         public decimal MontoDevolver { get; private set; }
         public string DniEmpleado { get; private set; } = string.Empty;
         public string Descripcion { get; private set; } = string.Empty;
+        public string CodigoLiquidacionAcreditacion { get; private set; } = string.Empty;
         public DateTime Creacion { get; private set; }
         public ModoPagoCredito ModoPago { get; private set; }
         public EstadoCredito Estado { get; private set; }
@@ -25,7 +28,7 @@
             credito.MontoDevolver = op.MontoDevolver;
             credito.Descripcion = op.Descripcion;
             credito.Creacion = DateTime.Now;
-            credito.Estado = EstadoCredito.INCOMPLETO;
+            credito.Estado = EstadoCredito.SOLICITADO;
             credito.ModoPago = op.ModoPago;
             credito.CantidadCuotas = op.CantidadCuotas;
             credito.Cuotas = new List<CuotaCredito>();
@@ -46,12 +49,27 @@
                 return;
             }
 
+            this.Estado = EstadoCredito.PENDIENTE;
             var cuota = Cuotas.First(c => c.Nro == nro);
 
             if (cuota is not null)
             {
                 cuota.Pagar();
             }
+        }
+
+        public ItemLiquidacion Acreditar(Liquidacion liquidacion)
+        {
+            CodigoLiquidacionAcreditacion = liquidacion.Codigo;
+            Estado = EstadoCredito.PENDIENTE;
+
+            return ItemLiquidacion.CrearRemunerativoEnNegro(Descripcion, MontoPrestado);
+        }
+
+        public void Desacreditar()
+        {
+            CodigoLiquidacionAcreditacion = null;
+            Estado = EstadoCredito.SOLICITADO;
         }
 
         private bool SeTerminoDePagar()
@@ -64,6 +82,7 @@
                  .Sum(c => c.Monto);
 
         public IEnumerable<CuotaCredito> GetCuotas() => Cuotas;
+
 
         public void AgregarCuota(CuotaCredito cuota)
         {

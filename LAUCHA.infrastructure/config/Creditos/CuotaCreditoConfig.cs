@@ -14,11 +14,17 @@
                   .HasForeignKey(cc => cc.CodigoCredito)
                   .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne<ItemLiquidacion>()
-             .WithMany()
-             .HasForeignKey(cc => new { cc.CodigoLiquidacion, cc.NroItem })
-             .IsRequired(false)
-             .OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne<Liquidacion>()
+                    .WithMany()
+                    .HasForeignKey(cc => cc.CodigoLiquidacion)
+                    .IsRequired(false)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+
+            builder.Property(cc => cc.CodigoLiquidacion)
+                   .IsRequired(false);
+
+
         }
     }
 }

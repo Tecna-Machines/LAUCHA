@@ -1,4 +1,6 @@
-﻿namespace LAUCHA.domain.Entities.Creditos
+﻿using LAUCHA.domain.Entities.Liquidaciones;
+
+namespace LAUCHA.domain.Entities.Creditos
 {
     public class CuotaCredito
     {
@@ -21,8 +23,7 @@
         public int MesDebitar { get; set; }
         public int AnioDebitar { get; set; }
 
-        //referencia a que item de que liquidacion se asocia esta cuota
-        public int? NroItem { get; set; }
+        //referencia a que liquidacion se asocia esta cuota
         public string? CodigoLiquidacion { get; set; } = string.Empty;
 
         public static CuotaCredito Crear(int nro,decimal monto)
@@ -59,10 +60,17 @@
             FechaPago = DateTime.Now;
         }
 
-        public void AsociarConItemLiquidacion(string codigoLiquidacion,int nroItem)
+        public void AsociarConLiquidacion(Liquidacion liquidacion)
         {
-            this.CodigoLiquidacion = codigoLiquidacion;
-            this.NroItem = nroItem;
+            this.CodigoLiquidacion = liquidacion.Codigo;
+        }
+
+
+        public void AnularPago()
+        {
+            CodigoLiquidacion = null;
+            FechaPago = DateTime.MinValue;
+            Estado = EstadoCuota.PENDIENTE;
         }
 
         public void PosponerUnMes()

@@ -15,6 +15,12 @@
               .HasForeignKey(c => c.DniEmpleado)
               .OnDelete(DeleteBehavior.Restrict);
 
+            builder.HasOne<Liquidacion>()
+                .WithMany()
+                .HasForeignKey(c => c.CodigoLiquidacionAcreditacion)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.SetNull);
+
         }
     }
 }
