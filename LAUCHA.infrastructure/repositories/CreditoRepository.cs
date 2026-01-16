@@ -45,7 +45,7 @@ namespace LAUCHA.infrastructure.Repositories
 
         public async Task<IReadOnlyCollection<Credito>> Buscar(CreditoQuery query)
         {
-            IQueryable<Credito> creditos = _context.Creditos.AsNoTracking();
+            IQueryable<Credito> creditos = _context.Creditos;
 
             if (!string.IsNullOrWhiteSpace(query.DniEmpleado))
                creditos = creditos.Where(c => c.DniEmpleado == query.DniEmpleado);

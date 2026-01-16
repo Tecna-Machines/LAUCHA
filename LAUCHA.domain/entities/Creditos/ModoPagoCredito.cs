@@ -13,14 +13,15 @@
 
 
         /// <summary>
-        /// solo se descontara una cuota en la segunda quincena
-        /// </summary> 
-        SEGUNDA_QUINCENA,
+        /// solo se descontara una cuota en la primera quincena
+        /// </summary>
+        PRIMERA_QUINCENA,
 
 
         /// <summary>
-        /// solo se descontara una cuota en la primera quincena
-        /// </summary>
-        PRIMERA_QUINCENA
+        /// solo se descontara una cuota en la segunda quincena
+        /// </summary> 
+        SEGUNDA_QUINCENA
+
     }
 }

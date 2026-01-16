@@ -59,12 +59,11 @@
                                                         .Where(it => it.Tipo == TipoItemLiquidacion.Remunerativo
                                                         && it.EsAutomatico == false && it.EsEnBlanco && it.Estado != EstadoItemLiquidacion.ANULADO);
 
-            foreach (var item in itemsEnBlancoPreexistentes)
-            {
-                _montoBaseRetenciones += item.Monto;
-                _netoEnBlanco += item.Monto;
-            }
-
+            decimal totalBlancoPreexistente = itemsEnBlancoPreexistentes.Sum(it => it.Monto);
+            
+            _montoBaseRetenciones += totalBlancoPreexistente;
+            _netoEnBlanco += totalBlancoPreexistente;
+            
             _items.Add(sueldoEnBlanco);
             _items.Add(sueldoEnNegro);
         }

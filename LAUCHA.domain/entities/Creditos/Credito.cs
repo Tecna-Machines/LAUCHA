@@ -9,7 +9,7 @@ namespace LAUCHA.domain.Entities.Creditos
         public decimal MontoDevolver { get; private set; }
         public string DniEmpleado { get; private set; } = string.Empty;
         public string Descripcion { get; private set; } = string.Empty;
-        public string CodigoLiquidacionAcreditacion { get; private set; } = string.Empty;
+        public string? CodigoLiquidacionAcreditacion { get; private set; }
         public DateTime Creacion { get; private set; }
         public ModoPagoCredito ModoPago { get; private set; }
         public EstadoCredito Estado { get; private set; }

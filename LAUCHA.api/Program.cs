@@ -2,7 +2,6 @@ using LAUCHA.application;
 using LAUCHA.application.interfaces;
 using LAUCHA.domain.entities;
 using LAUCHA.domain.entities.Contrato;
-using LAUCHA.domain.Entities.Acuerdos;
 using LAUCHA.domain.Entities.Empleados;
 using LAUCHA.domain.Entities.Liquidaciones;
 using LAUCHA.domain.interfaces.IRepositories;
@@ -74,7 +73,6 @@ builder.Services.AddAplicationServices();
 builder.Services.AddScoped<IGenericRepository<Empleado>, Borrame>();
 
 builder.Services.AddScoped<IGenericRepository<Adicional>, AdicionalRepository>();
-builder.Services.AddScoped<IGenericRepository<AcuerdoBlanco>, AcuerdoBlancoRepository>();
 
 
 
@@ -83,17 +81,13 @@ builder.Services.AddScoped<IGenericRepository<Remuneracion>, RemuneracionReposit
 builder.Services.AddScoped<IRemuneracionRepository, RemuneracionRepository>();
 
 
-builder.Services.AddScoped<IGenericRepository<Concepto>, ConceptoRepository>();
 
-builder.Services.AddScoped<IGenericRepository<RetencionOLD>, RetencionRepository>();
 
-builder.Services.AddScoped<IRetencionCatalogoRepositoryOLD, RetencionRepository>();
 
 //builder.Services.AddScoped<ILiquidacionService, CrearLiquidacionService>();
 
 builder.Services.AddScoped<IGenericRepository<RemuneracionPorLiquidacionPersonal>, RemuneracionPorLiquidacionRepository>();
 builder.Services.AddScoped<IGenericRepository<RetencionPorLiquidacionPersonal>, RetencionPorLiquidacionRepository>();
-builder.Services.AddScoped<IGenericRepository<DescuentoPorLiquidacionPersonal>, DescuentosPorLiquidacionesRepository>();
 builder.Services.AddScoped<IGenericRepository<Liquidacion>, LiquidacionPersonalRepository>();
 
 builder.Services.AddScoped<IItemsLiquidacionRepository, ITemsLiquidacionRepository>();
@@ -103,7 +97,6 @@ builder.Services.AddScoped<IGenericRepository<NoRemuneracion>, NoRemuneracionRep
 builder.Services.AddScoped<INoRemuneracionRepository, NoRemuneracionRepository>();
 builder.Services.AddScoped<IGenericRepository<NoRemuneracionPorLiquidacionPersonal>, NoRemuneracionPorLiquidacionRepository>();
 
-builder.Services.AddScoped<IGenericRepository<Concepto>, ConceptoRepository>();
 
 
 builder.Services.AddScoped<ILiquidacionRepositoryOLD, LiquidacionPersonalRepository>();
@@ -210,6 +203,7 @@ try
 catch (Exception ex)
 {
     logger.LogError(ex, "se genero una excepcion al conectar con el host: {Host}", host);
+    return;
 }
 
 
