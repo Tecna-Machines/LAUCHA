@@ -24,7 +24,8 @@ namespace LAUCHA.application.Features.Creditos.Cuotas.PosponerDebito
             {
                 await _creditos.Update(credito);
 
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 return Result.Failure<PosponerCuotaResponse>(new Error(ex.Message));
             }

@@ -5,7 +5,7 @@ namespace LAUCHA.domain.Entities.Creditos
     public class CuotaCredito
     {
         public int Nro { get; private set; }
-        public string CodigoCredito { get;private set; } = string.Empty;
+        public string CodigoCredito { get; private set; } = string.Empty;
         public decimal Monto { get; private set; }
         public DateTime Creacion { get; private set; }
         public DateTime FechaPago { get; private set; }
@@ -26,9 +26,9 @@ namespace LAUCHA.domain.Entities.Creditos
         //referencia a que liquidacion se asocia esta cuota
         public string? CodigoLiquidacion { get; set; } = string.Empty;
 
-        public static CuotaCredito Crear(int nro,decimal monto)
+        public static CuotaCredito Crear(int nro, decimal monto)
         {
-            var cuota =  new CuotaCredito();
+            var cuota = new CuotaCredito();
 
             cuota.Nro = nro;
             cuota.Creacion = DateTime.Now;
@@ -43,7 +43,7 @@ namespace LAUCHA.domain.Entities.Creditos
             CodigoCredito = credito.Codigo;
         }
 
-        public void SetQuincenaDebitar(int quincena,int mes,int anio)
+        public void SetQuincenaDebitar(int quincena, int mes, int anio)
         {
             QuincenaDebitar = quincena;
             MesDebitar = mes;

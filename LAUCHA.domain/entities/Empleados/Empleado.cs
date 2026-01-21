@@ -1,5 +1,4 @@
 ﻿using LAUCHA.domain.entities;
-using LAUCHA.domain.entities.diasEspeciales;
 using LAUCHA.domain.Entities.Acuerdos;
 
 namespace LAUCHA.domain.Entities.Empleados
@@ -22,9 +21,7 @@ namespace LAUCHA.domain.Entities.Empleados
         public DateTime FechaAlta { get; set; }
         public Cuenta Cuenta { get; set; } = null!;
         public ICollection<Acuerdo> Contratos { get; set; } = null!;
-        public ICollection<AvisosAusencia> Ausencias { get; set; } = null!;
-        public ICollection<HabilitacionHorasExtra> HabilitacionesHorasExtra { get; set; } = null!;
-        public ICollection<PeriodoVacaciones> PeriodosVacaciones { get; set; } = null!;
+
 
         public int GetAntiguedad()
         {

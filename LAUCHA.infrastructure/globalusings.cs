@@ -1,6 +1,5 @@
 ﻿global using LAUCHA.domain.entities;
 global using LAUCHA.domain.entities.Contrato;
-global using LAUCHA.domain.entities.diasEspeciales;
 global using LAUCHA.domain.Entities.Acuerdos;
 global using LAUCHA.domain.Entities.Creditos;
 global using LAUCHA.domain.Entities.Empleados;

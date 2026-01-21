@@ -43,7 +43,7 @@ namespace LAUCHA.domain.Entities.Creditos
 
         public void PagarCuota(int nro)
         {
-            if(SeTerminoDePagar())
+            if (SeTerminoDePagar())
             {
                 this.Estado = EstadoCredito.COMPLETADO;
                 return;
@@ -96,18 +96,18 @@ namespace LAUCHA.domain.Entities.Creditos
 
         public void AgregarCuotas(IReadOnlyCollection<CuotaCredito> cuotas)
         {
-            if(Cuotas.Count != 0)
+            if (Cuotas.Count != 0)
                 return;
 
-                foreach (var cuota in cuotas)
-                {
+            foreach (var cuota in cuotas)
+            {
                 cuota.AsignarCredito(this);
-                    Cuotas.Add(cuota);
-                }
-        
+                Cuotas.Add(cuota);
+            }
+
         }
 
-         public void PosponerAPartirDeLaCuota(int nroCuota)
+        public void PosponerAPartirDeLaCuota(int nroCuota)
         {
             var cuotasSinPagar = this.GetCuotasSinPagar();
 

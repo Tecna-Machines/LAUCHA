@@ -19,13 +19,13 @@ namespace LAUCHA.application.Features.Creditos.CrearCredito
             var opciones = MapOpciones(req);
             var credito = Credito.CrearSinCuotas(opciones);
 
-            var cuotas = _fabricaCuotas.Fabricar(credito,req.Quincena);
+            var cuotas = _fabricaCuotas.Fabricar(credito, req.Quincena);
 
             credito.AgregarCuotas(cuotas);
 
             await _creditos.Insert(credito);
 
-            var response = new CrearCreditoResponse(credito.Codigo,credito.Descripcion);
+            var response = new CrearCreditoResponse(credito.Codigo, credito.Descripcion);
 
             return Result.Success(response);
         }

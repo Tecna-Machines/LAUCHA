@@ -55,9 +55,9 @@ namespace LAUCHA.api.Controllers
         }
 
         [HttpPost("{id}/plan-de-pago")]
-        public async Task<IResult> GenerarPlanDePagos(string id,[FromBody]CrearPlanDePagoRequest req)
+        public async Task<IResult> GenerarPlanDePagos(string id, [FromBody] CrearPlanDePagoRequest req)
         {
-            var result = await _planDePago.Crear(id,req);
+            var result = await _planDePago.Crear(id, req);
 
             return result.Match(onSucces: () => Results.Ok(result.Value),
                onFailure: (error) => Results.NotFound(result.Value));

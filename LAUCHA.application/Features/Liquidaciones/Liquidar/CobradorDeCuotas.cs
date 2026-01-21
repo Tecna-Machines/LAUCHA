@@ -46,7 +46,7 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
 
         //TODO: esto es muy rebuscado pero existe porque al recalcular , podria ser que hayams pateado cuotas y no queremos
         //que parezcan en esta liquidacion
-        private void DeshacerCuotasPagadaEnLiquidacion(Credito credito ,Liquidacion liq)
+        private void DeshacerCuotasPagadaEnLiquidacion(Credito credito, Liquidacion liq)
         {
             var cuotas = credito.GetCuotas().Where(c => c.QuincenaDebitar == liq.Quincena
                                                             && c.MesDebitar == liq.Mes

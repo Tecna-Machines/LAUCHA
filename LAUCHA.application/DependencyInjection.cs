@@ -102,10 +102,10 @@ namespace LAUCHA.application
             services.AddScoped<IFabricaDeCuotas, FabricaDeCuotas>();
             services.AddScoped<ICrearCredito, CrearCreditoHandler>();
 
-            services.AddScoped<IGetCredito,GetCreditoByIdHandler>();
+            services.AddScoped<IGetCredito, GetCreditoByIdHandler>();
             services.AddScoped<IGetCreditos, GetCreditosHandler>();
 
-            services.AddScoped<IPosponerCuota,PosponerCuotaHandler>();
+            services.AddScoped<IPosponerCuota, PosponerCuotaHandler>();
 
             services.AddScoped<ICrearPlanDePago, CrearPlanDePagoHandler>();
             return services;

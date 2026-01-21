@@ -60,10 +60,10 @@
                                                         && it.EsAutomatico == false && it.EsEnBlanco && it.Estado != EstadoItemLiquidacion.ANULADO);
 
             decimal totalBlancoPreexistente = itemsEnBlancoPreexistentes.Sum(it => it.Monto);
-            
+
             _montoBaseRetenciones += totalBlancoPreexistente;
             _netoEnBlanco += totalBlancoPreexistente;
-            
+
             _items.Add(sueldoEnBlanco);
             _items.Add(sueldoEnNegro);
         }

@@ -101,19 +101,6 @@ builder.Services.AddScoped<IGenericRepository<NoRemuneracionPorLiquidacionPerson
 
 builder.Services.AddScoped<ILiquidacionRepositoryOLD, LiquidacionPersonalRepository>();
 
-
-
-
-//dias especiales
-builder.Services.AddScoped<IDiasFeriadosRepository, DiaFeriadoRepository>();
-
-builder.Services.AddScoped<IAvisoAusenciaRepository, AvisoAuseciaRepository>();
-
-builder.Services.AddScoped<IPeriodoVacacionesRepository, PeriodoVacacionRepository>();
-
-builder.Services.AddScoped<IHabilitacionHorasExtraRepository, HabilitacionHorasExtraRepository>();
-
-
 builder.Services.AddScoped<IGenericRepository<PagoLiquidacion>, PagoLiquidacionRepository>();
 
 

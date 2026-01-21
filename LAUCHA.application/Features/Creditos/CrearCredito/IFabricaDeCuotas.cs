@@ -4,6 +4,6 @@ namespace LAUCHA.application.Features.Creditos.CrearCredito
 {
     public interface IFabricaDeCuotas
     {
-        public IReadOnlyCollection<CuotaCredito> Fabricar(Credito credito,CreditoQuincenaRequest quincenaInicio);
+        public IReadOnlyCollection<CuotaCredito> Fabricar(Credito credito, CreditoQuincenaRequest quincenaInicio);
     }
 }

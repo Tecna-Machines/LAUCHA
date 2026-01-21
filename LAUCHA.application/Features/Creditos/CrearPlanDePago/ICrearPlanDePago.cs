@@ -2,6 +2,6 @@
 {
     public interface ICrearPlanDePago
     {
-        Task<Result<CrearPlanDePagoResponse>> Crear(string codigoCredito,CrearPlanDePagoRequest req);
+        Task<Result<CrearPlanDePagoResponse>> Crear(string codigoCredito, CrearPlanDePagoRequest req);
     }
 }

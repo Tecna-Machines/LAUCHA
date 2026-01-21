@@ -27,8 +27,8 @@ namespace LAUCHA.application.Features.Creditos.GetCredito
 
         private async Task<GetCreditoByIdResponse> MapCreditoResponse(Credito credito)
         {
-           var empleado = await _empleados.GetByDni(credito.DniEmpleado);
-           var cuotasResponse = credito.Cuotas.Select(MapCuota).ToList();
+            var empleado = await _empleados.GetByDni(credito.DniEmpleado);
+            var cuotasResponse = credito.Cuotas.Select(MapCuota).ToList();
 
             if (empleado is null)
                 throw new ArgumentNullException("emplead.not.found");
@@ -47,12 +47,12 @@ namespace LAUCHA.application.Features.Creditos.GetCredito
         private static CuotaResponse MapCuota(CuotaCredito c)
         {
 
-            PagoCuota? pago = new PagoCuota(c.FechaPago,c.CodigoLiquidacion ?? "",0);
+            PagoCuota? pago = new PagoCuota(c.FechaPago, c.CodigoLiquidacion ?? "", 0);
 
             if (c.CodigoLiquidacion is null)
-                    pago = null;
+                pago = null;
 
-            var quincena = new QuincenaCuota(c.QuincenaDebitar,c.MesDebitar,c.AnioDebitar);
+            var quincena = new QuincenaCuota(c.QuincenaDebitar, c.MesDebitar, c.AnioDebitar);
 
             return new CuotaResponse(c.Nro.ToString(),
                                      c.Descripcion,

@@ -18,7 +18,7 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
             var items = new List<ItemLiquidacion>();
             var creditos = await BuscarCreditosPendientesDeAcreditacion(liq.DniEmpleado);
 
-            foreach(var credito in creditos)
+            foreach (var credito in creditos)
             {
                 var itemAcreditacion = credito.Acreditar(liq);
                 items.Add(itemAcreditacion);

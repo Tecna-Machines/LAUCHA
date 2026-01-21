@@ -48,7 +48,7 @@ namespace LAUCHA.infrastructure.Repositories
             IQueryable<Credito> creditos = _context.Creditos;
 
             if (!string.IsNullOrWhiteSpace(query.DniEmpleado))
-               creditos = creditos.Where(c => c.DniEmpleado == query.DniEmpleado);
+                creditos = creditos.Where(c => c.DniEmpleado == query.DniEmpleado);
 
             if (query.MontoMin.HasValue)
                 creditos = creditos.Where(c => c.MontoPrestado >= query.MontoMin.Value);
@@ -68,7 +68,7 @@ namespace LAUCHA.infrastructure.Repositories
             if (!string.IsNullOrWhiteSpace(query.CodigoLiquidacion))
                 creditos = creditos.Where(c => c.CodigoLiquidacionAcreditacion == query.CodigoLiquidacion);
 
-                creditos.OrderByDescending(c => c.Creacion);
+            creditos.OrderByDescending(c => c.Creacion);
 
             return await creditos.Include(c => c.Cuotas).ToListAsync();
         }

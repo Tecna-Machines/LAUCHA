@@ -1,5 +1,4 @@
 ﻿using LAUCHA.application.Common.Extensions;
-using LAUCHA.application.DTOs.EmpleadoDTO;
 using LAUCHA.application.Features.Acuerdos.GetAcuerdosEmpleado;
 using LAUCHA.application.Features.Empleados.CrearEmpleado;
 using LAUCHA.application.Features.Empleados.GetEmpleados;
@@ -24,7 +23,7 @@ namespace LAUCHA.api.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(typeof(EmpleadoDTO), 201)]
+        [ProducesResponseType(typeof(CrearEmpleadoResponse), 201)]
         public async Task<IResult> CargarNuevo(CrearEmpleadoRequest req)
         {
             var result = await _crearEmpleados.Crear(req);
@@ -43,13 +42,6 @@ namespace LAUCHA.api.Controllers
                 onFailure: error => Results.BadRequest(error));
         }
 
-
-        [HttpGet("{dni}")]
-        [ProducesResponseType(typeof(EmpleadoDTO), 200)]
-        public IActionResult ObtenerEmpleado(string dni)
-        {
-            throw new NotImplementedException("falta.implementar");
-        }
 
         [HttpGet("{dni}/acuerdos")]
         public async Task<IResult> GetHistorialAcuerdos(string dni)

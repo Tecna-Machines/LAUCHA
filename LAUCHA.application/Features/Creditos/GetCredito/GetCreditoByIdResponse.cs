@@ -17,7 +17,7 @@
                                 QuincenaCuota Quincena,
                                 PagoCuota? Pago);
 
-    public record QuincenaCuota(int Quincena,int Mes,int Anio);
+    public record QuincenaCuota(int Quincena, int Mes, int Anio);
 
     public record PagoCuota(DateTime Fecha, string CodigoLiquidacion, int NroItem);
 

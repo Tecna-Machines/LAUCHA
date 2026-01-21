@@ -28,12 +28,6 @@ namespace LAUCHA.infrastructure.persistence
         public DbSet<RetencionOLD> Retenciones { get; set; }
         public DbSet<RetencionPorLiquidacionPersonal> RetencionesPorLiquidaciones { get; set; }
 
-        //DbSet de dias especiales
-        public DbSet<AvisosAusencia> AvisosAusencia { get; set; }
-        public DbSet<DiaFeriado> DiasFeriados { get; set; }
-        public DbSet<PeriodoVacaciones> PeriodoVacaciones { get; set; }
-        public DbSet<HabilitacionHorasExtra> HabilitacionHorasExtra { get; set; }
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -71,12 +65,6 @@ namespace LAUCHA.infrastructure.persistence
             //modelBuilder.ApplyConfiguration(new CuentaData());
             //modelBuilder.ApplyConfiguration(new EmpleadosData());
             modelBuilder.ApplyConfiguration(new RetencionesFijasData());
-
-            //configuracion dias especiales
-            modelBuilder.ApplyConfiguration(new DiasFeriadosConfig());
-            modelBuilder.ApplyConfiguration(new PeriodoVacacionesConfig());
-            modelBuilder.ApplyConfiguration(new AvisosAusenciaConfig());
-            modelBuilder.ApplyConfiguration(new HabilitacionHorasExtraConfig());
 
 
         }
