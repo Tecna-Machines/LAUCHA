@@ -5,15 +5,10 @@ using LAUCHA.domain.entities.Contrato;
 using LAUCHA.domain.Entities.Empleados;
 using LAUCHA.domain.Entities.Liquidaciones;
 using LAUCHA.domain.interfaces.IRepositories;
-using LAUCHA.domain.interfaces.IServices;
 using LAUCHA.infrastructure;
 using LAUCHA.infrastructure.persistence;
 using LAUCHA.infrastructure.repositories;
 using LAUCHA.infrastructure.Services.Logs;
-using LAUCHA.infrastructure.Services.Marcas;
-using LAUCHA.infrastructure.Services.Marcas.Interface;
-using LAUCHA.infrastructure.Services.Marcas.Persistence;
-using LAUCHA.infrastructure.Services.Menues;
 using Microsoft.EntityFrameworkCore;
 using MySql.Data.MySqlClient;
 
@@ -108,34 +103,8 @@ builder.Services.AddHttpClient();
 
 
 
-//servicios externos
-builder.Services.AddScoped<IMenuesService>(sp =>
-{
-    var configuration = sp.GetRequiredService<IConfiguration>();
-    string? user = configuration["MenuService:user"];
-    string? password = configuration["MenuService:password"];
-    string? url = configuration["MenuService:url"];
-
-    if (user == null || password == null || url == null)
-    {
-        throw new ArgumentNullException();
-    }
-
-    var httpClient = sp.GetRequiredService<IHttpClientFactory>().CreateClient();
-    httpClient.BaseAddress = new Uri(url);
-
-    return new MenuesService(httpClient, user, password);
-});
-
-
 //Marcas
 string? databaseMarcas = builder.Configuration["MarcasService:databasePath"];
-
-
-builder.Services.AddDbContext<MarcasDbContext>(options => options.UseMySQL(databaseMarcas));
-
-builder.Services.AddScoped<IMarcasDb, MarcasDb>();
-builder.Services.AddScoped<ISistemaMarcas, MarcasServiceAccess>();
 
 //CORS deshabilitar
 builder.Services.AddCors(options =>
