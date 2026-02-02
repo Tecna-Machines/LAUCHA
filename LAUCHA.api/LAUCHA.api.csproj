@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\LAUCHA.infrastructure.asistencias\LAUCHA.infrastructure.asistencias.csproj" />
     <ProjectReference Include="..\LAUCHA.infrastructure\LAUCHA.infrastructure.csproj" />
   </ItemGroup>
 

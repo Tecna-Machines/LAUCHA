@@ -6,6 +6,7 @@ using LAUCHA.domain.Entities.Empleados;
 using LAUCHA.domain.Entities.Liquidaciones;
 using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.infrastructure;
+using LAUCHA.infrastructure.asistencias;
 using LAUCHA.infrastructure.persistence;
 using LAUCHA.infrastructure.repositories;
 using LAUCHA.infrastructure.Services.Logs;
@@ -104,7 +105,8 @@ builder.Services.AddHttpClient();
 
 
 //Marcas
-string? databaseMarcas = builder.Configuration["MarcasService:databasePath"];
+string marcasDb =builder.Configuration["ConnectionStrings:Asistencias"];
+builder.Services.AddAsistenciasPersistence(marcasDb);
 
 //CORS deshabilitar
 builder.Services.AddCors(options =>

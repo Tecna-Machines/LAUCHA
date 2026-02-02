@@ -8,6 +8,7 @@ using LAUCHA.application.Features.Creditos.Cuotas.PosponerDebito;
 using LAUCHA.application.Features.Creditos.GetCredito;
 using LAUCHA.application.Features.Creditos.GetCreditos;
 using LAUCHA.application.Features.Empleados.CrearEmpleado;
+using LAUCHA.application.Features.Empleados.GetEmpleadoAsistencias;
 using LAUCHA.application.Features.Empleados.GetEmpleados;
 using LAUCHA.application.Features.Liquidaciones.AnularItem;
 using LAUCHA.application.Features.Liquidaciones.CrearItem;
@@ -52,6 +53,7 @@ namespace LAUCHA.application
             services.AddScoped<IGetEmpleados, GetEmpleadosHandler>();
             services.AddScoped<ICrearEmpleado, CrearEmpleadoHandler>();
             services.AddScoped<IFabricaEmpleado, FabricaEmpleado>();
+            services.AddScoped<IGetEmpleadoAsistencias, GetEmpleadoAsistenciasHandler>();
 
             return services;
         }

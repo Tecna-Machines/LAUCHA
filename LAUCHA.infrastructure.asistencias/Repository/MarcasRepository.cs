@@ -19,7 +19,7 @@ namespace LAUCHA.infrastructure.asistencias.Repository
             inicio = DateTime.SpecifyKind(inicio, DateTimeKind.Unspecified);
             fin = DateTime.SpecifyKind(fin, DateTimeKind.Unspecified);
 
-            var marcas = await _dbMarcas.Marcas.Where(m => m.Dni == dni)
+            var marcas = await _dbMarcas.Asistencias.Where(m => m.Dni == dni)
                 .Where(m =>
                     m.Ingreso != null &&
                     m.Ingreso >= inicio &&
@@ -36,7 +36,7 @@ namespace LAUCHA.infrastructure.asistencias.Repository
             inicio = DateTime.SpecifyKind(inicio, DateTimeKind.Unspecified);
             fin = DateTime.SpecifyKind(fin, DateTimeKind.Unspecified);
 
-            var marcas = await _dbMarcas.Marcas
+            var marcas = await _dbMarcas.Asistencias
                 .Where(m =>
                     m.Ingreso != null &&
                     m.Ingreso >= inicio &&

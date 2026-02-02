@@ -8,7 +8,7 @@ namespace LAUCHA.infrastructure.asistencias.Models
         public string? NombreCompleto { get; set; }
         public DateTime? Ingreso { get; set; }
         public DateTime? Egreso { get; set; }
-        public DateTime? DebeEntrar { get; set; }
+        public TimeSpan? DebeEntrar { get; set; }
         public int? Tarde { get; set; }
         public double? HsTrabajadas { get; set; }
         public double? Minutos { get; set; }
@@ -17,7 +17,22 @@ namespace LAUCHA.infrastructure.asistencias.Models
 
         public Asistencia MapToAsistenciaEntity()
         {
-            return Asistencia.Crear(Dni ?? "", Ingreso, Egreso, DebeEntrar);
+            DateTime? debeEntrarDt = null;
+
+            if (DebeEntrar.HasValue)
+            {
+                var fechaBase =
+                    Ingreso?.Date ?? DateTime.Today; 
+
+                debeEntrarDt = fechaBase + DebeEntrar.Value;
+            }
+
+            return Asistencia.Crear(
+                Dni ?? "",
+                Ingreso,
+                Egreso,
+                debeEntrarDt
+            );
         }
     }
 }
