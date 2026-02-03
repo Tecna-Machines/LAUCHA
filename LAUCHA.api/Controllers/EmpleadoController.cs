@@ -57,7 +57,7 @@ namespace LAUCHA.api.Controllers
                 onFailure: error => Results.BadRequest(error));
         }
 
-        [HttpGet("/api/v1/empleados/{dni}/asistencias")]
+        [HttpGet("{dni}/asistencias")]
         public async Task<IResult> GetAsistencias(string dni,DateTime Inicio,DateTime Fin)
         {
             var result = await _asistencias.GetAsistencias(new GetEmpleadoAsistenciaRequest(dni,Inicio,Fin));

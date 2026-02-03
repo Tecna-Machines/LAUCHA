@@ -5,5 +5,10 @@
                                                  string NombreApellido,
                                                  IEnumerable<GetEmpleadoAsistenciaResponse> Asistencias);
 
-    public record GetEmpleadoAsistenciaResponse(DateTime Ingreso, DateTime Egreso, TimeSpan DebeEntrar);
+    public record GetEmpleadoAsistenciaResponse(DateTime Ingreso,
+                                                DateTime Egreso,
+                                                TimeSpan DebeEntrar,
+                                                decimal HsExtra,
+                                                decimal HsComunes,
+                                                decimal HsTotales);
 }

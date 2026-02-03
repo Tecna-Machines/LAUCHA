@@ -105,7 +105,7 @@ builder.Services.AddHttpClient();
 
 
 //Marcas
-string marcasDb =builder.Configuration["ConnectionStrings:Asistencias"];
+string marcasDb = builder.Configuration["ConnectionStrings:Asistencias"];
 builder.Services.AddAsistenciasPersistence(marcasDb);
 
 //CORS deshabilitar

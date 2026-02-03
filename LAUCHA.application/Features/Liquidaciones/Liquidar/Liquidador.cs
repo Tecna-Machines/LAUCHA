@@ -1,19 +1,26 @@
-﻿namespace LAUCHA.application.Features.Liquidaciones.Liquidar
+﻿using LAUCHA.application.Features.Empleados.GetEmpleadoAsistencias;
+
+namespace LAUCHA.application.Features.Liquidaciones.Liquidar
 {
     internal class Liquidador : ILiquidador
     {
+        private IGetEmpleadoAsistencias _asistencia;
         private Liquidacion _liquidacion;
         private Acuerdo _acuerdo;
         private ICollection<ItemLiquidacion> _items;
         private AcreditadorDeCreditos _acreditador;
         private CobradorDeCuotas _cobradorCuotas;
+        private CalculadorasHorasExtra _calculadoraHsExtra;
 
         private decimal _montoBaseRetenciones;
         private decimal _montoBaseAntiguedad;
         private decimal _netoEnBlanco;
 
 
-        public Liquidador(AcreditadorDeCreditos calculadoraDescuentos, CobradorDeCuotas cobradorCuotas)
+        public Liquidador(AcreditadorDeCreditos calculadoraDescuentos,
+                          CobradorDeCuotas cobradorCuotas,
+                          IGetEmpleadoAsistencias asistencia,
+                          CalculadorasHorasExtra calculadoraHsExtra)
         {
             _items = new List<ItemLiquidacion>();
 
@@ -21,6 +28,8 @@
             _acuerdo = new();
             _acreditador = calculadoraDescuentos;
             _cobradorCuotas = cobradorCuotas;
+            _asistencia = asistencia;
+            _calculadoraHsExtra = calculadoraHsExtra;
         }
 
         public async Task Liquidar(Liquidacion liquidacion, Acuerdo acuerdo)
@@ -40,6 +49,8 @@
 
             await AgregarItemsDeCreditosYAdelantos();
             await AgregarItemDescuentoDeCuotas();
+            
+            await AgregarHorasExtra();
 
             _liquidacion.ReemplazarItemsAutomaticos(_items);
         }
@@ -163,6 +174,19 @@
             {
                 _items.Add(item);
             }
+        }
+
+        private  async Task AgregarHorasExtra()
+        {
+            if(!_acuerdo.PuedeHacerHorasExtra())
+            {
+                return;
+            }
+
+            var itemHsExtra = await _calculadoraHsExtra
+                                .GenerarItemHorasExtra(_liquidacion);
+
+            _items.Add(itemHsExtra);
         }
 
 

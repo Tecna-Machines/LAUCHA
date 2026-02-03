@@ -8,7 +8,7 @@
         public DateTimeOffset? Egreso { get; private set; }
         public TimeSpan DebeIngresar { get; private set; }
 
-        private const decimal JORNADA_HORAS = 8m;
+        private const decimal JORNADA_HORAS = 9m;
         protected Asistencia() { }
 
         public static Asistencia Crear(string dni, DateTime? ingresoBa, DateTime? egresoBa, DateTime? debeIngresarBa)
@@ -67,7 +67,12 @@
             if (total <= JORNADA_HORAS)
                 return 0m;
 
-            return Math.Round(total - JORNADA_HORAS, 2);
+
+            const decimal QUINCE_MINUTOS = 0.25m;
+
+            decimal hsExtra = Math.Round(total - JORNADA_HORAS, 2);
+
+            return hsExtra > QUINCE_MINUTOS ? hsExtra : 0m;
         }
 
         public decimal GetHorasTotales()

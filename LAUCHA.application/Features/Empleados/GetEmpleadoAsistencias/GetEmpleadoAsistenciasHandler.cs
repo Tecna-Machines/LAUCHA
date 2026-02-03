@@ -36,7 +36,11 @@ namespace LAUCHA.application.Features.Empleados.GetEmpleadoAsistencias
             var ingreso = ConvertirFechasUTC.ToBuenosAiresDateTime(asistencia.Ingreso);
             var egreso = ConvertirFechasUTC.ToBuenosAiresDateTime(asistencia.Egreso);
 
-            return new GetEmpleadoAsistenciaResponse(ingreso, egreso,asistencia.DebeIngresar);
+            var hsTrabajadas = asistencia.GetHorasComunes();
+            var hsExtras = asistencia.GetHorasExtras();
+            var hsTotales = asistencia.GetHorasTotales();
+
+            return new GetEmpleadoAsistenciaResponse(ingreso, egreso,asistencia.DebeIngresar,hsExtras,hsTrabajadas,hsTotales);
         }
     }
 }

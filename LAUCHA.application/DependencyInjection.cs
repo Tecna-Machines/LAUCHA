@@ -67,6 +67,7 @@ namespace LAUCHA.application
             //liquidar
             services.AddScoped<AcreditadorDeCreditos>();
             services.AddScoped<CobradorDeCuotas>();
+            services.AddScoped<CalculadorasHorasExtra>();
 
             services.AddScoped<ILiquidador, Liquidador>();
 

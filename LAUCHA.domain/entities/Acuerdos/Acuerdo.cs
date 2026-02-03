@@ -63,6 +63,14 @@ namespace LAUCHA.domain.Entities.Acuerdos
             Retenciones.Add(RetencionAcuerdo.Generar(retencion, this));
         }
 
+        public bool PuedeHacerHorasExtra()
+        {
+            if (TipoSueldo == TipoSueldo.Mensual)
+                return false;
+
+            return true;
+        }
+
         public IEnumerable<RetencionAcuerdo> GetRetenciones() => Retenciones.ToImmutableList();
 
         public IEnumerable<RetencionAcuerdo> GetRetencionesPrimeraQuincena()
