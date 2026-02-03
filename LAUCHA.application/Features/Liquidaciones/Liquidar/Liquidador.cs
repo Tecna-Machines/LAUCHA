@@ -4,7 +4,6 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
 {
     internal class Liquidador : ILiquidador
     {
-        private IGetEmpleadoAsistencias _asistencia;
         private Liquidacion _liquidacion;
         private Acuerdo _acuerdo;
         private ICollection<ItemLiquidacion> _items;
@@ -19,7 +18,6 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
 
         public Liquidador(AcreditadorDeCreditos calculadoraDescuentos,
                           CobradorDeCuotas cobradorCuotas,
-                          IGetEmpleadoAsistencias asistencia,
                           CalculadorasHorasExtra calculadoraHsExtra)
         {
             _items = new List<ItemLiquidacion>();
@@ -28,7 +26,6 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
             _acuerdo = new();
             _acreditador = calculadoraDescuentos;
             _cobradorCuotas = cobradorCuotas;
-            _asistencia = asistencia;
             _calculadoraHsExtra = calculadoraHsExtra;
         }
 
