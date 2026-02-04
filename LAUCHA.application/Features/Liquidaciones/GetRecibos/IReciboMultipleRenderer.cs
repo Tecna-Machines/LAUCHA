@@ -4,6 +4,6 @@ namespace LAUCHA.application.Features.Liquidaciones.GetRecibos
 {
     public interface IReciboMultipleRenderer
     {
-        public byte[] Render(IEnumerable<GetLiquidacionByIdResponse> liquidaciones);
+        public Task<byte[]> Render(IEnumerable<GetLiquidacionByIdResponse> liquidaciones);
     }
 }

@@ -2,7 +2,7 @@
 using LAUCHA.application.Features.Liquidaciones.GetRecibos;
 using LAUCHA.infrastructure.repositories;
 using LAUCHA.infrastructure.Repositories;
-using LAUCHA.infrastructure.Services.Recibos;
+using LAUCHA.infrastructure.Services.Recibos.Render;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LAUCHA.infrastructure

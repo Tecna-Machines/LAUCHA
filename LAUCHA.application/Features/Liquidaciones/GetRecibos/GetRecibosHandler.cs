@@ -30,7 +30,7 @@ namespace LAUCHA.application.Features.Liquidaciones.GetRecibos
                 liquidacionesResponse.Add(liquidacion.Value);
             }
 
-            var recibo = _recibos.Render(liquidacionesResponse);
+            var recibo = await _recibos.Render(liquidacionesResponse);
 
             var response = new GetRecibosResponse(
                                 "recibo.pdf",

@@ -1,43 +1,48 @@
-﻿using iText.Layout;
+﻿using iText.IO.Font.Constants;
+using iText.Kernel.Colors;
+using iText.Kernel.Font;
 using iText.Layout.Element;
 using iText.Layout.Properties;
 using LAUCHA.application.Features.Empleados.GetEmpleadoAsistencias;
 using System.Globalization;
 
-namespace LAUCHA.infrastructure.Services.Recibos
+namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
 {
-    internal static class DetalleAsistencias
+    internal class TablaAsistencias
     {
-        public static void AgregarDetalleAsistencias(Document doc, GetEmpleadoAsistenciasResponse asistencias)
+        public static Table Generar(GetEmpleadoAsistenciasResponse asistencias)
         {
-            float[] pointColumnWidths = { 150F, 150F, 150F, 150F, 150F, 150F,150F };
+            float[] pointColumnWidths = { 2, 1, 1, 1, 1, 1, 1 };
 
             Table tablaAsistencias = new Table(pointColumnWidths);
+
+            tablaAsistencias.UseAllAvailableWidth();
+            tablaAsistencias.SetFontSize(8);
+            AgregarCabecera(tablaAsistencias);
 
             int mes = asistencias.Asistencias.First().Ingreso.Month;
             int anio = asistencias.Asistencias.First().Ingreso.Year;
 
-            DateTime inicio = new DateTime(anio,mes,1);
+            DateTime inicio = new DateTime(anio, mes, 1);
             DateTime finMes = new DateTime(anio, mes, DateTime.DaysInMonth(anio, mes));
 
-            for(var day = inicio; day <= finMes; day =  day.AddDays(1))
+            for (var day = inicio; day <= finMes; day = day.AddDays(1))
             {
                 var asistencia = asistencias.Asistencias.FirstOrDefault(d => d.Ingreso.Date == day.Date);
 
                 if (asistencia is not null)
                 {
-                    AgregarItemAsistencia(tablaAsistencias,asistencia);
+                    AgregarItemAsistencia(tablaAsistencias, asistencia);
                 }
                 else
                 {
                     AgregarDiaVacio(tablaAsistencias, day);
                 }
 
-                
-            }
-     
 
-            doc.Add(tablaAsistencias);
+            }
+
+            return tablaAsistencias;
         }
 
         private static void AgregarItemAsistencia(Table tablaAsistencia, GetEmpleadoAsistenciaResponse item)
@@ -100,6 +105,31 @@ namespace LAUCHA.infrastructure.Services.Recibos
             tablaAsistencia.AddCell(new Cell()
                 .Add(new Paragraph(day.ToString("dddd", new CultureInfo("es-AR"))))
                 .SetTextAlignment(TextAlignment.LEFT));
+        }
+
+        private static void AgregarCabecera(Table tablaAsistencias)
+        {
+            Color colorFondo = ColorConstants.LIGHT_GRAY;
+            TextAlignment alineacionCentro = TextAlignment.CENTER;
+
+            PdfFont boldFont = PdfFontFactory.CreateFont(StandardFontFamilies.HELVETICA);
+
+            Func<string, TextAlignment, Cell> CrearCeldaEncabezado = (texto, alineacion) =>
+            {
+                return new Cell()
+                    .Add(new Paragraph(texto).SetFont(boldFont).SetFontSize(9))
+                    .SetBackgroundColor(colorFondo)
+                    .SetTextAlignment(alineacion)
+                    .SetPadding(5);
+            };
+
+            tablaAsistencias.AddCell(CrearCeldaEncabezado("Fecha", TextAlignment.LEFT));
+            tablaAsistencias.AddCell(CrearCeldaEncabezado("Ingreso (HH:mm)", alineacionCentro));
+            tablaAsistencias.AddCell(CrearCeldaEncabezado("Egreso (HH:mm)", alineacionCentro));
+            tablaAsistencias.AddCell(CrearCeldaEncabezado("Hs regular", alineacionCentro));
+            tablaAsistencias.AddCell(CrearCeldaEncabezado("Hs Extra", alineacionCentro));
+            tablaAsistencias.AddCell(CrearCeldaEncabezado("Hs totales", alineacionCentro));
+            tablaAsistencias.AddCell(CrearCeldaEncabezado("Dia", alineacionCentro));
         }
     }
 }

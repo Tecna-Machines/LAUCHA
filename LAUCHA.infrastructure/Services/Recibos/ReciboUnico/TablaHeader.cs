@@ -1,14 +1,13 @@
 ﻿using iText.Kernel.Colors;
 using iText.Kernel.Pdf.Canvas.Draw;
-using iText.Layout;
 using iText.Layout.Borders;
 using iText.Layout.Element;
 using iText.Layout.Properties;
 using LAUCHA.application.Features.Liquidaciones.GetLiquidacionById;
 
-namespace LAUCHA.infrastructure.Services.Recibos
+namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
 {
-    internal static class HeaderPdf
+    internal class TablaHeader
     {
         private static readonly Color HeaderBgColor = new DeviceRgb(220, 220, 220); // Gris claro
         private static readonly float DefaultFontSize = 10f;
@@ -17,63 +16,53 @@ namespace LAUCHA.infrastructure.Services.Recibos
         /// <summary>
         /// Agrega la sección de encabezado al documento PDF.
         /// </summary>
-        public static void AgregarHeader(Document document, GetLiquidacionByIdResponse liquidacion)
+        public static Div GenerarCabecera(GetLiquidacionByIdResponse liquidacion)
         {
+            var cabecera = new Div();
+
             float[] titleColWidths = { 400f, 150f };
-            Table titleTable = new Table(titleColWidths);
-            titleTable.SetBorder(Border.NO_BORDER);
+            Table titleTable = new Table(titleColWidths).SetBorder(Border.NO_BORDER);
 
-            Cell titleCell = new Cell().Add(new Paragraph("RECIBO DE SUELDO")
-                                        .SetTextAlignment(TextAlignment.LEFT)
-                                        .SetFontSize(HeaderFontSize)
-                                        .SetBorder(Border.NO_BORDER));
+            titleTable.AddCell(new Cell().SetBorder(Border.NO_BORDER)
+                .Add(new Paragraph("RECIBO DE SUELDO").SetFontSize(HeaderFontSize)));
 
-            titleTable.AddCell(titleCell);
+            titleTable.AddCell(new Cell().SetBorder(Border.NO_BORDER)
+                .Add(new Paragraph($"CÓDIGO: {liquidacion.Codigo}")
+                .SetTextAlignment(TextAlignment.RIGHT).SetFontSize(DefaultFontSize)));
 
-            Cell codeCell = new Cell().Add(new Paragraph($"CÓDIGO: {liquidacion.Codigo}")
-                                      .SetTextAlignment(TextAlignment.RIGHT)
-                                      .SetFontSize(DefaultFontSize)
-                                      .SetBorder(Border.NO_BORDER));
+            cabecera.Add(titleTable);
 
-            titleTable.AddCell(codeCell);
-
-            document.Add(titleTable);
-
-            document.Add(new LineSeparator(new SolidLine(1f))
-                                           .SetMarginTop(5)
-                                           .SetMarginBottom(5));
+            cabecera.Add(new LineSeparator(new SolidLine(1f))
+                .SetMarginTop(5).SetMarginBottom(5));
 
             float[] liqDataColWidths = { 200f, 350f };
             Table liqDataTable = new Table(liqDataColWidths);
 
             string periodo = $"{liquidacion.Quincena.Nro}º Quincena de {liquidacion.Quincena.Mes}/{liquidacion.Quincena.Anio}";
-            liqDataTable.AddCell(CreateCell("PERÍODO:", periodo, true));
-
+            liqDataTable.AddCell(CreateCell("PERIODO:", periodo, true));
             liqDataTable.AddCell(CreateCell("CONCEPTO:", liquidacion.Concepto, false));
 
-            document.Add(liqDataTable);
-            document.Add(new LineSeparator(new SolidLine(0.5f)).SetMarginTop(5).SetMarginBottom(5));
+            cabecera.Add(liqDataTable);
 
-            // --- 3. Tabla de Datos del Empleado ---
-            float[] empDataColWidths = { 183.33f, 183.33f }; // 3 columnas iguales
-            Table empDataTable = new Table(empDataColWidths);
-            empDataTable.SetMarginBottom(10); // Margen inferior para separarlo del detalle
+            cabecera.Add(new LineSeparator(new SolidLine(0.5f))
+                .SetMarginTop(5).SetMarginBottom(5));
 
-            // Fila 1: Nombre Completo y DNI
+            float[] empDataColWidths = { 183.33f, 183.33f };
+            Table empDataTable = new Table(empDataColWidths).SetMarginBottom(10);
+
             string nombreCompleto = $"{liquidacion.Empleado.Nombre} {liquidacion.Empleado.Apellido}";
             empDataTable.AddCell(CreateCell("APELLIDO Y NOMBRE:", nombreCompleto, true));
             empDataTable.AddCell(CreateCell("DNI:", liquidacion.Empleado.Dni, true));
 
-            // Fila 2: Fechas
             string fechaAlta = liquidacion.Empleado.FechaAlta.ToString("dd/MM/yyyy");
             string fechaIngreso = liquidacion.Empleado.FechaIngreso.ToString("dd/MM/yyyy");
 
             empDataTable.AddCell(CreateCell("FECHA DE ALTA:", fechaAlta, true));
             empDataTable.AddCell(CreateCell("FECHA DE INGRESO:", fechaIngreso, true));
-            // Espacio en blanco
-            empDataTable.AddCell(CreateCell("", "", false));
 
-            document.Add(empDataTable);
+            cabecera.Add(empDataTable);
+
+            return cabecera;
         }
 
         /// <summary>
@@ -95,7 +84,6 @@ namespace LAUCHA.infrastructure.Services.Recibos
 
             return cell;
         }
-
 
     }
 }
