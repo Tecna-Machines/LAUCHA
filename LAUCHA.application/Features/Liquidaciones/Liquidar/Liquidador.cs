@@ -129,7 +129,7 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
                 _items.Add(retencionesNueva);
             }
 
-            var retencionItemNegro = ItemLiquidacion.CrearDescuentoEnNegro("retenciones en blanco", sumaRetenciones);
+            var retencionItemNegro = ItemLiquidacion.CrearDescuentoEnNegro("retenciones oficial", sumaRetenciones);
 
             var itemNetoBlanco = ItemLiquidacion.CrearDescuentoEnNegro("deposito", _netoEnBlanco - sumaRetenciones);
 

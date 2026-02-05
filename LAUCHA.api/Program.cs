@@ -59,7 +59,21 @@ if (builder.Environment.IsDevelopment())
     connectionString = builder.Configuration["ConnectionStrings:Test"];
 }
 
-builder.Services.AddDbContext<LiquidacionesDbContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+builder.Services.AddDbContext<LiquidacionesDbContext>(options =>
+    options.UseMySql(
+        connectionString,
+        ServerVersion.AutoDetect(connectionString),
+        mySqlOptions =>
+        {
+            mySqlOptions.EnableRetryOnFailure(
+                maxRetryCount: 5,
+                maxRetryDelay: TimeSpan.FromSeconds(10),
+                errorNumbersToAdd: null
+            );
+        }
+    )
+);
+
 
 //dependecy injection
 //NEW 2025
@@ -139,34 +153,20 @@ var logger = app.Services.GetRequiredService<ILogsApp>();
 logger.LogInformation("preparando inicio de aplicacion");
 
 //test database
-var builderConnectionString = new MySqlConnectionStringBuilder(connectionString);
-string host = builderConnectionString.Server;
-
-
-logger.LogInformation("iniciando prueba de conexion con base de datos...");
-
-try
+using (var scope = app.Services.CreateScope())
 {
-    using var scope = builder.Services.BuildServiceProvider().CreateScope();
     var context = scope.ServiceProvider.GetRequiredService<LiquidacionesDbContext>();
 
     if (!context.Database.CanConnect())
     {
-        logger.LogError($"fallo la conexion con el servidor de base de datos: {host}");
+        logger.LogError("No se pudo conectar a la base de datos");
+        return;
     }
-
-    logger.LogInformation("conexion exitosa con el servidor DB: {Host}", host);
-    scope.Dispose();
 }
-catch (Exception ex)
-{
-    logger.LogError(ex, "se genero una excepcion al conectar con el host: {Host}", host);
-    return;
-}
-
 
 
 logger.LogInformation("todo parece ir bien c: ");
 logger.LogInformation("app run...");
 
 app.Run();
+

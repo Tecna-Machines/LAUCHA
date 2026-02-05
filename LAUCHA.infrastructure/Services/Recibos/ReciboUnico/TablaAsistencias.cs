@@ -52,6 +52,10 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
                 .SetTextAlignment(TextAlignment.LEFT));
 
             tablaAsistencia.AddCell(new Cell()
+                .Add(new Paragraph(item.Ingreso.ToString("dddd", new CultureInfo("es-AR"))))
+                .SetTextAlignment(TextAlignment.LEFT));
+
+            tablaAsistencia.AddCell(new Cell()
                 .Add(new Paragraph(item.Ingreso.ToString("HH:mm")))
                 .SetTextAlignment(TextAlignment.LEFT));
 
@@ -71,9 +75,6 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
                 .Add(new Paragraph(item.HsTotales.ToString()))
                 .SetTextAlignment(TextAlignment.LEFT));
 
-            tablaAsistencia.AddCell(new Cell()
-                .Add(new Paragraph(item.Ingreso.ToString("dddd", new CultureInfo("es-AR"))))
-                .SetTextAlignment(TextAlignment.LEFT));
         }
 
         private static void AgregarDiaVacio(Table tablaAsistencia, DateTime day)
@@ -83,28 +84,29 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
                 .SetTextAlignment(TextAlignment.LEFT));
 
             tablaAsistencia.AddCell(new Cell()
-                .Add(new Paragraph())
-                .SetTextAlignment(TextAlignment.LEFT));
-
-            tablaAsistencia.AddCell(new Cell()
-                .Add(new Paragraph())
-                .SetTextAlignment(TextAlignment.LEFT));
-
-            tablaAsistencia.AddCell(new Cell()
-                .Add(new Paragraph())
-                .SetTextAlignment(TextAlignment.LEFT));
-
-            tablaAsistencia.AddCell(new Cell()
-                .Add(new Paragraph())
-                .SetTextAlignment(TextAlignment.LEFT));
-
-            tablaAsistencia.AddCell(new Cell()
-                .Add(new Paragraph())
-                .SetTextAlignment(TextAlignment.LEFT));
-
-            tablaAsistencia.AddCell(new Cell()
                 .Add(new Paragraph(day.ToString("dddd", new CultureInfo("es-AR"))))
                 .SetTextAlignment(TextAlignment.LEFT));
+
+            tablaAsistencia.AddCell(new Cell()
+                .Add(new Paragraph())
+                .SetTextAlignment(TextAlignment.LEFT));
+
+            tablaAsistencia.AddCell(new Cell()
+                .Add(new Paragraph())
+                .SetTextAlignment(TextAlignment.LEFT));
+
+            tablaAsistencia.AddCell(new Cell()
+                .Add(new Paragraph())
+                .SetTextAlignment(TextAlignment.LEFT));
+
+            tablaAsistencia.AddCell(new Cell()
+                .Add(new Paragraph())
+                .SetTextAlignment(TextAlignment.LEFT));
+
+            tablaAsistencia.AddCell(new Cell()
+                .Add(new Paragraph())
+                .SetTextAlignment(TextAlignment.LEFT));
+
         }
 
         private static void AgregarCabecera(Table tablaAsistencias)
@@ -124,12 +126,12 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
             };
 
             tablaAsistencias.AddCell(CrearCeldaEncabezado("Fecha", TextAlignment.LEFT));
+            tablaAsistencias.AddCell(CrearCeldaEncabezado("Dia", alineacionCentro));
             tablaAsistencias.AddCell(CrearCeldaEncabezado("Ingreso (HH:mm)", alineacionCentro));
             tablaAsistencias.AddCell(CrearCeldaEncabezado("Egreso (HH:mm)", alineacionCentro));
             tablaAsistencias.AddCell(CrearCeldaEncabezado("Hs regular", alineacionCentro));
             tablaAsistencias.AddCell(CrearCeldaEncabezado("Hs Extra", alineacionCentro));
             tablaAsistencias.AddCell(CrearCeldaEncabezado("Hs totales", alineacionCentro));
-            tablaAsistencias.AddCell(CrearCeldaEncabezado("Dia", alineacionCentro));
         }
     }
 }
