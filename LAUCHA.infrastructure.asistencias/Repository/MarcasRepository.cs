@@ -48,9 +48,12 @@ namespace LAUCHA.infrastructure.asistencias.Repository
             return marcas;
         }
 
-        public Task<Asistencia> Insert(Asistencia a)
+        public async Task<Asistencia> Insert(Asistencia a)
         {
-            throw new NotImplementedException();
+            await _dbMarcas.AddAsync(a);
+            await _dbMarcas.SaveChangesAsync();
+
+            return a;
         }
     }
 }

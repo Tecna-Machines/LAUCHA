@@ -3,11 +3,11 @@ using LAUCHA.domain.entities.Contrato;
 
 namespace LAUCHA.application.Features.Acuerdos.GetAcuerdoById
 {
-    internal class GetAcuerdoById : IGetAcuerdoById
+    internal class GetAcuerdoByIdHandler : IGetAcuerdoById
     {
         private readonly IAcuerdoRepository _acuerdos;
 
-        public GetAcuerdoById(IAcuerdoRepository acuerdos)
+        public GetAcuerdoByIdHandler(IAcuerdoRepository acuerdos)
         {
             _acuerdos = acuerdos;
         }

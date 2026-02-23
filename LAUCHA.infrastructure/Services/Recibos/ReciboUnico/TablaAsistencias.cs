@@ -12,7 +12,7 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
     {
         public static Table Generar(GetEmpleadoAsistenciasResponse asistencias)
         {
-            float[] pointColumnWidths = { 2, 1, 1, 1, 1, 1, 1 };
+            float[] pointColumnWidths = { 2, 1, 1, 1, 1, 1 };
 
             Table tablaAsistencias = new Table(pointColumnWidths);
 
@@ -47,12 +47,11 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
 
         private static void AgregarItemAsistencia(Table tablaAsistencia, GetEmpleadoAsistenciaResponse item)
         {
-            tablaAsistencia.AddCell(new Cell()
-                .Add(new Paragraph(item.Ingreso.ToString("dd/MM/yyyy")))
-                .SetTextAlignment(TextAlignment.LEFT));
+            string fechaStr = item.Ingreso.ToString("dd/MM/yyyy");
+            string diaStr = item.Ingreso.ToString("dddd", new CultureInfo("es-AR"));
 
             tablaAsistencia.AddCell(new Cell()
-                .Add(new Paragraph(item.Ingreso.ToString("dddd", new CultureInfo("es-AR"))))
+                .Add(new Paragraph($"{diaStr} {fechaStr}"))
                 .SetTextAlignment(TextAlignment.LEFT));
 
             tablaAsistencia.AddCell(new Cell()
@@ -79,13 +78,13 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
 
         private static void AgregarDiaVacio(Table tablaAsistencia, DateTime day)
         {
-            tablaAsistencia.AddCell(new Cell()
-                .Add(new Paragraph(day.ToString("dd/MM/yyyy")))
-                .SetTextAlignment(TextAlignment.LEFT));
+            string fechaStr = day.ToString("dd/MM/yyyy");
+            string diaStr =day.ToString("dddd", new CultureInfo("es-AR"));
 
             tablaAsistencia.AddCell(new Cell()
-                .Add(new Paragraph(day.ToString("dddd", new CultureInfo("es-AR"))))
+                .Add(new Paragraph($"{diaStr} {fechaStr}"))
                 .SetTextAlignment(TextAlignment.LEFT));
+
 
             tablaAsistencia.AddCell(new Cell()
                 .Add(new Paragraph())
@@ -126,7 +125,6 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
             };
 
             tablaAsistencias.AddCell(CrearCeldaEncabezado("Fecha", TextAlignment.LEFT));
-            tablaAsistencias.AddCell(CrearCeldaEncabezado("Dia", alineacionCentro));
             tablaAsistencias.AddCell(CrearCeldaEncabezado("Ingreso (HH:mm)", alineacionCentro));
             tablaAsistencias.AddCell(CrearCeldaEncabezado("Egreso (HH:mm)", alineacionCentro));
             tablaAsistencias.AddCell(CrearCeldaEncabezado("Hs regular", alineacionCentro));

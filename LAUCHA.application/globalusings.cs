@@ -1,4 +1,5 @@
-﻿global using FluentValidation;
+﻿global using Microsoft.Extensions.DependencyInjection;
+global using FluentValidation;
 global using LAUCHA.application.Common.Errors;
 global using LAUCHA.application.Common.Extensions;
 global using LAUCHA.application.Common.ResultResponse;

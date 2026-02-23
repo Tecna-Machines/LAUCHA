@@ -78,7 +78,7 @@ builder.Services.AddDbContext<LiquidacionesDbContext>(options =>
 //dependecy injection
 //NEW 2025
 builder.Services.AddInfrastructureServices();
-builder.Services.AddAplicationServices();
+builder.Services.AddApplicationServices();
 
 builder.Services.AddScoped<IGenericRepository<Empleado>, Borrame>();
 
@@ -87,17 +87,9 @@ builder.Services.AddScoped<IGenericRepository<Adicional>, AdicionalRepository>()
 
 
 
-builder.Services.AddScoped<IGenericRepository<Remuneracion>, RemuneracionRepository>();
-builder.Services.AddScoped<IRemuneracionRepository, RemuneracionRepository>();
-
-
-
-
 
 //builder.Services.AddScoped<ILiquidacionService, CrearLiquidacionService>();
 
-builder.Services.AddScoped<IGenericRepository<RemuneracionPorLiquidacionPersonal>, RemuneracionPorLiquidacionRepository>();
-builder.Services.AddScoped<IGenericRepository<RetencionPorLiquidacionPersonal>, RetencionPorLiquidacionRepository>();
 builder.Services.AddScoped<IGenericRepository<Liquidacion>, LiquidacionPersonalRepository>();
 
 builder.Services.AddScoped<IItemsLiquidacionRepository, ITemsLiquidacionRepository>();
