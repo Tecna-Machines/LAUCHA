@@ -22,7 +22,7 @@ namespace LAUCHA.infrastructure.asistencias.Models
             if (DebeEntrar.HasValue)
             {
                 var fechaBase =
-                    Ingreso?.Date ?? DateTime.Today; 
+                    Ingreso?.Date ?? DateTime.Today;
 
                 debeEntrarDt = fechaBase + DebeEntrar.Value;
             }
@@ -33,6 +33,23 @@ namespace LAUCHA.infrastructure.asistencias.Models
                 Egreso,
                 debeEntrarDt
             );
+        }
+
+        public static MarcasMySQL MapToMarcasMySQL(Asistencia a)
+        {
+
+            return new MarcasMySQL
+            {
+                Dni = a.DniEmpleado,
+                NombreCompleto = "marca manual",
+                Ingreso = a.Ingreso!.Value.LocalDateTime,          //ingreso es datetimeoffset pero el ingreso de MarcasMySQL es un datetime arreglalo xfa
+                Egreso = a.Egreso!.Value.LocalDateTime,            //lo miso aqui
+                Tarde = 0,
+                DebeEntrar = new TimeSpan(),
+                HsTrabajadas = 0,
+                Minutos = 0,
+                Area = "manual"
+            };
         }
     }
 }

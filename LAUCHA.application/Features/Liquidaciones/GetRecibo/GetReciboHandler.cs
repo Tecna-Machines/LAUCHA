@@ -31,7 +31,7 @@ namespace LAUCHA.application.Features.Liquidaciones.GetRecibo
                 return Result.Failure<GetReciboLiquidacionResponse>(asistencia.Error);
 
 
-            var recibo = _renderer.Render(liquidacionResult.Value,asistencia.Value);
+            var recibo = _renderer.Render(liquidacionResult.Value, asistencia.Value);
 
             var response = new GetReciboLiquidacionResponse(
                                 "recibo.pdf",
@@ -44,14 +44,14 @@ namespace LAUCHA.application.Features.Liquidaciones.GetRecibo
 
         public async Task<Result<GetEmpleadoAsistenciasResponse>> GetAsistencias(GetLiquidacionByIdResponse liq)
         {
-            DateTime inicioMes = new DateTime(liq.Quincena.Anio,liq.Quincena.Mes,1);
-            DateTime finMes = new DateTime(liq.Quincena.Anio,liq.Quincena.Mes,DateTime.DaysInMonth(liq.Quincena.Anio,liq.Quincena.Mes));
+            DateTime inicioMes = new DateTime(liq.Quincena.Anio, liq.Quincena.Mes, 1);
+            DateTime finMes = new DateTime(liq.Quincena.Anio, liq.Quincena.Mes, DateTime.DaysInMonth(liq.Quincena.Anio, liq.Quincena.Mes));
 
-            var resultAsistencia = await _asistenciasEmpleado.GetAsistencias(new GetEmpleadoAsistenciaRequest(liq.Empleado.Dni,inicioMes,finMes));
+            var resultAsistencia = await _asistenciasEmpleado.GetAsistencias(new GetEmpleadoAsistenciaRequest(liq.Empleado.Dni, inicioMes, finMes));
 
             return resultAsistencia;
         }
 
-        
+
     }
 }

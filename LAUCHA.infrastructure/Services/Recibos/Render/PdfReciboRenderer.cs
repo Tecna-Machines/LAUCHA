@@ -4,7 +4,6 @@ using iText.Layout.Properties;
 using LAUCHA.application.Features.Empleados.GetEmpleadoAsistencias;
 using LAUCHA.application.Features.Liquidaciones.GetLiquidacionById;
 using LAUCHA.application.Features.Liquidaciones.GetRecibo;
-using LAUCHA.domain.Entities.Asistencias;
 using LAUCHA.infrastructure.Services.Recibos.ReciboUnico;
 
 namespace LAUCHA.infrastructure.Services.Recibos.Render
@@ -72,7 +71,7 @@ namespace LAUCHA.infrastructure.Services.Recibos.Render
                 doc.Add(new Paragraph(""));
                 doc.Add(TablaAsistencias.Generar(recibo.Asistencias));
             }
-                doc.Close();
+            doc.Close();
 
             return ms.ToArray();
         }

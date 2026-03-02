@@ -11,7 +11,6 @@ using LAUCHA.infrastructure.persistence;
 using LAUCHA.infrastructure.repositories;
 using LAUCHA.infrastructure.Services.Logs;
 using Microsoft.EntityFrameworkCore;
-using MySql.Data.MySqlClient;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -85,10 +84,6 @@ builder.Services.AddScoped<IGenericRepository<Empleado>, Borrame>();
 builder.Services.AddScoped<IGenericRepository<Adicional>, AdicionalRepository>();
 
 
-
-
-
-//builder.Services.AddScoped<ILiquidacionService, CrearLiquidacionService>();
 
 builder.Services.AddScoped<IGenericRepository<Liquidacion>, LiquidacionPersonalRepository>();
 

@@ -1,5 +1,4 @@
-﻿using LAUCHA.application.Features.Empleados.GetEmpleadoAsistencias;
-using LAUCHA.domain.Entities.Asistencias;
+﻿using LAUCHA.domain.Entities.Asistencias;
 
 namespace LAUCHA.application.Features.Liquidaciones.Liquidar
 {
@@ -44,20 +43,20 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
 
 
             var valorHorasExtra = liq.Acuerdo.ValorHora * 1.5m;
-            
+
             var cantHorasExtra = periodoAsistencias.GetHorasExtrasDurantePeriodo();
-            decimal monto =  cantHorasExtra*valorHorasExtra;
+            decimal monto = cantHorasExtra * valorHorasExtra;
 
             return ItemLiquidacion.CrearRemunerativoEnNegro($"horas extra {cantHorasExtra}", monto);
         }
 
-        private async Task<PeriodoAsistencias> RecuperarAsistencias(string dni,DateTime inicio,DateTime fin)
+        private async Task<PeriodoAsistencias> RecuperarAsistencias(string dni, DateTime inicio, DateTime fin)
         {
-            var asistencias =   await _asistencia.GetByDniYPeriodo(dni, inicio, fin);
+            var asistencias = await _asistencia.GetByDniYPeriodo(dni, inicio, fin);
 
             return new PeriodoAsistencias(asistencias.ToList());
         }
 
-       
+
     }
 }

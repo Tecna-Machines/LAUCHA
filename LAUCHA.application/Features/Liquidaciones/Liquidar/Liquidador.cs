@@ -1,6 +1,4 @@
-﻿using LAUCHA.application.Features.Empleados.GetEmpleadoAsistencias;
-
-namespace LAUCHA.application.Features.Liquidaciones.Liquidar
+﻿namespace LAUCHA.application.Features.Liquidaciones.Liquidar
 {
     internal class Liquidador : ILiquidador
     {
@@ -46,7 +44,7 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
 
             await AgregarItemsDeCreditosYAdelantos();
             await AgregarItemDescuentoDeCuotas();
-            
+
             await AgregarHorasExtra();
 
             _liquidacion.ReemplazarItemsAutomaticos(_items);
@@ -173,9 +171,9 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
             }
         }
 
-        private  async Task AgregarHorasExtra()
+        private async Task AgregarHorasExtra()
         {
-            if(!_acuerdo.PuedeHacerHorasExtra())
+            if (!_acuerdo.PuedeHacerHorasExtra())
             {
                 return;
             }

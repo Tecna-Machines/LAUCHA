@@ -40,7 +40,7 @@ namespace LAUCHA.application.Features.Empleados.GetEmpleadoAsistencias
             var hsExtras = asistencia.GetHorasExtras();
             var hsTotales = asistencia.GetHorasTotales();
 
-            return new GetEmpleadoAsistenciaResponse(ingreso, egreso,asistencia.DebeIngresar,hsExtras,hsTrabajadas,hsTotales);
+            return new GetEmpleadoAsistenciaResponse(ingreso, egreso, asistencia.DebeIngresar, hsExtras, hsTrabajadas, hsTotales);
         }
     }
 }

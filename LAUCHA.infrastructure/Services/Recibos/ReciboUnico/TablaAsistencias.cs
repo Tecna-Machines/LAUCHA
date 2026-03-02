@@ -79,7 +79,7 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
         private static void AgregarDiaVacio(Table tablaAsistencia, DateTime day)
         {
             string fechaStr = day.ToString("dd/MM/yyyy");
-            string diaStr =day.ToString("dddd", new CultureInfo("es-AR"));
+            string diaStr = day.ToString("dddd", new CultureInfo("es-AR"));
 
             tablaAsistencia.AddCell(new Cell()
                 .Add(new Paragraph($"{diaStr} {fechaStr}"))

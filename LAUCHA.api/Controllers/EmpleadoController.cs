@@ -1,7 +1,7 @@
-﻿using iText.Pdfua.Checkers.Utils.Ua1;
-using LAUCHA.application.Common.Extensions;
+﻿using LAUCHA.application.Common.Extensions;
 using LAUCHA.application.Features.Acuerdos.GetAcuerdosEmpleado;
 using LAUCHA.application.Features.Empleados.CrearEmpleado;
+using LAUCHA.application.Features.Empleados.CrearEmpleadoAsistencias;
 using LAUCHA.application.Features.Empleados.GetEmpleadoAsistencias;
 using LAUCHA.application.Features.Empleados.GetEmpleados;
 using Microsoft.AspNetCore.Mvc;
@@ -15,16 +15,20 @@ namespace LAUCHA.api.Controllers
         private readonly IGetEmpleados _getEmpleados;
         private readonly ICrearEmpleado _crearEmpleados;
         private readonly IGetAcuerdosEmpleado _acuerdos;
-        private readonly IGetEmpleadoAsistencias _asistencias;
+        private readonly IGetEmpleadoAsistencias _getAsistencias;
+        private readonly ICrearAsistencia _crearAsistencia;
+
         public EmpleadoController(IGetEmpleados getEmpleados,
                                   ICrearEmpleado crearEmpleados,
                                   IGetAcuerdosEmpleado acuerdos,
-                                  IGetEmpleadoAsistencias asistencias)
+                                  IGetEmpleadoAsistencias asistencias,
+                                  ICrearAsistencia crearAsistencia)
         {
             _getEmpleados = getEmpleados;
             _crearEmpleados = crearEmpleados;
             _acuerdos = acuerdos;
-            _asistencias = asistencias;
+            _getAsistencias = asistencias;
+            _crearAsistencia = crearAsistencia;
         }
 
         [HttpPost]
@@ -58,11 +62,20 @@ namespace LAUCHA.api.Controllers
         }
 
         [HttpGet("{dni}/asistencias")]
-        public async Task<IResult> GetAsistencias(string dni,DateTime Inicio,DateTime Fin)
+        public async Task<IResult> GetAsistencias(string dni, DateTime Inicio, DateTime Fin)
         {
-            var result = await _asistencias.GetAsistencias(new GetEmpleadoAsistenciaRequest(dni,Inicio,Fin));
+            var result = await _getAsistencias.GetAsistencias(new GetEmpleadoAsistenciaRequest(dni, Inicio, Fin));
             return result.Match(
                 onSucces: () => Results.Ok(result.Value),
+                onFailure: error => Results.BadRequest(error));
+        }
+
+        [HttpPost("asistencia")]
+        public async Task<IResult> CrearAsistencia(CrearEmpleadoAsistenciaRequest req)
+        {
+            var result = await _crearAsistencia.Crear(req);
+            return result.Match(
+                onSucces: () => Results.Created(value: result.Value, uri: ""),
                 onFailure: error => Results.BadRequest(error));
         }
 
