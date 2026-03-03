@@ -1,4 +1,5 @@
 ﻿using LAUCHA.domain.Entities.Asistencias;
+using LAUCHA.domain.Entities.Feriados;
 using LAUCHA.infrastructure.asistencias.Persistence;
 using LAUCHA.infrastructure.asistencias.Repository;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,7 @@ namespace LAUCHA.infrastructure.asistencias
             services.AddDbContext<MarcasMySqlContext>(opt => opt.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
             services.AddScoped<IAsistenciasSource, MarcasRepository>();
+            services.AddScoped<IFeriadoRepository, FeriadoRepository>();
 
             return services;
         }

@@ -2,6 +2,7 @@
 using LAUCHA.application.Features.CatalogoRetenciones;
 using LAUCHA.application.Features.Creditos;
 using LAUCHA.application.Features.Empleados;
+using LAUCHA.application.Features.Feriados;
 using LAUCHA.application.Features.Liquidaciones;
 namespace LAUCHA.application
 {
@@ -14,6 +15,7 @@ namespace LAUCHA.application
             LiquidacionFeatures.AddLiquidacionFeatures(services);
             CatalogoRetencionesFeatures.AddCatalogoFeatures(services);
             CreditosFeatures.AddCreditosFeatures(services);
+            FeriadoFeatures.AddFeriadoFeatures(services);
 
             return services;
         }

@@ -17,20 +17,20 @@ namespace LAUCHA.infrastructure.asistencias.Repository
         public async Task<IEnumerable<Asistencia>> GetByDniYPeriodo(string dni, DateTime inicio, DateTime fin)
         {
             inicio = DateTime.SpecifyKind(inicio, DateTimeKind.Unspecified);
-            fin = DateTime.SpecifyKind(fin, DateTimeKind.Unspecified);
+    fin    = DateTime.SpecifyKind(fin, DateTimeKind.Unspecified);
 
-            // Si "fin" viene como fecha (ej 31/03), lo convertimos a fin exclusivo:
-            var finExclusivo = fin.Date.AddDays(1);
+    // Si "fin" viene como fecha (ej 31/03), lo convertimos a fin exclusivo:
+    var finExclusivo = fin.Date.AddDays(1);
 
-            var marcas = await _dbMarcas.Asistencias
-                .Where(m => m.Dni == dni)
-                .Where(m => m.Ingreso != null &&
-                            m.Ingreso >= inicio.Date &&
-                            m.Ingreso < finExclusivo)
-                .Select(m => m.MapToAsistenciaEntity())
-                .ToListAsync();
+    var marcas = await _dbMarcas.Asistencias
+        .Where(m => m.Dni == dni)
+        .Where(m => m.Ingreso != null &&
+                    m.Ingreso >= inicio.Date &&
+                    m.Ingreso < finExclusivo)
+        .Select(m => m.MapToAsistenciaEntity())
+        .ToListAsync();
 
-            return marcas;
+    return marcas;
         }
 
         public async Task<IEnumerable<Asistencia>> GetByPeriodo(DateTime inicio, DateTime fin)
