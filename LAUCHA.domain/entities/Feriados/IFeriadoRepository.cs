@@ -4,6 +4,6 @@
     {
         Task<Feriado> Insert(Feriado f);
         Task<ICollection<Feriado>> GetFeriadosDelAnio(int anio);
-        Task<ICollection<Feriado>> GetFeriadosDelMes(int mes,int anio);
+        Task<ICollection<Feriado>> GetFeriadosDelMes(int mes, int anio);
     }
 }

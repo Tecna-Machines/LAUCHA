@@ -7,9 +7,9 @@
         public string Descripcion { get; set; }
         public DateTime Creacion { get; set; }
 
-        public Feriado(DateTime fecha,string descripcion)
-        { 
-          if(string.IsNullOrEmpty(descripcion))
+        public Feriado(DateTime fecha, string descripcion)
+        {
+            if (string.IsNullOrEmpty(descripcion))
             {
                 throw new ArgumentException("descripcion.nula");
             }
@@ -18,7 +18,7 @@
             this.Fecha = fecha;
             this.Creacion = DateTime.Now;
             this.EsPermanente = false;
-        }    
+        }
 
         public void MarcarComoPermanente()
         {

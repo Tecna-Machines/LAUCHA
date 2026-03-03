@@ -1,5 +1,4 @@
-﻿using LAUCHA.domain.interfaces.IRepositories;
-using LAUCHA.infrastructure.persistence;
+﻿using LAUCHA.infrastructure.persistence;
 
 namespace LAUCHA.infrastructure.repositories
 {
@@ -44,36 +43,4 @@ namespace LAUCHA.infrastructure.repositories
 
     }
 
-    public class Borrame : IGenericRepository<Empleado>
-    {
-        public Empleado Delete(string id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IList<Empleado> GetAll()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Empleado GetById(string id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Empleado Insert(Empleado entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public int Save()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Empleado Update(Empleado entity)
-        {
-            throw new NotImplementedException();
-        }
-    }
 }

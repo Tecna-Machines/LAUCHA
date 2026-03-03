@@ -1,14 +1,8 @@
 using LAUCHA.application;
 using LAUCHA.application.interfaces;
-using LAUCHA.domain.entities;
-using LAUCHA.domain.entities.Contrato;
-using LAUCHA.domain.Entities.Empleados;
-using LAUCHA.domain.Entities.Liquidaciones;
-using LAUCHA.domain.interfaces.IRepositories;
 using LAUCHA.infrastructure;
 using LAUCHA.infrastructure.asistencias;
 using LAUCHA.infrastructure.persistence;
-using LAUCHA.infrastructure.repositories;
 using LAUCHA.infrastructure.Services.Logs;
 using Microsoft.EntityFrameworkCore;
 
@@ -79,26 +73,6 @@ builder.Services.AddDbContext<LiquidacionesDbContext>(options =>
 builder.Services.AddInfrastructureServices();
 builder.Services.AddApplicationServices();
 
-builder.Services.AddScoped<IGenericRepository<Empleado>, Borrame>();
-
-builder.Services.AddScoped<IGenericRepository<Adicional>, AdicionalRepository>();
-
-
-
-builder.Services.AddScoped<IGenericRepository<Liquidacion>, LiquidacionPersonalRepository>();
-
-builder.Services.AddScoped<IItemsLiquidacionRepository, ITemsLiquidacionRepository>();
-
-
-builder.Services.AddScoped<IGenericRepository<NoRemuneracion>, NoRemuneracionRepository>();
-builder.Services.AddScoped<INoRemuneracionRepository, NoRemuneracionRepository>();
-builder.Services.AddScoped<IGenericRepository<NoRemuneracionPorLiquidacionPersonal>, NoRemuneracionPorLiquidacionRepository>();
-
-
-
-builder.Services.AddScoped<ILiquidacionRepositoryOLD, LiquidacionPersonalRepository>();
-
-builder.Services.AddScoped<IGenericRepository<PagoLiquidacion>, PagoLiquidacionRepository>();
 
 
 builder.Services.AddHttpClient();

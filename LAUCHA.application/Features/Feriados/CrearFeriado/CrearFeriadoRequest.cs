@@ -4,6 +4,6 @@
 
     public record CrearFeriadoResponse(DateTime Fecha,
                                        string Descripcion,
-                                       bool EsPermanente) : 
-                                        CrearFeriadoRequest(Fecha,Descripcion, EsPermanente);
+                                       bool EsPermanente) :
+                                        CrearFeriadoRequest(Fecha, Descripcion, EsPermanente);
 }
