@@ -1,5 +1,6 @@
 ﻿
 using LAUCHA.application.Features.Empleados.GetEmpleadoAsistencias;
+using LAUCHA.application.Features.Feriados.GetFeriadoMes;
 using LAUCHA.application.Features.Liquidaciones.GetLiquidacionById;
 
 namespace LAUCHA.application.Features.Liquidaciones.GetRecibo
@@ -7,14 +8,19 @@ namespace LAUCHA.application.Features.Liquidaciones.GetRecibo
     internal class GetReciboHandler : IGetRecibo
     {
         private readonly IGetEmpleadoAsistencias _asistenciasEmpleado;
+        private readonly IGetFeriadosMes _feriadosMes;
         private readonly IGetLiquidacionById _getLiquidacion;
         private readonly IReciboRenderer _renderer;
 
-        public GetReciboHandler(IGetLiquidacionById getLiquidacion, IReciboRenderer renderer, IGetEmpleadoAsistencias asistenciasEmpleado)
+        public GetReciboHandler(IGetLiquidacionById getLiquidacion,
+                                IReciboRenderer renderer,
+                                IGetEmpleadoAsistencias asistenciasEmpleado,
+                                IGetFeriadosMes feriados)
         {
             _getLiquidacion = getLiquidacion;
             _renderer = renderer;
             _asistenciasEmpleado = asistenciasEmpleado;
+            _feriadosMes = feriados;
         }
 
         public async Task<Result<GetReciboLiquidacionResponse>> Get(GetReciboLiquidacionRequest req)
@@ -24,14 +30,25 @@ namespace LAUCHA.application.Features.Liquidaciones.GetRecibo
             if (liquidacionResult.IsFailure)
                 return Result.Failure<GetReciboLiquidacionResponse>(liquidacionResult.Error);
 
-            var asistencia = await GetAsistencias(liquidacionResult.Value);
+            var asistenciaResult = await GetAsistencias(liquidacionResult.Value);
 
 
-            if (asistencia.IsFailure)
-                return Result.Failure<GetReciboLiquidacionResponse>(asistencia.Error);
+            if (asistenciaResult.IsFailure)
+                return Result.Failure<GetReciboLiquidacionResponse>(asistenciaResult.Error);
+
+            var feriadosResult = await _feriadosMes.Get(liquidacionResult.Value.Quincena.Mes,liquidacionResult.Value.Quincena.Anio);
+
+            if(feriadosResult.IsFailure)
+                return Result.Failure<GetReciboLiquidacionResponse>(feriadosResult.Error);
 
 
-            var recibo = _renderer.Render(liquidacionResult.Value, asistencia.Value);
+            GetEmpleadoAsistenciasResponse asistencias = asistenciaResult.Value;
+            GetLiquidacionByIdResponse liquidacion = liquidacionResult.Value;
+            GetFeriadosMesResponse feriados = feriadosResult.Value;
+
+            var reciboData = new ReciboRequest(liquidacion,asistencias,feriados);
+
+            var recibo = _renderer.Render(reciboData);
 
             var response = new GetReciboLiquidacionResponse(
                                 "recibo.pdf",
@@ -51,7 +68,6 @@ namespace LAUCHA.application.Features.Liquidaciones.GetRecibo
 
             return resultAsistencia;
         }
-
 
     }
 }

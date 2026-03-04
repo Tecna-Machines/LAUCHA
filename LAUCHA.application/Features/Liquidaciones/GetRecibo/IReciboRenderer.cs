@@ -7,6 +7,6 @@ namespace LAUCHA.application.Features.Liquidaciones.GetRecibo
     {
         byte[] Render(GetLiquidacionByIdResponse liquidacion);
 
-        byte[] Render(GetLiquidacionByIdResponse liquidacion, GetEmpleadoAsistenciasResponse asistencias);
+        byte[] Render(ReciboRequest reciboReq);
     }
 }

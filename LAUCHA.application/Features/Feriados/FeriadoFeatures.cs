@@ -1,4 +1,5 @@
 ﻿using LAUCHA.application.Features.Feriados.CrearFeriado;
+using LAUCHA.application.Features.Feriados.GetFeriadoMes;
 
 namespace LAUCHA.application.Features.Feriados
 {
@@ -7,6 +8,7 @@ namespace LAUCHA.application.Features.Feriados
         public static IServiceCollection AddFeriadoFeatures(this IServiceCollection services)
         {
             services.AddScoped<ICrearFeriado, CrearFeriadoHandler>();
+            services.AddScoped<IGetFeriadosMes, GetFeriadoMesHandler>();
 
             return services;
         }

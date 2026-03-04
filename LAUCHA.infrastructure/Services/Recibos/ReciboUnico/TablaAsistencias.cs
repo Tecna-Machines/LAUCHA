@@ -4,14 +4,18 @@ using iText.Kernel.Font;
 using iText.Layout.Element;
 using iText.Layout.Properties;
 using LAUCHA.application.Features.Empleados.GetEmpleadoAsistencias;
+using LAUCHA.application.Features.Feriados.GetFeriadoMes;
 using System.Globalization;
 
 namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
 {
     internal class TablaAsistencias
     {
-        public static Table Generar(GetEmpleadoAsistenciasResponse asistencias)
+        public static Table Generar(GetEmpleadoAsistenciasResponse asistencias,
+                                    IEnumerable<GetFeriadoResponse> feriados)
         {
+            feriados ??= Enumerable.Empty<GetFeriadoResponse>();
+
             float[] pointColumnWidths = { 2, 1, 1, 1, 1, 1 };
 
             Table tablaAsistencias = new Table(pointColumnWidths);
@@ -30,13 +34,15 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
             {
                 var asistencia = asistencias.Asistencias.FirstOrDefault(d => d.Ingreso.Date == day.Date);
 
+                var feriado = ObtenerFeriadoDelDia(day, feriados);
+
                 if (asistencia is not null)
                 {
-                    AgregarItemAsistencia(tablaAsistencias, asistencia);
+                    AgregarItemAsistencia(tablaAsistencias, asistencia, feriado);
                 }
                 else
                 {
-                    AgregarDiaVacio(tablaAsistencias, day);
+                    AgregarDiaVacio(tablaAsistencias, day, feriado);
                 }
 
 
@@ -45,10 +51,15 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
             return tablaAsistencias;
         }
 
-        private static void AgregarItemAsistencia(Table tablaAsistencia, GetEmpleadoAsistenciaResponse item)
+        private static void AgregarItemAsistencia(Table tablaAsistencia, GetEmpleadoAsistenciaResponse item, GetFeriadoResponse? feriado)
         {
             string fechaStr = item.Ingreso.ToString("dd/MM/yyyy");
             string diaStr = item.Ingreso.ToString("dddd", new CultureInfo("es-AR"));
+
+            if (feriado is not null)
+            {
+                fechaStr = $"{fechaStr} : (FERIADO:{feriado.Descripcion})";
+            }
 
             tablaAsistencia.AddCell(new Cell()
                 .Add(new Paragraph($"{diaStr} {fechaStr}"))
@@ -76,10 +87,16 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
 
         }
 
-        private static void AgregarDiaVacio(Table tablaAsistencia, DateTime day)
+        private static void AgregarDiaVacio(Table tablaAsistencia, DateTime day, GetFeriadoResponse? feriado)
         {
             string fechaStr = day.ToString("dd/MM/yyyy");
             string diaStr = day.ToString("dddd", new CultureInfo("es-AR"));
+
+            if (feriado is not null)
+            {
+                fechaStr = $"{fechaStr} : (FERIADO:{feriado.Descripcion})";
+            }
+
 
             tablaAsistencia.AddCell(new Cell()
                 .Add(new Paragraph($"{diaStr} {fechaStr}"))
@@ -130,6 +147,16 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
             tablaAsistencias.AddCell(CrearCeldaEncabezado("Hs regular", alineacionCentro));
             tablaAsistencias.AddCell(CrearCeldaEncabezado("Hs Extra", alineacionCentro));
             tablaAsistencias.AddCell(CrearCeldaEncabezado("Hs totales", alineacionCentro));
+        }
+
+        private static GetFeriadoResponse? ObtenerFeriadoDelDia(DateTime day, IEnumerable<GetFeriadoResponse> feriados)
+        {
+            // Si SeRepite == false: matchea fecha completa (anio incluido)
+            // Si SeRepite == true: matchea por mes/día (mismo feriado todos los anios)
+            return feriados.FirstOrDefault(f =>
+                (!f.SeRepite && f.Fecha.Date == day.Date) ||
+                (f.SeRepite && f.Fecha.Day == day.Day && f.Fecha.Month == day.Month)
+            );
         }
     }
 }

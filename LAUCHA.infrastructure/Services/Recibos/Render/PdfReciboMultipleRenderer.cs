@@ -56,7 +56,7 @@ namespace LAUCHA.infrastructure.Services.Recibos.Render
 
             recibo.IncluirTablaInterna();
 
-            if (recibo.IncluirInterna)
+            if (recibo.IncluirSueldoInterno)
             {
                 doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
                 doc.Add(TablaInterno.Generar(recibo.Liquidacion));
@@ -64,9 +64,8 @@ namespace LAUCHA.infrastructure.Services.Recibos.Render
 
             if (recibo.Asistencias != null)
             {
-                // mejor que Paragraph(""): margen
                 doc.Add(new Paragraph().SetMarginTop(8));
-                doc.Add(TablaAsistencias.Generar(recibo.Asistencias));
+                doc.Add(TablaAsistencias.Generar(recibo.Asistencias,recibo.Feriados.Feriados));
             }
         }
 

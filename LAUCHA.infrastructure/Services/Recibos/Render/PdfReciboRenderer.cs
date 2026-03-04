@@ -1,7 +1,6 @@
 ﻿using iText.Kernel.Pdf;
 using iText.Layout.Element;
 using iText.Layout.Properties;
-using LAUCHA.application.Features.Empleados.GetEmpleadoAsistencias;
 using LAUCHA.application.Features.Liquidaciones.GetLiquidacionById;
 using LAUCHA.application.Features.Liquidaciones.GetRecibo;
 using LAUCHA.infrastructure.Services.Recibos.ReciboUnico;
@@ -26,7 +25,7 @@ namespace LAUCHA.infrastructure.Services.Recibos.Render
 
             recibo.IncluirTablaInterna();
 
-            if (recibo.IncluirInterna)
+            if (recibo.IncluirSueldoInterno)
             {
                 doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
                 doc.Add(TablaInterno.Generar(recibo.Liquidacion));
@@ -35,7 +34,7 @@ namespace LAUCHA.infrastructure.Services.Recibos.Render
             if (recibo.Asistencias != null)
             {
                 doc.Add(new Paragraph(""));
-                doc.Add(TablaAsistencias.Generar(recibo.Asistencias));
+                doc.Add(TablaAsistencias.Generar(recibo.Asistencias,recibo.Feriados.Feriados));
             }
             doc.Close();
 
@@ -44,11 +43,12 @@ namespace LAUCHA.infrastructure.Services.Recibos.Render
 
 
 
-        public byte[] Render(GetLiquidacionByIdResponse liq, GetEmpleadoAsistenciasResponse asistencias)
+        public byte[] Render(ReciboRequest req)
         {
 
-            var recibo = new ReciboSueldo(liq);
-            recibo.AgregarAsistencias(asistencias);
+            var recibo = new ReciboSueldo(req.Liquidacion);
+            recibo.AgregarAsistencias(req.Asistencias);
+            recibo.AgregarFeriados(req.Feriados);
 
             using var ms = new MemoryStream();
             using var writer = new PdfWriter(ms);
@@ -60,7 +60,7 @@ namespace LAUCHA.infrastructure.Services.Recibos.Render
 
             recibo.IncluirTablaInterna();
 
-            if (recibo.IncluirInterna)
+            if (recibo.IncluirSueldoInterno)
             {
                 doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
                 doc.Add(TablaInterno.Generar(recibo.Liquidacion));
@@ -69,7 +69,7 @@ namespace LAUCHA.infrastructure.Services.Recibos.Render
             if (recibo.Asistencias != null)
             {
                 doc.Add(new Paragraph(""));
-                doc.Add(TablaAsistencias.Generar(recibo.Asistencias));
+                doc.Add(TablaAsistencias.Generar(recibo.Asistencias,recibo.Feriados.Feriados));
             }
             doc.Close();
 

@@ -1,5 +1,6 @@
 ﻿using LAUCHA.domain.Entities.Feriados;
 using LAUCHA.infrastructure.asistencias.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace LAUCHA.infrastructure.asistencias.Repository
 {
@@ -12,14 +13,20 @@ namespace LAUCHA.infrastructure.asistencias.Repository
             _dbMarcas = dbMarcas;
         }
 
-        public Task<ICollection<Feriado>> GetFeriadosDelAnio(int anio)
+        public async Task<ICollection<Feriado>> GetFeriadosDelAnio(int anio)
         {
-            throw new NotImplementedException();
+            return await _dbMarcas.Feriados.Where(f => f.Fecha.Year == anio)
+                                                .ToListAsync();
         }
 
-        public Task<ICollection<Feriado>> GetFeriadosDelMes(int mes, int anio)
+        public async Task<ICollection<Feriado>> GetFeriadosDelMes(int mes, int anio)
         {
-            throw new NotImplementedException();
+            var inicio = new DateTime(anio, mes, 1);
+            var fin = inicio.AddMonths(1);
+
+            return await _dbMarcas.Feriados
+                .Where(f => f.Fecha >= inicio && f.Fecha < fin)
+                .ToListAsync();
         }
 
         public async Task<Feriado> Insert(Feriado f)
