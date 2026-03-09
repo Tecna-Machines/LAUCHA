@@ -16,7 +16,7 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
             .OrderBy(it => it.TipoItem)
             .ThenByDescending(it => it.Monto);
 
-            float[] pointColumnWidths = { 150F, 150F, 150F, 150F, 150F };
+            float[] pointColumnWidths = { 150F, 150F, 150F, 150F };
 
             Table tablaOficial = new Table(pointColumnWidths);
             AgregarCabeceraOficial(tablaOficial);
@@ -43,8 +43,8 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
             tablaOficial.AddCell(new Cell()
                 .Add(new Paragraph(montoNoRemunerativo)));
 
-            tablaOficial.AddCell(new Cell()
-                .Add(new Paragraph("")));
+            //tablaOficial.AddCell(new Cell()
+            //    .Add(new Paragraph("")));
 
             tablaOficial.AddCell(new Cell()
                 .Add(new Paragraph("NETO:"))
@@ -80,7 +80,7 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
             tablaOficial.AddCell(CrearCeldaEncabezado("Remunerativo", alineacionCentro));
             tablaOficial.AddCell(CrearCeldaEncabezado("Descuentos", alineacionCentro));
             tablaOficial.AddCell(CrearCeldaEncabezado("No Remunerativo", alineacionCentro));
-            tablaOficial.AddCell(CrearCeldaEncabezado("Fecha", alineacionCentro));
+            //tablaOficial.AddCell(CrearCeldaEncabezado("Fecha", alineacionCentro));
         }
 
         private static void AgregarFilaItemOficial(Table tablaOficial, ItemLiquidacionByIdResponse item)
@@ -108,9 +108,9 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
                 .Add(new Paragraph(montoNoRemunerativo))
                 .SetTextAlignment(alineacionMonto));
 
-            tablaOficial.AddCell(new Cell()
-                .Add(new Paragraph(item.Fecha.ToString("dd/MM/yyyy")))
-                .SetTextAlignment(TextAlignment.RIGHT));
+            //tablaOficial.AddCell(new Cell()
+            //    .Add(new Paragraph(item.Fecha.ToString("dd/MM/yyyy")))
+            //    .SetTextAlignment(TextAlignment.RIGHT));
         }
     }
 }

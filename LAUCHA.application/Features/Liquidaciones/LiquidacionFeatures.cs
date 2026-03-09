@@ -6,6 +6,7 @@ using LAUCHA.application.Features.Liquidaciones.GetLiquidaciones;
 using LAUCHA.application.Features.Liquidaciones.GetRecibo;
 using LAUCHA.application.Features.Liquidaciones.GetRecibos;
 using LAUCHA.application.Features.Liquidaciones.Liquidar;
+using LAUCHA.application.Features.Liquidaciones.PagarLiquidacion;
 using LAUCHA.application.Features.Liquidaciones.SellarLiquidacion;
 
 
@@ -41,6 +42,9 @@ namespace LAUCHA.application.Features.Liquidaciones
             services.AddScoped<IFabricaItem, FabricaItem>();
             services.AddScoped<ICrearItem, CrearItemHandler>();
             services.AddScoped<IAnularItem, AnularItemHandler>();
+
+            //pagos
+            services.AddScoped<IPagarLiquidacion, PagarLiquidacionHandler>();
 
 
             return services;

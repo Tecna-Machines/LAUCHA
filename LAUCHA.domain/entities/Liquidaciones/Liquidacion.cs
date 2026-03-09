@@ -20,6 +20,7 @@ namespace LAUCHA.domain.Entities.Liquidaciones
 
         public EstadoLiquidacion Estado { get; set; }
         public ICollection<ItemLiquidacion> Items { get; set; } = null!;
+        public ICollection<Pago> Pagos { private set; get; } = null!;
 
         /// <summary>
         /// crea una liquidacion sin items
@@ -144,17 +145,17 @@ namespace LAUCHA.domain.Entities.Liquidaciones
             }
         }
 
+        public void AgregarPago(Pago pago)
+        {
+            Pagos.Add(pago);
+        }
+
+        public decimal GetMontoPagado() => Pagos.Sum(p => p.Monto);
+
         //TODO: esto se deberia poder borrar
-        public DateTime FechaLiquidacion { get; set; }
-        public ICollection<PagoLiquidacion> PagosLiquidacion { get; set; } = null!;
-        public IList<RemuneracionPorLiquidacionPersonal> RemuneracionPorLiquidacionPersonales { get; set; } = null!;
         public IList<RetencionPorLiquidacionPersonal> RetencionPorLiquidacionPersonales { get; set; } = null!;
         public IList<DescuentoPorLiquidacionPersonal> DescuentoPorLiquidacionPersonales { get; set; } = null!;
         public IList<NoRemuneracionPorLiquidacionPersonal> NoRemuneracionesPorLiquidaciones { get; set; } = null!;
-
-        public string? CodigoLiquidacionGeneral { get; set; }
-        public LiquidacionGeneral? LiquidacionGeneral;
-
 
     }
 }

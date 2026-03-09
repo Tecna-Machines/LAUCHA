@@ -1,4 +1,5 @@
 ﻿using LAUCHA.infrastructure.config.Empleados;
+using LAUCHA.infrastructure.Config.Liquidaciones;
 
 namespace LAUCHA.infrastructure.persistence
 {
@@ -18,11 +19,8 @@ namespace LAUCHA.infrastructure.persistence
         public DbSet<CuotaCredito> Cuotas { get; set; }
         public DbSet<Descuento> Descuentos { get; set; }
         public DbSet<DescuentoPorLiquidacionPersonal> DescuentosPorLiquidaciones { get; set; }
-        public DbSet<LiquidacionGeneral> LiquidacionesGenerales { get; set; }
         public DbSet<Liquidacion> Liquidaciones { get; set; }
-        public DbSet<PagoLiquidacion> PagosLiquidaciones { get; set; }
-        public DbSet<Remuneracion> Remuneraciones { get; set; }
-        public DbSet<RemuneracionPorLiquidacionPersonal> RemuneracionesPorLiquidaciones { get; set; }
+        public DbSet<Pago> PagosLiquidacion { get; set; }
         public DbSet<NoRemuneracion> NoRemuneraciones { get; set; }
         public DbSet<NoRemuneracionPorLiquidacionPersonal> NoRemuneracionesPorLiquidaciones { get; set; }
         public DbSet<RetencionOLD> Retenciones { get; set; }
@@ -48,23 +46,13 @@ namespace LAUCHA.infrastructure.persistence
             modelBuilder.ApplyConfiguration(new DescuentoConfig());
             modelBuilder.ApplyConfiguration(new DescuentoPorLiquidacionConfig());
             modelBuilder.ApplyConfiguration(new LiquidacionConfig());
-            modelBuilder.ApplyConfiguration(new LiquidacionGeneralConfig());
             modelBuilder.ApplyConfiguration(new NoRemuneracionConfig());
             modelBuilder.ApplyConfiguration(new RetencionConfig());
             modelBuilder.ApplyConfiguration(new NoRemuneracionPorLiquidacionConfig());
             modelBuilder.ApplyConfiguration(new PagoConfig());
-            modelBuilder.ApplyConfiguration(new RemuneracionConfig());
-            modelBuilder.ApplyConfiguration(new RemuneracionPorLiquidacionConfig());
             modelBuilder.ApplyConfiguration(new RetencionesPorLiquidacionConfig());
             modelBuilder.ApplyConfiguration(new RetencionFijaConfig());
             modelBuilder.ApplyConfiguration(new ItemLiquidacionConfig());
-
-            //agregar datos de prueba
-            // TODO: son datos solo para pruebas 
-            //modelBuilder.ApplyConfiguration(new AdicionalData());
-            //modelBuilder.ApplyConfiguration(new CuentaData());
-            //modelBuilder.ApplyConfiguration(new EmpleadosData());
-            modelBuilder.ApplyConfiguration(new RetencionesFijasData());
 
 
         }

@@ -1,4 +1,4 @@
-﻿namespace LAUCHA.infrastructure.config
+﻿namespace LAUCHA.infrastructure.Config.Liquidaciones
 {
     internal class ItemLiquidacionConfig : IEntityTypeConfiguration<ItemLiquidacion>
     {

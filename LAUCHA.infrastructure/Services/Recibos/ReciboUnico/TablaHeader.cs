@@ -57,7 +57,7 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
             string fechaAlta = liquidacion.Empleado.FechaAlta.ToString("dd/MM/yyyy");
             string fechaIngreso = liquidacion.Empleado.FechaIngreso.ToString("dd/MM/yyyy");
 
-            empDataTable.AddCell(CreateCell("FECHA DE ALTA:", fechaAlta, true));
+            empDataTable.AddCell(CreateCell("FECHA DE ALTA:", fechaIngreso, true));
             empDataTable.AddCell(CreateCell("FECHA DE INGRESO:", fechaIngreso, true));
 
             cabecera.Add(empDataTable);
