@@ -1,4 +1,6 @@
-﻿using LAUCHA.infrastructure.SysContab.Models;
+﻿using LAUCHA.application.Integrations.SysContab;
+using LAUCHA.infrastructure.SysContab.Models;
+using LAUCHA.infrastructure.SysContab.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,6 +14,9 @@ namespace LAUCHA.infrastructure.SysContab
             string connectionString = config["ConnectionStrings:Contabilidad"] ?? throw new NullReferenceException("falta.string");
 
             services.AddDbContext<TecnaDb3Context>(opt => opt.UseSqlServer(connectionString));
+
+            services.AddScoped<ICuentasContablesService, CuentasContablesService>();
+            services.AddScoped<IContabilidadService, ContabilidadService>();
             return services;
         }
     }
