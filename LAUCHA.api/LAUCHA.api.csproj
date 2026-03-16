@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LAUCHA.infrastructure.asistencias\LAUCHA.infrastructure.asistencias.csproj" />
+    <ProjectReference Include="..\LAUCHA.infrastructure.SysContab\LAUCHA.infrastructure.SysContab.csproj" />
     <ProjectReference Include="..\LAUCHA.infrastructure\LAUCHA.infrastructure.csproj" />
   </ItemGroup>
 

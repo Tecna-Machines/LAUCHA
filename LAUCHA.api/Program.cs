@@ -1,9 +1,11 @@
+using iText.IO.Source;
 using LAUCHA.application;
 using LAUCHA.application.interfaces;
 using LAUCHA.infrastructure;
 using LAUCHA.infrastructure.asistencias;
 using LAUCHA.infrastructure.persistence;
 using LAUCHA.infrastructure.Services.Logs;
+using LAUCHA.infrastructure.SysContab;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -72,6 +74,8 @@ builder.Services.AddDbContext<LiquidacionesDbContext>(options =>
 //NEW 2025
 builder.Services.AddInfrastructureServices();
 builder.Services.AddApplicationServices();
+
+builder.Services.AddSysContab(builder.Configuration);
 
 
 

@@ -14,12 +14,18 @@
         }
         public ModoPago Modo { private set; get; }
 
-        public Pago(string liquidacionId, string descripcion)
+        public Pago(string liquidacionId,
+                    string descripcion,
+                    ModoPago modo,
+                    decimal monto)
         {
             Id = Guid.NewGuid().ToString("N");
             LiquidacionId = liquidacionId;
             Descripcion = descripcion;
             Fecha = DateTime.Now;
+            Modo = modo;
+
+            SetMonto(monto);
         }
 
         public void AbonarEnEfectivo(decimal monto)
