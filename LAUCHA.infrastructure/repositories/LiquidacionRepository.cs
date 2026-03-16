@@ -16,6 +16,7 @@ namespace LAUCHA.infrastructure.Repositories
             return await _db.Liquidaciones
                        .Include(l => l.Items)
                        .Include(l => l.Acuerdo)
+                       .Include(l => l.Pagos)
                        .FirstOrDefaultAsync(l => l.Codigo == id);
         }
 

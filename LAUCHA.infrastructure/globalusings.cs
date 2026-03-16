@@ -9,6 +9,5 @@ global using LAUCHA.infrastructure.config;
 global using LAUCHA.infrastructure.config.Acuerdos;
 global using LAUCHA.infrastructure.config.Creditos;
 global using LAUCHA.infrastructure.config.RetencionesCatalogo;
-global using LAUCHA.infrastructure.Data;
 global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Metadata.Builders;

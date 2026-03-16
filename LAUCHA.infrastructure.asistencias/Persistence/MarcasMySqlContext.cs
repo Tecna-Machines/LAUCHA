@@ -21,7 +21,7 @@ namespace LAUCHA.infrastructure.asistencias.Persistence
 
     internal sealed class AsistenciaConfig : IEntityTypeConfiguration<MarcasMySQL>
     {
-        public void Configure(EntityTypeBuilder<MarcasMySQL> builder)
+        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<MarcasMySQL> builder)
         {
             builder.ToTable("asistencias");
             builder.HasNoKey();

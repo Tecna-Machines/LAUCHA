@@ -51,7 +51,7 @@
             return new GetEmpleadoResponse(emp.Dni,
                                            emp.Nombre,
                                            emp.Apellido,
-                                           emp.Cuenta.NumeroCuenta,
+                                           "emp.Cuenta.NumeroCuenta",
                                            codigoAcuerdo,
                                            tipoSueldo);
         }

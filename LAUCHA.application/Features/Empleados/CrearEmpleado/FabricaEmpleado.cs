@@ -14,7 +14,6 @@ namespace LAUCHA.application.Features.Empleados.CrearEmpleado
             empleado.FechaNacimiento = req.FechaNacimiento;
             empleado.FechaAlta = req.FechaAlta;
             empleado.FechaIngreso = req.FechaIngreso;
-            empleado.Cuenta = new Cuenta(empleado);
 
             return empleado;
         }

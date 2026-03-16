@@ -33,7 +33,7 @@
 
 
             return Result.Success(new PagoCreadoResponse(pago.Id, pago.Descripcion, pago.Monto));
-           
+
         }
     }
 }

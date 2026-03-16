@@ -19,7 +19,6 @@ namespace LAUCHA.domain.Entities.Empleados
         /// fecha de alta legal del empleado
         /// </summary>
         public DateTime FechaAlta { get; set; }
-        public Cuenta Cuenta { get; set; } = null!;
         public ICollection<Acuerdo> Contratos { get; set; } = null!;
 
 

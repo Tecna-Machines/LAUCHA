@@ -16,7 +16,7 @@
 
         public Pago(string liquidacionId, string descripcion)
         {
-            Id = new Guid().ToString();
+            Id = Guid.NewGuid().ToString("N");
             LiquidacionId = liquidacionId;
             Descripcion = descripcion;
             Fecha = DateTime.Now;

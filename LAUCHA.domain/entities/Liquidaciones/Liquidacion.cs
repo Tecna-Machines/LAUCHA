@@ -1,5 +1,4 @@
-﻿using LAUCHA.domain.entities;
-using LAUCHA.domain.Entities.Acuerdos;
+﻿using LAUCHA.domain.Entities.Acuerdos;
 using LAUCHA.domain.Entities.Empleados;
 using System.Collections.Immutable;
 
@@ -151,11 +150,6 @@ namespace LAUCHA.domain.Entities.Liquidaciones
         }
 
         public decimal GetMontoPagado() => Pagos.Sum(p => p.Monto);
-
-        //TODO: esto se deberia poder borrar
-        public IList<RetencionPorLiquidacionPersonal> RetencionPorLiquidacionPersonales { get; set; } = null!;
-        public IList<DescuentoPorLiquidacionPersonal> DescuentoPorLiquidacionPersonales { get; set; } = null!;
-        public IList<NoRemuneracionPorLiquidacionPersonal> NoRemuneracionesPorLiquidaciones { get; set; } = null!;
 
     }
 }

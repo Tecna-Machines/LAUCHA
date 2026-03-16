@@ -11,20 +11,13 @@ namespace LAUCHA.infrastructure.persistence
 
         public DbSet<Empleado> Empleados { get; set; }
         public DbSet<Adicional> Adicionales { get; set; }
-        public DbSet<Concepto> Conceptos { get; set; }
         public DbSet<Acuerdo> Acuerdos { get; set; }
         public DbSet<RetencionAcuerdo> RetencionAcuerdo { get; set; }
         public DbSet<CatalogoRetencion> CatalogoRetenciones { get; set; }
         public DbSet<Credito> Creditos { get; set; }
         public DbSet<CuotaCredito> Cuotas { get; set; }
-        public DbSet<Descuento> Descuentos { get; set; }
-        public DbSet<DescuentoPorLiquidacionPersonal> DescuentosPorLiquidaciones { get; set; }
         public DbSet<Liquidacion> Liquidaciones { get; set; }
         public DbSet<Pago> PagosLiquidacion { get; set; }
-        public DbSet<NoRemuneracion> NoRemuneraciones { get; set; }
-        public DbSet<NoRemuneracionPorLiquidacionPersonal> NoRemuneracionesPorLiquidaciones { get; set; }
-        public DbSet<RetencionOLD> Retenciones { get; set; }
-        public DbSet<RetencionPorLiquidacionPersonal> RetencionesPorLiquidaciones { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -34,23 +27,15 @@ namespace LAUCHA.infrastructure.persistence
 
 
             modelBuilder.ApplyConfiguration(new AdicionalConfig());
-            modelBuilder.ApplyConfiguration(new ConceptoConfig());
             modelBuilder.ApplyConfiguration(new RetencionAcuerdoConfig());
 
             modelBuilder.ApplyConfiguration(new CreditoConfig());
             modelBuilder.ApplyConfiguration(new CuotaCreditoConfig());
 
             modelBuilder.ApplyConfiguration(new EmpleadoConfig());
-            modelBuilder.ApplyConfiguration(new CuentaConfig());
 
-            modelBuilder.ApplyConfiguration(new DescuentoConfig());
-            modelBuilder.ApplyConfiguration(new DescuentoPorLiquidacionConfig());
             modelBuilder.ApplyConfiguration(new LiquidacionConfig());
-            modelBuilder.ApplyConfiguration(new NoRemuneracionConfig());
-            modelBuilder.ApplyConfiguration(new RetencionConfig());
-            modelBuilder.ApplyConfiguration(new NoRemuneracionPorLiquidacionConfig());
             modelBuilder.ApplyConfiguration(new PagoConfig());
-            modelBuilder.ApplyConfiguration(new RetencionesPorLiquidacionConfig());
             modelBuilder.ApplyConfiguration(new RetencionFijaConfig());
             modelBuilder.ApplyConfiguration(new ItemLiquidacionConfig());
 

@@ -33,7 +33,7 @@ namespace LAUCHA.infrastructure.repositories
 
         public async Task<IEnumerable<Empleado>> GetAll()
         {
-            return await _context.Empleados.Include(e => e.Cuenta).ToListAsync();
+            return await _context.Empleados.ToListAsync();
         }
 
         public async Task<Empleado?> GetByDni(string dni)

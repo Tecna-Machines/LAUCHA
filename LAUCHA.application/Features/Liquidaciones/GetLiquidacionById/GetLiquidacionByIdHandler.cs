@@ -83,8 +83,16 @@ namespace LAUCHA.application.Features.Liquidaciones.GetLiquidacionById
 
         private IEnumerable<PagoLiquidacionById> MapPagos(Liquidacion liq)
         {
-            // TODO: implementar según reglas de negocio
-            return new List<PagoLiquidacionById>();
+            var pagos = liq.Pagos;
+            return pagos.Select(MapPago);
         }
+
+        private PagoLiquidacionById MapPago(Pago p)
+        => new(p.Id,
+              p.Monto,
+              p.Modo.ToString(),
+              p.Fecha,
+              p.Descripcion);
+
     }
 }

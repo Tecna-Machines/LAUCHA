@@ -1,5 +1,4 @@
-﻿using LAUCHA.application.Features.Empleados.GetEmpleadoAsistencias;
-using LAUCHA.application.Features.Liquidaciones.GetLiquidacionById;
+﻿using LAUCHA.application.Features.Liquidaciones.GetLiquidacionById;
 
 namespace LAUCHA.application.Features.Liquidaciones.GetRecibo
 {
