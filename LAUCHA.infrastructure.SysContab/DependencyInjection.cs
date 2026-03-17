@@ -17,6 +17,9 @@ namespace LAUCHA.infrastructure.SysContab
 
             services.AddScoped<ICuentasContablesService, CuentasContablesService>();
             services.AddScoped<IContabilidadService, ContabilidadService>();
+
+            services.AddScoped<PagosContabService>();
+            services.AddScoped<MovimientosContabService>();
             return services;
         }
     }

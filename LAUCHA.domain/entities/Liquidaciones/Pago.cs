@@ -7,6 +7,14 @@
         public string Descripcion { private set; get; }
         public DateTime Fecha { private set; get; }
         public decimal Monto { private set; get; }
+        public string? ReferenciaContabilidad { private set; get; }
+        public EstadoContabilidad EstadoContable { private set; get; }
+        public enum EstadoContabilidad
+        {
+            PENDIENTE,
+            ERROR,
+            ENVIADO
+        }
         public enum ModoPago
         {
             EFECTIVO,
@@ -24,6 +32,7 @@
             Descripcion = descripcion;
             Fecha = DateTime.Now;
             Modo = modo;
+            EstadoContable = EstadoContabilidad.PENDIENTE;
 
             SetMonto(monto);
         }
@@ -47,6 +56,12 @@
                 throw new Exception("monto.negativo");
 
             Monto = monto;
+        }
+
+        public void MarcarComoEnviado(string referenciaContabilidad)
+        {
+            this.ReferenciaContabilidad = referenciaContabilidad;
+            EstadoContable = EstadoContabilidad.ENVIADO;
         }
 
     }

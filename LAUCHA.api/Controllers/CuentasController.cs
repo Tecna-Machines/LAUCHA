@@ -1,5 +1,5 @@
-﻿using LAUCHA.application.Integrations.SysContab;
-using LAUCHA.application.Common.Extensions;
+﻿using LAUCHA.application.Common.Extensions;
+using LAUCHA.application.Integrations.SysContab;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LAUCHA.api.Controllers

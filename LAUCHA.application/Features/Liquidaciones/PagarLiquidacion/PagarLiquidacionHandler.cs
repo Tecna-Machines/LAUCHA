@@ -28,16 +28,24 @@ namespace LAUCHA.application.Features.Liquidaciones.PagarLiquidacion
 
             liquidacion.AgregarPago(pago);
 
-            await _liquidaciones.Update(liquidacion);
 
             await _sysContabilidad.RegistrarPagoEnContabilidad(
                   new RegistrarPagoContab(
-                        /*aca van los datos*/
+                        CuentaContableId: req.CuentaContableId,
+                        Liquidacion: liquidacion,
+                        Pago: pago
                       )
                   );
 
 
-            return Result.Success(new PagoCreadoResponse(pago.Id, pago.Descripcion, pago.Monto));
+            await _liquidaciones.Update(liquidacion);
+
+            return Result.Success(
+                                 new PagoCreadoResponse(pago.Id,
+                                                        pago.Descripcion,
+                                                        pago.Monto
+                                                       )
+                                    );
         }
 
     }

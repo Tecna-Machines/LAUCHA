@@ -4,7 +4,6 @@ using LAUCHA.application.Features.Liquidaciones.GetLiquidacionById;
 using LAUCHA.application.Features.Liquidaciones.GetLiquidaciones;
 using LAUCHA.application.Features.Liquidaciones.GetRecibo;
 using LAUCHA.application.Features.Liquidaciones.Liquidar;
-using LAUCHA.application.Features.Liquidaciones.PagarLiquidacion;
 using LAUCHA.application.Features.Liquidaciones.SellarLiquidacion;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,6 +1,4 @@
-﻿using LAUCHA.domain.entities;
-
-namespace LAUCHA.application.Features.Empleados.CrearEmpleado
+﻿namespace LAUCHA.application.Features.Empleados.CrearEmpleado
 {
     internal class FabricaEmpleado : IFabricaEmpleado
     {

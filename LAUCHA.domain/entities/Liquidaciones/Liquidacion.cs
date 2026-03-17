@@ -151,5 +151,18 @@ namespace LAUCHA.domain.Entities.Liquidaciones
 
         public decimal GetMontoPagado() => Pagos.Sum(p => p.Monto);
 
+        public bool TieneImpactoContable()
+        {
+            return Pagos
+                    .Any(p => p.EstadoContable == Pago.EstadoContabilidad.ENVIADO);
+        }
+
+        public string? ObtenerReferenciaContable()
+        {
+            return Pagos
+                  .FirstOrDefault(p => p.ReferenciaContabilidad != null)?
+                  .ReferenciaContabilidad;
+        }
+
     }
 }

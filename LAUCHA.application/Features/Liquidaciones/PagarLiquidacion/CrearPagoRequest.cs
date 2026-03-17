@@ -1,6 +1,7 @@
 ﻿namespace LAUCHA.application.Features.Liquidaciones.PagarLiquidacion
 {
     public record CrearPagoRequest(string LiquidacionId,
+                                   string CuentaContableId,
                                    decimal Monto,
                                    int Modo,
                                    string Descripcion);
