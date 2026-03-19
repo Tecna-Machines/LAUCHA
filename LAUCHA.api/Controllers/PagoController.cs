@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LAUCHA.api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class PagoController : ControllerBase
     {

@@ -34,5 +34,6 @@ namespace LAUCHA.application.Features.Liquidaciones.GetLiquidacionById
                                             decimal Monto,
                                             string Modo,
                                             DateTime Fecha,
-                                            string Descripcion);
+                                            string Descripcion,
+                                            string ReferenciaContable);
 }

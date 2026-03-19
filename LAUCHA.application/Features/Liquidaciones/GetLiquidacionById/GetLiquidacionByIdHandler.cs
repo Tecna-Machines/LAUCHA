@@ -92,7 +92,8 @@ namespace LAUCHA.application.Features.Liquidaciones.GetLiquidacionById
               p.Monto,
               p.Modo.ToString(),
               p.Fecha,
-              p.Descripcion);
+              p.Descripcion,
+              p.ReferenciaContabilidad ?? "SIN PASAR");
 
     }
 }

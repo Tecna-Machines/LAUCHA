@@ -34,6 +34,7 @@ namespace LAUCHA.infrastructure.SysContab.Services
             mov.FechaGeneracion = DateTime.Now;
             mov.MontoDolares = 0;
             mov.MontoEnDolares = false;
+            mov.Descripcion = crearMov.Descripcion;
             mov.MontoPesos = (double)crearMov.MontoEnPesos;
 
             await _dbTecna.Movimientos.AddAsync(mov);
