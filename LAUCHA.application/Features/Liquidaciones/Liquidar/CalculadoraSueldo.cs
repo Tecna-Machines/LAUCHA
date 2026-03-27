@@ -8,10 +8,10 @@
         {
             var result = (acu.TipoSueldo) switch
             {
-                TipoSueldo.Mensual => CalcularMensualBlanco(liq, acu),
+                TipoSueldo.MensualFijo => CalcularMensualBlanco(liq, acu),
                 TipoSueldo.MensualFijoMasExtra => CalcularMensualBlanco(liq, acu),
                 TipoSueldo.QuincenalFijo => CalcularQuincenalBlanco(liq, acu),
-                TipoSueldo.QuincenalHora => CalcularQuincenalBlanco(liq, acu),
+                TipoSueldo.QuincenalFijoMasExtras => CalcularQuincenalBlanco(liq, acu),
 
                 _ => throw new ArgumentOutOfRangeException("sueldo.invalido")
             };

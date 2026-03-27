@@ -5,7 +5,6 @@ using LAUCHA.infrastructure.asistencias;
 using LAUCHA.infrastructure.persistence;
 using LAUCHA.infrastructure.Services.Logs;
 using LAUCHA.infrastructure.SysContab;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,49 +31,43 @@ $$ |  $$ |$$ | \$$\ $$$$$$$$\ $$ |  $$ |      $$$$$$$$\\$$$$$$ /
 Console.WriteLine(banner + "\n");
 
 //Logs
-string logPath = builder.Configuration["Appsettings:logPath"];
+string logsPath = builder
+                 .Configuration["Appsettings:logPath"] 
+                 ?? throw new ArgumentNullException("falta.log");
 
-if (logPath == null)
-{
-    Console.WriteLine("error , falta la ruta del archivo de log");
-    return;
-}
 
 builder.Services.AddSingleton<ILogsApp, LogService>(log =>
 {
-    return new LogService(logPath);
+    return new LogService(logsPath);
 });
-
-//database
-string connectionString = builder.Configuration["ConnectionStrings:Production"];
-
-if (builder.Environment.IsDevelopment())
-{
-    connectionString = builder.Configuration["ConnectionStrings:Test"];
-}
-
-builder.Services.AddDbContext<LiquidacionesDbContext>(options =>
-    options.UseMySql(
-        connectionString,
-        ServerVersion.AutoDetect(connectionString),
-        mySqlOptions =>
-        {
-            mySqlOptions.EnableRetryOnFailure(
-                maxRetryCount: 5,
-                maxRetryDelay: TimeSpan.FromSeconds(10),
-                errorNumbersToAdd: null
-            );
-        }
-    )
-);
 
 
 //dependecy injection
 //NEW 2025
-builder.Services.AddInfrastructureServices();
-builder.Services.AddApplicationServices();
 
+string dbLiquidacion = builder
+                       .Configuration["ConnectionStrings:Production"] 
+                       ?? throw new ArgumentNullException("db.liq");
+
+if (builder.Environment.IsDevelopment())
+{
+    dbLiquidacion = builder
+                   .Configuration["ConnectionStrings:Development"] 
+                   ?? throw new ArgumentNullException("db.liq");
+}
+
+builder.Services.AddInfrastructureServices(dbLiquidacion);
+builder.Services.AddApplicationServices();
 builder.Services.AddSysContab(builder.Configuration);
+
+
+//Marcas
+string marcasDb = builder
+                  .Configuration["ConnectionStrings:Asistencias"] 
+                  ?? throw new ArgumentNullException("db.asistencias");
+
+builder.Services.AddAsistencias(marcasDb);
+
 
 
 
@@ -82,9 +75,6 @@ builder.Services.AddHttpClient();
 
 
 
-//Marcas
-string marcasDb = builder.Configuration["ConnectionStrings:Asistencias"];
-builder.Services.AddAsistenciasPersistence(marcasDb);
 
 //CORS deshabilitar
 builder.Services.AddCors(options =>
@@ -129,8 +119,8 @@ using (var scope = app.Services.CreateScope())
 }
 
 
-logger.LogInformation("todo parece ir bien c: ");
-logger.LogInformation("app run...");
+logger.LogInformation("[OK] inicio completado");
+logger.LogInformation("[OK] servidor funcionando");
 
 app.Run();
 

@@ -65,7 +65,10 @@ namespace LAUCHA.domain.Entities.Acuerdos
 
         public bool PuedeHacerHorasExtra()
         {
-            if (TipoSueldo == TipoSueldo.Mensual)
+            if (TipoSueldo == TipoSueldo.MensualFijo)
+                return false;
+
+            if (TipoSueldo == TipoSueldo.QuincenalFijo)
                 return false;
 
             return true;

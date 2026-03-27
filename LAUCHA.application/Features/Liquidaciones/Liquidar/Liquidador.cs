@@ -138,7 +138,7 @@
         //TODO: es muy probable que esto no vaya aqui
         private IEnumerable<RetencionAcuerdo> GetRetencionesParaLiquidar()
         {
-            if (_acuerdo.TipoSueldo == TipoSueldo.QuincenalFijo || _acuerdo.TipoSueldo == TipoSueldo.QuincenalHora)
+            if (_acuerdo.TipoSueldo == TipoSueldo.QuincenalFijo || _acuerdo.TipoSueldo == TipoSueldo.QuincenalFijoMasExtras)
             {
                 if (_liquidacion.EsPrimeraQuincena())
                 {

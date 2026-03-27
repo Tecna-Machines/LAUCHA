@@ -13,8 +13,8 @@
 
         public static string ToString(TipoSueldo tipo)
         {
-            if (tipo == TipoSueldo.Mensual) return "Mensual";
-            if (tipo == TipoSueldo.QuincenalHora) return "Quincenal hora";
+            if (tipo == TipoSueldo.MensualFijo) return "Mensual";
+            if (tipo == TipoSueldo.QuincenalFijoMasExtras) return "Quincenal hora";
             if (tipo == TipoSueldo.QuincenalFijo) return "Quincenal fijo";
             if (tipo == TipoSueldo.MensualFijoMasExtra) return "Mensual fijo mas extra";
 

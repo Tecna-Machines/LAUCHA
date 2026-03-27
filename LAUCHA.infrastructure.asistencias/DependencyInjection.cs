@@ -9,7 +9,7 @@ namespace LAUCHA.infrastructure.asistencias
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddAsistenciasPersistence(this IServiceCollection services, string connectionString)
+        public static IServiceCollection AddAsistencias(this IServiceCollection services, string connectionString)
         {
             services.AddDbContext<MarcasMySqlContext>(opt => opt.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 

@@ -2,9 +2,9 @@
 {
     public enum TipoSueldo
     {
-        Mensual = 10,
+        MensualFijo = 10,
         MensualFijoMasExtra = 12,
-        QuincenalHora = 20,
+        QuincenalFijoMasExtras = 20,
         QuincenalFijo = 22,
     }
 

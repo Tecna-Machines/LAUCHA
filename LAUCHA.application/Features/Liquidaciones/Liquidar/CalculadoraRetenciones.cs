@@ -4,7 +4,7 @@
     {
         public ICollection<ItemLiquidacion> CalcularItemsRetenciones(Liquidacion liq, Acuerdo acu)
         {
-            if (acu.TipoSueldo == TipoSueldo.QuincenalFijo || acu.TipoSueldo == TipoSueldo.QuincenalHora)
+            if (acu.TipoSueldo == TipoSueldo.QuincenalFijo || acu.TipoSueldo == TipoSueldo.QuincenalFijoMasExtras)
             {
                 return CalcularRetencionesQuincenal(liq, acu);
             }

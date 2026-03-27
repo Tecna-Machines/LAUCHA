@@ -1,5 +1,6 @@
 ﻿using LAUCHA.application.Features.Liquidaciones.GetRecibo;
 using LAUCHA.application.Features.Liquidaciones.GetRecibos;
+using LAUCHA.infrastructure.persistence;
 using LAUCHA.infrastructure.repositories;
 using LAUCHA.infrastructure.Repositories;
 using LAUCHA.infrastructure.Services.Recibos.Render;
@@ -9,8 +10,28 @@ namespace LAUCHA.infrastructure
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
+        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, string connectionString)
         {
+
+            services.AddDbContext<LiquidacionesDbContext>(options =>
+                options.UseMySql(
+                    connectionString,
+                    ServerVersion.AutoDetect(connectionString),
+                    mySqlOptions =>
+                    {
+                        mySqlOptions.EnableRetryOnFailure(
+                            maxRetryCount: 5,
+                            maxRetryDelay: TimeSpan.FromSeconds(10),
+                            errorNumbersToAdd: null
+                        );
+                    }
+                )
+            );
+
+            //pdf
+            services.AddScoped<IReciboRenderer, PdfReciboRenderer>();
+            services.AddScoped<IReciboMultipleRenderer, PdfReciboMultipleRenderer>();
+
             services.AddScoped<IAcuerdoRepository, AcuerdoRepository>();
             services.AddScoped<IEmpleadoRepository, EmpleadoRepository>();
             services.AddScoped<ICatalogoRetencionRepository, CatalogoRetencionesRepository>();
@@ -18,9 +39,6 @@ namespace LAUCHA.infrastructure
 
             services.AddScoped<ILiquidacionRepository, LiquidacionRepository>();
 
-            //pdf
-            services.AddScoped<IReciboRenderer, PdfReciboRenderer>();
-            services.AddScoped<IReciboMultipleRenderer, PdfReciboMultipleRenderer>();
             return services;
         }
     }
