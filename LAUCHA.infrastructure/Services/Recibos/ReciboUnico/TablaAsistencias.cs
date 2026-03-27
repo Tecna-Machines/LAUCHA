@@ -11,10 +11,20 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
 {
     internal class TablaAsistencias
     {
-        public static Table Generar(GetEmpleadoAsistenciasResponse asistencias,
-                                    IEnumerable<GetFeriadoResponse> feriados)
+        public static Table Generar(GetEmpleadoAsistenciasResponse? asistencias,
+                                    GetFeriadosMesResponse? feriadosResponse)
         {
-            feriados ??= Enumerable.Empty<GetFeriadoResponse>();
+            IEnumerable<GetFeriadoResponse> feriados;
+
+            if(feriadosResponse is null)
+            {
+                feriados = new List<GetFeriadoResponse>();
+            }
+            else
+            {
+                feriados = feriadosResponse.Feriados;
+            }
+
 
             float[] pointColumnWidths = { 2, 1, 1, 1, 1, 1 };
 
@@ -23,6 +33,11 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
             tablaAsistencias.UseAllAvailableWidth();
             tablaAsistencias.SetFontSize(8);
             AgregarCabecera(tablaAsistencias);
+
+            if(asistencias is null)
+            {
+                return tablaAsistencias;
+            }
 
             int mes = asistencias.Asistencias.First().Ingreso.Month;
             int anio = asistencias.Asistencias.First().Ingreso.Year;
