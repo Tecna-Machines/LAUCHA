@@ -6,6 +6,8 @@
         {
             builder.HasKey(retencionFija => retencionFija.Codigo);
 
+            builder.Property(rf => rf.Codigo).HasMaxLength(80);
+
         }
     }
 }

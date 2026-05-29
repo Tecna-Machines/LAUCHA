@@ -33,7 +33,7 @@ namespace LAUCHA.api.Controllers
 
         [HttpPost]
         [ProducesResponseType(typeof(CrearEmpleadoResponse), 201)]
-        public async Task<IResult> CargarNuevo(CrearEmpleadoRequest req)
+        public async Task<IResult> CrearUnEmpleado(CrearEmpleadoRequest req)
         {
             var result = await _crearEmpleados.Crear(req);
 

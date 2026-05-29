@@ -30,7 +30,7 @@ namespace LAUCHA.infrastructure.SysContab.Services
             mov.CuentaId = cuentaContable;
             mov.TipoPago = "pago de sueldo , mediante liquidacion";
             mov.PagoId = pagoId;
-            mov.UsuarioId = 997;  // id del sist. de liquidacion
+            mov.UsuarioId = 3135;  // id del sist. de liquidacion
             mov.FechaGeneracion = DateTime.Now;
             mov.MontoDolares = 0;
             mov.MontoEnDolares = false;

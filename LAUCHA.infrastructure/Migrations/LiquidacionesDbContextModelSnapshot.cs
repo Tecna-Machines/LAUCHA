@@ -3,6 +3,7 @@ using System;
 using LAUCHA.infrastructure.persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -16,17 +17,19 @@ namespace LAUCHA.infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.5")
+                .HasAnnotation("ProductVersion", "9.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
             modelBuilder.Entity("LAUCHA.domain.Entities.Acuerdos.Acuerdo", b =>
                 {
                     b.Property<string>("Codigo")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("varchar(95)");
 
                     b.Property<string>("DniEmpleado")
                         .IsRequired()
-                        .HasColumnType("varchar(255)")
+                        .HasColumnType("varchar(80)")
                         .HasColumnName("DniEmpleado");
 
                     b.Property<DateTime>("Fecha")
@@ -57,10 +60,10 @@ namespace LAUCHA.infrastructure.Migrations
             modelBuilder.Entity("LAUCHA.domain.Entities.Acuerdos.RetencionAcuerdo", b =>
                 {
                     b.Property<string>("CodigoRetencion")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("varchar(80)");
 
                     b.Property<string>("CodigoAcuerdo")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("varchar(95)");
 
                     b.Property<string>("Concepto")
                         .IsRequired()
@@ -85,13 +88,13 @@ namespace LAUCHA.infrastructure.Migrations
             modelBuilder.Entity("LAUCHA.domain.Entities.Creditos.Credito", b =>
                 {
                     b.Property<string>("Codigo")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("varchar(95)");
 
                     b.Property<int>("CantidadCuotas")
                         .HasColumnType("int");
 
                     b.Property<string>("CodigoLiquidacionAcreditacion")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("varchar(95)");
 
                     b.Property<DateTime>("Creacion")
                         .HasColumnType("datetime(6)");
@@ -102,7 +105,7 @@ namespace LAUCHA.infrastructure.Migrations
 
                     b.Property<string>("DniEmpleado")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("varchar(80)");
 
                     b.Property<int>("Estado")
                         .HasColumnType("int");
@@ -131,16 +134,18 @@ namespace LAUCHA.infrastructure.Migrations
             modelBuilder.Entity("LAUCHA.domain.Entities.Creditos.CuotaCredito", b =>
                 {
                     b.Property<int>("Nro")
+                        .HasMaxLength(80)
                         .HasColumnType("int");
 
                     b.Property<string>("CodigoCredito")
-                        .HasColumnType("varchar(255)");
+                        .HasMaxLength(80)
+                        .HasColumnType("varchar(80)");
 
                     b.Property<int>("AnioDebitar")
                         .HasColumnType("int");
 
                     b.Property<string>("CodigoLiquidacion")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("varchar(95)");
 
                     b.Property<DateTime>("Creacion")
                         .HasColumnType("datetime(6)");
@@ -176,11 +181,17 @@ namespace LAUCHA.infrastructure.Migrations
             modelBuilder.Entity("LAUCHA.domain.Entities.Empleados.Empleado", b =>
                 {
                     b.Property<string>("Dni")
-                        .HasColumnType("varchar(255)");
+                        .HasMaxLength(80)
+                        .HasColumnType("varchar(80)");
 
                     b.Property<string>("Apellido")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<string>("Cuil")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("varchar(80)");
 
                     b.Property<DateTime>("FechaAlta")
                         .HasColumnType("datetime(6)");
@@ -197,13 +208,16 @@ namespace LAUCHA.infrastructure.Migrations
 
                     b.HasKey("Dni");
 
+                    b.HasIndex("Cuil")
+                        .IsUnique();
+
                     b.ToTable("Empleados");
                 });
 
             modelBuilder.Entity("LAUCHA.domain.Entities.Liquidaciones.ItemLiquidacion", b =>
                 {
                     b.Property<string>("CodigoLiquidacion")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("varchar(95)");
 
                     b.Property<int>("NroItem")
                         .HasColumnType("int");
@@ -241,14 +255,14 @@ namespace LAUCHA.infrastructure.Migrations
             modelBuilder.Entity("LAUCHA.domain.Entities.Liquidaciones.Liquidacion", b =>
                 {
                     b.Property<string>("Codigo")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("varchar(95)");
 
                     b.Property<int>("Anio")
                         .HasColumnType("int");
 
                     b.Property<string>("CodigoAcuerdo")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("varchar(95)");
 
                     b.Property<string>("Concepto")
                         .IsRequired()
@@ -321,7 +335,8 @@ namespace LAUCHA.infrastructure.Migrations
             modelBuilder.Entity("LAUCHA.domain.Entities.RetencionesCatalogo.CatalogoRetencion", b =>
                 {
                     b.Property<string>("Codigo")
-                        .HasColumnType("varchar(255)");
+                        .HasMaxLength(80)
+                        .HasColumnType("varchar(80)");
 
                     b.Property<string>("Concepto")
                         .IsRequired()
@@ -344,11 +359,12 @@ namespace LAUCHA.infrastructure.Migrations
             modelBuilder.Entity("LAUCHA.domain.entities.Contrato.Adicional", b =>
                 {
                     b.Property<string>("Codigo")
-                        .HasColumnType("varchar(255)");
+                        .HasMaxLength(40)
+                        .HasColumnType("varchar(40)");
 
                     b.Property<string>("CodigoAcuerdo")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("varchar(95)");
 
                     b.Property<string>("Concepto")
                         .IsRequired()

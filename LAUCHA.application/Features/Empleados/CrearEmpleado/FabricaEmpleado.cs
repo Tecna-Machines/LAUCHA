@@ -12,6 +12,7 @@
             empleado.FechaNacimiento = req.FechaNacimiento;
             empleado.FechaAlta = req.FechaAlta;
             empleado.FechaIngreso = req.FechaIngreso;
+            empleado.Cuil = req.Cuil;
 
             return empleado;
         }

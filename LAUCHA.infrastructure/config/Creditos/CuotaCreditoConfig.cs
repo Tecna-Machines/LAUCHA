@@ -6,8 +6,8 @@
         {
             builder.HasKey(cc => new { cc.Nro, cc.CodigoCredito });
 
-            builder.Property(cc => cc.CodigoCredito).IsRequired();
-            builder.Property(cc => cc.Nro).IsRequired();
+            builder.Property(cc => cc.CodigoCredito).HasMaxLength(80).IsRequired();
+            builder.Property(cc => cc.Nro).HasMaxLength(80).IsRequired();
 
             builder.HasOne<Credito>()
                   .WithMany(c => c.Cuotas)

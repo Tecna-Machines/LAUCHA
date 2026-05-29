@@ -5,6 +5,7 @@ namespace LAUCHA.domain.Entities.Empleados
     public class Empleado
     {
         public string Dni { get; set; } = null!;
+        public string Cuil { get; set; }=null!;
         public string Nombre { get; set; } = null!;
         public string Apellido { get; set; } = null!;
         public DateTime FechaNacimiento { get; set; }
