@@ -25,7 +25,7 @@ namespace LAUCHA.domain.Entities.Liquidaciones
         /// <summary>
         /// crea una liquidacion sin items
         /// </summary>
-        public static Liquidacion IniciarLiquidacion(Empleado emp, int anio, int mes, int quincena)
+        public static Liquidacion GenerarSinItems(Empleado emp, int anio, int mes, int quincena)
         {
             return new Liquidacion
             {

@@ -36,7 +36,7 @@ namespace LAUCHA.application.Features.Liquidaciones.CrearLiquidacion
             var empleado = empleadoResult.Value;
             var acuerdo = await _acuerdos.GetActual(empleado.Dni);
 
-            var liquidacion = Liquidacion.IniciarLiquidacion(
+            var liquidacion = Liquidacion.GenerarSinItems(
                     empleado,
                     req.Anio,
                     req.Mes,

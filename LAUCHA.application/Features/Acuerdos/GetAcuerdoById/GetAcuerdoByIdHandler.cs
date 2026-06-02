@@ -28,7 +28,7 @@ namespace LAUCHA.application.Features.Acuerdos.GetAcuerdoById
             Codigo: a.Codigo,
             Fecha: a.Fecha,
             ValorHora: a.ValorHora,
-            ValorBlanco: a.ValorBlanco,
+            ValorBlanco: a.ValorSueldoOJornal,
             Sueldo: a.Sueldo,
             Notas: a.Notas ?? string.Empty,
             TipoSueldo: Map(a.TipoSueldo),

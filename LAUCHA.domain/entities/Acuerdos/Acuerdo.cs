@@ -15,7 +15,7 @@ namespace LAUCHA.domain.Entities.Acuerdos
         /// indica la parte legal del empleado , si es mensual sera un monto fijo
         /// si es jornal indicara el valor por hora
         /// </summary>
-        public decimal ValorBlanco { get; set; }
+        public decimal ValorSueldoOJornal { get; set; }
         public decimal Sueldo { get; set; }
         public string? Notas { get; set; }
         public string DniEmpleado { get; set; } = null!;
@@ -37,7 +37,7 @@ namespace LAUCHA.domain.Entities.Acuerdos
                 DniEmpleado = dni,
                 Sueldo = sueldo,
                 Fecha = DateTime.Now,
-                ValorBlanco = valorBlanco,
+                ValorSueldoOJornal = valorBlanco,
                 ValorHora = valorHora,
                 TipoSueldo = tipoSueldo,
                 Adicionales = new List<Adicional>(),

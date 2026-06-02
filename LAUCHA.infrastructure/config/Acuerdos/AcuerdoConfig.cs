@@ -28,7 +28,7 @@
 
             builder.Property(a => a.Sueldo).HasColumnType("decimal(18,2)");
             builder.Property(a => a.ValorHora).HasColumnType("decimal(18,2)");
-            builder.Property(a => a.ValorBlanco).HasColumnType("decimal(18,2)");
+            builder.Property(a => a.ValorSueldoOJornal).HasColumnType("decimal(18,2)");
         }
     }
 }

@@ -52,7 +52,7 @@
 
         public void AgregarItemsDeSueldos()
         {
-            var sueldoEnBlanco = CalculadoraSueldoBlanco.Calcular(_liquidacion, _acuerdo);
+            var sueldoEnBlanco = CalculadoraSueldoBlanco.GenerarSueldoEnBlanco(_liquidacion, _acuerdo);
 
             _montoBaseAntiguedad = sueldoEnBlanco.Monto;
             _netoEnBlanco += sueldoEnBlanco.Monto;

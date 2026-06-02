@@ -45,7 +45,7 @@ namespace LAUCHA.application.Features.Acuerdos.GetAcuerdosEmpleado
             return new GetAcuerdoEmpleado(acu.Codigo,
                                           acu.Fecha,
                                           acu.ValorHora,
-                                          acu.ValorBlanco,
+                                          acu.ValorSueldoOJornal,
                                           acu.Sueldo,
                                           TipoSueldoMapper.ToInt(acu.TipoSueldo),
                                           acu.Notas ?? "");
