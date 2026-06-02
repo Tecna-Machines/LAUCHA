@@ -1,4 +1,6 @@
-﻿namespace LAUCHA.application.Integrations.SysContab
+﻿using LAUCHA.domain.Entities.Pagos;
+
+namespace LAUCHA.application.Integrations.SysContab
 {
     public record RegistrarPagoContab(string CuentaContableId,
                                       Liquidacion Liquidacion,

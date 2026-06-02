@@ -1,4 +1,5 @@
-﻿using LAUCHA.infrastructure.config.Empleados;
+﻿using LAUCHA.domain.Entities.Pagos;
+using LAUCHA.infrastructure.config.Empleados;
 using LAUCHA.infrastructure.Config.Liquidaciones;
 
 namespace LAUCHA.infrastructure.persistence

@@ -1,4 +1,5 @@
 ﻿using LAUCHA.application.Integrations.SysContab;
+using LAUCHA.domain.Entities.Pagos;
 
 namespace LAUCHA.application.Features.Liquidaciones.PagarLiquidacion
 {

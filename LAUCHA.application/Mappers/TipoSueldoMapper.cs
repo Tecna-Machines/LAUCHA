@@ -13,10 +13,10 @@
 
         public static string ToString(TipoSueldo tipo)
         {
-            if (tipo == TipoSueldo.MensualFijo) return "Mensual";
-            if (tipo == TipoSueldo.QuincenalFijoMasExtras) return "Quincenal hora";
-            if (tipo == TipoSueldo.QuincenalFijo) return "Quincenal fijo";
-            if (tipo == TipoSueldo.MensualFijoMasExtra) return "Mensual fijo mas extra";
+            if (tipo == TipoSueldo.MENSUAL_FIJO) return "Mensual";
+            if (tipo == TipoSueldo.QUINCENAL_FIJO_CON_HS_EXTRA) return "Quincenal hora";
+            if (tipo == TipoSueldo.QUINCENAL_FIJO) return "Quincenal fijo";
+            if (tipo == TipoSueldo.MENSUAL_FIJO_CON_HS_EXTRA) return "Mensual fijo mas extra";
 
             return "error";
         }

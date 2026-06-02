@@ -14,7 +14,7 @@
         /// si el item es generado por la aplicacion queda marcada
         /// si lo hace un usuario esta propiedad queda en false
         /// </summary>
-        public bool EsAutomatico { get; set; }
+        public bool generadoPorUsuario { get; set; }
         public EstadoItemLiquidacion Estado { get; set; }
         public TipoItemLiquidacion Tipo { get; set; }
 
@@ -92,9 +92,9 @@
             Estado = EstadoItemLiquidacion.ANULADO;
         }
 
-        public void MarcarComoAutomatico()
+        public void MarcarComoGeneradoPorElSistema()
         {
-            EsAutomatico = true;
+            generadoPorUsuario = false;
         }
     }
 }

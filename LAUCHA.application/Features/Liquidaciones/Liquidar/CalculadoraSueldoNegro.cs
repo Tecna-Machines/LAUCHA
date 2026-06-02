@@ -6,10 +6,10 @@
         {
             var result = (acu.TipoSueldo) switch
             {
-                TipoSueldo.MensualFijo => CalcularMensualNegro(liq, acu),
-                TipoSueldo.MensualFijoMasExtra => CalcularMensualNegro(liq, acu),
-                TipoSueldo.QuincenalFijo => CalcularQuincenalNegro(liq, acu),
-                TipoSueldo.QuincenalFijoMasExtras => CalcularQuincenalNegro(liq, acu),
+                TipoSueldo.MENSUAL_FIJO => CalcularMensualNegro(liq, acu),
+                TipoSueldo.MENSUAL_FIJO_CON_HS_EXTRA => CalcularMensualNegro(liq, acu),
+                TipoSueldo.QUINCENAL_FIJO => CalcularQuincenalNegro(liq, acu),
+                TipoSueldo.QUINCENAL_FIJO_CON_HS_EXTRA => CalcularQuincenalNegro(liq, acu),
 
                 _ => throw new ArgumentOutOfRangeException("sueldo.invalido")
             };

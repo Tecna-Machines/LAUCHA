@@ -1,4 +1,4 @@
-﻿namespace LAUCHA.domain.Entities.Liquidaciones
+﻿namespace LAUCHA.domain.Entities.Pagos
 {
     public class Pago
     {
@@ -60,7 +60,7 @@
 
         public void MarcarComoEnviado(string referenciaContabilidad)
         {
-            this.ReferenciaContabilidad = referenciaContabilidad;
+            ReferenciaContabilidad = referenciaContabilidad;
             EstadoContable = EstadoContabilidad.ENVIADO;
         }
 

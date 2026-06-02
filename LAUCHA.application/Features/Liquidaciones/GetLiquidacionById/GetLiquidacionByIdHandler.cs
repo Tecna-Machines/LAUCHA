@@ -1,5 +1,6 @@
 ﻿using LAUCHA.application.Features.Acuerdos.GetAcuerdoById;
 using LAUCHA.application.Mappers;
+using LAUCHA.domain.Entities.Pagos;
 
 namespace LAUCHA.application.Features.Liquidaciones.GetLiquidacionById
 {
@@ -73,7 +74,7 @@ namespace LAUCHA.application.Features.Liquidaciones.GetLiquidacionById
                                                           item.Fecha,
                                                           item.EsEnBlanco,
                                                           TipoItemLiquidacionMapper.ToInt(item.Tipo),
-                                                          item.EsAutomatico);
+                                                          item.generadoPorUsuario);
 
                 ItemsResponse.Add(res);
             }

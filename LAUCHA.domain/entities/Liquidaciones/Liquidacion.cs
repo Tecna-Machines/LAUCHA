@@ -1,5 +1,6 @@
 ﻿using LAUCHA.domain.Entities.Acuerdos;
 using LAUCHA.domain.Entities.Empleados;
+using LAUCHA.domain.Entities.Pagos;
 using System.Collections.Immutable;
 
 namespace LAUCHA.domain.Entities.Liquidaciones
@@ -129,7 +130,7 @@ namespace LAUCHA.domain.Entities.Liquidaciones
                 return;
 
             var itemsAutomaticos = Items
-                                   .Where(it => it.EsAutomatico)
+                                   .Where(it => it.generadoPorUsuario)
                                    .ToList();
 
             foreach (var it in itemsAutomaticos)
@@ -139,7 +140,7 @@ namespace LAUCHA.domain.Entities.Liquidaciones
 
             foreach (var nuevoItem in nuevosItems)
             {
-                nuevoItem.MarcarComoAutomatico();
+                nuevoItem.MarcarComoGeneradoPorElSistema();
                 AgregarItem(nuevoItem);
             }
         }

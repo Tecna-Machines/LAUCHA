@@ -63,7 +63,7 @@
 
             var itemsEnBlancoPreexistentes = _liquidacion.GetAllItems()
                                                         .Where(it => it.Tipo == TipoItemLiquidacion.Remunerativo
-                                                        && it.EsAutomatico == false && it.EsEnBlanco && it.Estado != EstadoItemLiquidacion.ANULADO);
+                                                        && it.generadoPorUsuario == false && it.EsEnBlanco && it.Estado != EstadoItemLiquidacion.ANULADO);
 
             decimal totalBlancoPreexistente = itemsEnBlancoPreexistentes.Sum(it => it.Monto);
 
@@ -138,7 +138,7 @@
         //TODO: es muy probable que esto no vaya aqui
         private IEnumerable<RetencionAcuerdo> GetRetencionesParaLiquidar()
         {
-            if (_acuerdo.TipoSueldo == TipoSueldo.QuincenalFijo || _acuerdo.TipoSueldo == TipoSueldo.QuincenalFijoMasExtras)
+            if (_acuerdo.TipoSueldo == TipoSueldo.QUINCENAL_FIJO || _acuerdo.TipoSueldo == TipoSueldo.QUINCENAL_FIJO_CON_HS_EXTRA)
             {
                 if (_liquidacion.EsPrimeraQuincena())
                 {

@@ -22,7 +22,7 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
 
             DateTime fin;
 
-            if (liq.Acuerdo.TipoSueldo == TipoSueldo.MensualFijo)
+            if (liq.Acuerdo.TipoSueldo == TipoSueldo.MENSUAL_FIJO)
             {
                 fin = ultimoDiaDelMes;
             }

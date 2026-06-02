@@ -1,4 +1,6 @@
-﻿namespace LAUCHA.infrastructure.Config.Liquidaciones
+﻿using LAUCHA.domain.Entities.Pagos;
+
+namespace LAUCHA.infrastructure.Config.Liquidaciones
 {
     internal class PagoConfig : IEntityTypeConfiguration<Pago>
     {

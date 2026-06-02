@@ -2,10 +2,17 @@
 {
     public enum TipoSueldo
     {
-        MensualFijo = 10,
-        MensualFijoMasExtra = 12,
-        QuincenalFijoMasExtras = 20,
-        QuincenalFijo = 22,
+
+        MENSUAL_FIJO = 10,
+        MENSUAL_FIJO_CON_HS_EXTRA = 12,
+
+
+        /// <summary>
+        ///  la parte oficial de los sueldos quincenales sale a partir
+        ///  de HsBanco inventadas
+        /// </summary>
+        QUINCENAL_FIJO_CON_HS_EXTRA = 20,
+        QUINCENAL_FIJO = 22,
     }
 
 }
