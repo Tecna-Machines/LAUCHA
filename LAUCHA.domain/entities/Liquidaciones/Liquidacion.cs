@@ -130,7 +130,7 @@ namespace LAUCHA.domain.Entities.Liquidaciones
                 return;
 
             var itemsAutomaticos = Items
-                                   .Where(it => it.generadoPorUsuario)
+                                   .Where(it => !it.generadoPorUsuario)
                                    .ToList();
 
             foreach (var it in itemsAutomaticos)

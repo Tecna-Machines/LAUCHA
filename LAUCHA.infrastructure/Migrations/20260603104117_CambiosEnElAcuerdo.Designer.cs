@@ -4,6 +4,7 @@ using LAUCHA.infrastructure.persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LAUCHA.infrastructure.Migrations
 {
     [DbContext(typeof(LiquidacionesDbContext))]
-    partial class LiquidacionesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260603104117_CambiosEnElAcuerdo")]
+    partial class CambiosEnElAcuerdo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -63,7 +63,7 @@
 
             var itemsEnBlancoPreexistentes = _liquidacion.GetAllItems()
                                                         .Where(it => it.Tipo == TipoItemLiquidacion.Remunerativo
-                                                        && it.generadoPorUsuario == false && it.EsEnBlanco && it.Estado != EstadoItemLiquidacion.ANULADO);
+                                                        && it.generadoPorUsuario != false && it.EsEnBlanco && it.Estado != EstadoItemLiquidacion.ANULADO);
 
             decimal totalBlancoPreexistente = itemsEnBlancoPreexistentes.Sum(it => it.Monto);
 
