@@ -1,8 +1,8 @@
 ﻿namespace LAUCHA.application.Features.Liquidaciones.Liquidar
 {
-    internal static class CalculadoraSueldoNegro
+    internal static class GeneradorSueldoEnNegro
     {
-        public static ItemLiquidacion Calcular(Liquidacion liq, Acuerdo acu)
+        public static ItemLiquidacion Generar(Liquidacion liq, Acuerdo acu)
         {
             var result = (acu.TipoSueldo) switch
             {

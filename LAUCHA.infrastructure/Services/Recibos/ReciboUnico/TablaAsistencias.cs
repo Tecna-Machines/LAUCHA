@@ -16,7 +16,7 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
         {
             IEnumerable<GetFeriadoResponse> feriados;
 
-            if(feriadosResponse is null)
+            if (feriadosResponse is null)
             {
                 feriados = new List<GetFeriadoResponse>();
             }
@@ -34,7 +34,7 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
             tablaAsistencias.SetFontSize(8);
             AgregarCabecera(tablaAsistencias);
 
-            if(asistencias is null)
+            if (asistencias is null)
             {
                 return tablaAsistencias;
             }

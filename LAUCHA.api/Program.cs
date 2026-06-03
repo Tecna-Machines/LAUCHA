@@ -32,7 +32,7 @@ Console.WriteLine(banner + "\n");
 
 //Logs
 string logsPath = builder
-                 .Configuration["Appsettings:logPath"] 
+                 .Configuration["Appsettings:logPath"]
                  ?? throw new ArgumentNullException("falta.log");
 
 
@@ -46,13 +46,13 @@ builder.Services.AddSingleton<ILogsApp, LogService>(log =>
 //NEW 2025
 
 string dbLiquidacion = builder
-                       .Configuration["ConnectionStrings:Production"] 
+                       .Configuration["ConnectionStrings:Production"]
                        ?? throw new ArgumentNullException("db.liq");
 
 if (builder.Environment.IsDevelopment())
 {
     dbLiquidacion = builder
-                   .Configuration["ConnectionStrings:Development"] 
+                   .Configuration["ConnectionStrings:Development"]
                    ?? throw new ArgumentNullException("db.liq");
 }
 
@@ -63,7 +63,7 @@ builder.Services.AddSysContab(builder.Configuration);
 
 //Marcas
 string marcasDb = builder
-                  .Configuration["ConnectionStrings:Asistencias"] 
+                  .Configuration["ConnectionStrings:Asistencias"]
                   ?? throw new ArgumentNullException("db.asistencias");
 
 builder.Services.AddAsistencias(marcasDb);

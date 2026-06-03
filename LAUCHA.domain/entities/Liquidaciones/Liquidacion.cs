@@ -51,6 +51,7 @@ namespace LAUCHA.domain.Entities.Liquidaciones
         }
 
         public IEnumerable<ItemLiquidacion> GetAllItems() => Items.ToImmutableList();
+        public IEnumerable<ItemLiquidacion> GetItemsAceptados() => Items.Where(it => it.Estado != EstadoItemLiquidacion.ANULADO);
 
         /// <summary>
         /// sellara una liquidacion lo que impide modificarla
@@ -67,34 +68,39 @@ namespace LAUCHA.domain.Entities.Liquidaciones
         private static string GenerarCodigo(string dni, int anio, int mes, int quincena)
             => $"{anio}:{mes}:{quincena}:{dni}";
 
-        private IEnumerable<ItemLiquidacion> GetItemsRemunerativoBlancoAceptados()
+        private IEnumerable<ItemLiquidacion> GetItemsRemunerativoBlancoValido()
         {
-            return GetAllItems()
-                   .Where(it => it.Estado != EstadoItemLiquidacion.ANULADO)
+            return GetItemsAceptados()
                    .Where(it => it.Tipo == TipoItemLiquidacion.Remunerativo
                     && it.EsEnBlanco);
         }
 
         public IEnumerable<ItemLiquidacion> GetItemsRetencionesAceptadas()
-        => Items.Where(it => it.Tipo == TipoItemLiquidacion.Retencion && it.EsEnBlanco)
-                .Where(it => it.Estado != EstadoItemLiquidacion.ANULADO);
+        => GetItemsAceptados()
+           .Where(it => it.Tipo == TipoItemLiquidacion.Retencion && it.EsEnBlanco);
+
 
         public IEnumerable<ItemLiquidacion> GetItemsEnNegroAceptados()
-            => Items.Where(it => !it.EsEnBlanco && it.Estado != EstadoItemLiquidacion.ANULADO);
+            => GetItemsAceptados()
+               .Where(it => !it.EsEnBlanco);
 
         //TODO: otra garcha para refactorizar
         public decimal CalcularNetoBlanco()
         {
-            var montoBlanco = GetItemsRemunerativoBlancoAceptados()
+            var remunerativoBlanco = GetItemsRemunerativoBlancoValido()
                                                .Sum(it => it.Monto);
 
-            montoBlanco += this.Items.Where(it => it.Tipo == TipoItemLiquidacion.NoRemunerativo &&
-             it.Estado != EstadoItemLiquidacion.ANULADO).Sum(it => it.Monto);
+            var noRemunerativoBlanco = GetItemsAceptados()
+                                .Where(it =>
+                                       it.Tipo == TipoItemLiquidacion.NoRemunerativo)
+                                .Sum(it => it.Monto);
+
+            decimal totalRemuneraiones = remunerativoBlanco + noRemunerativoBlanco;
 
             var montoRetenciones = GetItemsRetencionesAceptadas()
                                              .Sum(it => it.Monto);
 
-            return montoBlanco - montoRetenciones;
+            return totalRemuneraiones - montoRetenciones;
         }
 
         public decimal CalcularNetoNegro()
@@ -129,7 +135,7 @@ namespace LAUCHA.domain.Entities.Liquidaciones
             if (EstaSellada())
                 return;
 
-            var itemsAutomaticos = Items
+            var itemsAutomaticos = GetItemsAceptados()
                                    .Where(it => !it.generadoPorUsuario)
                                    .ToList();
 

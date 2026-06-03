@@ -14,7 +14,7 @@
         /// si el item es generado por la aplicacion queda marcada
         /// si lo hace un usuario esta propiedad queda en false
         /// </summary>
-        public bool generadoPorUsuario { get; set; }
+        public bool generadoPorUsuario { get; set; } = true;
         public EstadoItemLiquidacion Estado { get; set; }
         public TipoItemLiquidacion Tipo { get; set; }
 
@@ -96,5 +96,6 @@
         {
             generadoPorUsuario = false;
         }
+
     }
 }

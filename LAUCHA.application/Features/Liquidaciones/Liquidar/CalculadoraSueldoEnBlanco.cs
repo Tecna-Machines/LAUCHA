@@ -1,12 +1,10 @@
-﻿using System;
-
-namespace LAUCHA.application.Features.Liquidaciones.Liquidar
+﻿namespace LAUCHA.application.Features.Liquidaciones.Liquidar
 {
-    internal static class CalculadoraSueldoBlanco
+    internal static class GeneradorSueldoEnBlanco
     {
 
 
-        public static ItemLiquidacion GenerarSueldoEnBlanco(Liquidacion liq, Acuerdo acu)
+        public static ItemLiquidacion Generar(Liquidacion liq, Acuerdo acu)
         {
             var result = (acu.TipoSueldo) switch
             {
@@ -47,10 +45,12 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
                 hsBlanco = random.Next(40, 51);
             }
 
+            hsBlanco = 44; //hardcodeado para una prueba
+
             montoSueldo = hsBlanco * acu.ValorSueldoOJornal;
 
 
-                return ItemLiquidacion.CrearRemunerativo($"Horas trabajadas ({hsBlanco})",montoSueldo);
+            return ItemLiquidacion.CrearRemunerativo($"Horas trabajadas ({hsBlanco})", montoSueldo);
         }
 
 

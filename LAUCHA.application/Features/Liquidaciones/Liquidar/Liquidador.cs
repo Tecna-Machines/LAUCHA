@@ -37,12 +37,12 @@
             _acuerdo = acuerdo;
 
 
-            AgregarItemsDeSueldos();
+            AgregarSueldos();
             AgregarItemsDeAdicionales();
-            AgregarItemDeAntiguedad();
-            AgregarItemsDeRetenciones();
+            AgregarAntiguedad();
+            AgregarRetenciones();
 
-            await AgregarItemsDeCreditosYAdelantos();
+            await AgregarCreditosYAdelantos();
             await AgregarItemDescuentoDeCuotas();
 
             await AgregarHorasExtra();
@@ -50,16 +50,16 @@
             _liquidacion.ReemplazarItemsAutomaticos(_items);
         }
 
-        public void AgregarItemsDeSueldos()
+        public void AgregarSueldos()
         {
-            var sueldoEnBlanco = CalculadoraSueldoBlanco.GenerarSueldoEnBlanco(_liquidacion, _acuerdo);
+            var sueldoEnBlanco = GeneradorSueldoEnBlanco.Generar(_liquidacion, _acuerdo);
 
             _montoBaseAntiguedad = sueldoEnBlanco.Monto;
             _netoEnBlanco += sueldoEnBlanco.Monto;
             _montoBaseRetenciones += sueldoEnBlanco.Monto;
 
 
-            var sueldoEnNegro = CalculadoraSueldoNegro.Calcular(_liquidacion, _acuerdo);
+            var sueldoEnNegro = GeneradorSueldoEnNegro.Generar(_liquidacion, _acuerdo);
 
             var itemsEnBlancoPreexistentes = _liquidacion.GetAllItems()
                                                         .Where(it => it.Tipo == TipoItemLiquidacion.Remunerativo
@@ -87,21 +87,21 @@
 
         }
 
-        private void AgregarItemDeAntiguedad()
+        private void AgregarAntiguedad()
         {
             decimal anios = _acuerdo.Empleado.GetAntiguedad();
 
-            decimal valorAntiguedad = (anios * _montoBaseAntiguedad) / 100m;
+            decimal montoAntiguedad = (anios * _montoBaseAntiguedad) / 100m;
 
-            var itemAntiguedad = ItemLiquidacion.CrearRemunerativo("antiguedad", valorAntiguedad);
+            var itemAntiguedad = ItemLiquidacion.CrearRemunerativo($"antiguedad ({anios})", montoAntiguedad);
 
             _items.Add(itemAntiguedad);
 
-            _montoBaseRetenciones += valorAntiguedad;
-            _netoEnBlanco += valorAntiguedad;
+            _montoBaseRetenciones += montoAntiguedad;
+            _netoEnBlanco += montoAntiguedad;
         }
 
-        public void AgregarItemsDeRetenciones()
+        public void AgregarRetenciones()
         {
             decimal sumaRetenciones = 0;
 
@@ -120,7 +120,7 @@
                     monto = retencion.Unidades;
                 }
 
-                var retencionesNueva = ItemLiquidacion.CrearRetencion(retencion.Concepto, monto);
+                var retencionesNueva = ItemLiquidacion.CrearRetencion($"{retencion.Concepto} ({retencion.Unidades.ToString("N2")})", monto);
 
                 sumaRetenciones += monto;
 
@@ -151,7 +151,7 @@
             return _acuerdo.GetRetenciones();
         }
 
-        private async Task AgregarItemsDeCreditosYAdelantos()
+        private async Task AgregarCreditosYAdelantos()
         {
             var acreditaciones = await _acreditador.GenerarItemsDeAcreditacion(_liquidacion);
 
@@ -183,9 +183,6 @@
 
             _items.Add(itemHsExtra);
         }
-
-
-
 
     }
 }

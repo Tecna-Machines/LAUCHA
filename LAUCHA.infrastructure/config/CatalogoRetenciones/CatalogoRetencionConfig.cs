@@ -7,7 +7,7 @@
         {
             builder.HasKey(rc => rc.Codigo);
             builder.Property(rc => rc.Codigo)
-                    .HasMaxLength(100);    
+                    .HasMaxLength(100);
 
             builder
            .HasMany<RetencionAcuerdo>()
