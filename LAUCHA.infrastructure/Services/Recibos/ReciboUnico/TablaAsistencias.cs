@@ -31,7 +31,7 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
             Table tablaAsistencias = new Table(pointColumnWidths);
 
             tablaAsistencias.UseAllAvailableWidth();
-            tablaAsistencias.SetFontSize(8);
+            tablaAsistencias.SetFontSize(6);
             AgregarCabecera(tablaAsistencias);
 
             if (asistencias is null)

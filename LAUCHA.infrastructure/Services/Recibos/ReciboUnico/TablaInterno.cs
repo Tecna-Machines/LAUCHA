@@ -19,7 +19,7 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
             float[] pointColumnWidths = { 150F, 150F, 150F, 150F };
 
             Table tablaInterno = new Table(pointColumnWidths);
-            tablaInterno.SetFontSize(9);
+            tablaInterno.SetFontSize(8);
 
             AgregarCabeceraEnNegro(tablaInterno);
 
