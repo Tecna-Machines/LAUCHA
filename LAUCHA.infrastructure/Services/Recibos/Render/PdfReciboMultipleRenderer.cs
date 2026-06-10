@@ -7,6 +7,7 @@ using LAUCHA.application.Features.Empleados.GetEmpleadoAsistencias;
 using LAUCHA.application.Features.Liquidaciones.GetLiquidacionById;
 using LAUCHA.application.Features.Liquidaciones.GetRecibos;
 using LAUCHA.infrastructure.Services.Recibos.ReciboUnico;
+using Org.BouncyCastle.Ocsp;
 
 namespace LAUCHA.infrastructure.Services.Recibos.Render
 {
@@ -61,6 +62,9 @@ namespace LAUCHA.infrastructure.Services.Recibos.Render
                 doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
                 doc.Add(TablaInterno.Generar(recibo.Liquidacion));
             }
+
+            doc.Add(new Paragraph(""));
+            doc.Add(new TablaSueldo(liq).Generar());
 
             if (recibo.Asistencias != null)
             {

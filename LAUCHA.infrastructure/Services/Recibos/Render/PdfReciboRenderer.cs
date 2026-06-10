@@ -32,7 +32,7 @@ namespace LAUCHA.infrastructure.Services.Recibos.Render
             }
 
                 doc.Add(new Paragraph(""));
-                doc.Add(new TablaNetos(liq).Generar());
+                doc.Add(new TablaSueldo(liq).Generar());
 
             if (recibo.Asistencias != null)
             {
@@ -64,18 +64,22 @@ namespace LAUCHA.infrastructure.Services.Recibos.Render
 
             recibo.IncluirTablaInterna();
 
-            if (recibo.IncluirSueldoInterno)
+            if (false)
             {
-                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
                 doc.Add(TablaInterno.Generar(recibo.Liquidacion));
             }
 
+            doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
+
             doc.Add(new Paragraph(""));
-            doc.Add(new TablaNetos(req.Liquidacion).Generar());
-            
+            doc.Add(new TablaSueldo(req.Liquidacion).Generar());
+
+            doc.Add(new Paragraph(""));
+            doc.Add(new TablaResumenHaberes(req.Liquidacion).Generar());
+
             if (recibo.Asistencias != null)
             {
-                doc.Add(new Paragraph(""));
+                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
                 doc.Add(TablaAsistencias.Generar(recibo.Asistencias, recibo.Feriados));
             }
             doc.Close();

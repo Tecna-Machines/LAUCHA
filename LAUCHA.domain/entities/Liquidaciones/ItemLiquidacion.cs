@@ -16,7 +16,7 @@
         /// </summary>
         public bool generadoPorUsuario { get; set; } = true;
         public EstadoItemLiquidacion Estado { get; set; }
-        public TipoItemLiquidacion Tipo { get; set; }
+        public TipoItemLiquidacion   Tipo { get; set; }
 
         public static ItemLiquidacion CrearRemunerativo(string concepto, decimal monto)
         {
