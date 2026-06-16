@@ -64,7 +64,7 @@ namespace LAUCHA.infrastructure.Services.Recibos.Render
             }
 
             doc.Add(new Paragraph(""));
-            doc.Add(new TablaSueldo(liq).Generar());
+            doc.Add(new TablaResumenHaberes(liq).Generar());
 
             if (recibo.Asistencias != null)
             {
