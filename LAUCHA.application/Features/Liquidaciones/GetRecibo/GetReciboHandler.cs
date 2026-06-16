@@ -36,7 +36,9 @@ namespace LAUCHA.application.Features.Liquidaciones.GetRecibo
             if (asistenciaResult.IsFailure)
                 return Result.Failure<GetReciboLiquidacionResponse>(asistenciaResult.Error);
 
-            var feriadosResult = await _feriadosMes.Get(liquidacionResult.Value.Quincena.Mes, liquidacionResult.Value.Quincena.Anio);
+            var feriadosResult = await _feriadosMes.Get(
+                liquidacionResult.Value.Quincena.Mes,
+                liquidacionResult.Value.Quincena.Anio);
 
             if (feriadosResult.IsFailure)
                 return Result.Failure<GetReciboLiquidacionResponse>(feriadosResult.Error);
@@ -46,9 +48,13 @@ namespace LAUCHA.application.Features.Liquidaciones.GetRecibo
             GetLiquidacionByIdResponse liquidacion = liquidacionResult.Value;
             GetFeriadosMesResponse feriados = feriadosResult.Value;
 
-            var reciboData = new ReciboRequest(liquidacion, asistencias, feriados);
+            var reciboRequest = new ReciboRequest(
+                liquidacion,
+                asistencias,
+                feriados);
 
-            var recibo = _renderer.Render(reciboData);
+
+            var recibo = _renderer.Render(reciboRequest);
 
             var response = new GetReciboLiquidacionResponse(
                                 "recibo.pdf",
