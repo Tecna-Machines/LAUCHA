@@ -53,10 +53,22 @@
             return TimeZoneInfo.ConvertTime(utc, zone);
         }
 
+        private bool EsSabado()
+        {
+            if (!Ingreso.HasValue)
+                return false;
+
+            var ingresoLocal = ConvertirBuenosAiresUTC(Ingreso.Value);
+            return ingresoLocal.DayOfWeek == DayOfWeek.Saturday;
+        }
+
         public decimal GetHorasComunes()
         {
             var total = GetHorasTotales();
             if (total <= 0)
+                return 0m;
+
+            if (EsSabado())
                 return 0m;
 
             return Math.Min(total, JORNADA_HORAS);
@@ -64,11 +76,18 @@
         public decimal GetHorasExtras()
         {
             var total = GetHorasTotales();
-            if (total <= JORNADA_HORAS)
+
+            if (total <= 0)
                 return 0m;
 
 
             const decimal QUINCE_MINUTOS = 0.25m;
+
+            if (EsSabado())
+                return total > QUINCE_MINUTOS ? Math.Round(total, 2) : 0m;
+
+            if (total <= JORNADA_HORAS)
+                return 0m;
 
             decimal hsExtra = Math.Round(total - JORNADA_HORAS, 2);
 
@@ -88,15 +107,11 @@
             return Math.Round((decimal)trabajadas, 2);
         }
 
-        /// <summary>
-        /// Devuelve el instante desde el cual empieza a computar horas
-        /// a partir de la hora de ingreso
-        /// </summary>
         private DateTimeOffset GetInicioLaboral()
         {
             var ingresoLocal = ConvertirBuenosAiresUTC(Ingreso!.Value);
 
-            var inicioLocal = new DateTime(
+            var debeIngresarLocal = new DateTime(
                 ingresoLocal.Year,
                 ingresoLocal.Month,
                 ingresoLocal.Day,
@@ -106,7 +121,13 @@
                 DateTimeKind.Unspecified
             );
 
-            return ConvertirTimeOffset(inicioLocal);
+            var debeIngresarUtc = ConvertirTimeOffset(debeIngresarLocal);
+
+            // Si llegó tarde, cuenta desde el ingreso real.
+            // Si llegó temprano o a horario, cuenta desde la hora que debía ingresar.
+            return Ingreso.Value > debeIngresarUtc
+                ? Ingreso.Value
+                : debeIngresarUtc;
         }
     }
 }

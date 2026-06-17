@@ -173,13 +173,13 @@
 
         private async Task AgregarHorasExtra()
         {
+            var itemHsExtra = await _calculadoraHsExtra
+                    .GenerarItemHorasExtra(_liquidacion);
+
             if (!_acuerdo.PuedeHacerHorasExtra())
             {
-                return;
+                itemHsExtra.Monto = 0;
             }
-
-            var itemHsExtra = await _calculadoraHsExtra
-                                .GenerarItemHorasExtra(_liquidacion);
 
             _items.Add(itemHsExtra);
         }
