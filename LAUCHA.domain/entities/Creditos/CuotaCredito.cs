@@ -24,7 +24,7 @@ namespace LAUCHA.domain.Entities.Creditos
         public int AnioDebitar { get; set; }
 
         //referencia a que liquidacion se asocia esta cuota
-        public string? CodigoLiquidacion { get; set; } = string.Empty;
+        public string? CodigoLiquidacion { get; set; }
 
         public static CuotaCredito Crear(int nro, decimal monto)
         {

@@ -49,9 +49,6 @@ namespace LAUCHA.application.Features.Creditos.GetCredito
 
             PagoCuota? pago = new PagoCuota(c.FechaPago, c.CodigoLiquidacion ?? "", 0);
 
-            if (c.CodigoLiquidacion is null)
-                pago = null;
-
             var quincena = new QuincenaCuota(c.QuincenaDebitar, c.MesDebitar, c.AnioDebitar);
 
             return new CuotaResponse(c.Nro.ToString(),
