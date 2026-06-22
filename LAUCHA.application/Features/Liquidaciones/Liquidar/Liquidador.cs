@@ -7,7 +7,7 @@
         private ICollection<ItemLiquidacion> _items;
         private AcreditadorDeCreditos _acreditador;
         private CobradorDeCuotas _cobradorCuotas;
-        private CalculadorasHorasExtra _calculadoraHsExtra;
+        private CalculadoraHorasEspeciales _calculadoraHsExtra;
 
         private decimal _montoBaseRetenciones;
         private decimal _montoBaseAntiguedad;
@@ -16,7 +16,7 @@
 
         public Liquidador(AcreditadorDeCreditos calculadoraDescuentos,
                           CobradorDeCuotas cobradorCuotas,
-                          CalculadorasHorasExtra calculadoraHsExtra)
+                          CalculadoraHorasEspeciales calculadoraHsExtra)
         {
             _items = new List<ItemLiquidacion>();
 
@@ -39,7 +39,12 @@
 
             AgregarSueldos();
             AgregarItemsDeAdicionales();
+            await AgregarHorasFeriadoOficial();
+
+
             AgregarAntiguedad();
+
+
             AgregarRetenciones();
 
             await AgregarCreditosYAdelantos();
@@ -106,6 +111,7 @@
             decimal sumaRetenciones = 0;
 
             var retenciones = GetRetencionesParaLiquidar();
+
 
             foreach (var retencion in retenciones)
             {
@@ -176,12 +182,33 @@
             var itemHsExtra = await _calculadoraHsExtra
                     .GenerarItemHorasExtra(_liquidacion);
 
+            var itemHsDoble = await _calculadoraHsExtra
+                        .GenerarItemHorasDoble(_liquidacion);
+
             if (!_acuerdo.PuedeHacerHorasExtra())
             {
                 itemHsExtra.Monto = 0;
+                itemHsDoble.Monto = 0;
             }
 
             _items.Add(itemHsExtra);
+            _items.Add(itemHsDoble);        
+        }
+
+        private async Task AgregarHorasFeriadoOficial()
+        {
+            var itemsHsFeriadoBlanco = await _calculadoraHsExtra
+                .GenerarItemHorasFeriadoOficial(_liquidacion);
+
+            if (!_acuerdo.PuedeHacerHorasExtra())
+            {
+                return;
+            }
+
+            _montoBaseAntiguedad += itemsHsFeriadoBlanco.Monto;
+            _montoBaseRetenciones += itemsHsFeriadoBlanco.Monto;
+
+            _items.Add(itemsHsFeriadoBlanco);
         }
 
     }

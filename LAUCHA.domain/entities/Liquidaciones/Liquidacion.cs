@@ -116,7 +116,7 @@ namespace LAUCHA.domain.Entities.Liquidaciones
             return (plataQueEntraEnNegro - plataQueSaleEnNegro);
         }
 
-        public bool EsPrimeraQuincena() => Quincena == 2 ? true : false;
+        public bool EsPrimeraQuincena() => Quincena == 1 ? true : false;
 
         public bool EstaSellada() => Estado == EstadoLiquidacion.SELLADA ? true : false;
 

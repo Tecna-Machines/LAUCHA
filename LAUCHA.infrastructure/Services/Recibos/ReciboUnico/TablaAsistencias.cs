@@ -88,6 +88,7 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
                 1f,   // Egr
                 1f,   // Reg
                 1f,   // Ext
+                1f,   //dobles
                 1f    // Tot
             };
 
@@ -150,6 +151,10 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
                     asistencia.HsExtra.ToString()));
 
             tabla.AddCell(
+                        CrearCelda(
+                    asistencia.HsDoble.ToString()));
+
+            tabla.AddCell(
                 CrearCelda(
                     asistencia.HsTotales.ToString()));
         }
@@ -186,6 +191,7 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
             tabla.AddCell(Header("Egr"));
             tabla.AddCell(Header("Reg"));
             tabla.AddCell(Header("Ext"));
+            tabla.AddCell(Header("Dobl"));
             tabla.AddCell(Header("Tot"));
         }
 
