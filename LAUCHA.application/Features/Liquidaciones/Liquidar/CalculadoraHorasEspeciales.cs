@@ -48,7 +48,7 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
                 fin
             );
 
-            var valorHorasDoble = liq.Acuerdo.ValorHora * 2m;
+            var valorHorasDoble = liq.Acuerdo.ValorHora;
 
             var cantHorasDoble = periodoAsistencias.GetHorasDoblesDuranteElPeriodo();
 
@@ -64,13 +64,9 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
         {
             var (inicio, fin) = GetPeriodoLiquidacion(liq);
 
-            var periodoAsistencias = await RecuperarAsistencias(
-                liq.DniEmpleado,
-                inicio,
-                fin
-            );
-
-            int cantFeriados = periodoAsistencias.Asistencias.Where(a => a.EsFeriado()).Count();
+            //si hay un feriado dentro del periodo le agrega 4 hs ,siempre por mas que no venga el empleado
+            var feriados = await _feriados.GetFeriadosDelMes(inicio.Month, inicio.Year);
+            int cantFeriados = feriados.Count();
             int hsFeriado = cantFeriados * 4;
 
             //TODO: ojo aca

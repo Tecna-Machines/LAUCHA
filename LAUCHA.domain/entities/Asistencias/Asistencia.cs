@@ -139,7 +139,7 @@
             if (EsFeriado())
             {
                 total = Math.Round(total, 2);
-                return total > QUINCE_MINUTOS ? total : 0m;
+                return total > QUINCE_MINUTOS ? total*1.5m : 0m;
             }
 
 
@@ -154,7 +154,7 @@
 
             var hsDoble = Math.Round(total - HORAS_SABADO_SIMPLES, 2);
 
-            return hsDoble > QUINCE_MINUTOS ? hsDoble : 0m;
+            return hsDoble > QUINCE_MINUTOS ? hsDoble*2m : 0m;
         }
 
         private DateTimeOffset GetInicioLaboral()
