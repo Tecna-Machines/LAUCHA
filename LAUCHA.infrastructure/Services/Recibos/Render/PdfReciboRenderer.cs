@@ -22,14 +22,8 @@ namespace LAUCHA.infrastructure.Services.Recibos.Render
 
             doc.Add(TablaHeader.GenerarCabecera(recibo.Liquidacion));
             doc.Add(TablaOficial.Generar(recibo.Liquidacion));
+            doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
 
-            recibo.IncluirTablaInterna();
-
-            if (recibo.IncluirSueldoInterno)
-            {
-                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
-                doc.Add(TablaInterno.Generar(recibo.Liquidacion));
-            }
 
                 doc.Add(new Paragraph(""));
                 doc.Add(new TablaResumenHaberes(liq).Generar());
@@ -62,12 +56,8 @@ namespace LAUCHA.infrastructure.Services.Recibos.Render
             doc.Add(TablaHeader.GenerarCabecera(recibo.Liquidacion));
             doc.Add(TablaOficial.Generar(recibo.Liquidacion));
 
-            recibo.IncluirTablaInterna();
 
             doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
-
-            doc.Add(TablaInterno.Generar(recibo.Liquidacion));
-
 
             doc.Add(new Paragraph(""));
             doc.Add(new TablaResumenHaberes(req.Liquidacion).Generar());

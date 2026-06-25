@@ -37,6 +37,7 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
             AgregarParteRetenciones();
             AgregarParteItemsExtra();
             AgregarParteDescuento();
+            AgregarPartePagos();
 
             return tablaResumenHaberes;
         }
@@ -146,13 +147,13 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
                 totalHora += valorHoraAdicional;
             }
 
-            _brutoBasico = totalMonto;
+            _brutoBasico = _liquidacion.EsQuincenal() ? totalMonto/2 : totalMonto;
 
             AgregarFila(
-                concepto: "Bruto básico",
-                cantidad: 200,
+                concepto: _liquidacion.EsQuincenal() ? "Bruto básico / 2" : "Bruto básico",
+                cantidad: _liquidacion.EsQuincenal() ? 100 : 200,
                 horas: totalHora,
-                monto: totalMonto,
+                monto: _brutoBasico,
                 colorFondo: new DeviceRgb(230, 230, 230)
             );
         }
@@ -166,22 +167,22 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
                     item.TipoItem == (int)TipoItemLiquidacion.Retencion)
                 .ToList();
 
-            if (!retenciones.Any())
-                return;
-
             decimal totalRetenciones = retenciones.Sum(item => item.Monto);
 
-            AgregarFila(
-                concepto: "Obra social + Jubilación + ARCA + etc",
-                cantidad: null,
-                horas: null,
-                monto: -totalRetenciones
-            );
+            if (totalRetenciones > 0)
+            {
+                AgregarFila(
+                    concepto: "Obra social + Jubilación + ARCA + etc",
+                    cantidad: null,
+                    horas: null,
+                    monto: -totalRetenciones
+                );
+            }
 
-             _netoBasico = _brutoBasico - totalRetenciones;
+            _netoBasico = _brutoBasico - totalRetenciones;
 
             AgregarFila(
-                concepto: "Neto basico",
+                concepto: "Neto básico",
                 cantidad: null,
                 horas: null,
                 monto: _netoBasico,
@@ -195,6 +196,7 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
 
             conceptosYaMostrados.Add(NormalizarConcepto("Sueldo"));
             conceptosYaMostrados.Add(NormalizarConcepto("Sueldo mensual"));
+            conceptosYaMostrados.Add(NormalizarConcepto("Sueldo quincenal"));
 
             foreach (var adicional in _liquidacion.Acuerdo.Adicionales)
             {
@@ -223,7 +225,7 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
                 totalItemsExtra += item.Monto;
             }
 
-             _netoTotal = _netoBasico + totalItemsExtra;
+            _netoTotal = _netoBasico + totalItemsExtra;
 
             AgregarFila(
                 concepto: "Neto total",
@@ -234,6 +236,48 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
             );
         }
 
+
+        private void AgregarPartePagos()
+        {
+            if (_liquidacion.Pagos is null || !_liquidacion.Pagos.Any())
+            {
+                return;
+            }
+
+            decimal totalPagos = 0m;
+
+            foreach (var pago in _liquidacion.Pagos.OrderBy(p => p.Fecha))
+            {
+                string conceptoPago = $"Pago {pago.Modo}";
+
+                AgregarFila(
+                    concepto: conceptoPago,
+                    cantidad: null,
+                    horas: null,
+                    monto: -pago.Monto
+                );
+
+                totalPagos += pago.Monto;
+            }
+
+            AgregarFila(
+                concepto: "Total pagado",
+                cantidad: null,
+                horas: null,
+                monto: -totalPagos,
+                colorFondo: new DeviceRgb(230, 230, 230)
+            );
+
+            decimal saldoPendiente = _totalFinalAPagar - totalPagos;
+
+            AgregarFila(
+                concepto: "Saldo pendiente",
+                cantidad: null,
+                horas: null,
+                monto: saldoPendiente,
+                colorFondo: new DeviceRgb(170, 170, 170)
+            );
+        }
         private string NormalizarConcepto(string concepto)
         {
             return concepto.Trim().ToUpperInvariant();

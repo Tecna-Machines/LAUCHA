@@ -1,6 +1,6 @@
 ﻿namespace LAUCHA.domain.Entities.Acuerdos
 {
-    public enum TipoSueldo
+    public enum TipoSueldo : int
     {
 
         MENSUAL_FIJO = 10,
