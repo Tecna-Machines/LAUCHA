@@ -68,7 +68,7 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
             // La deja alineada a la izquierda
             tabla.SetHorizontalAlignment(HorizontalAlignment.LEFT);
 
-            tabla.SetFontSize(7);
+            tabla.SetFontSize(6);
             tabla.SetMarginTop(0);
             tabla.SetMarginBottom(0);
 
@@ -88,7 +88,7 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
 
             if (feriado is not null)
             {
-                fechaTexto += $"{feriado.Descripcion}";
+                fechaTexto += $" {feriado.Descripcion}";
             }
 
             tabla.AddCell(

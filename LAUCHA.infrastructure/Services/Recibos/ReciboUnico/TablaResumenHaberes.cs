@@ -254,7 +254,7 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
                     concepto: conceptoPago,
                     cantidad: null,
                     horas: null,
-                    monto: -pago.Monto
+                    monto: pago.Monto
                 );
 
                 totalPagos += pago.Monto;
@@ -264,19 +264,19 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
                 concepto: "Total pagado",
                 cantidad: null,
                 horas: null,
-                monto: -totalPagos,
+                monto: totalPagos,
                 colorFondo: new DeviceRgb(230, 230, 230)
             );
 
             decimal saldoPendiente = _totalFinalAPagar - totalPagos;
 
-            AgregarFila(
-                concepto: "Saldo pendiente",
-                cantidad: null,
-                horas: null,
-                monto: saldoPendiente,
-                colorFondo: new DeviceRgb(170, 170, 170)
-            );
+            //AgregarFila(
+            //    concepto: "Saldo pendiente",
+            //    cantidad: null,
+            //    horas: null,
+            //    monto: saldoPendiente,
+            //    colorFondo: new DeviceRgb(170, 170, 170)
+            //);
         }
         private string NormalizarConcepto(string concepto)
         {
