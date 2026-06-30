@@ -1,7 +1,6 @@
 ﻿using iText.IO.Font.Constants;
 using iText.Kernel.Colors;
 using iText.Kernel.Font;
-using iText.Layout.Borders;
 using iText.Layout.Element;
 using iText.Layout.Properties;
 using LAUCHA.application.Features.Empleados.GetEmpleadoAsistencias;
@@ -20,8 +19,7 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
                 feriadosResponse?.Feriados ??
                 Enumerable.Empty<GetFeriadoResponse>();
 
-            Table tablaIzquierda = CrearTabla();
-            Table tablaDerecha = CrearTabla();
+            Table tabla = CrearTabla();
 
             if (asistencias is not null && asistencias.Asistencias.Any())
             {
@@ -33,50 +31,20 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
 
                 for (DateTime day = inicio; day <= finMes; day = day.AddDays(1))
                 {
-                    Table tablaDestino =
-                        day.Day <= 15
-                            ? tablaIzquierda
-                            : tablaDerecha;
-
                     var asistencia = asistencias.Asistencias
                         .FirstOrDefault(a => a.Ingreso.Date == day.Date);
 
                     var feriado = ObtenerFeriadoDelDia(day, feriados);
 
                     AgregarFila(
-                        tablaDestino,
+                        tabla,
                         day,
                         asistencia,
                         feriado);
                 }
             }
 
-            return CrearContenedor(tablaIzquierda, tablaDerecha);
-        }
-
-        private static Table CrearContenedor(
-            Table izquierda,
-            Table derecha)
-        {
-            Table contenedor = new Table(new float[] { 1, 1 });
-
-            contenedor.UseAllAvailableWidth();
-
-            contenedor.AddCell(
-                new Cell()
-                    .Add(izquierda)
-                    .SetBorder(Border.NO_BORDER)
-                    .SetPadding(0)
-                    .SetVerticalAlignment(VerticalAlignment.TOP));
-
-            contenedor.AddCell(
-                new Cell()
-                    .Add(derecha)
-                    .SetBorder(Border.NO_BORDER)
-                    .SetPadding(0)
-                    .SetVerticalAlignment(VerticalAlignment.TOP));
-
-            return contenedor;
+            return tabla;
         }
 
         private static Table CrearTabla()
@@ -88,14 +56,19 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
                 1f,   // Egr
                 1f,   // Reg
                 1f,   // Ext
+                1f,   // Dobl
                 1f    // Tot
             };
 
             Table tabla = new Table(columnas);
 
-            tabla.UseAllAvailableWidth();
-            tabla.SetFontSize(5);
+            // Ocupa la mitad del ancho disponible de la hoja
+            tabla.SetWidth(UnitValue.CreatePercentValue(50));
 
+            // La deja alineada a la izquierda
+            tabla.SetHorizontalAlignment(HorizontalAlignment.LEFT);
+
+            tabla.SetFontSize(6);
             tabla.SetMarginTop(0);
             tabla.SetMarginBottom(0);
 
@@ -115,7 +88,7 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
 
             if (feriado is not null)
             {
-                fechaTexto += " (F)";
+                fechaTexto += $" {feriado.Descripcion}";
             }
 
             tabla.AddCell(
@@ -125,7 +98,9 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
 
             if (asistencia is null)
             {
-                for (int i = 0; i < 5; i++)
+                // Son 6 columnas después de Fecha:
+                // Ing, Egr, Reg, Ext, Dobl, Tot
+                for (int i = 0; i < 6; i++)
                 {
                     tabla.AddCell(CrearCelda(string.Empty));
                 }
@@ -133,25 +108,12 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
                 return;
             }
 
-            tabla.AddCell(
-                CrearCelda(
-                    asistencia.Ingreso.ToString("HH:mm")));
-
-            tabla.AddCell(
-                CrearCelda(
-                    asistencia.Egreso.ToString("HH:mm")));
-
-            tabla.AddCell(
-                CrearCelda(
-                    asistencia.HsComunes.ToString()));
-
-            tabla.AddCell(
-                CrearCelda(
-                    asistencia.HsExtra.ToString()));
-
-            tabla.AddCell(
-                CrearCelda(
-                    asistencia.HsTotales.ToString()));
+            tabla.AddCell(CrearCelda(asistencia.Ingreso.ToString("HH:mm")));
+            tabla.AddCell(CrearCelda(asistencia.Egreso.ToString("HH:mm")));
+            tabla.AddCell(CrearCelda(asistencia.HsComunes.ToString()));
+            tabla.AddCell(CrearCelda(asistencia.HsExtra.ToString()));
+            tabla.AddCell(CrearCelda(asistencia.HsDoble.ToString()));
+            tabla.AddCell(CrearCelda(asistencia.HsTotales.ToString()));
         }
 
         private static Cell CrearCelda(
@@ -186,6 +148,7 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
             tabla.AddCell(Header("Egr"));
             tabla.AddCell(Header("Reg"));
             tabla.AddCell(Header("Ext"));
+            tabla.AddCell(Header("Dobl"));
             tabla.AddCell(Header("Tot"));
         }
 

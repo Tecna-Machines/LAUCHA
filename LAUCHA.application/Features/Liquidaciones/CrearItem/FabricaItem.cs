@@ -25,7 +25,8 @@ namespace LAUCHA.application.Features.Liquidaciones.CrearItem
 
                 case (TipoItemLiquidacion.Retencion):
                     return ItemLiquidacion.CrearRetencion(req.Concepto, req.Monto);
-
+                case (TipoItemLiquidacion.Descuento):
+                    return ItemLiquidacion.CrearRetencion(req.Concepto, req.Monto);
                 default:
                     throw new InvalidCastException("invalid.tipo");
 

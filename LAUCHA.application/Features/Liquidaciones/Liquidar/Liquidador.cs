@@ -7,16 +7,16 @@
         private ICollection<ItemLiquidacion> _items;
         private AcreditadorDeCreditos _acreditador;
         private CobradorDeCuotas _cobradorCuotas;
-        private CalculadorasHorasExtra _calculadoraHsExtra;
+        private CalculadoraHorasEspeciales _calculadoraHsExtra;
 
-        private decimal _montoBaseRetenciones;
+        private decimal _brutoOficial;
         private decimal _montoBaseAntiguedad;
         private decimal _netoEnBlanco;
 
 
         public Liquidador(AcreditadorDeCreditos calculadoraDescuentos,
                           CobradorDeCuotas cobradorCuotas,
-                          CalculadorasHorasExtra calculadoraHsExtra)
+                          CalculadoraHorasEspeciales calculadoraHsExtra)
         {
             _items = new List<ItemLiquidacion>();
 
@@ -32,14 +32,19 @@
             if (liquidacion.CodigoAcuerdo != acuerdo.Codigo)
                 throw new InvalidOperationException("acuerdo.no.valido");
 
-            _montoBaseRetenciones = 0;
+            _brutoOficial = 0;
             _liquidacion = liquidacion;
             _acuerdo = acuerdo;
 
 
             AgregarSueldos();
             AgregarItemsDeAdicionales();
+            await AgregarHorasFeriadoOficial();
+
+
             AgregarAntiguedad();
+
+
             AgregarRetenciones();
 
             await AgregarCreditosYAdelantos();
@@ -56,7 +61,7 @@
 
             _montoBaseAntiguedad = sueldoEnBlanco.Monto;
             _netoEnBlanco += sueldoEnBlanco.Monto;
-            _montoBaseRetenciones += sueldoEnBlanco.Monto;
+            _brutoOficial += sueldoEnBlanco.Monto;
 
 
             var sueldoEnNegro = GeneradorSueldoEnNegro.Generar(_liquidacion, _acuerdo);
@@ -67,7 +72,7 @@
 
             decimal totalBlancoPreexistente = itemsEnBlancoPreexistentes.Sum(it => it.Monto);
 
-            _montoBaseRetenciones += totalBlancoPreexistente;
+            _brutoOficial += totalBlancoPreexistente;
             _netoEnBlanco += totalBlancoPreexistente;
 
             _items.Add(sueldoEnBlanco);
@@ -87,6 +92,24 @@
 
         }
 
+        private async Task AgregarHorasFeriadoOficial()
+        {
+            var itemsHsFeriadoBlanco = await _calculadoraHsExtra
+                .GenerarItemHorasFeriadoOficial(_liquidacion);
+
+            if (!_acuerdo.PuedeHacerHorasExtra())
+            {
+                return;
+            }
+
+            _montoBaseAntiguedad += itemsHsFeriadoBlanco.Monto;
+            _brutoOficial += itemsHsFeriadoBlanco.Monto;
+            _netoEnBlanco += itemsHsFeriadoBlanco.Monto;
+
+
+            _items.Add(itemsHsFeriadoBlanco);
+        }
+
         private void AgregarAntiguedad()
         {
             decimal anios = _acuerdo.Empleado.GetAntiguedad();
@@ -97,7 +120,7 @@
 
             _items.Add(itemAntiguedad);
 
-            _montoBaseRetenciones += montoAntiguedad;
+            _brutoOficial += montoAntiguedad;
             _netoEnBlanco += montoAntiguedad;
         }
 
@@ -107,13 +130,14 @@
 
             var retenciones = GetRetencionesParaLiquidar();
 
+
             foreach (var retencion in retenciones)
             {
                 decimal monto;
 
                 if (retencion.EsPorcentual)
                 {
-                    monto = CalculadorDePorcentaje.GetMontoSegunPorcentaje(retencion.Unidades, _montoBaseRetenciones);
+                    monto = CalculadorDePorcentaje.GetMontoSegunPorcentaje(retencion.Unidades, _brutoOficial);
                 }
                 else
                 {
@@ -176,12 +200,17 @@
             var itemHsExtra = await _calculadoraHsExtra
                     .GenerarItemHorasExtra(_liquidacion);
 
+            var itemHsDoble = await _calculadoraHsExtra
+                        .GenerarItemHorasDoble(_liquidacion);
+
             if (!_acuerdo.PuedeHacerHorasExtra())
             {
                 itemHsExtra.Monto = 0;
+                itemHsDoble.Monto = 0;
             }
 
             _items.Add(itemHsExtra);
+            _items.Add(itemHsDoble);        
         }
 
     }

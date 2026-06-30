@@ -12,7 +12,14 @@ namespace LAUCHA.application.Features.Liquidaciones.GetLiquidacionById
                                                    GetAcuerdoByIdResponse Acuerdo,
                                                    MontosPagar Montos,
                                                    IEnumerable<ItemLiquidacionByIdResponse> Items,
-                                                   IEnumerable<PagoLiquidacionById> Pagos);
+                                                   IEnumerable<PagoLiquidacionById> Pagos)
+    {
+        public bool EsQuincenal()
+        {
+            return int.Parse(Acuerdo.TipoSueldo.Codigo) == (int)TipoSueldo.QUINCENAL_FIJO 
+               || int.Parse(Acuerdo.TipoSueldo.Codigo) == (int)TipoSueldo.QUINCENAL_FIJO_CON_HS_EXTRA;
+        }
+    }
     public sealed record QuincenaLiquidacion(int Anio, int Mes, int Nro);
     public sealed record EmpleadoLiquidacion(string Dni,
                                              string Nombre,

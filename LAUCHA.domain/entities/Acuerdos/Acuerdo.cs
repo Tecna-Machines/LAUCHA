@@ -80,7 +80,7 @@ namespace LAUCHA.domain.Entities.Acuerdos
             => Retenciones.Where(r => r.PrimeraQuincena == true)
                .ToImmutableList();
         public IEnumerable<RetencionAcuerdo> GetRetencionesSegundaQuincena()
-            => Retenciones.Where(r => r.PrimeraQuincena != true)
+            => Retenciones
                .ToImmutableList();
 
         public IEnumerable<Adicional> GetAdicionales() => Adicionales.ToImmutableList();

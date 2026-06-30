@@ -8,7 +8,9 @@
     public record GetEmpleadoAsistenciaResponse(DateTime Ingreso,
                                                 DateTime Egreso,
                                                 TimeSpan DebeEntrar,
+                                                string Observacion,
                                                 decimal HsExtra,
                                                 decimal HsComunes,
+                                                decimal HsDoble,
                                                 decimal HsTotales);
 }

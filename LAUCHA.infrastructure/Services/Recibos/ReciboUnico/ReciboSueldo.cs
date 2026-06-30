@@ -9,7 +9,7 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
         public GetLiquidacionByIdResponse Liquidacion { get; }
         public GetEmpleadoAsistenciasResponse? Asistencias { get; private set; }
         public GetFeriadosMesResponse? Feriados { get; private set; }
-        public bool IncluirSueldoInterno { get; private set; }
+        public bool IncluirSueldoInterno { get; private set; } = false;
 
         public ReciboSueldo(GetLiquidacionByIdResponse liquidacion)
         {

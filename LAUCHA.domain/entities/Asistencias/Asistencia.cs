@@ -9,6 +9,7 @@
         public TimeSpan DebeIngresar { get; private set; }
 
         private const decimal JORNADA_HORAS = 9m;
+        private bool _esFeriado;
         protected Asistencia() { }
 
         public static Asistencia Crear(string dni, DateTime? ingresoBa, DateTime? egresoBa, DateTime? debeIngresarBa)
@@ -28,6 +29,10 @@
             };
         }
 
+        public void MarcarComoFeriado()
+        {
+            _esFeriado = true;
+        }
         private static DateTimeOffset ConvertirTimeOffset(DateTime localBa)
         {
             var unspecified = DateTime.SpecifyKind(localBa, DateTimeKind.Unspecified);
@@ -62,10 +67,18 @@
             return ingresoLocal.DayOfWeek == DayOfWeek.Saturday;
         }
 
+        public bool EsFeriado()
+        {
+            return _esFeriado;
+        }
+
         public decimal GetHorasComunes()
         {
             var total = GetHorasTotales();
             if (total <= 0)
+                return 0m;
+
+            if (EsFeriado())
                 return 0m;
 
             if (EsSabado())
@@ -80,11 +93,18 @@
             if (total <= 0)
                 return 0m;
 
+            const decimal QUINCE_MINUTOS = 0; //0.25m;
+            const decimal HORAS_SABADO_SIMPLES = 6m;
 
-            const decimal QUINCE_MINUTOS = 0.25m;
+
 
             if (EsSabado())
-                return total > QUINCE_MINUTOS ? Math.Round(total, 2) : 0m;
+            {
+                var hsExtraSabado = Math.Min(total, HORAS_SABADO_SIMPLES);
+                hsExtraSabado = Math.Round(hsExtraSabado, 2);
+
+                return hsExtraSabado > QUINCE_MINUTOS ? hsExtraSabado : 0m;
+            }
 
             if (total <= JORNADA_HORAS)
                 return 0m;
@@ -105,6 +125,36 @@
 
             var trabajadas = (Egreso.Value - inicioLaboral).TotalHours;
             return Math.Round((decimal)trabajadas, 2);
+        }
+
+        public decimal GetHorasDoble()
+        {
+            var total = GetHorasTotales();
+
+            if (total <= 0)
+                return 0m;
+
+            const decimal QUINCE_MINUTOS = 0m; // o 0.25m 
+
+            if (EsFeriado())
+            {
+                total = Math.Round(total, 2);
+                return total > QUINCE_MINUTOS ? total*1.5m : 0m;
+            }
+
+
+            if (!EsSabado())
+                return 0m;
+
+
+            const decimal HORAS_SABADO_SIMPLES = 6m;
+
+            if (total <= HORAS_SABADO_SIMPLES)
+                return 0m;
+
+            var hsDoble = Math.Round(total - HORAS_SABADO_SIMPLES, 2);
+
+            return hsDoble > QUINCE_MINUTOS ? hsDoble*2m : 0m;
         }
 
         private DateTimeOffset GetInicioLaboral()

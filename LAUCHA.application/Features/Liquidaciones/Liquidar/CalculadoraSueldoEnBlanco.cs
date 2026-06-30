@@ -45,7 +45,7 @@
                 hsBlanco = random.Next(40, 51);
             }
 
-            hsBlanco = 44; //hardcodeado para una prueba
+            hsBlanco = 40; //hardcodeado para una prueba
 
             montoSueldo = hsBlanco * acu.ValorSueldoOJornal;
 
