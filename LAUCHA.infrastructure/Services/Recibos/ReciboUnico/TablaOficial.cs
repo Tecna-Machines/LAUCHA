@@ -1,6 +1,7 @@
 ﻿using iText.IO.Font.Constants;
 using iText.Kernel.Colors;
 using iText.Kernel.Font;
+using iText.Layout.Borders;
 using iText.Layout.Element;
 using iText.Layout.Properties;
 using LAUCHA.application.Features.Liquidaciones.GetLiquidacionById;
@@ -12,106 +13,117 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
         public static Table Generar(GetLiquidacionByIdResponse liq)
         {
             var itemsEnBlanco = liq.Items
-            .Where(it => it.EsEnBlanco && it.Estado != (int)EstadoItemLiquidacion.ANULADO)
-            .OrderBy(it => it.TipoItem)
-            .ThenByDescending(it => it.Monto);
+                .Where(it => it.EsEnBlanco && it.Estado != (int)EstadoItemLiquidacion.ANULADO)
+                .ToList();
 
-            float[] pointColumnWidths = { 150F, 150F, 150F, 150F };
+            var remunerativos = itemsEnBlanco
+                .Where(it => it.TipoItem == (int)TipoItemLiquidacion.Remunerativo)
+                .OrderByDescending(it => it.Monto)
+                .ToList();
 
-            Table tablaOficial = new Table(pointColumnWidths);
-            AgregarCabeceraOficial(tablaOficial);
+            var noRemunerativos = itemsEnBlanco
+                .Where(it => it.TipoItem == (int)TipoItemLiquidacion.NoRemunerativo)
+                .OrderByDescending(it => it.Monto)
+                .ToList();
 
-            foreach (var it in itemsEnBlanco)
-            {
-                AgregarFilaItemOficial(tablaOficial, it);
-            }
+            var descuentos = itemsEnBlanco
+                .Where(it => it.TipoItem == (int)TipoItemLiquidacion.Retencion)
+                .OrderByDescending(it => it.Monto)
+                .ToList();
 
-            tablaOficial.AddCell(new Cell()
-                .Add(new Paragraph("SUBTOTAL:"))
-                .SetTextAlignment(TextAlignment.LEFT)
-                .SetBackgroundColor(ColorConstants.GRAY));
+            float[] pointColumnWidths = { 420F, 180F };
 
-            string totalRemunerativo = itemsEnBlanco.Where(it => it.TipoItem == (int)TipoItemLiquidacion.Remunerativo).Sum(it => it.Monto).ToString("N2");
-            tablaOficial.AddCell(new Cell()
-                .Add(new Paragraph(totalRemunerativo)));
+            Table tabla = new Table(pointColumnWidths)
+                .SetWidth(UnitValue.CreatePercentValue(100));
 
-            string totalRetenciones = itemsEnBlanco.Where(it => it.TipoItem == (int)TipoItemLiquidacion.Retencion).Sum(it => it.Monto).ToString("N2");
-            tablaOficial.AddCell(new Cell()
-                .Add(new Paragraph(totalRetenciones)));
+            AgregarCabecera(tabla);
 
-            string montoNoRemunerativo = itemsEnBlanco.Where(it => it.TipoItem == (int)TipoItemLiquidacion.NoRemunerativo).Sum(it => it.Monto).ToString("N2");
-            tablaOficial.AddCell(new Cell()
-                .Add(new Paragraph(montoNoRemunerativo)));
+            AgregarTituloSeccion(tabla, "REMUNERATIVO");
+            foreach (var item in remunerativos)
+                AgregarFilaItem(tabla, item.Concepto, item.Monto);
 
-            //tablaOficial.AddCell(new Cell()
-            //    .Add(new Paragraph("")));
+            AgregarTituloSeccion(tabla, "NO REMUNERATIVO");
+            foreach (var item in noRemunerativos)
+                AgregarFilaItem(tabla, item.Concepto, item.Monto);
 
-            tablaOficial.AddCell(new Cell()
-                .Add(new Paragraph("NETO:"))
-                .SetTextAlignment(TextAlignment.LEFT)
-                .SetBackgroundColor(ColorConstants.LIGHT_GRAY));
+            AgregarTituloSeccion(tabla, "DESCUENTOS");
+            foreach (var item in descuentos)
+                AgregarFilaItem(tabla, item.Concepto,-item.Monto);
 
-            tablaOficial.AddCell(new Cell()
-                .Add(new Paragraph(liq.Montos.EnBlanco.ToString("N2")))
-                .SetTextAlignment(TextAlignment.LEFT)
-                .SetBackgroundColor(ColorConstants.LIGHT_GRAY));
+            decimal totalRemunerativo = remunerativos.Sum(it => it.Monto);
+            decimal totalNoRemunerativo = noRemunerativos.Sum(it => it.Monto);
+            decimal totalDescuentos = descuentos.Sum(it => it.Monto);
+            decimal sueldoBruto = totalRemunerativo + totalNoRemunerativo;
+            decimal neto = sueldoBruto - totalDescuentos;
 
-            return tablaOficial;
+            AgregarFilaTotal(tabla, "SUELDO BRUTO", sueldoBruto, ColorConstants.LIGHT_GRAY);
+            AgregarFilaTotal(tabla, "DESCUENTOS", -totalDescuentos, ColorConstants.LIGHT_GRAY);
+            AgregarFilaTotal(tabla, "NETO", neto, ColorConstants.GRAY);
+
+            return tabla;
         }
 
-        private static void AgregarCabeceraOficial(Table tablaOficial)
+        private static void AgregarCabecera(Table tabla)
         {
-            // Define el estilo base para los encabezados
-            Color colorFondo = ColorConstants.LIGHT_GRAY;
-            TextAlignment alineacionCentro = TextAlignment.CENTER;
+            var fontBold = PdfFontFactory.CreateFont(StandardFontFamilies.HELVETICA);
 
-            PdfFont boldFont = PdfFontFactory.CreateFont(StandardFontFamilies.HELVETICA);
+            tabla.AddCell(new Cell()
+                .Add(new Paragraph("CONCEPTO").SetFont(fontBold).SetFontSize(9))
+                .SetTextAlignment(TextAlignment.CENTER)
+                .SetBackgroundColor(ColorConstants.DARK_GRAY)
+                .SetFontColor(ColorConstants.WHITE));
 
-            Func<string, TextAlignment, Cell> CrearCeldaEncabezado = (texto, alineacion) =>
-            {
-                return new Cell()
-                    .Add(new Paragraph(texto).SetFont(boldFont).SetFontSize(10))
-                    .SetBackgroundColor(colorFondo)
-                    .SetTextAlignment(alineacion)
-                    .SetPadding(5);
-            };
-
-            tablaOficial.AddCell(CrearCeldaEncabezado("Conceptos", TextAlignment.LEFT));
-            tablaOficial.AddCell(CrearCeldaEncabezado("Remunerativo", alineacionCentro));
-            tablaOficial.AddCell(CrearCeldaEncabezado("Descuentos", alineacionCentro));
-            tablaOficial.AddCell(CrearCeldaEncabezado("No Remunerativo", alineacionCentro));
-            //tablaOficial.AddCell(CrearCeldaEncabezado("Fecha", alineacionCentro));
+            tabla.AddCell(new Cell()
+                .Add(new Paragraph("MONTO").SetFont(fontBold).SetFontSize(9))
+                .SetTextAlignment(TextAlignment.CENTER)
+                .SetBackgroundColor(ColorConstants.DARK_GRAY)
+                .SetFontColor(ColorConstants.WHITE));
         }
 
-        private static void AgregarFilaItemOficial(Table tablaOficial, ItemLiquidacionByIdResponse item)
+        private static void AgregarTituloSeccion(Table tabla, string titulo)
         {
+            var fontBold = PdfFontFactory.CreateFont(StandardFontFamilies.HELVETICA);
 
-            string formatoMonto = "N2"; // Formato numérico con 2 decimales
-            TextAlignment alineacionMonto = TextAlignment.RIGHT;
+            tabla.AddCell(new Cell(1, 2)
+                .Add(new Paragraph(titulo).SetFont(fontBold).SetFontSize(8))
+                .SetTextAlignment(TextAlignment.CENTER)
+                .SetBorder(new SolidBorder(ColorConstants.GRAY, 0.5f))
+                .SetBackgroundColor(ColorConstants.LIGHT_GRAY)
+                .SetPadding(2));
+        }
 
-            tablaOficial.AddCell(new Cell()
-                .Add(new Paragraph(item.Concepto))
-                .SetTextAlignment(TextAlignment.LEFT));
+        private static void AgregarFilaItem(Table tabla, string concepto, decimal monto)
+        {
+            tabla.AddCell(new Cell()
+                .Add(new Paragraph(concepto).SetFontSize(8))
+                .SetBorder(new SolidBorder(ColorConstants.GRAY, 0.5f))
+                .SetTextAlignment(TextAlignment.LEFT)
+                .SetPadding(2));
 
-            string montoRemuneracion = item.TipoItem == (int)TipoItemLiquidacion.Remunerativo ? item.Monto.ToString(formatoMonto) : string.Empty;
-            tablaOficial.AddCell(new Cell()
-                .Add(new Paragraph(montoRemuneracion))
-                .SetTextAlignment(alineacionMonto));
+            tabla.AddCell(new Cell()
+                .Add(new Paragraph(monto.ToString("N2")).SetFontSize(8))
+                .SetBorder(new SolidBorder(ColorConstants.GRAY, 0.5f))
+                .SetTextAlignment(TextAlignment.RIGHT)
+                .SetPadding(2));
+        }
 
-            string montoDescuento = item.TipoItem == (int)TipoItemLiquidacion.Retencion ? "-" + item.Monto.ToString(formatoMonto) : string.Empty;
-            tablaOficial.AddCell(new Cell()
-                .Add(new Paragraph(montoDescuento))
-                .SetTextAlignment(alineacionMonto));
+        private static void AgregarFilaTotal(Table tabla, string concepto, decimal monto, Color fondo)
+        {
+            var fontBold = PdfFontFactory.CreateFont(StandardFontFamilies.HELVETICA);
 
-            string montoNoRemunerativo = item.TipoItem == (int)TipoItemLiquidacion.NoRemunerativo ? item.Monto.ToString(formatoMonto) : string.Empty;
-            tablaOficial.AddCell(new Cell()
-                .Add(new Paragraph(montoNoRemunerativo))
-                .SetTextAlignment(alineacionMonto));
+            tabla.AddCell(new Cell()
+                .Add(new Paragraph(concepto).SetFont(fontBold).SetFontSize(8))
+                .SetTextAlignment(TextAlignment.LEFT)
+                .SetBorder(new SolidBorder(ColorConstants.GRAY, 0.5f))
+                .SetBackgroundColor(fondo)
+                .SetPadding(3));
 
-            //tablaOficial.AddCell(new Cell()
-            //    .Add(new Paragraph(item.Fecha.ToString("dd/MM/yyyy")))
-            //    .SetTextAlignment(TextAlignment.RIGHT));
+            tabla.AddCell(new Cell()
+                .Add(new Paragraph(monto.ToString("N2")).SetFont(fontBold).SetFontSize(8))
+                .SetTextAlignment(TextAlignment.RIGHT)
+                .SetBorder(new SolidBorder(ColorConstants.GRAY, 0.5f))
+                .SetBackgroundColor(fondo)
+                .SetPadding(3));
         }
     }
 }
-

@@ -56,7 +56,7 @@ namespace LAUCHA.application.Features.Liquidaciones.GetLiquidacionById
             => new(liq.Anio, liq.Mes, liq.Quincena);
 
         private static EmpleadoLiquidacion MapEmpleado(Empleado emp)
-            => new(emp.Dni, emp.Nombre, emp.Apellido, emp.FechaAlta, emp.FechaIngreso);
+            => new(emp.Dni,emp.Cuil, emp.Nombre, emp.Apellido, emp.FechaAlta, emp.FechaIngreso);
 
         private MontosPagar GenerarMontos(Liquidacion liq)
         => new(liq.CalcularNetoBlanco(), liq.CalcularNetoNegro());

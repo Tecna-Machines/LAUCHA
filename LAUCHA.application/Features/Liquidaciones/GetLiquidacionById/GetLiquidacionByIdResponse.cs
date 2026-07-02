@@ -22,6 +22,7 @@ namespace LAUCHA.application.Features.Liquidaciones.GetLiquidacionById
     }
     public sealed record QuincenaLiquidacion(int Anio, int Mes, int Nro);
     public sealed record EmpleadoLiquidacion(string Dni,
+                                             string Cuil,
                                              string Nombre,
                                              string Apellido,
                                              DateTime FechaAlta,
