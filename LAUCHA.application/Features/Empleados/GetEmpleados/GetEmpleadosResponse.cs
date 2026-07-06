@@ -3,9 +3,9 @@
     public record GetEmpleadosResponse(int Total, List<GetEmpleadoResponse> Empleados);
 
     public record GetEmpleadoResponse(string Dni,
+                                      string Cuil,
                                       string Nombre,
                                       string Apellido,
-                                      string Cuenta,
                                       string AcuerdoId,
                                       int TipoSueldo);
 

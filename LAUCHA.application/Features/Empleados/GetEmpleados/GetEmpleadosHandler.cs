@@ -49,9 +49,9 @@
             int tipoSueldo = acuerdo is null ? -1 : (int)acuerdo.TipoSueldo;
 
             return new GetEmpleadoResponse(emp.Dni,
+                                           emp.Cuil,
                                            emp.Nombre,
                                            emp.Apellido,
-                                           "emp.Cuenta.NumeroCuenta",
                                            codigoAcuerdo,
                                            tipoSueldo);
         }

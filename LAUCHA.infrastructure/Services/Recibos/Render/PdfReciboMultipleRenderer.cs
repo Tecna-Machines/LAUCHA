@@ -57,13 +57,7 @@ namespace LAUCHA.infrastructure.Services.Recibos.Render
 
             recibo.IncluirTablaInterna();
 
-            if (recibo.IncluirSueldoInterno)
-            {
-                doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
-                doc.Add(TablaInterno.Generar(recibo.Liquidacion));
-            }
-
-            doc.Add(new Paragraph(""));
+            doc.Add(new AreaBreak(AreaBreakType.NEXT_PAGE));
             doc.Add(new TablaResumenHaberes(liq).Generar());
 
             if (recibo.Asistencias != null)
