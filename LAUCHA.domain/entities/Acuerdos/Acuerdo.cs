@@ -53,6 +53,14 @@ namespace LAUCHA.domain.Entities.Acuerdos
             this.Adicionales.Add(adicional);
         }
 
+        public bool EsMensual()
+        {
+            if (TipoSueldo == TipoSueldo.MENSUAL_FIJO) return true;
+            if (TipoSueldo == TipoSueldo.MENSUAL_FIJO_CON_HS_EXTRA) return true;
+
+            return false;
+        }
+
         public void AgregarNota(string nota)
         {
             this.Notas = nota;

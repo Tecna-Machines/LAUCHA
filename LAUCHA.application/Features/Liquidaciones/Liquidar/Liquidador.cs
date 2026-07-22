@@ -153,7 +153,19 @@
 
                 sumaRetenciones += monto;
 
-                _items.Add(retencionesNueva);
+                string codigoObraSocial = "0910";
+
+                if(retencion.CodigoRetencion == codigoObraSocial)
+                {
+                   var obraSocialRetencion =  CalculoEspecialObraSocial();
+                    _items.Add(obraSocialRetencion);
+
+                }
+                else
+                {
+                    _items.Add(retencionesNueva);
+                }
+
             }
 
             var retencionItemNegro = ItemLiquidacion.CrearDescuentoEnNegro("retenciones oficial", sumaRetenciones);
@@ -216,6 +228,42 @@
 
             _items.Add(itemHsExtra);
             _items.Add(itemHsDoble);        
+        }
+
+        private ItemLiquidacion CalculoEspecialObraSocial()
+        {
+            const int hsJornadaCompleta = 200;
+            const decimal porcentajeOS = 0.03m; // Se especifica 'm' para tipo decimal
+
+            decimal sueldoOficial = 0m;
+            decimal baseObraSocial = 0m;
+            decimal descuentoObraSocial = 0m;
+
+            if (_liquidacion.Acuerdo.EsMensual())
+            {
+                // Si es mensual a media jornada, se duplica el básico pactado
+                sueldoOficial = _liquidacion.Acuerdo.ValorSueldoOJornal * 2m;
+            }
+            else
+            {
+                // Si es hora/jornal, se proyecta a 200 horas mensuales
+                sueldoOficial = _liquidacion.Acuerdo.ValorSueldoOJornal * hsJornadaCompleta;
+            }
+
+            decimal porcentajeAntiguedad = _acuerdo.Empleado.GetAntiguedad() / 100m;
+            baseObraSocial = sueldoOficial * (1m + porcentajeAntiguedad);
+
+            // Si es  quincenal, la base imponible es la mitad (50%)
+            if (!_liquidacion.Acuerdo.EsMensual()) 
+            {
+                baseObraSocial /= 2m;
+            }
+
+            descuentoObraSocial = baseObraSocial * porcentajeOS;
+
+            descuentoObraSocial = Math.Round(descuentoObraSocial, 2, MidpointRounding.AwayFromZero);
+
+            return ItemLiquidacion.CrearRetencion("Obra Social 3%", descuentoObraSocial);
         }
 
     }
