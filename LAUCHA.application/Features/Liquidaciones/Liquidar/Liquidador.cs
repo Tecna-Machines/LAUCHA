@@ -81,6 +81,11 @@
 
         public void AgregarItemsDeAdicionales()
         {
+            if(_liquidacion.EsPrimeraQuincena())
+            {
+                return;
+            }
+
             var adicionales = _acuerdo.GetAdicionales();
 
             foreach (var adi in adicionales)
