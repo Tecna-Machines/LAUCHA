@@ -151,18 +151,19 @@
 
                 var retencionesNueva = ItemLiquidacion.CrearRetencion($"{retencion.Concepto} ({retencion.Unidades.ToString("N2")})", monto);
 
-                sumaRetenciones += monto;
 
                 string codigoObraSocial = "0910";
 
                 if(retencion.CodigoRetencion == codigoObraSocial)
                 {
                    var obraSocialRetencion =  CalculoEspecialObraSocial();
+                    sumaRetenciones += obraSocialRetencion.Monto;
                     _items.Add(obraSocialRetencion);
 
                 }
                 else
                 {
+                    sumaRetenciones += monto;
                     _items.Add(retencionesNueva);
                 }
 

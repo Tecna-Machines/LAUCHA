@@ -81,23 +81,40 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
 
         private static (DateTime Inicio, DateTime Fin) GetPeriodoLiquidacion(Liquidacion liq)
         {
-            var anio = liq.Anio;
-            var mes = liq.Mes;
+            int anio = liq.Anio;
+            int mes = liq.Mes;
 
-            DateTime inicio = new DateTime(anio, mes, 1);
-            DateTime ultimoDiaDelMes = new DateTime(
+            DateTime primerDiaDelMes = new(anio, mes, 1);
+            DateTime ultimoDiaDelMes = new(
                 anio,
                 mes,
                 DateTime.DaysInMonth(anio, mes)
             );
 
+            // Los empleados mensuales siempre usan todas las marcas del mes.
             if (liq.Acuerdo.TipoSueldo == TipoSueldo.MENSUAL_FIJO)
-                return (inicio, ultimoDiaDelMes);
+            {
+                return (primerDiaDelMes, ultimoDiaDelMes);
+            }
 
-            if (liq.Quincena == 2)
-                return (new DateTime(anio, mes, 16), ultimoDiaDelMes);
+            // Los empleados quincenales usan solamente las marcas
+            // correspondientes a la quincena liquidada.
+            return liq.Quincena switch
+            {
+                1 => (
+                    primerDiaDelMes,
+                    new DateTime(anio, mes, 15)
+                ),
 
-            return (inicio, new DateTime(anio, mes, 15));
+                2 => (
+                    new DateTime(anio, mes, 16),
+                    ultimoDiaDelMes
+                ),
+
+                _ => throw new InvalidOperationException(
+                    $"La quincena '{liq.Quincena}' no es válida para la liquidación."
+                )
+            };
         }
 
         private async Task<PeriodoAsistencias> RecuperarAsistencias(
