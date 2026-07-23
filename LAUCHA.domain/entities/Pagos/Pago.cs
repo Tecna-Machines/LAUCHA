@@ -7,6 +7,7 @@
         public string Descripcion { private set; get; }
         public DateTime Fecha { private set; get; }
         public decimal Monto { private set; get; }
+        public bool EsInterno { private set; get;  }
         public string? ReferenciaContabilidad { private set; get; }
         public EstadoContabilidad EstadoContable { private set; get; }
         public enum EstadoContabilidad
@@ -20,6 +21,7 @@
             EFECTIVO,
             TRANSFERENCIA
         }
+
         public ModoPago Modo { private set; get; }
 
         public Pago(string liquidacionId,
@@ -33,8 +35,14 @@
             Fecha = DateTime.Now;
             Modo = modo;
             EstadoContable = EstadoContabilidad.PENDIENTE;
+            EsInterno = false;
 
             SetMonto(monto);
+        }
+
+        public void SetPagoComoOficial()
+        {
+            EsInterno = false;
         }
 
         public void AbonarEnEfectivo(decimal monto)

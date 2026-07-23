@@ -59,7 +59,7 @@ namespace LAUCHA.application.Features.Liquidaciones.GetLiquidacionById
             => new(emp.Dni,emp.Cuil, emp.Nombre, emp.Apellido, emp.FechaAlta, emp.FechaIngreso);
 
         private MontosPagar GenerarMontos(Liquidacion liq)
-        => new(liq.CalcularNetoBlanco(), liq.CalcularNetoNegro());
+        => new(liq.CalcularNetoOficial(), liq.CalcularNetoInterno(),liq.CalcularPagadoOficial(),liq.CalcularPagadoInterno());
 
         private IEnumerable<ItemLiquidacionByIdResponse> MapItems(Liquidacion liq)
         {

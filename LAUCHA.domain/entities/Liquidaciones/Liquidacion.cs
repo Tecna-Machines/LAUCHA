@@ -85,7 +85,7 @@ namespace LAUCHA.domain.Entities.Liquidaciones
                .Where(it => !it.EsEnBlanco);
 
         //TODO: otra garcha para refactorizar
-        public decimal CalcularNetoBlanco()
+        public decimal CalcularNetoOficial()
         {
             var remunerativoBlanco = GetItemsRemunerativoBlancoValido()
                                                .Sum(it => it.Monto);
@@ -103,7 +103,7 @@ namespace LAUCHA.domain.Entities.Liquidaciones
             return totalRemuneraiones - montoRetenciones;
         }
 
-        public decimal CalcularNetoNegro()
+        public decimal CalcularNetoInterno()
         {
             decimal plataQueEntraEnNegro = GetItemsEnNegroAceptados()
                                                              .Where(it => it.EsIncremento)
@@ -114,6 +114,16 @@ namespace LAUCHA.domain.Entities.Liquidaciones
                                                             .Sum(it => it.Monto);
 
             return (plataQueEntraEnNegro - plataQueSaleEnNegro);
+        }
+
+        public decimal CalcularPagadoOficial()
+        {
+            return Pagos.Where(p => p.EsInterno == false).Sum(p => p.Monto);
+        }
+
+        public decimal CalcularPagadoInterno()
+        {
+            return Pagos.Where(p => p.EsInterno == true).Sum(p => p.Monto);
         }
 
         public bool EsPrimeraQuincena() => Quincena == 1 ? true : false;

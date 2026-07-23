@@ -27,6 +27,11 @@ namespace LAUCHA.application.Features.Liquidaciones.PagarLiquidacion
                                 (Pago.ModoPago)req.Modo,
                                 req.Monto);
 
+            if(!req.EsInterno)
+            {
+                pago.SetPagoComoOficial();
+            }
+
             liquidacion.AgregarPago(pago);
 
 

@@ -4,6 +4,7 @@
                                    string CuentaContableId,
                                    decimal Monto,
                                    int Modo,
+                                   bool EsInterno,
                                    string Descripcion);
 
     public record PagoCreadoResponse(string Id,

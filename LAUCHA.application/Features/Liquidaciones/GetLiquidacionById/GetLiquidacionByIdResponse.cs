@@ -10,7 +10,7 @@ namespace LAUCHA.application.Features.Liquidaciones.GetLiquidacionById
                                                    QuincenaLiquidacion Quincena,
                                                    EmpleadoLiquidacion Empleado,
                                                    GetAcuerdoByIdResponse Acuerdo,
-                                                   MontosPagar Montos,
+                                                   MontosPagar MontosPago,
                                                    IEnumerable<ItemLiquidacionByIdResponse> Items,
                                                    IEnumerable<PagoLiquidacionById> Pagos)
     {
@@ -28,7 +28,10 @@ namespace LAUCHA.application.Features.Liquidaciones.GetLiquidacionById
                                              DateTime FechaAlta,
                                              DateTime FechaIngreso);
 
-    public sealed record MontosPagar(decimal EnBlanco, decimal EnNegro);
+    public sealed record MontosPagar(decimal NetoOficial,
+                                    decimal NetoInterno,
+                                    decimal PagadoOficial,
+                                    decimal PagadoInterno);
     public sealed record ItemLiquidacionByIdResponse(string Concepto,
                                                      int Nro,
                                                      int Estado,

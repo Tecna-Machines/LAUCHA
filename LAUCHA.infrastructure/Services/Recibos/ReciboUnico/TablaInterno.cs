@@ -54,7 +54,7 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
                 .SetBackgroundColor(ColorConstants.LIGHT_GRAY));
 
             tablaInterno.AddCell(new Cell()
-                .Add(new Paragraph(liq.Montos.EnNegro.ToString("N2")))
+                .Add(new Paragraph(liq.MontosPago.NetoInterno.ToString("N2")))
                 .SetTextAlignment(TextAlignment.RIGHT)
                 .SetBackgroundColor(ColorConstants.LIGHT_GRAY));
 

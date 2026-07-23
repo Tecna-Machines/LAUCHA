@@ -16,7 +16,7 @@
         {
             List<ItemLiquidacion> ItemsRetenciones = new();
 
-            decimal montoRemunerativo = liq.CalcularNetoBlanco();
+            decimal montoRemunerativo = liq.CalcularNetoOficial();
             IEnumerable<RetencionAcuerdo> retencionesAcuerdo;
 
             if (liq.EsPrimeraQuincena())
@@ -41,7 +41,7 @@
         {
             List<ItemLiquidacion> ItemsRetenciones = new();
 
-            decimal montoRemunerativo = liq.CalcularNetoBlanco();
+            decimal montoRemunerativo = liq.CalcularNetoOficial();
             IEnumerable<RetencionAcuerdo> retencionesAcuerdo = acu.GetRetenciones();
 
             foreach (var retencion in retencionesAcuerdo)
