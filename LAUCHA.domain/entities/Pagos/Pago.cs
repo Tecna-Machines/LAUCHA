@@ -35,7 +35,7 @@
             Fecha = DateTime.Now;
             Modo = modo;
             EstadoContable = EstadoContabilidad.PENDIENTE;
-            EsInterno = false;
+            EsInterno = true;
 
             SetMonto(monto);
         }
