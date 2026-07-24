@@ -63,7 +63,7 @@ namespace LAUCHA.infrastructure.Services.Recibos.Render
             if (recibo.Asistencias != null)
             {
                 doc.Add(new Paragraph().SetMarginTop(8));
-                doc.Add(TablaAsistencias.Generar(recibo.Asistencias, recibo.Feriados));
+                doc.Add(TablaAsistencias.Generar(liq,recibo.Asistencias, recibo.Feriados));
             }
         }
 

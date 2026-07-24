@@ -31,7 +31,7 @@ namespace LAUCHA.infrastructure.Services.Recibos.Render
             if (recibo.Asistencias != null)
             {
                 doc.Add(new Paragraph(""));
-                doc.Add(TablaAsistencias.Generar(recibo.Asistencias, recibo.Feriados));
+                doc.Add(TablaAsistencias.Generar(liq,recibo.Asistencias, recibo.Feriados));
             }
 
             doc.Close();
@@ -65,7 +65,7 @@ namespace LAUCHA.infrastructure.Services.Recibos.Render
             if (recibo.Asistencias != null)
             {
                 doc.Add(new Paragraph(""));
-                doc.Add(TablaAsistencias.Generar(recibo.Asistencias, recibo.Feriados));
+                doc.Add(TablaAsistencias.Generar(req.Liquidacion,recibo.Asistencias, recibo.Feriados));
             }
             doc.Close();
 
