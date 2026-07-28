@@ -12,6 +12,7 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
     {
         public static Table Generar(GetLiquidacionByIdResponse liq)
         {
+
             var itemsEnBlanco = liq.Items
                 .Where(it => it.EsEnBlanco && it.Estado != (int)EstadoItemLiquidacion.ANULADO)
                 .ToList();
@@ -33,6 +34,12 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
 
             float[] pointColumnWidths = { 420F, 180F };
 
+            decimal totalRemunerativo = remunerativos.Sum(it => it.Monto);
+            decimal totalNoRemunerativo = noRemunerativos.Sum(it => it.Monto);
+            decimal totalDescuentos = descuentos.Sum(it => it.Monto);
+            decimal sueldoBruto = totalRemunerativo + totalNoRemunerativo;
+            decimal neto = sueldoBruto - totalDescuentos;
+
             Table tabla = new Table(pointColumnWidths)
                 .SetWidth(UnitValue.CreatePercentValue(100));
 
@@ -42,21 +49,18 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
             foreach (var item in remunerativos)
                 AgregarFilaItem(tabla, item.Concepto, item.Monto);
 
+
             AgregarTituloSeccion(tabla, "NO REMUNERATIVO");
             foreach (var item in noRemunerativos)
                 AgregarFilaItem(tabla, item.Concepto, item.Monto);
+
+            AgregarFilaTotal(tabla, "SUELDO BRUTO", sueldoBruto, ColorConstants.LIGHT_GRAY);
+
 
             AgregarTituloSeccion(tabla, "DESCUENTOS");
             foreach (var item in descuentos)
                 AgregarFilaItem(tabla, item.Concepto,-item.Monto);
 
-            decimal totalRemunerativo = remunerativos.Sum(it => it.Monto);
-            decimal totalNoRemunerativo = noRemunerativos.Sum(it => it.Monto);
-            decimal totalDescuentos = descuentos.Sum(it => it.Monto);
-            decimal sueldoBruto = totalRemunerativo + totalNoRemunerativo;
-            decimal neto = sueldoBruto - totalDescuentos;
-
-            AgregarFilaTotal(tabla, "SUELDO BRUTO", sueldoBruto, ColorConstants.LIGHT_GRAY);
             AgregarFilaTotal(tabla, "DESCUENTOS", -totalDescuentos, ColorConstants.LIGHT_GRAY);
             AgregarFilaTotal(tabla, "NETO", neto, ColorConstants.GRAY);
 

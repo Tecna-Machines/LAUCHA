@@ -113,46 +113,79 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
 
         private void AgregarParteAcuerdo()
         {
-            const decimal cantidadHoras = 200m;
+            const decimal horasMensuales = 200m;
+            const decimal horasQuincenales = 100m;
+            const int primeraQuincena = 1;
+            const int segundaQuincena = 2;
 
-            decimal totalMonto = 0m;
-            decimal totalHora = 0m;
+            bool esQuincenal = _liquidacion.EsQuincenal();
+            int nroQuincena = _liquidacion.Quincena.Nro;
 
-            decimal sueldo = _liquidacion.Acuerdo.Sueldo;
-            decimal valorHoraSueldo = sueldo / cantidadHoras;
+            decimal sueldoMensual = _liquidacion.Acuerdo.Sueldo;
+            decimal sueldoLiquidado;
+            decimal cantidadHorasSueldo;
 
-            AgregarFila(
-                concepto: "Sueldo",
-                cantidad: cantidadHoras,
-                horas: valorHoraSueldo,
-                monto: sueldo
-            );
-
-            totalMonto += sueldo;
-            totalHora += valorHoraSueldo;
-
-            foreach (var adicional in _liquidacion.Acuerdo.Adicionales)
+            /*
+             * Mensual:
+             *   sueldo completo + adicionales.
+             *
+             * Primera quincena:
+             *   mitad del sueldo, sin adicionales.
+             *
+             * Segunda quincena:
+             *   mitad del sueldo + adicionales completos.
+             */
+            if (esQuincenal)
             {
-                decimal montoAdicional = adicional.Monto;
-                decimal valorHoraAdicional = montoAdicional / cantidadHoras;
-
-                AgregarFila(
-                    concepto: adicional.Concepto,
-                    cantidad: cantidadHoras,
-                    horas: valorHoraAdicional,
-                    monto: montoAdicional
-                );
-
-                totalMonto += montoAdicional;
-                totalHora += valorHoraAdicional;
+                sueldoLiquidado = sueldoMensual / 2m;
+                cantidadHorasSueldo = horasQuincenales;
+            }
+            else
+            {
+                sueldoLiquidado = sueldoMensual;
+                cantidadHorasSueldo = horasMensuales;
             }
 
-            _brutoBasico = _liquidacion.EsQuincenal() ? totalMonto/2 : totalMonto;
+            decimal valorHoraSueldo = sueldoMensual / horasMensuales;
+            decimal totalMonto = sueldoLiquidado;
 
             AgregarFila(
-                concepto: _liquidacion.EsQuincenal() ? "Bruto básico / 2" : "Bruto básico",
-                cantidad: _liquidacion.EsQuincenal() ? 100 : 200,
-                horas: totalHora,
+                concepto: esQuincenal
+                    ? $"Sueldo - {nroQuincena}° quincena"
+                    : "Sueldo mensual",
+                cantidad: cantidadHorasSueldo,
+                horas: valorHoraSueldo,
+                monto: sueldoLiquidado
+            );
+
+            bool debeMostrarAdicionales =
+                !esQuincenal ||
+                nroQuincena == segundaQuincena;
+
+            if (debeMostrarAdicionales && _liquidacion.Acuerdo.Adicionales is not null)
+            {
+                foreach (var adicional in _liquidacion.Acuerdo.Adicionales)
+                {
+                    decimal montoAdicional = adicional.Monto;
+                    decimal valorHoraAdicional = montoAdicional / horasMensuales;
+
+                    AgregarFila(
+                        concepto: adicional.Concepto,
+                        cantidad: horasMensuales,
+                        horas: valorHoraAdicional,
+                        monto: montoAdicional
+                    );
+
+                    totalMonto += montoAdicional;
+                }
+            }
+
+            _brutoBasico = totalMonto;
+
+            AgregarFila(
+                concepto: "Bruto básico",
+                cantidad: null,
+                horas: null,
                 monto: _brutoBasico,
                 colorFondo: new DeviceRgb(230, 230, 230)
             );
@@ -248,10 +281,10 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
 
             foreach (var pago in _liquidacion.Pagos.OrderBy(p => p.Fecha))
             {
-                string conceptoPago = $"Pago {pago.Modo}";
+                string descripcionPago = $"{pago.Descripcion}";
 
                 AgregarFila(
-                    concepto: conceptoPago,
+                    concepto: descripcionPago,
                     cantidad: null,
                     horas: null,
                     monto: pago.Monto
