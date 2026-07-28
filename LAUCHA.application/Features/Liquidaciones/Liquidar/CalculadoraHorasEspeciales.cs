@@ -33,7 +33,7 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
             decimal monto = cantHorasExtra * valorHorasExtra;
 
             return ItemLiquidacion.CrearRemunerativoEnNegro(
-                $"horas extra {cantHorasExtra} | hora: {valorHorasExtra.ToString("C")}",
+                $"Horas extras: [{cantHorasExtra}]  Valor hora: {valorHorasExtra.ToString("C")}",
                 monto
             );
         }
@@ -55,7 +55,7 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
             decimal monto = cantHorasDoble * valorHorasDoble;
 
             return ItemLiquidacion.CrearRemunerativoEnNegro(
-                $"horas doble {cantHorasDoble} | hora:{valorHorasDoble.ToString("C")}",
+                $"Horas dobles: [{cantHorasDoble}]  Valor hora:{valorHorasDoble.ToString("C")}",
                 monto
             );
         }

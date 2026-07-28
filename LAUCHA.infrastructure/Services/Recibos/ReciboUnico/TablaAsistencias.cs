@@ -12,6 +12,9 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
 {
     internal static class TablaAsistencias
     {
+        private static readonly CultureInfo CulturaArgentina =
+            new("es-AR");
+
         public static Table Generar(
             GetLiquidacionByIdResponse liquidacion,
             GetEmpleadoAsistenciasResponse? asistencias,
@@ -23,7 +26,9 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
                 feriadosResponse?.Feriados ??
                 Enumerable.Empty<GetFeriadoResponse>();
 
-            Table tabla = CrearTabla();
+            bool formatoCompacto = !liquidacion.EsQuincenal();
+
+            Table tabla = CrearTabla(formatoCompacto);
 
             var periodo = ObtenerPeriodo(liquidacion);
 
@@ -43,7 +48,8 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
                     tabla,
                     dia,
                     asistencia,
-                    feriado);
+                    feriado,
+                    formatoCompacto);
             }
 
             return tabla;
@@ -62,7 +68,7 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
                 mes,
                 DateTime.DaysInMonth(anio, mes));
 
-            // Los empleados mensuales siempre muestran el mes completo.
+            // Los empleados mensuales muestran el mes completo.
             if (!liquidacion.EsQuincenal())
             {
                 return (primerDiaMes, ultimoDiaMes);
@@ -71,43 +77,65 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
             // Primera quincena: del día 1 al 15.
             if (liquidacion.Quincena.Nro == 1)
             {
-                DateTime finPrimeraQuincena = new(anio, mes, 15);
+                DateTime finPrimeraQuincena = new(
+                    anio,
+                    mes,
+                    15);
 
-                return (primerDiaMes, finPrimeraQuincena);
+                return (
+                    primerDiaMes,
+                    finPrimeraQuincena);
             }
 
-            // Segunda quincena: del día 16 hasta el último día del mes.
-            DateTime inicioSegundaQuincena = new(anio, mes, 16);
+            // Segunda quincena: desde el día 16 hasta fin de mes.
+            DateTime inicioSegundaQuincena = new(
+                anio,
+                mes,
+                16);
 
-            return (inicioSegundaQuincena, ultimoDiaMes);
+            return (
+                inicioSegundaQuincena,
+                ultimoDiaMes);
         }
 
-        private static Table CrearTabla()
+        private static Table CrearTabla(bool formatoCompacto)
         {
             float[] columnas =
             {
                 3.5f, // Fecha
-                1f,   // Ing
-                1f,   // Egr
-                1f,   // Reg
-                1f,   // Ext
-                1f,   // Dobl
-                1f    // Tot
+                1f,   // Ingreso
+                1f,   // Egreso
+                1f,   // Horas regulares
+                1f,   // Horas extra
+                1f,   // Horas dobles
+                1f    // Total
             };
 
             Table tabla = new(columnas);
 
-            // Ocupa la mitad del ancho disponible de la hoja.
-            tabla.SetWidth(UnitValue.CreatePercentValue(50));
+            tabla.SetWidth(
+                UnitValue.CreatePercentValue(70));
 
-            // Queda alineada a la izquierda.
-            tabla.SetHorizontalAlignment(HorizontalAlignment.LEFT);
+            tabla.SetHorizontalAlignment(
+                HorizontalAlignment.LEFT);
 
-            tabla.SetFontSize(6);
+            tabla.SetFontSize(
+                formatoCompacto ? 10 : 11);
+
             tabla.SetMarginTop(0);
             tabla.SetMarginBottom(0);
 
-            AgregarCabecera(tabla);
+            /*
+             * Evita que la tabla sea dividida entre páginas.
+             *
+             * Para los empleados mensuales se utiliza el formato compacto
+             * para que el mes completo pueda entrar en la página actual.
+             */
+            tabla.SetKeepTogether(true);
+
+            AgregarCabecera(
+                tabla,
+                formatoCompacto);
 
             return tabla;
         }
@@ -116,11 +144,12 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
             Table tabla,
             DateTime fecha,
             GetEmpleadoAsistenciaResponse? asistencia,
-            GetFeriadoResponse? feriado)
+            GetFeriadoResponse? feriado,
+            bool formatoCompacto)
         {
             string fechaTexto =
                 $"{fecha:dd/MM} " +
-                fecha.ToString("ddd", new CultureInfo("es-AR"));
+                fecha.ToString("ddd", CulturaArgentina);
 
             if (feriado is not null)
             {
@@ -130,73 +159,120 @@ namespace LAUCHA.infrastructure.Services.Recibos.ReciboUnico
             tabla.AddCell(
                 CrearCelda(
                     fechaTexto,
+                    formatoCompacto,
                     TextAlignment.LEFT));
 
             if (asistencia is null)
             {
-                // Columnas posteriores a Fecha:
                 // Ing, Egr, Reg, Ext, Dobl y Tot.
                 for (int i = 0; i < 6; i++)
                 {
-                    tabla.AddCell(CrearCelda(string.Empty));
+                    tabla.AddCell(
+                        CrearCelda(
+                            string.Empty,
+                            formatoCompacto));
                 }
 
                 return;
             }
 
             tabla.AddCell(
-                CrearCelda(asistencia.Ingreso.ToString("HH:mm")));
+                CrearCelda(
+                    asistencia.Ingreso.ToString("HH:mm"),
+                    formatoCompacto));
 
             tabla.AddCell(
-                CrearCelda(asistencia.Egreso.ToString("HH:mm")));
+                CrearCelda(
+                    asistencia.Egreso.ToString("HH:mm"),
+                    formatoCompacto));
 
             tabla.AddCell(
-                CrearCelda(asistencia.HsComunes.ToString()));
+                CrearCelda(
+                    asistencia.HsComunes.ToString(),
+                    formatoCompacto));
 
             tabla.AddCell(
-                CrearCelda(asistencia.HsExtra.ToString()));
+                CrearCelda(
+                    asistencia.HsExtra.ToString(),
+                    formatoCompacto));
 
             tabla.AddCell(
-                CrearCelda(asistencia.HsDoble.ToString()));
+                CrearCelda(
+                    asistencia.HsDoble.ToString(),
+                    formatoCompacto));
 
             tabla.AddCell(
-                CrearCelda(asistencia.HsTotales.ToString()));
+                CrearCelda(
+                    asistencia.HsTotales.ToString(),
+                    formatoCompacto));
         }
 
         private static Cell CrearCelda(
             string texto,
+            bool formatoCompacto,
             TextAlignment alineacion = TextAlignment.CENTER)
         {
+            float paddingVertical =
+                formatoCompacto ? 0.6f : 1.2f;
+
+            Paragraph parrafo = new Paragraph(texto ?? string.Empty)
+                .SetMargin(0)
+                .SetMultipliedLeading(
+                    formatoCompacto ? 0.85f : 0.95f);
+
             return new Cell()
-                .Add(new Paragraph(texto))
+                .Add(parrafo)
                 .SetTextAlignment(alineacion)
-                .SetPadding(2);
+                .SetVerticalAlignment(
+                    VerticalAlignment.MIDDLE)
+                .SetPaddingTop(paddingVertical)
+                .SetPaddingBottom(paddingVertical)
+                .SetPaddingLeft(1.5f)
+                .SetPaddingRight(1.5f);
         }
 
-        private static void AgregarCabecera(Table tabla)
+        private static void AgregarCabecera(
+            Table tabla,
+            bool formatoCompacto)
         {
             PdfFont font = PdfFontFactory.CreateFont(
                 StandardFontFamilies.HELVETICA);
 
+            float tamanioFuente =
+                formatoCompacto ? 8 : 9;
+
+            float paddingVertical =
+                formatoCompacto ? 1f : 2f;
+
             Cell Header(string texto)
             {
+                Paragraph parrafo = new Paragraph(texto)
+                    .SetFont(font)
+                    .SetFontSize(tamanioFuente)
+                    .SetMargin(0)
+                    .SetMultipliedLeading(0.9f);
+
                 return new Cell()
-                    .Add(
-                        new Paragraph(texto)
-                            .SetFont(font)
-                            .SetFontSize(6))
-                    .SetBackgroundColor(ColorConstants.LIGHT_GRAY)
-                    .SetTextAlignment(TextAlignment.CENTER)
-                    .SetPadding(3);
+                    .Add(parrafo)
+                    .SetBackgroundColor(
+                        ColorConstants.LIGHT_GRAY)
+                    .SetTextAlignment(
+                        TextAlignment.CENTER)
+                    .SetVerticalAlignment(
+                        VerticalAlignment.MIDDLE)
+                    .SetPaddingTop(paddingVertical)
+                    .SetPaddingBottom(paddingVertical)
+                    .SetPaddingLeft(1f)
+                    .SetPaddingRight(1f);
             }
 
-            tabla.AddCell(Header("Fecha"));
-            tabla.AddCell(Header("Ing"));
-            tabla.AddCell(Header("Egr"));
-            tabla.AddCell(Header("Reg"));
-            tabla.AddCell(Header("Ext"));
-            tabla.AddCell(Header("Dobl"));
-            tabla.AddCell(Header("Tot"));
+            tabla.AddHeaderCell(Header("Fecha"));
+            tabla.AddHeaderCell(Header("Ing"));
+            tabla.AddHeaderCell(Header("Egr"));
+            tabla.AddHeaderCell(Header("Reg"));
+            tabla.AddHeaderCell(Header("Ext"));
+            tabla.AddHeaderCell(Header("Dobl"));
+            tabla.AddHeaderCell(Header("Tot"));
         }
 
         private static GetFeriadoResponse? ObtenerFeriadoDelDia(
