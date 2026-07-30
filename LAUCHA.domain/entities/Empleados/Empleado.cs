@@ -22,7 +22,7 @@ namespace LAUCHA.domain.Entities.Empleados
         public ICollection<Acuerdo> Contratos { get; set; } = null!;
 
 
-        public int GetAntiguedad()
+        public int GetAntiguedadEnAnios()
         {
             var hoy = DateTime.Today;
 

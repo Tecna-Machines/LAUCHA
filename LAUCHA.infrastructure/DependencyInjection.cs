@@ -1,8 +1,10 @@
 ﻿using LAUCHA.application.Features.Liquidaciones.GetRecibo;
 using LAUCHA.application.Features.Liquidaciones.GetRecibos;
+using LAUCHA.domain.Services.CalendarioLaboral;
 using LAUCHA.infrastructure.persistence;
 using LAUCHA.infrastructure.repositories;
 using LAUCHA.infrastructure.Repositories;
+using LAUCHA.infrastructure.Services.CalendarioLaboral;
 using LAUCHA.infrastructure.Services.Recibos.Render;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -38,6 +40,8 @@ namespace LAUCHA.infrastructure
             services.AddScoped<ICreditoRepository, CreditoRepository>();
 
             services.AddScoped<ILiquidacionRepository, LiquidacionRepository>();
+
+            services.AddScoped<ICalendarioLaboral,CalendarioLaboralImp>();
 
             return services;
         }

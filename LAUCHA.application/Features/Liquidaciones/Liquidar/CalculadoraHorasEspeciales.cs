@@ -32,7 +32,7 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
 
             decimal monto = cantHorasExtra * valorHorasExtra;
 
-            return ItemLiquidacion.CrearRemunerativoEnNegro(
+            return ItemLiquidacion.CrearRemunerativoInterno(
                 $"Horas extras: [{cantHorasExtra}]  Valor hora: {valorHorasExtra.ToString("C")}",
                 monto
             );
@@ -54,29 +54,52 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
 
             decimal monto = cantHorasDoble * valorHorasDoble;
 
-            return ItemLiquidacion.CrearRemunerativoEnNegro(
+            return ItemLiquidacion.CrearRemunerativoInterno(
                 $"Horas dobles: [{cantHorasDoble}]  Valor hora:{valorHorasDoble.ToString("C")}",
                 monto
             );
         }
 
-        public async Task<ItemLiquidacion> GenerarItemHorasFeriadoOficial(Liquidacion liq)
+        public async Task<ItemLiquidacion> GenerarItemHorasFeriadoOficial(
+            Liquidacion liq)
         {
             var (inicio, fin) = GetPeriodoLiquidacion(liq);
 
-            //si hay un feriado dentro del periodo le agrega 4 hs ,siempre por mas que no venga el empleado
-            var feriados = await _feriados.GetFeriadosDelMes(inicio.Month, inicio.Year);
-            int cantFeriados = feriados.Count();
-            int hsFeriado = cantFeriados * 4;
+            ICollection<Feriado> feriadosDelMes =
+                await _feriados.GetFeriadosDelMes(
+                    inicio.Month,
+                    inicio.Year);
 
-            //TODO: ojo aca
-            decimal monto = hsFeriado * liq.Acuerdo.ValorSueldoOJornal;
+            DateOnly fechaInicio =
+                DateOnly.FromDateTime(inicio);
 
+            DateOnly fechaFin =
+                DateOnly.FromDateTime(fin);
+
+            int cantidadFeriados = feriadosDelMes.Count(feriado =>
+            {
+                DateOnly fechaFeriado =
+                    DateOnly.FromDateTime(feriado.Fecha);
+
+                return fechaFeriado >= fechaInicio &&
+                       fechaFeriado <= fechaFin;
+            });
+
+
+            int jornadaFeriado = 9;
+
+            if (liq.Acuerdo.Jornada == domain.Enums.Jornada.MEDIA)
+                jornadaFeriado = 4;
+
+            int horasFeriado = cantidadFeriados * jornadaFeriado;
+
+            decimal monto =
+                horasFeriado *
+                liq.Acuerdo.ValorSueldoOJornal;
 
             return ItemLiquidacion.CrearRemunerativo(
-                $"horas feriado {hsFeriado}",
-                monto
-                );
+                $"Horas feriado ({horasFeriado})",
+                monto);
         }
 
         private static (DateTime Inicio, DateTime Fin) GetPeriodoLiquidacion(Liquidacion liq)

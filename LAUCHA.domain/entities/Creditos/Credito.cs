@@ -63,7 +63,7 @@ namespace LAUCHA.domain.Entities.Creditos
             CodigoLiquidacionAcreditacion = liquidacion.Codigo;
             Estado = EstadoCredito.PENDIENTE;
 
-            return ItemLiquidacion.CrearRemunerativoEnNegro(Descripcion, MontoPrestado);
+            return ItemLiquidacion.CrearRemunerativoInterno(Descripcion, MontoPrestado);
         }
 
         public void Desacreditar()

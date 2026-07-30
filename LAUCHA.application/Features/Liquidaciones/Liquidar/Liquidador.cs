@@ -1,4 +1,6 @@
-﻿namespace LAUCHA.application.Features.Liquidaciones.Liquidar
+﻿using LAUCHA.domain.Services.Sueldo;
+
+namespace LAUCHA.application.Features.Liquidaciones.Liquidar
 {
     internal class Liquidador : ILiquidador
     {
@@ -9,14 +11,19 @@
         private CobradorDeCuotas _cobradorCuotas;
         private CalculadoraHorasEspeciales _calculadoraHsExtra;
 
+        private ISueldoService _sueldoService;
+
         private decimal _brutoOficial;
-        private decimal _montoBaseAntiguedad;
+        private decimal _baseCalculoAntiguedad;
         private decimal _netoEnBlanco;
+
+        private decimal _brutoRemunerativo;
 
 
         public Liquidador(AcreditadorDeCreditos calculadoraDescuentos,
                           CobradorDeCuotas cobradorCuotas,
-                          CalculadoraHorasEspeciales calculadoraHsExtra)
+                          CalculadoraHorasEspeciales calculadoraHsExtra,
+                          ISueldoService sueldoService)
         {
             _items = new List<ItemLiquidacion>();
 
@@ -25,9 +32,10 @@
             _acreditador = calculadoraDescuentos;
             _cobradorCuotas = cobradorCuotas;
             _calculadoraHsExtra = calculadoraHsExtra;
+            _sueldoService = sueldoService;
         }
 
-        public async Task Liquidar(Liquidacion liquidacion, Acuerdo acuerdo)
+        public async Task RecalcularLiquidacion(Liquidacion liquidacion, Acuerdo acuerdo)
         {
             if (liquidacion.CodigoAcuerdo != acuerdo.Codigo)
                 throw new InvalidOperationException("acuerdo.no.valido");
@@ -37,14 +45,10 @@
             _acuerdo = acuerdo;
 
 
-            AgregarSueldos();
+            await AgregarSueldos();
             AgregarItemsDeAdicionales();
             await AgregarHorasFeriadoOficial();
-
-
             AgregarAntiguedad();
-
-
             AgregarRetenciones();
 
             await AgregarCreditosYAdelantos();
@@ -55,33 +59,34 @@
             _liquidacion.ReemplazarItemsAutomaticos(_items);
         }
 
-        public void AgregarSueldos()
+        public async Task AgregarSueldos()
         {
-            var sueldoEnBlanco = GeneradorSueldoEnBlanco.Generar(_liquidacion, _acuerdo);
+            var itemSueldoOficial = await _sueldoService.ComputarOficial(_liquidacion);
+            var itemSueldoIntenro = _sueldoService.ComputarInterno(_liquidacion);
 
-            _montoBaseAntiguedad = sueldoEnBlanco.Monto;
-            _netoEnBlanco += sueldoEnBlanco.Monto;
-            _brutoOficial += sueldoEnBlanco.Monto;
+            _baseCalculoAntiguedad = itemSueldoOficial.Monto;
+            _netoEnBlanco += itemSueldoOficial.Monto;
+            _brutoOficial += itemSueldoOficial.Monto;
+            _brutoRemunerativo += itemSueldoOficial.Monto;
 
 
-            var sueldoEnNegro = GeneradorSueldoEnNegro.Generar(_liquidacion, _acuerdo);
 
-            var itemsEnBlancoPreexistentes = _liquidacion.GetAllItems()
+            var montoItemsOficialGeneradosManualmente = _liquidacion.GetAllItems()
                                                         .Where(it => it.Tipo == TipoItemLiquidacion.Remunerativo
-                                                        && it.generadoPorUsuario != false && it.EsEnBlanco && it.Estado != EstadoItemLiquidacion.ANULADO);
+                                                        && it.generadoPorUsuario != false && it.EsEnBlanco && it.Estado != EstadoItemLiquidacion.ANULADO)
+                                                        .Sum(it => it.Monto);
 
-            decimal totalBlancoPreexistente = itemsEnBlancoPreexistentes.Sum(it => it.Monto);
 
-            _brutoOficial += totalBlancoPreexistente;
-            _netoEnBlanco += totalBlancoPreexistente;
+            _brutoOficial += montoItemsOficialGeneradosManualmente;
+            _netoEnBlanco += montoItemsOficialGeneradosManualmente;
 
-            _items.Add(sueldoEnBlanco);
-            _items.Add(sueldoEnNegro);
+            _items.Add(itemSueldoOficial);
+            _items.Add(itemSueldoIntenro);
         }
 
         public void AgregarItemsDeAdicionales()
         {
-            if(_liquidacion.EsPrimeraQuincena())
+            if (_liquidacion.EsPrimeraQuincena())
             {
                 return;
             }
@@ -90,7 +95,7 @@
 
             foreach (var adi in adicionales)
             {
-                var item = ItemLiquidacion.CrearRemunerativoEnNegro(adi.Concepto, adi.Monto);
+                var item = ItemLiquidacion.CrearRemunerativoInterno(adi.Concepto, adi.Monto);
 
                 _items.Add(item);
             }
@@ -99,7 +104,7 @@
 
         private async Task AgregarHorasFeriadoOficial()
         {
-            var itemsHsFeriadoBlanco = await _calculadoraHsExtra
+            var itemsHsFeriadosOficial = await _calculadoraHsExtra
                 .GenerarItemHorasFeriadoOficial(_liquidacion);
 
             if (!_acuerdo.PuedeHacerHorasExtra())
@@ -107,26 +112,28 @@
                 return;
             }
 
-            _montoBaseAntiguedad += itemsHsFeriadoBlanco.Monto;
-            _brutoOficial += itemsHsFeriadoBlanco.Monto;
-            _netoEnBlanco += itemsHsFeriadoBlanco.Monto;
+            _baseCalculoAntiguedad += itemsHsFeriadosOficial.Monto;
+            _brutoOficial += itemsHsFeriadosOficial.Monto;
+            _netoEnBlanco += itemsHsFeriadosOficial.Monto;
+            _brutoRemunerativo += itemsHsFeriadosOficial.Monto;
 
 
-            _items.Add(itemsHsFeriadoBlanco);
+            _items.Add(itemsHsFeriadosOficial);
         }
 
         private void AgregarAntiguedad()
         {
-            decimal anios = _acuerdo.Empleado.GetAntiguedad();
+            decimal anios = _acuerdo.Empleado.GetAntiguedadEnAnios();
+            decimal montoAntiguedad = (anios * _baseCalculoAntiguedad) / 100m;
 
-            decimal montoAntiguedad = (anios * _montoBaseAntiguedad) / 100m;
-
-            var itemAntiguedad = ItemLiquidacion.CrearRemunerativo($"antiguedad ({anios})", montoAntiguedad);
+            var itemAntiguedad = ItemLiquidacion
+                                .CrearRemunerativo($"antiguedad ({anios})", montoAntiguedad);
 
             _items.Add(itemAntiguedad);
 
             _brutoOficial += montoAntiguedad;
             _netoEnBlanco += montoAntiguedad;
+            _brutoRemunerativo += montoAntiguedad;
         }
 
         public void AgregarRetenciones()
@@ -151,12 +158,12 @@
 
                 var retencionesNueva = ItemLiquidacion.CrearRetencion($"{retencion.Concepto} ({retencion.Unidades.ToString("N2")})", monto);
 
-
+                //TODO: estp probablemente este mal , va esta rremal
                 string codigoObraSocial = "0910";
 
-                if(retencion.CodigoRetencion == codigoObraSocial)
+                if (retencion.CodigoRetencion == codigoObraSocial)
                 {
-                   var obraSocialRetencion =  CalculoEspecialObraSocial();
+                    var obraSocialRetencion = CalculoEspecialObraSocial();
                     sumaRetenciones += obraSocialRetencion.Monto;
                     _items.Add(obraSocialRetencion);
 
@@ -169,12 +176,11 @@
 
             }
 
-            var retencionItemNegro = ItemLiquidacion.CrearDescuentoEnNegro("retenciones oficial", sumaRetenciones);
+            var itemRetencion = ItemLiquidacion.CrearDescuentoInterno("retenciones", sumaRetenciones);
+            var itemDeposito = ItemLiquidacion.CrearDescuentoInterno("deposito", _netoEnBlanco - sumaRetenciones);
 
-            var itemNetoBlanco = ItemLiquidacion.CrearDescuentoEnNegro("deposito", _netoEnBlanco - sumaRetenciones);
-
-            _items.Add(itemNetoBlanco);
-            _items.Add(retencionItemNegro);
+            _items.Add(itemDeposito);
+            _items.Add(itemRetencion);
         }
 
         //TODO: es muy probable que esto no vaya aqui
@@ -228,7 +234,7 @@
             }
 
             _items.Add(itemHsExtra);
-            _items.Add(itemHsDoble);        
+            _items.Add(itemHsDoble);
         }
 
         private ItemLiquidacion CalculoEspecialObraSocial()
@@ -251,13 +257,18 @@
                 sueldoOficial = _liquidacion.Acuerdo.ValorSueldoOJornal * hsJornadaCompleta;
             }
 
-            decimal porcentajeAntiguedad = _acuerdo.Empleado.GetAntiguedad() / 100m;
+            decimal porcentajeAntiguedad = _acuerdo.Empleado.GetAntiguedadEnAnios() / 100m;
             baseObraSocial = sueldoOficial * (1m + porcentajeAntiguedad);
 
             // Si es  quincenal, la base imponible es la mitad (50%)
-            if (!_liquidacion.Acuerdo.EsMensual()) 
+            if (!_liquidacion.Acuerdo.EsMensual())
             {
                 baseObraSocial /= 2m;
+            }
+
+            if(_liquidacion.Acuerdo.Jornada == domain.Enums.Jornada.COMPLETA)
+            {
+                baseObraSocial = _brutoRemunerativo;
             }
 
             descuentoObraSocial = baseObraSocial * porcentajeOS;

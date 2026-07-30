@@ -4,6 +4,7 @@ using LAUCHA.application.Features.Creditos;
 using LAUCHA.application.Features.Empleados;
 using LAUCHA.application.Features.Feriados;
 using LAUCHA.application.Features.Liquidaciones;
+using LAUCHA.domain.Services.Sueldo;
 namespace LAUCHA.application
 {
     public static class DependencyInjection
@@ -16,6 +17,9 @@ namespace LAUCHA.application
             CatalogoRetencionesFeatures.AddCatalogoFeatures(services);
             CreditosFeatures.AddCreditosFeatures(services);
             FeriadoFeatures.AddFeriadoFeatures(services);
+
+            //TODO: quizas esto no deberia ir aqui
+            services.AddScoped<ISueldoService, SueldoService>();
 
             return services;
         }

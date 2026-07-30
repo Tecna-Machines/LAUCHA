@@ -32,7 +32,7 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
                 cuotaPagar.AsociarConLiquidacion(liq);
                 credito.PagarCuota(cuotaPagar.Nro);
 
-                var it = ItemLiquidacion.CrearDescuentoEnNegro($"{cuotaPagar.Descripcion}", cuotaPagar.Monto);
+                var it = ItemLiquidacion.CrearDescuentoInterno($"{cuotaPagar.Descripcion}", cuotaPagar.Monto);
                 items.Add(it);
 
                 await _creditos.Update(credito);

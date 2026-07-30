@@ -2,6 +2,6 @@
 {
     public interface ILiquidador
     {
-        Task Liquidar(Liquidacion liquidacion, Acuerdo acuerdo);
+        Task RecalcularLiquidacion(Liquidacion liquidacion, Acuerdo acuerdo);
     }
 }

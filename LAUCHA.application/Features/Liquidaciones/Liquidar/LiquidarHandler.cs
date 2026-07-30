@@ -32,7 +32,7 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
             if (acuerdo is null)
                 return Result.Failure<LiquidarResponse>(AcuerdosErrors.NoEncontrado);
 
-            await _liquidador.Liquidar(liquidacion, acuerdo);
+            await _liquidador.RecalcularLiquidacion(liquidacion, acuerdo);
 
             //liquidacion.Sellar();
 

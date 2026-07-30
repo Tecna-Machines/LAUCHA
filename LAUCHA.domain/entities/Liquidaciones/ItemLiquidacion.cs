@@ -60,7 +60,7 @@
             };
         }
 
-        public static ItemLiquidacion CrearRemunerativoEnNegro(string concepto, decimal monto)
+        public static ItemLiquidacion CrearRemunerativoInterno(string concepto, decimal monto)
         {
             return new ItemLiquidacion
             {
@@ -74,7 +74,7 @@
             };
         }
 
-        public static ItemLiquidacion CrearDescuentoEnNegro(string concepto, decimal monto)
+        public static ItemLiquidacion CrearDescuentoInterno(string concepto, decimal monto)
         {
             return new ItemLiquidacion
             {
