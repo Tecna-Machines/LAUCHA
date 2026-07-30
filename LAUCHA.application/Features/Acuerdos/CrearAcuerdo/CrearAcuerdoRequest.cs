@@ -7,6 +7,7 @@
                                              int TipoSueldo,
                                              string Notas,
                                              string[] Retenciones,
+                                             int jornada,
                                              ICollection<AdicionalesRequest> Adicionales);
 
 

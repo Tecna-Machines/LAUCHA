@@ -1,5 +1,6 @@
 ﻿using LAUCHA.application.Mappers;
 using LAUCHA.domain.entities.Contrato;
+using LAUCHA.domain.Enums;
 
 
 namespace LAUCHA.application.Features.Acuerdos.CrearAcuerdo
@@ -55,6 +56,7 @@ namespace LAUCHA.application.Features.Acuerdos.CrearAcuerdo
                                             TipoSueldoMapper.ToTipoSueldo(req.TipoSueldo));
 
             acuerdo.AgregarNota(req.Notas);
+            acuerdo.SetJornada((Jornada)req.jornada);
 
             AgregarAdicionales(acuerdo, req);
             await AgregarRetenciones(acuerdo, req);

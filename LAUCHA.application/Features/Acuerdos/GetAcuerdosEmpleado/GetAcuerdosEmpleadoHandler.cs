@@ -48,6 +48,7 @@ namespace LAUCHA.application.Features.Acuerdos.GetAcuerdosEmpleado
                                           acu.ValorSueldoOJornal,
                                           acu.Sueldo,
                                           TipoSueldoMapper.ToInt(acu.TipoSueldo),
+                                          JornadaMapper.ToJornadaLabolal(acu.Jornada),
                                           acu.Notas ?? "");
         }
 

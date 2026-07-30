@@ -1,6 +1,7 @@
 ﻿using LAUCHA.domain.entities.Contrato;
 using LAUCHA.domain.Entities.Empleados;
 using LAUCHA.domain.Entities.RetencionesCatalogo;
+using LAUCHA.domain.Enums;
 using System.Collections.Immutable;
 
 namespace LAUCHA.domain.Entities.Acuerdos
@@ -20,6 +21,7 @@ namespace LAUCHA.domain.Entities.Acuerdos
         public string? Notas { get; set; }
         public string DniEmpleado { get; set; } = null!;
         public Empleado Empleado { get; set; } = null!;
+        public Jornada Jornada { get; private set; }
 
         public TipoSueldo TipoSueldo { get; set; }
         public ICollection<Adicional> Adicionales { get; set; } = null!;
@@ -41,10 +43,14 @@ namespace LAUCHA.domain.Entities.Acuerdos
                 ValorHora = valorHora,
                 TipoSueldo = tipoSueldo,
                 Adicionales = new List<Adicional>(),
-                Retenciones = new List<RetencionAcuerdo>()
+                Retenciones = new List<RetencionAcuerdo>()               
             };
         }
 
+        public void SetJornada(Jornada j)
+        {
+            Jornada = j;
+        }
         public void AgregarAdicional(Adicional adicional)
         {
             if (adicional.CodigoAcuerdo != Codigo)

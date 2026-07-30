@@ -31,6 +31,7 @@ namespace LAUCHA.application.Features.Acuerdos.GetAcuerdoById
             ValorBlanco: a.ValorSueldoOJornal,
             Sueldo: a.Sueldo,
             Notas: a.Notas ?? string.Empty,
+            Jornada: JornadaMapper.ToJornadaLabolal(a.Jornada),
             TipoSueldo: Map(a.TipoSueldo),
             Empleado: new(a.Empleado.Dni, $"{a.Empleado.Nombre} {a.Empleado.Apellido}"),
             Adicionales: a.Adicionales.Select(Map).ToList(),

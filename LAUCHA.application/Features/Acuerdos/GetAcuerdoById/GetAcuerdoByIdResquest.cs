@@ -1,4 +1,6 @@
-﻿namespace LAUCHA.application.Features.Acuerdos.GetAcuerdoById
+﻿using LAUCHA.application.Features.Acuerdos.GetAcuerdosEmpleado;
+
+namespace LAUCHA.application.Features.Acuerdos.GetAcuerdoById
 {
     public sealed record GetAcuerdoByIdResquest(string Codigo);
 
@@ -10,6 +12,7 @@
                                                 string Notas,
                                                 TipoSueldoResponse TipoSueldo,
                                                 EmpleadoAcuerdoResponse Empleado,
+                                                JornadaLaboral Jornada,
                                                 IEnumerable<AdicionalAcuerdoResponse> Adicionales,
                                                 IEnumerable<RetencionResponse> Retenciones
                                                 );
