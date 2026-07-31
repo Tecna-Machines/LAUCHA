@@ -239,43 +239,55 @@ namespace LAUCHA.application.Features.Liquidaciones.Liquidar
 
         private ItemLiquidacion CalculoEspecialObraSocial()
         {
-            const int hsJornadaCompleta = 200;
-            const decimal porcentajeOS = 0.03m; // Se especifica 'm' para tipo decimal
+            const decimal horasMensualesJornadaCompleta = 200m;
+            const decimal porcentajeObraSocial = 0.03m;
 
-            decimal sueldoOficial = 0m;
-            decimal baseObraSocial = 0m;
-            decimal descuentoObraSocial = 0m;
+            decimal baseObraSocial;
 
-            if (_liquidacion.Acuerdo.EsMensual())
-            {
-                // Si es mensual a media jornada, se duplica el básico pactado
-                sueldoOficial = _liquidacion.Acuerdo.ValorSueldoOJornal * 2m;
-            }
-            else
-            {
-                // Si es hora/jornal, se proyecta a 200 horas mensuales
-                sueldoOficial = _liquidacion.Acuerdo.ValorSueldoOJornal * hsJornadaCompleta;
-            }
-
-            decimal porcentajeAntiguedad = _acuerdo.Empleado.GetAntiguedadEnAnios() / 100m;
-            baseObraSocial = sueldoOficial * (1m + porcentajeAntiguedad);
-
-            // Si es  quincenal, la base imponible es la mitad (50%)
-            if (!_liquidacion.Acuerdo.EsMensual())
-            {
-                baseObraSocial /= 2m;
-            }
-
-            if(_liquidacion.Acuerdo.Jornada == domain.Enums.Jornada.COMPLETA)
+            if (_liquidacion.Acuerdo.Jornada == domain.Enums.Jornada.COMPLETA)
             {
                 baseObraSocial = _brutoRemunerativo;
             }
+            else if (_liquidacion.Acuerdo.EsMensual())
+            {
+                /*
+                 * ValorSueldoOJornal debe representar aquí el sueldo
+                 * mensual pactado de media jornada.
+                 */
+                decimal sueldoCompleto =
+                    _liquidacion.Acuerdo.ValorSueldoOJornal * 2m;
 
-            descuentoObraSocial = baseObraSocial * porcentajeOS;
+                decimal antiguedad =
+                    _liquidacion.Acuerdo.Empleado.GetAntiguedadEnAnios() / 100m;
 
-            descuentoObraSocial = Math.Round(descuentoObraSocial, 2, MidpointRounding.AwayFromZero);
+                baseObraSocial =
+                    sueldoCompleto * (1m + antiguedad);
+            }
+            else
+            {
+                decimal horasBasePeriodo =
+                    horasMensualesJornadaCompleta / 2m;
 
-            return ItemLiquidacion.CrearRetencion("Obra Social 3%", descuentoObraSocial);
+                decimal valorHoraConvenio =
+                    _liquidacion.Acuerdo.ValorSueldoOJornal;
+
+                decimal antiguedad =
+                    _liquidacion.Acuerdo.Empleado.GetAntiguedadEnAnios() / 100m;
+
+                baseObraSocial =
+                    valorHoraConvenio
+                    * horasBasePeriodo
+                    * (1m + antiguedad);
+            }
+
+            decimal descuentoObraSocial = Math.Round(
+                baseObraSocial * porcentajeObraSocial,
+                2,
+                MidpointRounding.AwayFromZero);
+
+            return ItemLiquidacion.CrearRetencion(
+                "Obra Social 3%",
+                descuentoObraSocial);
         }
 
     }
